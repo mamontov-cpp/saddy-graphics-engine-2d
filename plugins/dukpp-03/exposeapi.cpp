@@ -63,12 +63,12 @@ static void __before_scene_each_frame(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_EACH_FRAME>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::JSPipelineStepType::SDJST_EACH_FRAME>(
         ctx,
         function
     );
     step->mark(name);
-    step->setSource(sad::pipeline::ST_USER);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertBefore("sad::Renderer::renderScenes", step, name);
 }
 
@@ -81,13 +81,13 @@ static void __before_scene_each_ms(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_EACH_MS>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::JSPipelineStepType::SDJST_EACH_MS>(
         interval,
         ctx,
         function
     );
     step->mark(name);
-    step->setSource(sad::pipeline::ST_USER);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertBefore("sad::Renderer::renderScenes", step, name);
 }
 
@@ -98,12 +98,12 @@ static void __before_scene_one_shot(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_ONE_SHOT>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::JSPipelineStepType::SDJST_ONE_SHOT>(
         ctx,
         function
     );
     step->mark(name);
-    step->setSource(sad::pipeline::ST_USER);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertBefore("sad::Renderer::renderScenes", step, name);
 }
 
@@ -123,7 +123,7 @@ static void __before_scene_delayed(
         function
     );
     step->mark(name);
-    step->setSource(sad::pipeline::ST_USER);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertBefore("sad::Renderer::renderScenes", step, name);
 }
 
@@ -138,12 +138,12 @@ static void __after_scene_each_frame(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_EACH_FRAME>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::JSPipelineStepType::SDJST_EACH_FRAME>(
         ctx,
         function
     );
     step->mark(name);
-    step->setSource(sad::pipeline::ST_USER);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertAfter("sad::animations::Animations::process", step, name);
 }
 
@@ -156,13 +156,13 @@ static void __after_scene_each_ms(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_EACH_MS>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::JSPipelineStepType::SDJST_EACH_MS>(
         interval,
         ctx,
         function
     );
     step->mark(name);
-    step->setSource(sad::pipeline::ST_USER);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertAfter("sad::animations::Animations::process", step, name);
 }
 
@@ -173,12 +173,12 @@ static void __after_scene_one_shot(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_ONE_SHOT>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::JSPipelineStepType::SDJST_ONE_SHOT>(
         ctx,
         function
     );
     step->mark(name);
-    step->setSource(sad::pipeline::ST_USER);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertAfter("sad::animations::Animations::process", step, name);
 }
 
@@ -198,7 +198,7 @@ static void __after_scene_delayed(
         function
     );
     step->mark(name);
-    step->setSource(sad::pipeline::ST_USER);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertAfter("sad::animations::Animations::process", step, name);
 }
 
@@ -213,12 +213,12 @@ static void __before_event_each_frame(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_EACH_FRAME>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::JSPipelineStepType::SDJST_EACH_FRAME>(
         ctx,
         function
     );
     step->mark(name);
-    step->setSource(sad::pipeline::ST_USER);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertBefore(event_name, step, name);
 }
 
@@ -232,13 +232,13 @@ static void __before_event_each_ms(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_EACH_MS>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::JSPipelineStepType::SDJST_EACH_MS>(
         interval,
         ctx,
         function
     );
     step->mark(name);
-    step->setSource(sad::pipeline::ST_USER);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertBefore(event_name, step, name);
 }
 
@@ -250,12 +250,12 @@ static void __before_event_one_shot(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_ONE_SHOT>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::JSPipelineStepType::SDJST_ONE_SHOT>(
         ctx,
         function
     );
     step->mark(name);
-    step->setSource(sad::pipeline::ST_USER);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertBefore(event_name, step, name);
 }
 
@@ -276,7 +276,7 @@ static void __before_event_delayed(
         function
     );
     step->mark(name);
-    step->setSource(sad::pipeline::ST_USER);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertBefore(event_name, step, name);
 }
 
@@ -291,12 +291,12 @@ static void __after_event_each_frame(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_EACH_FRAME>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::JSPipelineStepType::SDJST_EACH_FRAME>(
         ctx,
         function
     );
     step->mark(name);
-    step->setSource(sad::pipeline::ST_USER);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertAfter(event_name, step, name);
 }
 
@@ -310,13 +310,13 @@ static void __after_event_each_ms(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_EACH_MS>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::JSPipelineStepType::SDJST_EACH_MS>(
         interval,
         ctx,
         function
     );
     step->mark(name);
-    step->setSource(sad::pipeline::ST_USER);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertAfter(event_name, step, name);
 }
 
@@ -328,12 +328,12 @@ static void __after_event_one_shot(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_ONE_SHOT>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::JSPipelineStepType::SDJST_ONE_SHOT>(
         ctx,
         function
     );
     step->mark(name);
-    step->setSource(sad::pipeline::ST_USER);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertAfter(event_name, step, name);
 }
 
@@ -354,7 +354,7 @@ static void __after_event_delayed(
         function
     );
     step->mark(name);
-    step->setSource(sad::pipeline::ST_USER);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertAfter(event_name, step, name);
 }
 

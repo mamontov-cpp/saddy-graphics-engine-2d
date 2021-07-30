@@ -6,7 +6,7 @@
 
 DECLARE_COMMON_TYPE(sad::dukpp03::JSAnimationCallback)
 
-sad::dukpp03::JSAnimationCallback::JSAnimationCallback() : m_ctx(NULL)
+sad::dukpp03::JSAnimationCallback::JSAnimationCallback() : m_ctx(nullptr)
 {
     
 }

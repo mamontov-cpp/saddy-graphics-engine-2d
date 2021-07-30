@@ -24,14 +24,14 @@ public:
         \param[in] c context
         \return pair
      */
-    virtual std::pair<int, bool> canBeCalled(sad::dukpp03::BasicContext* c);
+    virtual std::pair<int, bool> canBeCalled(sad::dukpp03::BasicContext* c) override;
     /*! Could be inherited
      */
-    virtual ~Accessor();
+    virtual ~Accessor() override;
     /*! Returns false
         \return false
      */
-    virtual bool canBeCalledAsConstructor();
+    virtual bool canBeCalledAsConstructor() override;
 protected:
     /*! Checks remaining arguments for context
         \param[in] o object
@@ -42,7 +42,7 @@ protected:
     /*! Checks first argument to be called
         \param[in] c context
         \param[in] throw_error if true, throws error if cannot be called
-        \return NULL if method cannot be called
+        \return nullptr if method cannot be called
      */
     sad::db::Object* checkThis(sad::dukpp03::BasicContext* c, bool throw_error) const;
     /*! A name of property to access

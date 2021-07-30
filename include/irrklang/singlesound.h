@@ -26,7 +26,7 @@ public:
         \param[in] sound a sound to be played
         \param[in] volume a volume
         \param[in] looped whether sound is looped
-        \return sound object (or NULL, if sound is null or failed to play)
+        \return sound object (or nullptr, if sound is null or failed to play)
      */
     ::irrklang::ISound* play2D(sad::irrklang::Sound* sound, double volume, bool looped = true);
     /*! Sets a volume for current playing sound

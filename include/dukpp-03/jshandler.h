@@ -32,7 +32,7 @@ public:
     {
         ::dukpp03::PushValue<_EventType, sad::dukpp03::BasicContext>::perform(m_ctx, e);
         m_function.call(m_ctx);
-        ::dukpp03::Maybe<std::string>  maybe_error = m_ctx->errorOnStack(-1);
+        const ::dukpp03::Maybe<std::string>  maybe_error = m_ctx->errorOnStack(-1);
         if (maybe_error.exists())
         {
             m_ctx->renderer()->log()->critical(maybe_error.value().c_str(), __FILE__, __LINE__);

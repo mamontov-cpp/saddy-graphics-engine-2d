@@ -50,7 +50,7 @@ extern sad::db::ConversionTable conversion_table;
 }
 
 
-/*! Gets adress fo value of specified type, that is stored in variant.
+/*! Gets address fo value of specified type, that is stored in variant.
     Here we try to get plain value (not a pointer type) as and address, so we don't allow such behaviour
  */
 template<typename _UnderlyingValue, bool _IsPointerToAbstractClass, bool _IsSadObject>
@@ -67,7 +67,7 @@ public:
     }
 };
 
-/*! Gets adress fo value of specified type, that is stored in variant.
+/*! Gets address fo value of specified type, that is stored in variant.
     Here we try to get plain value (not a pointer type) as and address, so we don't allow such behaviour
  */
 template<typename _UnderlyingValue, bool _IsSadObject>
@@ -85,7 +85,7 @@ public:
 };
 
 
-/*! Gets adress fo value of specified type, that is stored in variant.
+/*! Gets address fo value of specified type, that is stored in variant.
     Here we try to get plain value (not a pointer type) as and address, so we don't allow such behaviour
  */
 template<typename _UnderlyingValue, bool _IsAbstract>
@@ -103,7 +103,7 @@ public:
 };
 
 
-/*! Gets adress fo value of specified type, that is stored in variant.
+/*! Gets address fo value of specified type, that is stored in variant.
     Here we try to get plain value (not a pointer type) as and address, so we don't allow such behaviour
  */
 template<typename _UnderlyingValue>
@@ -152,7 +152,7 @@ public:
      */
     inline static ::dukpp03::Maybe<sad::dukpp03::Context*> getAddress(sad::db::Variant* v)
     {
-        return ::dukpp03::Maybe<sad::dukpp03::Context*>();
+        return {};
     }
 };
 
@@ -166,7 +166,7 @@ public:
      */
     inline static ::dukpp03::Maybe<sad::Renderer*> getAddress(sad::db::Variant* v)
     {
-        return ::dukpp03::Maybe<sad::Renderer*>();
+        return {};
     }
 };
 
@@ -180,7 +180,7 @@ public:
     */
     inline static ::dukpp03::Maybe<sad::animations::Animations*> getAddress(sad::db::Variant* v)
     {
-        return ::dukpp03::Maybe<sad::animations::Animations*>();
+        return {};
     }
 };
 
@@ -195,7 +195,7 @@ public:
      */
     inline static ::dukpp03::Maybe<sad::dukpp03::Renderer*> getAddress(sad::db::Variant* v)
     {
-        return ::dukpp03::Maybe<sad::dukpp03::Renderer*>();
+        return {};
     }
 };
 
@@ -209,7 +209,7 @@ public:
      */
     inline static ::dukpp03::Maybe<sad::dukpp03::Thread*> getAddress(sad::db::Variant* v)
     {
-        return ::dukpp03::Maybe<sad::dukpp03::Thread*>();
+        return {};
     }
 };
 
@@ -224,7 +224,7 @@ public:
      */
     inline static ::dukpp03::Maybe<sad::Window*> getAddress(sad::db::Variant* v)
     {
-        return ::dukpp03::Maybe<sad::Window*>();
+        return {};
     }
 };
 
@@ -238,7 +238,7 @@ public:
      */
     inline static ::dukpp03::Maybe<sad::resource::Tree*> getAddress(sad::db::Variant* v)
     {
-        return ::dukpp03::Maybe<sad::resource::Tree*>();
+        return {};
     }
 };
 
@@ -252,7 +252,7 @@ public:
      */
     inline static ::dukpp03::Maybe<sad::dukpp03::JSControls*> getAddress(sad::db::Variant* v)
     {
-        return ::dukpp03::Maybe<sad::dukpp03::JSControls*>();
+        return {};
     }
 };
 
@@ -267,7 +267,7 @@ public:
      */
     inline static ::dukpp03::Maybe<sad::pipeline::Pipeline*> getAddress(sad::db::Variant* v)
     {
-        return ::dukpp03::Maybe<sad::pipeline::Pipeline*>();
+        return {};
     }
 };
 
@@ -283,7 +283,7 @@ public:
      */
     inline static ::dukpp03::Maybe<const char*> getAddress(sad::db::Variant* v)
     {
-        return ::dukpp03::Maybe<const char*>();
+        return {};
     }
 };
 
@@ -299,7 +299,7 @@ public:
     */
     static ::dukpp03::Maybe<sad::layouts::Cell*> getAddress(sad::db::Variant* v)
     {
-        return ::dukpp03::Maybe<sad::layouts::Cell*>();
+        return {};
     }
 };
 

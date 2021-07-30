@@ -775,8 +775,8 @@ static void exposeWorld(sad::dukpp03::Context* ctx)
 
         c->addMethod("amountOfHandlers", sad::dukpp03::bind_method::from(&sad::p2d::World::amountOfHandlers));
         c->addMethod("amountOfHandlersForGroups", sad::dukpp03::bind_method::from(&sad::p2d::World::amountOfHandlersForGroups));
-        c->addMethod("totalHandlerOccurences", sad::dukpp03::bind_method::from(&sad::p2d::World::totalHandlerOccurences));
-        c->addMethod("totalHandlerOccurencesInGroups", sad::dukpp03::bind_method::from(&sad::p2d::World::totalHandlerOccurencesInGroups));
+        c->addMethod("totalHandlerOccurrences", sad::dukpp03::bind_method::from(&sad::p2d::World::totalHandlerOccurrences));
+        c->addMethod("totalHandlerOccurrencesInGroups", sad::dukpp03::bind_method::from(&sad::p2d::World::totalHandlerOccurrencesInGroups));
 
         c->addMethod("isHandlerInWorld", sad::dukpp03::bind_method::from(&sad::p2d::World::isHandlerInWorld));
         c->addMethod("isHandlerInGroups", sad::dukpp03::bind_method::from(&sad::p2d::World::isHandlerInGroups));

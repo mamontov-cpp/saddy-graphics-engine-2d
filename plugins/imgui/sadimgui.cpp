@@ -33,7 +33,7 @@
 #include <os/glheaders.h>
 
 // Backend API
-bool     ImGui_ImplOpenGL3_Init(const char* glsl_version = NULL);
+bool     ImGui_ImplOpenGL3_Init(const char* glsl_version = nullptr);
 void     ImGui_ImplOpenGL3_Shutdown();
 void     ImGui_ImplOpenGL3_NewFrame();
 void     ImGui_ImplOpenGL3_RenderDrawData(ImDrawData* draw_data);
@@ -258,7 +258,7 @@ void render_draw_lists(ImDrawData* draw_data)
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     if (!glUseProgramFetched)
     {
-        glUseProgram = reinterpret_cast<PFNGLUSEPROGRAMPROC>(getProcAdress("glUseProgram"));
+        glUseProgram = reinterpret_cast<PFNGLUSEPROGRAMPROC>(getProcAddress("glUseProgram"));
         glUseProgramFetched = true;
     }
     if (glUseProgram)
@@ -528,9 +528,9 @@ static void mouse_press_callback(const sad::input::MousePressEvent& ev)
         ImGuiIO& io = ImGui::GetIO();
         switch (ev.Button)
         {
-            case sad::MouseLeft: { io.MouseDown[0] = true; }
-            case sad::MouseMiddle: { io.MouseDown[2] = true; }
-            case sad::MouseRight: { io.MouseDown[1] = true; }
+            case sad::MouseButton::MouseLeft: { io.MouseDown[0] = true; }
+            case sad::MouseButton::MouseMiddle: { io.MouseDown[2] = true; }
+            case sad::MouseButton::MouseRight: { io.MouseDown[1] = true; }
         };
         sad::Rect2I r = sad::Renderer::ref()->window()->rect();
         io.MousePos = ImVec2((float)(ev.Point.x()),  (float)(ev.Point.y()));
@@ -547,9 +547,9 @@ static void mouse_double_click_callback(const sad::input::MouseDoubleClickEvent&
         ImGuiIO& io = ImGui::GetIO();
         switch (ev.Button)
         {
-            case sad::MouseLeft: { io.MouseDown[0] = true; }
-            case sad::MouseMiddle: { io.MouseDown[2] = true; }
-            case sad::MouseRight: { io.MouseDown[1] = true; }
+            case sad::MouseButton::MouseLeft: { io.MouseDown[0] = true; }
+            case sad::MouseButton::MouseMiddle: { io.MouseDown[2] = true; }
+            case sad::MouseButton::MouseRight: { io.MouseDown[1] = true; }
         };
         sad::Rect2I r = sad::Renderer::ref()->window()->rect();
         io.MousePos = ImVec2((float)(ev.Point.x()), (float)(ev.Point.y()));
@@ -567,9 +567,9 @@ static void mouse_release_callback(const sad::input::MousePressEvent& ev)
         
         switch (ev.Button)
         {
-            case sad::MouseLeft: { io.MouseDown[0] = false; }
-            case sad::MouseMiddle: { io.MouseDown[2] = false; }
-            case sad::MouseRight: { io.MouseDown[1] = false; }
+            case sad::MouseButton::MouseLeft: { io.MouseDown[0] = false; }
+            case sad::MouseButton::MouseMiddle: { io.MouseDown[2] = false; }
+            case sad::MouseButton::MouseRight: { io.MouseDown[1] = false; }
         };
         sad::Rect2I r = sad::Renderer::ref()->window()->rect();
         io.MousePos = ImVec2((float)(ev.Point.x()), (float)(ev.Point.y()));
@@ -607,27 +607,27 @@ void sad::imgui::ImGui::init()
 {
     ::ImGui::CreateContext();
     ::ImGuiIO& io = ::ImGui::GetIO();
-    io.KeyMap[ImGuiKey_Tab] = sad::Tab;                     // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
-    io.KeyMap[ImGuiKey_LeftArrow] = sad::KeyLeft;
-    io.KeyMap[ImGuiKey_RightArrow] = sad::KeyRight;
-    io.KeyMap[ImGuiKey_UpArrow] = sad::KeyUp;
-    io.KeyMap[ImGuiKey_DownArrow] = sad::KeyDown;
-    io.KeyMap[ImGuiKey_PageUp] = sad::PageUp;
-    io.KeyMap[ImGuiKey_PageDown] = sad::PageDown;
-    io.KeyMap[ImGuiKey_Home] = sad::Home;
-    io.KeyMap[ImGuiKey_End] = sad::End;
-    io.KeyMap[ImGuiKey_Delete] = sad::Delete;
-    io.KeyMap[ImGuiKey_Backspace] = sad::Backspace;
-    io.KeyMap[ImGuiKey_Enter] = sad::Enter;
-    io.KeyMap[ImGuiKey_Escape] = sad::Esc;
-    io.KeyMap[ImGuiKey_A] = sad::A;
-    io.KeyMap[ImGuiKey_C] = sad::C;
-    io.KeyMap[ImGuiKey_V] = sad::V;
-    io.KeyMap[ImGuiKey_X] = sad::X;
-    io.KeyMap[ImGuiKey_Y] = sad::Y;
-    io.KeyMap[ImGuiKey_Z] = sad::Z;
+    io.KeyMap[ImGuiKey_Tab] = static_cast<int>(sad::KeyboardKey::Tab);                     // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
+    io.KeyMap[ImGuiKey_LeftArrow] = static_cast<int>(sad::KeyboardKey::KeyLeft);
+    io.KeyMap[ImGuiKey_RightArrow] = static_cast<int>(sad::KeyboardKey::KeyRight);
+    io.KeyMap[ImGuiKey_UpArrow] = static_cast<int>(sad::KeyboardKey::KeyUp);
+    io.KeyMap[ImGuiKey_DownArrow] = static_cast<int>(sad::KeyboardKey::KeyDown);
+    io.KeyMap[ImGuiKey_PageUp] = static_cast<int>(sad::KeyboardKey::PageUp);
+    io.KeyMap[ImGuiKey_PageDown] = static_cast<int>(sad::KeyboardKey::PageDown);
+    io.KeyMap[ImGuiKey_Home] = static_cast<int>(sad::KeyboardKey::Home);
+    io.KeyMap[ImGuiKey_End] = static_cast<int>(sad::KeyboardKey::End);
+    io.KeyMap[ImGuiKey_Delete] = static_cast<int>(sad::KeyboardKey::Delete);
+    io.KeyMap[ImGuiKey_Backspace] = static_cast<int>(sad::KeyboardKey::Backspace);
+    io.KeyMap[ImGuiKey_Enter] = static_cast<int>(sad::KeyboardKey::Enter);
+    io.KeyMap[ImGuiKey_Escape] = static_cast<int>(sad::KeyboardKey::Esc);
+    io.KeyMap[ImGuiKey_A] = static_cast<int>(sad::KeyboardKey::A);
+    io.KeyMap[ImGuiKey_C] = static_cast<int>(sad::KeyboardKey::C);
+    io.KeyMap[ImGuiKey_V] = static_cast<int>(sad::KeyboardKey::V);
+    io.KeyMap[ImGuiKey_X] = static_cast<int>(sad::KeyboardKey::X);
+    io.KeyMap[ImGuiKey_Y] = static_cast<int>(sad::KeyboardKey::Y);
+    io.KeyMap[ImGuiKey_Z] = static_cast<int>(sad::KeyboardKey::Z);
 
-    io.RenderDrawListsFn = render_draw_lists;      // Alternatively you can set this to NULL and call ImGui::GetDrawData() after ImGui::Render() to get the same ImDrawData pointer.
+    io.RenderDrawListsFn = render_draw_lists;      // Alternatively you can set this to nullptr and call ImGui::GetDrawData() after ImGui::Render() to get the same ImDrawData pointer.
     io.SetClipboardTextFn = set_clipboard_text;
     io.GetClipboardTextFn = get_clipboard_text;
     io.ClipboardUserData = sad::Renderer::ref();
@@ -636,14 +636,14 @@ void sad::imgui::ImGui::init()
 #endif
 
     sad::input::Controls* controls = sad::Renderer::ref()->controls();
-    controls->add(*sad::input::ET_Quit, shutdown);
-    controls->add(*sad::input::ET_MouseMove, mouse_move_callback);
-    controls->add(*sad::input::ET_KeyPress, key_press_callback);
-    controls->add(*sad::input::ET_KeyRelease, key_release_callback);
-    controls->add(*sad::input::ET_MousePress, mouse_press_callback);
-    controls->add(*sad::input::ET_MouseRelease, mouse_release_callback);
-    controls->add(*sad::input::ET_MouseWheel, mouse_wheel_callback);
-    controls->add(*sad::input::ET_MouseDoubleClick, mouse_double_click_callback);
+    controls->add(*sad::input::EventType::ET_Quit, shutdown);
+    controls->add(*sad::input::EventType::ET_MouseMove, mouse_move_callback);
+    controls->add(*sad::input::EventType::ET_KeyPress, key_press_callback);
+    controls->add(*sad::input::EventType::ET_KeyRelease, key_release_callback);
+    controls->add(*sad::input::EventType::ET_MousePress, mouse_press_callback);
+    controls->add(*sad::input::EventType::ET_MouseRelease, mouse_release_callback);
+    controls->add(*sad::input::EventType::ET_MouseWheel, mouse_wheel_callback);
+    controls->add(*sad::input::EventType::ET_MouseDoubleClick, mouse_double_click_callback);
 
     sad::pipeline::Process * step = new sad::pipeline::Process(run_imgui_pipeline);
     sad::Renderer::ref()->pipeline()->insertBefore("sad::MouseCursor::renderCursorIfNeedTo", step, "run_imgui_pipeline");

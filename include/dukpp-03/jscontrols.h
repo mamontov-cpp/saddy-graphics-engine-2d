@@ -5,6 +5,7 @@
 #pragma once
 #include "../input/controls.h"
 #include "../refcountable.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../sadhash.h"
 #include "../sadstring.h"
 #include "jshandler.h"
@@ -16,7 +17,7 @@ namespace sad
 namespace dukpp03
 {
 
-/*! A contros, which are exposed to JS, specified here
+/*! A controls, which are exposed to JS, specified here
  */
 class JSControls: public sad::RefCountable
 {
@@ -38,14 +39,14 @@ public:
      */
     void disable();
     /*! Return whether controls are enabled in all renderer
-        \return whetner they are enabled
+        \return whether they are enabled
      */
     bool enabled() const;
     /*! Bind controls on event
         \param[in] event_type an event type data
         \param[in] ctx context
         \param[in] f a function
-        \return handler indentifier
+        \return handler identifier
      */
     sad::String onEvent(int event_type, sad::dukpp03::Context* ctx, const sad::dukpp03::CompiledFunction& f);
     /*! Unbinds controls from event
@@ -63,7 +64,7 @@ public:
         {
             return;
         }
-        int type = static_cast<int>(sad::input::EnumValueForEventType<_EventType>::Type);
+        const int type = static_cast<int>(sad::input::EnumValueForEventType<_EventType>::Type);
         const sad::Vector<sad::Pair<sad::String, sad::dukpp03::JSHandler*> >& handler_list = m_handlers[type];
         for(size_t i = 0; i < handler_list.size(); i++)
         {
@@ -79,7 +80,7 @@ class EventHandler: public sad::input::AbstractHandlerForType<_EventType>
 public:
     /*! A reference to controls is stored until object is freed
      */
-    EventHandler(sad::dukpp03::JSControls* ctrls) : m_controls(ctrls)
+    EventHandler(sad::dukpp03::JSControls* controls) : m_controls(controls)
     {
         m_controls->addRef();
     }
@@ -93,7 +94,7 @@ protected:
     /*! Invokes a callback. Used by sad::Input
         \param[in] e event type
      */
-    virtual void invoke(const _EventType & e)
+    virtual void invoke(const _EventType & e) override
     {
         m_controls->invoke(e);
     }
@@ -107,7 +108,7 @@ protected:
 bool m_enabled;
 /*! A handlers per event
  */
-sad::Vector<sad::Pair<sad::String, sad::dukpp03::JSHandler*> > m_handlers[SAD_INPUT_EVENTTYPE_COUNT];
+sad::Vector<sad::Pair<sad::String, sad::dukpp03::JSHandler*> > m_handlers[SAD_INPUT_EVENT_TYPE_COUNT];
 };
 
 }

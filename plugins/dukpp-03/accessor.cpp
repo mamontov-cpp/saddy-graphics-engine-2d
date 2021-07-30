@@ -39,7 +39,7 @@ bool sad::dukpp03::Accessor::canBeCalledAsConstructor()
 
 int sad::dukpp03::Accessor::checkRemainingArguments(sad::db::Object* o, sad::dukpp03::BasicContext* c) const
 {
-    return NULL;
+    return 0;
 }
 
 sad::db::Object* sad::dukpp03::Accessor::checkThis(sad::dukpp03::BasicContext* c, bool throw_error) const
@@ -72,5 +72,5 @@ sad::db::Object* sad::dukpp03::Accessor::checkThis(sad::dukpp03::BasicContext* c
             c->throwError("The object, passed as this, is not a subclass of sad::db::Object");
         }
     }
-    return NULL;
+    return nullptr;
 }

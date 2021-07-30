@@ -8,13 +8,13 @@
 ::dukpp03::Maybe<double> dukpp03::internal::tryGetDoubleProperty(
     sad::dukpp03::BasicContext* ctx, 
     duk_idx_t pos,
-    const char* propname
+    const char* property_name
 )
 {
     ::dukpp03::Maybe<double> result;
-    if (duk_has_prop_string(ctx->context(), pos, propname))
+    if (duk_has_prop_string(ctx->context(), pos, property_name))
     {
-        duk_get_prop_string(ctx->context(), pos, propname);
+        duk_get_prop_string(ctx->context(), pos, property_name);
         result = ::dukpp03::GetValue<double, sad::dukpp03::BasicContext>::perform(ctx, -1);
         duk_pop(ctx->context());
     }
@@ -24,13 +24,13 @@
 ::dukpp03::Maybe<int>  dukpp03::internal::tryGetIntProperty(
     sad::dukpp03::BasicContext* ctx, 
     duk_idx_t pos,
-    const char* propname
+    const char* property_name
 )
 {
     ::dukpp03::Maybe<int> result;
-    if (duk_has_prop_string(ctx->context(), pos, propname))
+    if (duk_has_prop_string(ctx->context(), pos, property_name))
     {
-        duk_get_prop_string(ctx->context(), pos, propname);
+        duk_get_prop_string(ctx->context(), pos, property_name);
         result = ::dukpp03::GetValue<int, sad::dukpp03::BasicContext>::perform(ctx, -1);
         duk_pop(ctx->context());
     }
@@ -41,13 +41,13 @@
 ::dukpp03::Maybe<unsigned char>  dukpp03::internal::tryGetUnsignedCharProperty(
     sad::dukpp03::BasicContext* ctx, 
     duk_idx_t pos,
-    const char* propname
+    const char* property_name
 )
 {
     ::dukpp03::Maybe<unsigned char> result;
-    if (duk_has_prop_string(ctx->context(), pos, propname))
+    if (duk_has_prop_string(ctx->context(), pos, property_name))
     {
-        duk_get_prop_string(ctx->context(), pos, propname);
+        duk_get_prop_string(ctx->context(), pos, property_name);
         result = ::dukpp03::GetValue<unsigned char, sad::dukpp03::BasicContext>::perform(ctx, -1);
         duk_pop(ctx->context());
     }
@@ -59,13 +59,13 @@
 ::dukpp03::Maybe<sad::Point2D>  dukpp03::internal::tryGetPoint2DProperty(
     sad::dukpp03::BasicContext* ctx, 
     duk_idx_t pos,
-    const char* propname
+    const char* property_name
 )
 {
     ::dukpp03::Maybe<sad::Point2D> result;
-    if (duk_has_prop_string(ctx->context(), pos, propname))
+    if (duk_has_prop_string(ctx->context(), pos, property_name))
     {
-        duk_get_prop_string(ctx->context(), pos, propname);
+        duk_get_prop_string(ctx->context(), pos, property_name);
         result = ::dukpp03::GetValue<sad::Point2D, sad::dukpp03::BasicContext>::perform(ctx, -1);
         duk_pop(ctx->context());
     }
@@ -696,7 +696,7 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
     ::dukpp03::Maybe<unsigned int> v = dukpp03::GetValue<unsigned int, sad::dukpp03::BasicContext>::perform(ctx, pos);
     if (v.exists())
     {
-        if (v.value() <= sad::layouts::LHA_Right)
+        if (v.value() <= static_cast<int>(sad::layouts::HorizontalAlignment::LHA_Right))
         {
             result.setValue(static_cast<sad::layouts::HorizontalAlignment>(v.value()));
         }
@@ -713,7 +713,7 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
     ::dukpp03::Maybe<unsigned int> v = dukpp03::GetValue<unsigned int, sad::dukpp03::BasicContext>::perform(ctx, pos);
     if (v.exists())
     {
-        if (v.value() <= sad::layouts::LVA_Bottom)
+        if (v.value() <= static_cast<int>(sad::layouts::VerticalAlignment::LVA_Bottom))
         {
             result.setValue(static_cast<sad::layouts::VerticalAlignment>(v.value()));
         }
@@ -730,7 +730,7 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
     ::dukpp03::Maybe<unsigned int> v = dukpp03::GetValue<unsigned int, sad::dukpp03::BasicContext>::perform(ctx, pos);
     if (v.exists())
     {
-        if (v.value() <= sad::layouts::LST_NoStacking)
+        if (v.value() <= static_cast<int>(sad::layouts::StackingType::LST_NoStacking))
         {
             result.setValue(static_cast<sad::layouts::StackingType>(v.value()));
         }
@@ -748,7 +748,7 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
     ::dukpp03::Maybe<unsigned int> v = dukpp03::GetValue<unsigned int, sad::dukpp03::BasicContext>::perform(ctx, pos);
     if (v.exists())
     {
-        if (v.value() <= sad::layouts::LU_Percents)
+        if (v.value() <= static_cast<int>(sad::layouts::Unit::LU_Percents))
         {
             result.setValue(static_cast<sad::layouts::Unit>(v.value()));
         }

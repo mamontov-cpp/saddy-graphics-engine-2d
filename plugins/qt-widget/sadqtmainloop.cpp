@@ -54,7 +54,7 @@ void sad::qt::MainLoop::run(bool once)
 
 sad::os::SystemEventDispatcher *  sad::qt::MainLoop::dispatcher()
 {
-    return NULL;;
+    return nullptr;;
 }
 
 void sad::qt::MainLoop::submitEvent(sad::input::EventType t, sad::input::AbstractEvent* ev, bool now)

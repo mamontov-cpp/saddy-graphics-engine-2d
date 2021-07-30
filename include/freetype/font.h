@@ -1,3 +1,4 @@
+// ReSharper disable CppDoxygenUnresolvedReference
 /*! \file   freetype/font.h
     \brief  Contains an implementation of font, which is loaded and rendered via FreeType.
     Here is placed an implementation of freetype font, based on NeHe Tutorial for 
@@ -23,14 +24,14 @@ class FontImpl;
  */
 class Font: public sad::Font
 {
-SAD_OBJECT;
+SAD_OBJECT
 public:
     /*! Creates an empty font
      */
     Font();
     /*! Loads a font from specified file, using specified renderer for building mip maps.
         \param[in] file a file, via which a resource should be loaded
-        \param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
+        \param[in] r  a renderer, which resource should be linked to (nullptr if global renderer)
         \param[in] options  an options for loading a resource
         \return whether loading was successfull
      */
@@ -38,7 +39,7 @@ public:
         const sad::resource::ResourceFile & file,
         sad::Renderer * r,
         const picojson::value& options
-    );
+    ) override;
     /*! Loads a font
         \param[in] filename a path to TTF or other files, to be loaded via freetype
      */
@@ -48,7 +49,7 @@ public:
         \param[in] p   upper-left point in window coordinates
         \param[in] flags a flag value
      */
-    virtual void render(const sad::String & str,const sad::Point2D & p, sad::Font::RenderFlags flags = sad::Font::FRF_None);
+    virtual void render(const sad::String & str,const sad::Point2D & p, int flags = 0)  override;
     /*! Fills geometries with related font data
      *  \param[in] data a data
      *  \param[in] g geometries
@@ -56,7 +57,7 @@ public:
      *  \param[in] p   upper-left point in viewport coordinates
      *  \param[in] flags a flags for rendering
      */
-    virtual void fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags = sad::Font::FRF_None);
+    virtual void fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, int flags = 0) override;
     /*! Renders text line to a texture. Before output all new line string are stripped.
         Texture's memory should be freed manually
         \param[in] string a string texture
@@ -66,27 +67,27 @@ public:
     sad::Texture * renderToTexture(
         const sad::String & string,
         unsigned int height 
-    );
+    ) const;
     /*! Returns a estimated size of label, rendered with specified size
         \param[in] str string
         \param[in] flags a flag value
         \return size of label
      */
-    virtual sad::Size2D size(const sad::String & str, sad::Font::RenderFlags flags = sad::Font::FRF_None);
+    virtual sad::Size2D size(const sad::String & str, int flags = 0)  override;
     /*! An ascent for font
         \return ascent for font
      */
-    virtual float ascent() const;
+    virtual float ascent() const override;
     /*! Returns a builtin line spacing
         \return line spacing
      */
-    virtual float builtinLineSpacing() const;
+    virtual float builtinLineSpacing() const override;
     /*! Unloads all resources from GPU. By default does nothing
      */
-    virtual void unloadFromGPU();
+    virtual void unloadFromGPU() override;
     /*! Destructor
      */
-    virtual ~Font();
+    virtual ~Font() override;
     /*! Dumps all parameters of glyphs to string
         \return string of glyph parameters
      */

@@ -24,14 +24,14 @@ public:
     /*! Calls a callback
         \param[in] o a new object
      */
-    virtual void call(sad::irrklang::Sound* o);
+    virtual void call(sad::irrklang::Sound* o) override;
     /*! Copies a pointer callback
         \return copy
      */
-    virtual sad::util::PointerCallback<sad::irrklang::Sound>* copy();
+    virtual sad::util::PointerCallback<sad::irrklang::Sound>* copy() override;
     /*! Removes reference from context
      */
-    virtual ~JSStopCallback();
+    virtual ~JSStopCallback() override;
 protected:
     /*! A context to be called with handler
      */

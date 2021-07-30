@@ -1,6 +1,6 @@
 /*! \file jspipelinestep.h
  
-    A simple pipeline steps for performingcompiled function calls
+    A simple pipeline steps for performing compiled function calls
  */
 #pragma once
 #include "../pipeline/pipelinestep.h"
@@ -15,7 +15,7 @@ namespace dukpp03
 
 /*! A type of pipeline step type
  */    
-enum JSPipelineStepType
+enum class JSPipelineStepType: int
 {
     SDJST_EACH_FRAME,  //!< En event, that performed each frame
     SDJST_EACH_MS,     //!< A repeated event, which repeats every N ms
@@ -35,7 +35,7 @@ class JSPipelineStep
 /*! An action, that will be performed each frame
  */
 template<>
-class JSPipelineStep<sad::dukpp03::SDJST_EACH_FRAME>: public sad::pipeline::Step
+class JSPipelineStep<sad::dukpp03::JSPipelineStepType::SDJST_EACH_FRAME>: public sad::pipeline::Step
 {
 public:
     /*! Makes new handler
@@ -49,11 +49,11 @@ public:
     /*! Determines, whether after processing we should remove step from pipeline
         \return whether we should remove step from pipeline
      */
-    virtual bool shouldBeDestroyedAfterProcessing(); 
+    virtual bool shouldBeDestroyedAfterProcessing() override; 
 protected:
     /*! Processes the event
      */
-    virtual void _process();
+    virtual void _process() override;
     /*! A context
      */
     sad::dukpp03::Context* m_ctx;
@@ -67,7 +67,7 @@ protected:
 /*! An action, that will be performed each frame
  */
 template<>
-class JSPipelineStep<sad::dukpp03::SDJST_EACH_MS>: public sad::pipeline::Step
+class JSPipelineStep<sad::dukpp03::JSPipelineStepType::SDJST_EACH_MS>: public sad::pipeline::Step
 {
 public:
     /*! Makes new handler
@@ -82,11 +82,11 @@ public:
     /*! Determines, whether after processing we should remove step from pipeline
         \return whether we should remove step from pipeline
      */
-    virtual bool shouldBeDestroyedAfterProcessing(); 
+    virtual bool shouldBeDestroyedAfterProcessing() override; 
 protected:
     /*! Processes the event
      */
-    virtual void _process();
+    virtual void _process() override;
     /*! A timer for measuring time
      */
     sad::Timer m_timer;
@@ -105,7 +105,7 @@ protected:
 /*! An action, that will be performed each frame
  */
 template<>
-class JSPipelineStep<sad::dukpp03::SDJST_ONE_SHOT>: public sad::pipeline::Step
+class JSPipelineStep<sad::dukpp03::JSPipelineStepType::SDJST_ONE_SHOT>: public sad::pipeline::Step
 {
 public:
     /*! Makes new handler
@@ -119,18 +119,18 @@ public:
     /*! Determines, whether after processing we should remove step from pipeline
         \return whether we should remove step from pipeline
      */
-    virtual bool shouldBeDestroyedAfterProcessing(); 
+    virtual bool shouldBeDestroyedAfterProcessing() override;
 protected:
     /*! Processes the event
      */
-    virtual void _process();
+    virtual void _process() override;
     /*! A context
      */
     sad::dukpp03::Context* m_ctx;
     /*! A function
      */
     sad::dukpp03::CompiledFunction m_function;
-    /*! Whether we should remove this stape
+    /*! Whether we should remove this stage
      */
     bool m_should_be_removed;
 };

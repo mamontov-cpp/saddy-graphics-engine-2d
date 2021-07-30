@@ -58,15 +58,15 @@ bool    ImGui_ImplOpenGL3_Init(const char* glsl_version)
 #endif
 
     // Store GLSL version string so we can refer to it later in case we recreate shaders. 
-    // Note: GLSL version is NOT the same as GL version. Leave this to NULL if unsure.
+    // Note: GLSL version is NOT the same as GL version. Leave this to nullptr if unsure.
 #if defined(IMGUI_IMPL_OPENGL_ES2)
-    if (glsl_version == NULL)
+    if (glsl_version == nullptr)
         glsl_version = "#version 100";
 #elif defined(IMGUI_IMPL_OPENGL_ES3)
-    if (glsl_version == NULL)
+    if (glsl_version == nullptr)
         glsl_version = "#version 300 es";
 #else
-    if (glsl_version == NULL)
+    if (glsl_version == nullptr)
         glsl_version = "#version 130";
 #endif
     IM_ASSERT((int)strlen(glsl_version) + 2 < IM_ARRAYSIZE(g_GlslVersionString));
@@ -238,7 +238,7 @@ void    ImGui_ImplOpenGL3_RenderDrawData(ImDrawData* draw_data)
         for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++)
         {
             const ImDrawCmd* pcmd = &cmd_list->CmdBuffer[cmd_i];
-            if (pcmd->UserCallback != NULL)
+            if (pcmd->UserCallback != nullptr)
             {
                 // User callback, registered via ImDrawList::AddCallback()
                 // (ImDrawCallback_ResetRenderState is a special callback value used by the user to request the renderer to reset render state.)
@@ -354,7 +354,7 @@ static bool CheckShader(GLuint handle, const char* desc)
     {
         ImVector<char> buf;
         buf.resize((int)(log_length + 1));
-        f->glGetShaderInfoLog(handle, log_length, NULL, (GLchar*)buf.begin());
+        f->glGetShaderInfoLog(handle, log_length, nullptr, (GLchar*)buf.begin());
         fprintf(stderr, "%s\n", buf.begin());
     }
     return (GLboolean)status == GL_TRUE;
@@ -373,7 +373,7 @@ static bool CheckProgram(GLuint handle, const char* desc)
     {
         ImVector<char> buf;
         buf.resize((int)(log_length + 1));
-        f->glGetProgramInfoLog(handle, log_length, NULL, (GLchar*)buf.begin());
+        f->glGetProgramInfoLog(handle, log_length, nullptr, (GLchar*)buf.begin());
         fprintf(stderr, "%s\n", buf.begin());
     }
     return (GLboolean)status == GL_TRUE;
@@ -495,8 +495,8 @@ bool    ImGui_ImplOpenGL3_CreateDeviceObjects()
         "}\n";
 
     // Select shaders matching our GLSL versions
-    const GLchar* vertex_shader = NULL;
-    const GLchar* fragment_shader = NULL;
+    const GLchar* vertex_shader = nullptr;
+    const GLchar* fragment_shader = nullptr;
     if (glsl_version < 130)
     {
         vertex_shader = vertex_shader_glsl_120;
@@ -522,13 +522,13 @@ bool    ImGui_ImplOpenGL3_CreateDeviceObjects()
     const GLchar* vertex_shader_with_version[2] = { g_GlslVersionString, vertex_shader };
     sad::os::ExtensionFunctions* f = sad::Renderer::ref()->opengl()->extensionFunctions();
     g_VertHandle = f->glCreateShader(GL_VERTEX_SHADER);
-    f->glShaderSource(g_VertHandle, 2, vertex_shader_with_version, NULL);
+    f->glShaderSource(g_VertHandle, 2, vertex_shader_with_version, nullptr);
     f->glCompileShader(g_VertHandle);
     CheckShader(g_VertHandle, "vertex shader");
 
     const GLchar* fragment_shader_with_version[2] = { g_GlslVersionString, fragment_shader };
     g_FragHandle = f->glCreateShader(GL_FRAGMENT_SHADER);
-    f->glShaderSource(g_FragHandle, 2, fragment_shader_with_version, NULL);
+    f->glShaderSource(g_FragHandle, 2, fragment_shader_with_version, nullptr);
     f->glCompileShader(g_FragHandle);
     CheckShader(g_FragHandle, "fragment shader");
 

@@ -5,6 +5,7 @@
 #pragma once
 #include <renderer.h>
 #include <input/events.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include "sadqtglcontext.h"
 
 namespace sad
@@ -23,30 +24,30 @@ public:
     Renderer();
     /*! Could be inherited
      */
-    virtual ~Renderer();
+    virtual ~Renderer() override;
     /*! Returns whether initializing call has been performed
-        \return whether renderer was initilalized
+        \return whether renderer was initialized
      */
     bool initialized() const;
     /*! Initializes renderer with specified settings
         \param[in] _settings settings
         \return Success of operation
     */
-    virtual void init(const sad::Settings& _settings);
-    /*! Inits renderer before loop. Called by widget to initialize OpenGL
+    virtual void init(const sad::Settings& _settings) override;
+    /*! Initializes renderer before loop. Called by widget to initialize OpenGL
         \return true
      */
-    virtual bool initRendererBeforeLoop();
+    virtual bool initRendererBeforeLoop() override;
     /*! Runs a renderer's loop only once
      */
-    virtual void runOnce();
+    virtual void runOnce() override;
     /*! Disabled. User should not call this function, due to event loop being handled by Qt
      */
-    virtual bool run();
+    virtual bool run() override;
     /*! Destroys window and context, makes required cleanups, when renderer is done.
         Call this, after main loop of renderer is finished
     */
-    virtual void deinitRendererAfterLoop();
+    virtual void deinitRendererAfterLoop() override;
     /*! Sets linked widget
         \param[in] widget a widget
      */
@@ -57,18 +58,20 @@ public:
     sad::qt::OpenGLWidget* widget() const;
     /*! Called, when starting rendering
      */
-    void startRendering();
+    void startRendering() override;
     /*! Called, when finishing rendering
      */
-    void finishRendering();
-    /*! Inits OpenGL rendering
+    void finishRendering() override;
+    /*! Initializes OpenGL rendering
      */
+    // ReSharper disable once CppInconsistentNaming
+    // ReSharper disable once CppHidingFunction
     void initGLRendering();
     /*! Reshape a system of coordinates to deal with width and height
         \param[in] width Needed width
         \param[in] height Needed height
      */
-    virtual void reshape(int width, int height);
+    virtual void reshape(int width, int height) override;
     /*! Returns viewport matrix
         \return viewport matrix
      */
@@ -101,7 +104,7 @@ protected:
     /*! A cached viewport
      */
     int m_viewport[4];
-    /*! Whether rendeerer was initialized, via init
+    /*! Whether renderer was initialized, via init
      */
     bool m_initialized;
     /*! A widget

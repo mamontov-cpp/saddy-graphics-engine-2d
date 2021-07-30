@@ -13,7 +13,7 @@
 sad::freetype::Packer::T::T() :
     m_width(0.0),
     m_height(0.0),
-    m_t(NULL)
+    m_t(nullptr)
 {
 
 }
@@ -138,7 +138,7 @@ sad::freetype::Texture* sad::freetype::Packer::pack(sad::freetype::Glyph* glyphs
         int src_tc_height = static_cast<int>(glyphs[c]->Height);
 
 
-        if (src_tc_width != 0  && src_tc_height != 0 && (glyphs[c]->Data != NULL))
+        if (src_tc_width != 0  && src_tc_height != 0 && (glyphs[c]->Data != nullptr))
         {
             FT_BitmapGlyph bitmap_glyph = reinterpret_cast<FT_BitmapGlyph>(glyphs[c]->Data);
             FT_Bitmap & bitmap = bitmap_glyph->bitmap;

@@ -46,50 +46,50 @@ namespace internal
 /*! Tries to get property with double value from object
     \param[in] ctx context
     \param[in] pos position of object in stack
-    \param[in] propname a property name
-    \return 
+    \param[in] property_name a property name
+    \return  value
  */
 ::dukpp03::Maybe<double> tryGetDoubleProperty(
     sad::dukpp03::BasicContext* ctx, 
     duk_idx_t pos,
-    const char* propname
+    const char* property_name
 );
 
 
 /*! Tries to get property with int value from object
     \param[in] ctx context
     \param[in] pos position of object in stack
-    \param[in] propname a property name
-    \return 
+    \param[in] property_name a property name
+    \return  value
  */
 ::dukpp03::Maybe<int> tryGetIntProperty(
     sad::dukpp03::BasicContext* ctx, 
     duk_idx_t pos,
-    const char* propname
+    const char* property_name
 );
 
 /*! Tries to get property with unsigned char value from object
     \param[in] ctx context
     \param[in] pos position of object in stack
-    \param[in] propname a property name
-    \return 
+    \param[in] property_name a property name
+    \return value
  */
 ::dukpp03::Maybe<unsigned char> tryGetUnsignedCharProperty(
     sad::dukpp03::BasicContext* ctx, 
     duk_idx_t pos,
-    const char* propname
+    const char* property_name
 );
 
 /*! Tries to get property with unsigned char value from object
     \param[in] ctx context
     \param[in] pos position of object in stack
-    \param[in] propname a property name
-    \return 
+    \param[in] property_name a property name
+    \return value
  */
 ::dukpp03::Maybe<sad::Point2D> tryGetPoint2DProperty(
     sad::dukpp03::BasicContext* ctx, 
     duk_idx_t pos,
-    const char* propname
+    const char* property_name
 );
 
 }
@@ -125,7 +125,8 @@ public:
         {
             result.setValue(_LinearStructure<_ValueType>());        
             // ReSharper disable once CppInitializedValueIsAlwaysRewritten
-            duk_size_t i = 0, n = duk_get_length(ctx, pos);
+            duk_size_t i = 0;
+            const duk_size_t n = duk_get_length(ctx, pos);
 
             for (i = 0; i < n; i++) 
             {
@@ -757,7 +758,7 @@ public:
         if (duk_is_array(ctx, pos))
         {
             // ReSharper disable once CppInitializedValueIsAlwaysRewritten
-            duk_size_t n = duk_get_length(ctx, pos);
+            const duk_size_t n = duk_get_length(ctx, pos);
             if (n == 2)
             {
                 sad::Maybe<T1> r1;
@@ -801,7 +802,7 @@ public:
         if (duk_is_array(ctx, pos))
         {
             // ReSharper disable once CppInitializedValueIsAlwaysRewritten
-            duk_size_t n = duk_get_length(ctx, pos);
+            const duk_size_t n = duk_get_length(ctx, pos);
             if (n == 2)
             {
                 sad::Maybe<T1> r1;
@@ -848,7 +849,7 @@ public:
         if (duk_is_array(ctx, pos))
         {
             // ReSharper disable once CppInitializedValueIsAlwaysRewritten
-            duk_size_t n = duk_get_length(ctx, pos);
+            const duk_size_t n = duk_get_length(ctx, pos);
             if (n == 2)
             {
                 sad::Maybe<T1> r1;
@@ -883,11 +884,10 @@ public:
     \param[in] ctx context
     \param[in] pos index for stack
     \param[out] result an output value. Won't be changed if result exists, will be set to result otherwise
-    \return a value if it exists, otherwise empty maybe
  */
 inline static void perform(sad::dukpp03::BasicContext* ctx, duk_idx_t pos, ::dukpp03::Maybe<sad::db::Object>& result)
 {
-    ::dukpp03::Maybe<sad::db::Object*> o = ::dukpp03::GetValue<sad::db::Object*,  sad::dukpp03::BasicContext>::perform(ctx, pos);
+	const ::dukpp03::Maybe<sad::db::Object*> o = ::dukpp03::GetValue<sad::db::Object*,  sad::dukpp03::BasicContext>::perform(ctx, pos);
     if (o.exists())
     {
         result.setReference(o.value());

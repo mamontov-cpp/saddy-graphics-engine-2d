@@ -5,6 +5,7 @@
 #pragma once
 #include "context.h"
 #include "../hfsm/hfsmhandler.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../renderer.h"
 
 namespace sad
@@ -26,10 +27,10 @@ public:
 JSHFSMHandler(sad::dukpp03::Context* ctx, sad::dukpp03::CompiledFunction f);
 /*! Invokes a handler
  */
-virtual void invoke();
+virtual void invoke() override;
 /*! Frees a handler
  */
-virtual ~JSHFSMHandler();
+virtual ~JSHFSMHandler() override;
 protected:
 /*! A context to be called with handler
  */

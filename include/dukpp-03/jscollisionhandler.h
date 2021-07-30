@@ -2,7 +2,9 @@
 
     A handler for collisions
 */
+#pragma once
 #include "../p2d/collisionhandler.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../renderer.h"
 #include "context.h"
 
@@ -26,10 +28,10 @@ public:
     /*! Calls a handler with event
         \param[in] ev event
      */
-    virtual  void invoke(const sad::p2d::BasicCollisionEvent & ev);
+    virtual  void invoke(const sad::p2d::BasicCollisionEvent & ev) override;
     /*! Frees a handler
      */
-    virtual ~JSCollisionHandler();
+    virtual ~JSCollisionHandler() override;
 protected:
     /*! A context to be called with handler
     */

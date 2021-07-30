@@ -2,6 +2,7 @@
     
     A listener for movement
  */
+#pragma once
 #include "../p2d/movement.h"
 #include "../renderer.h"
 
@@ -66,11 +67,11 @@ public:
     }
     /*! Calls a handler with event
      */
-    virtual void notify(const _Value& e)
+    virtual void notify(const _Value& e) override
     {
         sad::dukpp03::internal_for_movement::Push<_Value>::push(m_ctx, e);
         m_function.call(m_ctx);
-        ::dukpp03::Maybe<std::string>  maybe_error = m_ctx->errorOnStack(-1);
+        const ::dukpp03::Maybe<std::string>  maybe_error = m_ctx->errorOnStack(-1);
         if (maybe_error.exists())
         {
             m_ctx->renderer()->log()->critical(maybe_error.value().c_str(), __FILE__, __LINE__);

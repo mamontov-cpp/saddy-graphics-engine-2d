@@ -343,7 +343,7 @@ static void exposeAnimationsObject(sad::dukpp03::Context* ctx)
             overload->add(sad::dukpp03::bind_method::from(f));
         }
         {
-            void (sad::animations::Animations::*f)(const sad::String& name1, const sad::String name2) = &sad::animations::Animations::swap;
+            void (sad::animations::Animations::*f)(const sad::String& name1, const sad::String& name2) = &sad::animations::Animations::swap;
             overload->add(sad::dukpp03::bind_method::from(f));
         }
         {

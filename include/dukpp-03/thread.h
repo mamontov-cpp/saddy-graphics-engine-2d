@@ -32,7 +32,7 @@ public:
      */
     virtual ~Thread();
 protected:
-class CompiledFunctionExecutor: public sad::AbsractThreadExecutableFunction 
+class CompiledFunctionExecutor: public sad::AbstractThreadExecutableFunction 
 {
 public:	
     /*! Makes new instance of object
@@ -43,14 +43,14 @@ public:
     /*! Executes a function in thread
         \return code, which will be returned in thread
      */
-    virtual int execute();
+    virtual int execute() override;
     /*! Cretes a clone of executable function
         \returns exact copy of current thread executable function
      */
-    virtual sad::AbsractThreadExecutableFunction * clone() const;
+    virtual sad::AbstractThreadExecutableFunction * clone() const override;
     /*! Kept for purpose of inheritance
      */
-    virtual ~CompiledFunctionExecutor();
+    virtual ~CompiledFunctionExecutor() override;
 protected:
     /*! A context for function
      */

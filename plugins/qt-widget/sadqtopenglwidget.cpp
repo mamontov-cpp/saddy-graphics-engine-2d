@@ -12,7 +12,7 @@
 #include <QMouseEvent>
 #include <QWheelEvent>
 
-sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenGLWidget(parent, f), m_window(NULL), m_first(true), m_reshaped(false), m_mtx(QMutex::Recursive)
+sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenGLWidget(parent, f), m_window(nullptr), m_first(true), m_reshaped(false), m_mtx(QMutex::Recursive)
 {
     QSurfaceFormat fmt = QSurfaceFormat::defaultFormat();
     fmt.setProfile(QSurfaceFormat::CompatibilityProfile);
@@ -62,7 +62,7 @@ void sad::qt::OpenGLWidget::setRenderer(sad::qt::Renderer* renderer)
 
 void sad::qt::OpenGLWidget::immediateSetRenderer(void* r)
 {
-    sad::qt::Renderer* renderer = reinterpret_cast<sad::qt::Renderer*>(r);
+    sad::qt::Renderer* renderer = static_cast<sad::qt::Renderer*>(r);
     m_mtx.lock();
     if (renderer)
     {
@@ -397,7 +397,7 @@ void sad::qt::OpenGLWidget::tryHandleMinimization(QEvent* ev) const
 {
     if (ev->type() == QEvent::WindowStateChange)
     {
-        if (this->window()->isMinimized() && (this->m_renderer != NULL))
+        if (this->window()->isMinimized() && (this->m_renderer != nullptr))
         {
             const_cast<sad::qt::OpenGLWidget*>(this)->m_mtx.lock();
             if (m_renderer->initialized())
@@ -421,9 +421,9 @@ void sad::qt::OpenGLWidget::mouseEventToSadMouseEvent(QMouseEvent* ev, sad::inpu
     sev->Point3D = this->toViewport(ev->pos());
     switch(ev->button())
     {
-    case Qt::LeftButton: sev->Button = sad::MouseLeft; break;
-    case Qt::RightButton: sev->Button = sad::MouseRight; break;
-    case Qt::MiddleButton: sev->Button = sad::MouseMiddle; break;
-    default: sev->Button = sad::MouseLeft;
+	case Qt::LeftButton: sev->Button = sad::MouseButton::MouseLeft; break;
+    case Qt::RightButton: sev->Button = sad::MouseButton::MouseRight; break;
+    case Qt::MiddleButton: sev->Button = sad::MouseButton::MouseMiddle; break;
+    default: sev->Button = sad::MouseButton::MouseLeft;
     }
 }

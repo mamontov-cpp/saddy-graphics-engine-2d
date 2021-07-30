@@ -17,10 +17,10 @@ static sad::Mutex sad_irrklang_engine_instance;
 
 sad::irrklang::Engine* sad::irrklang::Engine::ref()
 {
-    if (m_instance == NULL)
+    if (m_instance == nullptr)
     {
         sad_irrklang_engine_instance.lock();
-        if (m_instance == NULL)
+        if (m_instance == nullptr)
         {
             m_instance = new sad::irrklang::Engine();
             atexit(sad::irrklang::Engine::freeInstance);
@@ -40,7 +40,7 @@ sad::irrklang::Engine* sad::irrklang::Engine::ref()
         if (!test)
         {
             m_engine->removeSoundSource(result);
-            result = NULL;
+            result = nullptr;
         }
         else
         {
@@ -58,7 +58,7 @@ sad::irrklang::Engine* sad::irrklang::Engine::ref()
             if (!test)
             {
                 m_engine->removeSoundSource(result);
-                result = NULL;
+                result = nullptr;
             }
             else
             {
@@ -102,7 +102,7 @@ sad::irrklang::Engine::~Engine()
 
 // ============================= PROTECTED METHODS =============================
 
-sad::irrklang::Engine* sad::irrklang::Engine::m_instance = NULL;
+sad::irrklang::Engine* sad::irrklang::Engine::m_instance = nullptr;
 
 // ============================= PRIVATE METHODS =============================
 
@@ -130,7 +130,7 @@ void sad::irrklang::Engine::freeInstance()
     if (m_instance) 
     {
         delete m_instance;
-        m_instance = NULL;
+        m_instance = nullptr;
     }
 }
 

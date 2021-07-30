@@ -35,7 +35,7 @@ DECLARE_COMMON_TYPE(sad::dukpp03::CompiledFunction)
 
 // ============================================ PUBLIC METHODS ============================================
 
-sad::dukpp03::Context::Context(bool vanilla) : m_renderer(NULL), m_vanilla(vanilla)
+sad::dukpp03::Context::Context(bool vanilla) : m_renderer(nullptr), m_vanilla(vanilla)
 {
     if (!m_vanilla)
     {
@@ -209,7 +209,7 @@ sad::String dumpNativeObject(const sad::db::Variant& v)
 // ReSharper disable once CppMemberFunctionMayBeConst
 void sad::dukpp03::Context::initialize()
 {
-    if (sad::dukpp03::internal::conversion_table.converter("sad::dukpp03::Renderer *", "sad::Renderer *") == NULL)
+    if (sad::dukpp03::internal::conversion_table.converter("sad::dukpp03::Renderer *", "sad::Renderer *") == nullptr)
     {
         sad::dukpp03::internal::conversion_table.declareImplicit<sad::dukpp03::Renderer*, sad::Renderer*>();
         sad::dukpp03::internal::conversion_table.declareImplicit<sad::Renderer*, sad::dukpp03::Renderer*>();

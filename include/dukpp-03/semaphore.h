@@ -16,10 +16,10 @@ class Semaphore: public sad::Semaphore, public sad::RefCountable
 {
 public:
     /*! Constructs new semaphore with specified values 
-        \param[in] currentvalue currentvalue of semaphore
-        \param[in] maxvalue maximum value of semaphore
+        \param[in] current_value current_value of semaphore
+        \param[in] max_value maximum value of semaphore
      */
-    Semaphore(unsigned int currentvalue = 0, unsigned int maxvalue = 32767);
+    Semaphore(unsigned int current_value = 0, unsigned int max_value = 32767);
     /*! Can be inherited
      */
     virtual ~Semaphore();

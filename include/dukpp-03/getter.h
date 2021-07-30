@@ -26,15 +26,15 @@ public:
     /*! Returns copy of callable object
         \return copy of callable object
      */
-    virtual Callable<sad::dukpp03::BasicContext>* clone();
+    virtual Callable<sad::dukpp03::BasicContext>* clone() override;
     /*! Returns count of required arguments
         \return count of required arguments
      */
-    virtual int requiredArguments();
+    virtual int requiredArguments() override;
     /*! Performs actual function call
         \param[in] c context
      */
-    virtual int _call(sad::dukpp03::BasicContext* c);    
+    virtual int _call(sad::dukpp03::BasicContext* c)  override;
 };  
     
 

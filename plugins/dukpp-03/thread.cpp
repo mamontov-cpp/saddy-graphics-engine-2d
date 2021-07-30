@@ -31,7 +31,7 @@ int sad::dukpp03::Thread::CompiledFunctionExecutor::execute()
     return m_function.call(m_ctx);
 }
 
-sad::AbsractThreadExecutableFunction * sad::dukpp03::Thread::CompiledFunctionExecutor::clone() const
+sad::AbstractThreadExecutableFunction * sad::dukpp03::Thread::CompiledFunctionExecutor::clone() const
 {
     return new sad::dukpp03::Thread::CompiledFunctionExecutor(m_ctx, m_function);
 }

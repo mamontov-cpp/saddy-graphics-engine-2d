@@ -48,7 +48,7 @@ public:
         const sad::String & str,
         const sad::Point2D & p,
         float ratio,
-        sad::Font::RenderFlags flags
+        int flags
     );
     /*! Fills geometries with related font data
         \param[in] data a data
@@ -58,7 +58,7 @@ public:
         \param[in] flags a flags for rendering
         \param[in] ratio ratio for line-spacing
      */
-    virtual void fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags, float ratio);
+    virtual void fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, int flags, float ratio);
     /*! Renders text line to a texture. Before output all new line string are stripped.
         Texture's memory should be freed manually
         \param[in] string a string texture
@@ -83,7 +83,7 @@ public:
         \param[in] flags a flag value
         \return size of label
      */
-    virtual sad::Size2D size(const sad::String & str, float ratio, sad::Font::RenderFlags flags);
+    virtual sad::Size2D size(const sad::String & str, float ratio, int flags);
     /*! An ascent for font
         \return ascent for font
      */

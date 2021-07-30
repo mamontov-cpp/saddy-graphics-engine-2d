@@ -2,7 +2,7 @@
 
 DECLARE_SOBJ_INHERITANCE(sad::irrklang::Sound, sad::resource::Resource);
 
-sad::irrklang::Sound::Sound() : m_source(NULL)
+sad::irrklang::Sound::Sound() : m_source(nullptr)
 {
     
 }
@@ -45,7 +45,7 @@ void sad::irrklang::Sound::setDefaultVolume(double volume)
 {
     if (!m_source)
     {
-        return NULL;
+        return nullptr;
     }
     ::irrklang::ISoundEngine* engine = sad::irrklang::Engine::eref();
     setDefaultVolume(volume);

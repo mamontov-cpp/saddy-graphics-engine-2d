@@ -79,17 +79,17 @@ public:
         is BASELINE position.
         \param[in] x X coordinate position
         \param[in] y Y coordinate position
-        \param[in] topoffset a top offset for italic font
+        \param[in] top_offset a top offset for italic font
      */
-    void render(float x, float y, float topoffset);
+    void render(float x, float y, float top_offset);
     /*! Fills geometries
         \param[in] x X coordinate position
         \param[in] y Y coordinate position
-        \param[in] topoffset a top offset for italic font
+        \param[in] top_offset a top offset for italic font
         \param[in] vertexes vertexes
         \param[in] tcs texture coordinates
      */
-    void fillGeometries(double x, double y, double topoffset, sad::Vector<double>& vertexes, sad::Vector<double>& tcs) const;
+    void fillGeometries(double x, double y, double top_offset, sad::Vector<double>& vertexes, sad::Vector<double>& tcs) const;
     /*! Tries to get a glyph for a face and char c
         \param[in] face face to be used
         \param[in] c character
@@ -100,7 +100,7 @@ public:
     /*! Dumps parameters to string
         \return parameters
      */
-    sad::String dumpParametes() const;
+    sad::String dumpParameters() const;
     /*! Frees inner glyph
      */
     void freeInnerGlyph();

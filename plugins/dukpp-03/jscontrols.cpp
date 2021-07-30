@@ -10,7 +10,7 @@ sad::dukpp03::JSControls::JSControls() : m_enabled(true)
 
 sad::dukpp03::JSControls::~JSControls()
 {
-    for(size_t i = 0; i < SAD_INPUT_EVENTTYPE_COUNT; i++)
+    for(size_t i = 0; i < SAD_INPUT_EVENT_TYPE_COUNT; i++)
     {
         sad::Vector<sad::Pair<sad::String, sad::dukpp03::JSHandler*> >& vector = m_handlers[i];
         for(size_t j = 0; j < vector.size(); j++)
@@ -23,22 +23,22 @@ sad::dukpp03::JSControls::~JSControls()
 
 void sad::dukpp03::JSControls::addToRenderer(sad::Renderer* r)
 {
-    r->controls()->add(*sad::input::ET_Quit, new sad::dukpp03::JSControls::EventHandler<sad::input::QuitEvent>(this));
-    r->controls()->add(*sad::input::ET_Activate, new sad::dukpp03::JSControls::EventHandler<sad::input::ActivateEvent>(this));
-    r->controls()->add(*sad::input::ET_Deactivate, new sad::dukpp03::JSControls::EventHandler<sad::input::DeactivateEvent>(this));
+    r->controls()->add(*sad::input::EventType::ET_Quit, new sad::dukpp03::JSControls::EventHandler<sad::input::QuitEvent>(this));
+    r->controls()->add(*sad::input::EventType::ET_Activate, new sad::dukpp03::JSControls::EventHandler<sad::input::ActivateEvent>(this));
+    r->controls()->add(*sad::input::EventType::ET_Deactivate, new sad::dukpp03::JSControls::EventHandler<sad::input::DeactivateEvent>(this));
     
-    r->controls()->add(*sad::input::ET_MouseEnter, new sad::dukpp03::JSControls::EventHandler<sad::input::MouseEnterEvent>(this));
-    r->controls()->add(*sad::input::ET_MouseLeave, new sad::dukpp03::JSControls::EventHandler<sad::input::MouseLeaveEvent>(this));
-    r->controls()->add(*sad::input::ET_KeyPress, new sad::dukpp03::JSControls::EventHandler<sad::input::KeyPressEvent>(this));
+    r->controls()->add(*sad::input::EventType::ET_MouseEnter, new sad::dukpp03::JSControls::EventHandler<sad::input::MouseEnterEvent>(this));
+    r->controls()->add(*sad::input::EventType::ET_MouseLeave, new sad::dukpp03::JSControls::EventHandler<sad::input::MouseLeaveEvent>(this));
+    r->controls()->add(*sad::input::EventType::ET_KeyPress, new sad::dukpp03::JSControls::EventHandler<sad::input::KeyPressEvent>(this));
     
-    r->controls()->add(*sad::input::ET_KeyRelease, new sad::dukpp03::JSControls::EventHandler<sad::input::KeyReleaseEvent>(this));
-    r->controls()->add(*sad::input::ET_MouseMove, new sad::dukpp03::JSControls::EventHandler<sad::input::MouseMoveEvent>(this));
-    r->controls()->add(*sad::input::ET_MousePress, new sad::dukpp03::JSControls::EventHandler<sad::input::MousePressEvent>(this));
+    r->controls()->add(*sad::input::EventType::ET_KeyRelease, new sad::dukpp03::JSControls::EventHandler<sad::input::KeyReleaseEvent>(this));
+    r->controls()->add(*sad::input::EventType::ET_MouseMove, new sad::dukpp03::JSControls::EventHandler<sad::input::MouseMoveEvent>(this));
+    r->controls()->add(*sad::input::EventType::ET_MousePress, new sad::dukpp03::JSControls::EventHandler<sad::input::MousePressEvent>(this));
     
-    r->controls()->add(*sad::input::ET_MouseRelease, new sad::dukpp03::JSControls::EventHandler<sad::input::MouseReleaseEvent>(this));
-    r->controls()->add(*sad::input::ET_MouseDoubleClick, new sad::dukpp03::JSControls::EventHandler<sad::input::MouseDoubleClickEvent>(this));
-    r->controls()->add(*sad::input::ET_MouseWheel, new sad::dukpp03::JSControls::EventHandler<sad::input::MouseWheelEvent>(this));
-    r->controls()->add(*sad::input::ET_Resize, new sad::dukpp03::JSControls::EventHandler<sad::input::ResizeEvent>(this));
+    r->controls()->add(*sad::input::EventType::ET_MouseRelease, new sad::dukpp03::JSControls::EventHandler<sad::input::MouseReleaseEvent>(this));
+    r->controls()->add(*sad::input::EventType::ET_MouseDoubleClick, new sad::dukpp03::JSControls::EventHandler<sad::input::MouseDoubleClickEvent>(this));
+    r->controls()->add(*sad::input::EventType::ET_MouseWheel, new sad::dukpp03::JSControls::EventHandler<sad::input::MouseWheelEvent>(this));
+    r->controls()->add(*sad::input::EventType::ET_Resize, new sad::dukpp03::JSControls::EventHandler<sad::input::ResizeEvent>(this));
 }
 
 void sad::dukpp03::JSControls::enable()
@@ -58,7 +58,7 @@ bool sad::dukpp03::JSControls::enabled() const
 
 sad::String sad::dukpp03::JSControls::onEvent(int event_type, sad::dukpp03::Context* ctx, const sad::dukpp03::CompiledFunction& f)
 {
-    if (event_type >= 0 && event_type < SAD_INPUT_EVENTTYPE_COUNT)
+    if (event_type >= 0 && event_type < SAD_INPUT_EVENT_TYPE_COUNT)
     {
         sad::dukpp03::JSHandler* h = new sad::dukpp03::JSHandler(ctx, f);
         std::ostringstream ostream; 
@@ -73,7 +73,7 @@ sad::String sad::dukpp03::JSControls::onEvent(int event_type, sad::dukpp03::Cont
 
 void sad::dukpp03::JSControls::unbind(const sad::String& event_handler_id)
 {
-    for(size_t i = 0; i < SAD_INPUT_EVENTTYPE_COUNT; i++)
+    for(size_t i = 0; i < SAD_INPUT_EVENT_TYPE_COUNT; i++)
     {
         sad::Vector<sad::Pair<sad::String, sad::dukpp03::JSHandler*> >& vector = m_handlers[i];
         for(size_t j = 0; j < vector.size(); j++)

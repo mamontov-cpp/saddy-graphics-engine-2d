@@ -21,7 +21,7 @@ void sad::dukpp03::WrapValue::perform(void* context, void* variant, bool wrapped
         {
             sad::dukpp03::BasicContext* ctx = reinterpret_cast<sad::dukpp03::BasicContext*>(context);
             ::dukpp03::ClassBinding<dukpp03::BasicContext>* ctxbinding = ctx->getClassBinding(object->serializableName());
-            if (ctxbinding == NULL)
+            if (ctxbinding == nullptr)
             {
                 sad::dukpp03::ClassBinding* binding = new sad::dukpp03::ClassBinding();
                 binding->registerSchema(object->schema());

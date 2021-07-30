@@ -151,7 +151,7 @@ sad::Point2D sad::qt::Window::toClient(const sad::Point2D & p)
 
 sad::os::WindowHandles * sad::qt::Window::handles()
 {
-    return NULL;
+    return nullptr;
 }
 
 
@@ -215,7 +215,7 @@ QWidget* sad::qt::Window::widget() const
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 QWidget* sad::qt::Window::window() const
@@ -225,5 +225,5 @@ QWidget* sad::qt::Window::window() const
     {
         return w->window();
     }
-    return NULL;
+    return nullptr;
 }

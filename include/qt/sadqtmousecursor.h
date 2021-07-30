@@ -22,22 +22,22 @@ public:
     MouseCursor();
     /*! Can be inherited
      */
-    virtual ~MouseCursor();
+    virtual ~MouseCursor() override;
     /*! Returns a position of cursor
         \return current position of cursor if it's inside of window
     */
-    virtual sad::MaybePoint3D  position() const;
+    virtual sad::MaybePoint3D  position() const override;
     /*! Sets a position for a cursor
         \param[in] p coordinates for cursor in window client's area coordinates
     */
-    virtual void setPosition(const sad::Point2D & p);
+    virtual void setPosition(const sad::Point2D & p) override;
 protected:
     /*! Shows default cursor
      */
-    virtual void showDefaultCursor();
+    virtual void showDefaultCursor() override;
     /*! Hides default cursor
      */
-    virtual void hideDefaultCursor();
+    virtual void hideDefaultCursor() override;
 };
 
 

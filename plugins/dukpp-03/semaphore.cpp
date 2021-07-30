@@ -1,7 +1,7 @@
 #include "dukpp-03/semaphore.h"
 #include "db/dbtypename.h"
 
-sad::dukpp03::Semaphore::Semaphore(unsigned int currentvalue, unsigned int maxvalue) : sad::Semaphore(currentvalue, maxvalue)
+sad::dukpp03::Semaphore::Semaphore(unsigned int current_value, unsigned int max_value) : sad::Semaphore(current_value, max_value)
 {
     
 }

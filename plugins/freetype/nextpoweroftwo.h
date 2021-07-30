@@ -12,9 +12,8 @@ namespace sad
 namespace freetype
 {
 
-/*! Computes nearest power of two to number. Guaranteed, that returned numberþ
+/*! Computes nearest power of two to number. Guaranteed, that returned numbers will be more or equal to v
     Taken from http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
-    will be more or equal to v
     \param[in] v number to be rounded
     \return v number to be rounded
  */

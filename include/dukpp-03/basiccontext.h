@@ -9,7 +9,9 @@
 #include "wrapvalue.h"
 #include "../3rdparty/dukpp-03/include/dukpp-03.h"
 #include "../3rdparty/dukpp-03/include/lambda.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../3rdparty/dukpp-03/include/thislambda.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../3rdparty/dukpp-03/include/thisexplicitmethod.h"
 
 namespace sad

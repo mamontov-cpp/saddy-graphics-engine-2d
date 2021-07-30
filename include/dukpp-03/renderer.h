@@ -1,6 +1,6 @@
 /*! \file dukpp-03\renderer.h
     
-    A refcountable renderer implementation
+    A ref countable renderer implementation
  */
 #pragma once
 #include <renderer.h>
@@ -12,7 +12,7 @@ namespace sad
 namespace dukpp03
 {
 
-/*! A refcountable renderer
+/*! A ref countable renderer
  */    
 class Renderer: public sad::Renderer, public sad::RefCountable
 {

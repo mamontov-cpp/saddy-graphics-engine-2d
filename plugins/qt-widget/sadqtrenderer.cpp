@@ -6,7 +6,7 @@
 #include "qt/sadqtmousecursor.h"
 
 
-sad::qt::Renderer::Renderer() : m_initialized(false), m_widget(NULL)
+sad::qt::Renderer::Renderer() : m_initialized(false), m_widget(nullptr)
 {
     sad::MainLoop* old_loop = m_main_loop;
     m_main_loop = new sad::qt::MainLoop();
@@ -111,7 +111,7 @@ sad::Camera* sad::qt::Renderer::getDefaultCamera() const
     {
         return &(this->scenes()[0]->camera());
     }
-    return NULL;
+    return nullptr;
 }
 
 DECLARE_COMMON_TYPE(sad::qt::Renderer);

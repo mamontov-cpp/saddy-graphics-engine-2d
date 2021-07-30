@@ -11,7 +11,7 @@
 
 sad::freetype::FontImpl::FontImpl() 
 : m_library(0), m_face(0), 
-m_cached_size(-1), m_font(NULL),
+m_cached_size(-1), m_font(nullptr),
 m_created_now(true)
 {
     // If freetype failed, than do nothing
@@ -54,7 +54,7 @@ void sad::freetype::FontImpl::render(
         const sad::String & str,
         const sad::Point2D & p,
         float ratio,
-        sad::Font::RenderFlags flags
+        int flags
 )
 {
     glPushAttrib(GL_LIST_BIT | GL_CURRENT_BIT  | GL_ENABLE_BIT | GL_TRANSFORM_BIT);	
@@ -70,7 +70,7 @@ void sad::freetype::FontImpl::render(
     glPopAttrib();
 }
 
-void sad::freetype::FontImpl::fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags, float ratio)
+void sad::freetype::FontImpl::fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, int flags, float ratio)
 {
     this->fontForSize(m_cached_size)->fillGeometries(data, g, str, p, flags, ratio);
 }
@@ -128,12 +128,12 @@ void sad::freetype::FontImpl::setSize(unsigned int size)
     m_cached_size = size;
     if (changed)
     {
-        m_font = NULL;
+        m_font = nullptr;
         this->fontForSize(size);
     }
 }
 
-sad::Size2D sad::freetype::FontImpl::size(const sad::String & str, float ratio, sad::Font::RenderFlags flags)
+sad::Size2D sad::freetype::FontImpl::size(const sad::String & str, float ratio, int flags)
 {
     return this->fontForSize(m_cached_size)->size(str, ratio, flags);
 }
@@ -155,7 +155,7 @@ sad::freetype::FixedSizeFont * sad::freetype::FontImpl::fontForSize(
     sad::ScopedLock lock(&(const_cast<sad::Mutex&>(m_mtx)));
     sad::freetype::FontImpl * me = const_cast<sad::freetype::FontImpl *>(this);
     
-    if (m_font != NULL && size == m_cached_size)
+    if (m_font != nullptr && size == m_cached_size)
     {
         return m_font;
     }
@@ -190,6 +190,6 @@ void sad::freetype::FontImpl::cleanup()
         delete it.value();
     }
     m_size_cache.clear();
-    m_font = NULL;
+    m_font = nullptr;
     m_created_now = true;
 }

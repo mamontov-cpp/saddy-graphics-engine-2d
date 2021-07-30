@@ -27,7 +27,7 @@ public:
      */
     ::irrklang::ISoundSource* tryLoad(const sad::String& source);
     /*! Adds new source for alias
-        \param[in] source 
+        \param[in] source a sound source
         \param[in] name a name for alias
         \return copy source
      */
@@ -38,11 +38,11 @@ public:
     /*! Frees engine instance
      */
     ~Engine();
-    /*! Returns engine for global wrapper	
+    /*! Returns engine for global wrapper
         \return global engine
      */
     ::irrklang::ISoundEngine* get() const;
-    /*! Equiualent for calling ref()->get()
+    /*! Equivalent for calling ref()->get()
         \return global engine
      */ 
     static ::irrklang::ISoundEngine* eref();

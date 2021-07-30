@@ -1,8 +1,8 @@
-/*! \file fixedheightfont.h
+/*! \file fixedsizefont.h
     
 
     Describes a font with fixed height. Note, that this implementation
-    does not contain color, since it should be cated by font implementation
+    does not contain color, since it should be changed by font implementation
  */
 #pragma once
 #include "glyph.h"
@@ -31,14 +31,14 @@ public:
     FixedSizeFont(FT_Library library, FT_Face face, unsigned int height);
     /*! Frees memory, from glyphs
      */
-    ~FixedSizeFont();
+    virtual ~FixedSizeFont();
     /*! Renders a fixed font
         \param[in] s string
         \param[in] p upper-left point
         \param[in] ratio a ratio for line-spacing, relative to line-spacing of font
         \param[in] flags a flag value
      */
-    void render(const sad::String & s, const sad::Point2D & p, float ratio, sad::Font::RenderFlags flags);
+    void render(const sad::String & s, const sad::Point2D & p, float ratio, int flags);
     /*! Fills geometries with related font data
         \param[in] data a data
         \param[in] g geometries
@@ -47,7 +47,7 @@ public:
         \param[in] flags a flags for rendering
         \param[in] ratio ratio for line-spacing
      */
-    virtual void fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags, float ratio);
+    virtual void fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, int flags, float ratio);
     /*! Dumps all parameters of glyphs to string
         \return string of glyph parameters
      */
@@ -71,7 +71,7 @@ public:
         \param[in] ratio a ratio for line-spacing, relative to line-spacing of font
         \param[in] flags a flags
      */
-    sad::Size2D size(const sad::String & s, float ratio, sad::Font::RenderFlags flags);
+    sad::Size2D size(const sad::String & s, float ratio, int flags);
     /*! Returns a built-in line spacing for fixed height font
         \return built-in linespacing
      */

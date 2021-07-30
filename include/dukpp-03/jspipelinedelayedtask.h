@@ -1,10 +1,11 @@
 /*! \file jspipelinedelayedtask.h
 
-A simple pipeline delayed task for performingcompiled function calls
+A simple pipeline delayed task for performing compiled function calls
 */
 #pragma once
 
 #include "../pipeline/pipelinedelayedtask.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../timer.h"
 #include "context.h"
 

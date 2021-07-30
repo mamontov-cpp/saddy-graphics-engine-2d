@@ -23,15 +23,15 @@ public:
     MainLoop();
     /*! Frees a main loop, removing attached dispatcher
      */
-    virtual ~MainLoop();
+    virtual ~MainLoop() override;
     /*! Runs a main loop
         \param[in] once if once, loop will be run only once
      */
-    virtual void run(bool once = false);
-    /*! Returns NULL, since accessing a dispatcher is disabled for Qt
-        \return NULL
+    virtual void run(bool once = false) override;
+    /*! Returns nullptr, since accessing a dispatcher is disabled for Qt
+        \return nullptr
      */
-    virtual sad::os::SystemEventDispatcher *  dispatcher();
+    virtual sad::os::SystemEventDispatcher *  dispatcher() override;
     /*! Submits new event into main loop
         \param[in] t event type
         \param[in] ev event
@@ -44,13 +44,13 @@ protected:
     virtual void processEvents();
     /*! Does nothing, since Qt handles this stuff
      */
-    virtual void initKeyboardInput();
+    virtual void initKeyboardInput() override;
     /*! Does nothing, since Qt handles this stuff
      */
-    virtual void registerRenderer();
+    virtual void registerRenderer() override;
     /*! Does nothing, since Qt handles this stuff
      */
-    virtual void unregisterRenderer();
+    virtual void unregisterRenderer() override;
     /*! An events, that should be processed in event loop
      */
     sad::Vector< sad::Pair<sad::input::EventType, sad::input::AbstractEvent*> > m_events;

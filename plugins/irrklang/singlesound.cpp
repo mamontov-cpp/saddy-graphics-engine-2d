@@ -3,7 +3,7 @@
 #include <db/dbtypename.h>
 
 sad::irrklang::SingleSound::SingleSound()
-: m_current_music_source(NULL), m_current_music(NULL)
+: m_current_music_source(nullptr), m_current_music(nullptr)
 {
     
 }
@@ -16,7 +16,7 @@ sad::irrklang::SingleSound::SingleSound()
 {
     if (!sound)
     {
-        return NULL;
+        return nullptr;
     }
 
     // Stop old music
@@ -59,8 +59,8 @@ void sad::irrklang::SingleSound::stop()
     if (m_current_music)
     {
         m_current_music->stop();
-        m_current_music = NULL;
-        m_current_music_source = NULL;
+        m_current_music = nullptr;
+        m_current_music_source = nullptr;
     }
 }
 

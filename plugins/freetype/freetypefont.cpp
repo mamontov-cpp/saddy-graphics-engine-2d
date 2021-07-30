@@ -12,7 +12,7 @@
 DECLARE_SOBJ_INHERITANCE(sad::freetype::Font, sad::Font);
 
 sad::freetype::Font::Font()
-: m_dptr(new sad::freetype::FontImpl()), m_renderer(NULL)
+: m_dptr(new sad::freetype::FontImpl()), m_renderer(nullptr)
 {
 
 }
@@ -38,7 +38,7 @@ bool sad::freetype::Font::load(const sad::String & filename)
     return m_dptr->load(filename);
 }
 
-void sad::freetype::Font::render(const sad::String & str,const sad::Point2D & p, sad::Font::RenderFlags flags)
+void sad::freetype::Font::render(const sad::String & str,const sad::Point2D & p, int flags)
 {
     m_dptr->setSize(m_size);
 
@@ -48,7 +48,7 @@ void sad::freetype::Font::render(const sad::String & str,const sad::Point2D & p,
 }
 
 
-void sad::freetype::Font::fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags)
+void sad::freetype::Font::fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, int flags)
 {
     m_dptr->setSize(m_size);
     m_dptr->fillGeometries(data, g, str, p, flags, m_linespacing_ratio);
@@ -58,7 +58,7 @@ void sad::freetype::Font::fillGeometries(const sad::Font::GeometryRenderData& da
 sad::Texture * sad::freetype::Font::renderToTexture(
     const sad::String & string,
     unsigned int height 
-)
+) const
 {
     unsigned int size = m_size;
     m_dptr->setSize(height);
@@ -72,7 +72,7 @@ float sad::freetype::Font::builtinLineSpacing() const
     return m_dptr->builtinLineSpacing();
 }
 
-sad::Size2D sad::freetype::Font::size(const sad::String & str, sad::Font::RenderFlags flags)
+sad::Size2D sad::freetype::Font::size(const sad::String & str, int flags)
 {
     m_dptr->setSize(m_size);
     return m_dptr->size(str, m_linespacing_ratio, flags);
@@ -99,7 +99,7 @@ sad::String sad::freetype::Font::dumpGlyphParameters() const
     return m_dptr->dumpGlyphParameters();
 }
 
-// Uncommend to enable glyph rendering debug
+// Uncomment to enable glyph rendering debug
 // #define FREETYPE_GLYPH_DEBUG
 
 #ifdef FREETYPE_GLYPH_DEBUG
@@ -118,7 +118,7 @@ static unsigned int render_rect_indices[render_rect_indices_count][2] =
     \param[in] y1 Y coordinate of first point
     \param[in] x2 X coordinate of second point
     \param[in] y2 Y coordinate of second point
-    \param[in] c  ciolor
+    \param[in] c  color
  */
 void debug_render_rect(double x1, double y1, double x2, double y2, const sad::Color & c)
 {

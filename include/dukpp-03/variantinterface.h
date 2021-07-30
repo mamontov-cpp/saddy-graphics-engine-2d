@@ -107,7 +107,7 @@ public:
         return ::dukpp03::Maybe<_UnderlyingValue>();
     }
     
-    /*! Fetches underlying value adress from variant type
+    /*! Fetches underlying value address from variant type
         \param[in] v a variant, containing data
         \return an underlying value
      */

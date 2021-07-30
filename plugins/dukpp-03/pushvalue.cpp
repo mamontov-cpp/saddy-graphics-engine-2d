@@ -94,7 +94,7 @@ void dukpp03::PushValue<sad::p2d::Circle*, sad::dukpp03::BasicContext>::perform(
 }
 
 
-void dukpp03::PushValue<sad::p2d::Bound, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Bound v)
+void dukpp03::PushValue<sad::p2d::Bound, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Bound& v)
 {
     dukpp03::PushValue<sad::p2d::Bound*, sad::dukpp03::BasicContext>::perform(ctx, &v);
 }
@@ -119,7 +119,7 @@ void dukpp03::PushValue<sad::p2d::Circle, sad::dukpp03::BasicContext>::perform(s
 
 void dukpp03::PushValue<sad::p2d::CollisionShape*, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::CollisionShape* v)
 {
-    if (v == NULL)
+    if (v == nullptr)
     {
         duk_push_null(ctx->context());
         return;

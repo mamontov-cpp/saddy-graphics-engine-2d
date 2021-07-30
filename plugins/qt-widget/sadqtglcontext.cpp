@@ -15,7 +15,7 @@
 #include "../../3rdparty/glm/glm/ext.hpp"
 
 
-sad::qt::GLContext::GLContext() : m_window(NULL), m_valid(false)
+sad::qt::GLContext::GLContext() : m_window(nullptr), m_valid(false)
 {
     
 }
@@ -47,7 +47,7 @@ sad::Point3D sad::qt::GLContext::mapToViewport(const sad::Point2D & p, bool ztes
         return p;
     if (m_window->valid() == false || !valid())
         return p;
-    if (m_window->renderer() == NULL)
+    if (m_window->renderer() == nullptr)
     {
         return p;
     }
@@ -130,7 +130,7 @@ sad::Point3D sad::qt::GLContext::mapToViewport(const sad::Point2D & p, bool ztes
 
 sad::os::GLContextHandle *  sad::qt::GLContext::handle() const
 {
-    return NULL;
+    return nullptr;
 }
 
 sad::Window * sad::qt::GLContext::window() const
@@ -166,5 +166,5 @@ sad::Renderer* sad::qt::GLContext::renderer() const
     {
         return m_window->renderer();
     }
-    return NULL;
+    return nullptr;
 }

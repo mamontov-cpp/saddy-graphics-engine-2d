@@ -40,10 +40,10 @@ sad::RefCountable* tryGetRefCountable(sad::db::Variant* v)
     {
         return t.value();
     }
-    return NULL;
+    return nullptr;
 }
 
-/*! A generic finalizer for non-refcountable objects
+/*! A generic finalizer for non-ref countable objects
  */
 template<
     typename _Type, 
@@ -70,7 +70,7 @@ struct LocalFinalizer
 duk_ret_t unrefAndFinalize(duk_context* ctx, sad::RefCountable* (*caster)(sad::db::Variant*));
 
 
-/*! A generic finalizer for refcountable objects
+/*! A generic finalizer for ref countable objects
  */
 template<
     typename _Type
@@ -152,7 +152,7 @@ public:
     )
     {
         duk_context* ctx = c->context();
-        int arr_idx = duk_push_array(ctx);
+        const int arr_idx = duk_push_array(ctx);
         int index = 0;
         for(typename _LinearStructure<_ValueType>::const_iterator it = result.begin(); it != result.end(); ++it)
         {
@@ -188,7 +188,7 @@ public:
     )
     {
         duk_context* ctx = c->context();
-        int obj_idx = duk_push_object(ctx);
+        const int obj_idx = duk_push_object(ctx);
         for(typename _DictionaryStructure<sad::String, _ValueType>::const_iterator it = result.const_begin(); it != result.const_end(); ++it)
         {
             dukpp03::PushValue<_ValueType, _Context>::perform(c, it.value());
@@ -261,7 +261,7 @@ public:
         \param[in] ctx context
         \param[in] v value
     */
-    static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Bound v);
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Bound& v);
 };
 
 /*! An instantiation for pushing sad::p2d::Line on stack
@@ -452,7 +452,7 @@ public:
  */
 static void perform(sad::dukpp03::BasicContext* ctx, T* v)
 {
-    if (v != NULL)
+    if (v != nullptr)
     {
         ::dukpp03::FinalizerFunction f = ::dukpp03::internal::finalizerMaker(v, ctx);
         ctx->template pushVariant<T*>(sad::dukpp03::BasicContext::VariantUtils::template makeFrom(v), f);

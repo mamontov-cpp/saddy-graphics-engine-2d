@@ -4,6 +4,7 @@
     A value wrapper functions for wrapping objects
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../object.h"
 
 namespace sad

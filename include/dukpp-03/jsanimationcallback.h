@@ -37,14 +37,14 @@ public:
     sad::dukpp03::JSAnimationCallback& operator=(const sad::dukpp03::JSAnimationCallback& cb);
     /*! Invokes a handler
      */
-    virtual void invoke();
+    virtual void invoke() override;
     /*! Clones a callback
         \return copy of callback
      */
-    virtual sad::animations::Callback* clone() const;
+    virtual sad::animations::Callback* clone() const override;
     /*! Frees a handler
      */
-    virtual ~JSAnimationCallback();
+    virtual ~JSAnimationCallback() override;
 protected:
     /*! A context to be called with handler
      */

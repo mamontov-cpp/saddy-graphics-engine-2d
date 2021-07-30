@@ -81,7 +81,7 @@ void sad::freetype::FixedSizeFont::render(
     const sad::String & s, 
     const sad::Point2D & p, 
     float ratio,
-    sad::Font::RenderFlags flags
+    int flags
 )
 {
     // sad_freetype_font_lock.lock();
@@ -93,8 +93,8 @@ void sad::freetype::FixedSizeFont::render(
     }
 
     sad::String tmp = s;
-    tmp.removeAllOccurences("\r");
-    sad::StringList list = tmp.split("\n", sad::String::KEEP_EMPTY_PARTS);
+    tmp.removeAllOccurrences("\r");
+    sad::StringList list = tmp.split("\n", sad::String::SplitBehaviour::KEEP_EMPTY_PARTS);
 
     bool previous = false;
     unsigned char prevchar = 0;
@@ -102,7 +102,7 @@ void sad::freetype::FixedSizeFont::render(
     float curx = xbegin;
     float cury = p.y() - m_bearing_y;
     float topoffset = m_height * sad::freetype::Glyph::tan_20_degrees;
-    bool italic = ((flags & sad::Font::FRF_Italic) != 0);
+    bool italic = ((flags & sad::Font::RenderFlags::FRF_Italic) != 0);
     if (!italic)
     {
         topoffset = 0;
@@ -122,7 +122,7 @@ void sad::freetype::FixedSizeFont::render(
             sad::freetype::Glyph * g = m_glyphs[curchar];
             
             g->render(curx, cury, topoffset);
-            if ((flags & sad::Font::FRF_Bold) != 0)
+            if ((flags & sad::Font::RenderFlags::FRF_Bold) != 0)
             {
                 curx += 1.0;
                 g->render(curx, cury, topoffset);
@@ -142,7 +142,7 @@ void sad::freetype::FixedSizeFont::render(
     // sad_freetype_font_lock.unlock();
 }
 
-void sad::freetype::FixedSizeFont::fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& geometries, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags, float ratio)
+void sad::freetype::FixedSizeFont::fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& geometries, const sad::String & str, const sad::Point2D & p, int flags, float ratio)
 {
     sad::Vector<double> vertexes;
     sad::Vector<double> texturecoords;
@@ -154,8 +154,8 @@ void sad::freetype::FixedSizeFont::fillGeometries(const sad::Font::GeometryRende
     }
 
     sad::String tmp = str;
-    tmp.removeAllOccurences("\r");
-    sad::StringList list = tmp.split("\n", sad::String::KEEP_EMPTY_PARTS);
+    tmp.removeAllOccurrences("\r");
+    sad::StringList list = tmp.split("\n", sad::String::SplitBehaviour::KEEP_EMPTY_PARTS);
 
     bool previous = false;
     unsigned char prevchar = 0;
@@ -163,7 +163,7 @@ void sad::freetype::FixedSizeFont::fillGeometries(const sad::Font::GeometryRende
     double curx = xbegin;
     double cury = static_cast<float>(p.y() - m_bearing_y);
     double topoffset = m_height * sad::freetype::Glyph::tan_20_degrees;
-    bool italic = ((flags & sad::Font::FRF_Italic) != 0);
+    bool italic = ((flags & sad::Font::RenderFlags::FRF_Italic) != 0);
     if (!italic)
     {
         topoffset = 0;
@@ -182,7 +182,7 @@ void sad::freetype::FixedSizeFont::fillGeometries(const sad::Font::GeometryRende
             sad::freetype::Glyph * g = m_glyphs[curchar];
 
             g->fillGeometries(curx, cury, topoffset, vertexes, texturecoords);
-            if ((flags & sad::Font::FRF_Bold) != 0)
+            if ((flags & sad::Font::RenderFlags::FRF_Bold) != 0)
             {
                 curx += 1.0;
                 g->fillGeometries(curx, cury, topoffset, vertexes, texturecoords);
@@ -214,7 +214,7 @@ sad::String sad::freetype::FixedSizeFont::dumpGlyphParameters() const
     {
         result += sad::String::number(i);
         result += ":";
-        result += m_glyphs[i]->dumpParametes();
+        result += m_glyphs[i]->dumpParameters();
     }
     return result;
 }
@@ -229,10 +229,10 @@ sad::Texture * sad::freetype::FixedSizeFont::renderToTexture(
     requestSize(library, face, height);
 
     sad::String tmp = string;
-    tmp.removeAllOccurences("\r");
-    tmp.removeAllOccurences("\n");
+    tmp.removeAllOccurrences("\r");
+    tmp.removeAllOccurrences("\n");
 
-    sad::Size2D size = this->size(string, 1.0, sad::Font::FRF_None);
+    sad::Size2D size = this->size(string, 1.0, static_cast<int>(sad::Font::RenderFlags::FRF_None));
 
     sad::Texture * texture = new sad::Texture();
     texture->width() = static_cast<unsigned int>(ceil(size.Width));
@@ -313,12 +313,12 @@ sad::Texture * sad::freetype::FixedSizeFont::renderToTexture(
 sad::Size2D sad::freetype::FixedSizeFont::size(
     const sad::String & s, 
     float ratio,
-    sad::Font::RenderFlags flags
+    int flags
 )
 {
     sad::String tmp = s;
-    tmp.removeAllOccurences("\r");
-    sad::StringList list = tmp.split("\n", sad::String::KEEP_EMPTY_PARTS);
+    tmp.removeAllOccurrences("\r");
+    sad::StringList list = tmp.split("\n", sad::String::SplitBehaviour::KEEP_EMPTY_PARTS);
 
     bool previous = false;
     unsigned char prevchar = 0;
@@ -340,11 +340,11 @@ sad::Size2D sad::freetype::FixedSizeFont::size(
             prevchar = curchar;
             previous = true;
         }
-        if ((flags & sad::Font::FRF_Bold) != 0)
+        if ((flags & sad::Font::RenderFlags::FRF_Bold) != 0)
         {
             curx += list[i].size() * 2; // 2 is bold font size
         }
-        if ((flags & sad::Font::FRF_Italic) != 0)
+        if ((flags & sad::Font::RenderFlags::FRF_Italic) != 0)
         {
             curx += m_height * sad::freetype::Glyph::tan_20_degrees;
         }

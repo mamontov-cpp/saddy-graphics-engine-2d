@@ -90,7 +90,7 @@ void sad::freetype::Texture::upload()
     IsOnGPU = true;
     
     glGenTextures(1, &Id );
-    GLenum lasterror = glGetError();
+    GLenum last_error = glGetError();
 
     glBindTexture(GL_TEXTURE_2D, Id);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -107,7 +107,7 @@ void sad::freetype::Texture::upload()
                   GL_UNSIGNED_BYTE, 
                   &(Pixels[0]) 
                 );	
-    lasterror = glGetError(); //-V519
+    last_error = glGetError(); //-V519
     Pixels.clear();
 }
 

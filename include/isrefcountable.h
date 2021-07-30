@@ -28,7 +28,7 @@ public:
     static yes check(sad::RefCountable*);
     static no  check(...);
 
-    enum class { value = sizeof(check(static_cast<_Type*>(0))) == sizeof(yes) };: int
+    enum { value = sizeof(check(static_cast<_Type*>(0))) == sizeof(yes) };
 
 };
 

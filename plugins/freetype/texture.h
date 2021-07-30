@@ -7,16 +7,22 @@
 #pragma once
 #include <ft2build.h>
 #include FT_FREETYPE_H
+// ReSharper disable once CppUnusedIncludeDirective
 #include FT_GLYPH_H
+// ReSharper disable once CppUnusedIncludeDirective
 #include FT_OUTLINE_H
+// ReSharper disable once CppUnusedIncludeDirective
 #include FT_TRIGONOMETRY_H
 #include <vector>
 
 #ifdef WIN32
     #define NOMINMAX
+    // ReSharper disable once CppUnusedIncludeDirective
     #include <windows.h>
 #endif
+// ReSharper disable once CppUnusedIncludeDirective
 #include <GL/gl.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <GL/glu.h>
 
 #include "bindable.h"
@@ -54,7 +60,7 @@ public:
     Texture();
     /*! Frees a texture id if on GPU
      */
-    virtual ~Texture();
+    virtual ~Texture() override;
     
     /*! Stores a bitmap in texture, providing necessary operations
         \param[in] bitmap a bitmap to store
@@ -65,7 +71,7 @@ public:
     void upload();
     /*! Marks texture as current
      */
-    virtual void bind();
+    virtual void bind() override;
     /*! Unloads texture from GPU
      */ 
     void unload();
@@ -92,6 +98,7 @@ public:
      *  \param[in] sx source column
      *  \param[in] sy source row
      *  \param[in] width a width data
+     *  \param[in] height a height data
      *  \param[in] bitmap source bitmap
      */
     void copySubImage(int dx, int dy, int sx, int sy, int width, int height, FT_Bitmap & bitmap);

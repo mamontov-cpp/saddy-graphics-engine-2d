@@ -30,7 +30,7 @@ public:
         \param[in] parent a parent widget
         \param[in] f window flags
      */
-    explicit OpenGLWidget(QWidget* parent = NULL, Qt::WindowFlags f = Qt::WindowFlags());
+    explicit OpenGLWidget(QWidget* parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
     /*! Destroys widget
      */
     ~OpenGLWidget();
@@ -46,55 +46,55 @@ public:
         \param[in] width width of viewport
         \param[in] height height of viewport
      */
-    virtual void resizeGL(int width, int height);
+    virtual void resizeGL(int width, int height) override;
     /*! Performs scene rendering
      */
-    virtual void paintGL();
+    virtual void paintGL() override;
     /*! Handles mouse entering event for widget
         \param[in] ev event
      */
-    virtual void enterEvent(QEvent* ev);
+    virtual void enterEvent(QEvent* ev) override;
     /*! Handles mouse wheel event for widget
         \param[in] ev event
      */
-    virtual void wheelEvent(QWheelEvent* ev);
+    virtual void wheelEvent(QWheelEvent* ev) override;
     /*! Handles mouse double click event for widget
         \param[in] ev event
      */
-    virtual void mouseDoubleClickEvent(QMouseEvent* ev);
+    virtual void mouseDoubleClickEvent(QMouseEvent* ev) override;
     /*! Handles mouse press event for widget
         \param[in] ev event	 
      */
-    virtual void mousePressEvent(QMouseEvent* ev);
+    virtual void mousePressEvent(QMouseEvent* ev) override;
     /*! Handles mouse move event for widget 
         \param[in] ev event
      */
-    virtual void mouseMoveEvent(QMouseEvent* ev);
+    virtual void mouseMoveEvent(QMouseEvent* ev) override;
     /*! Handles mouse press event for widget
         \param[in] ev event
      */
-    virtual void mouseReleaseEvent(QMouseEvent* ev);
+    virtual void mouseReleaseEvent(QMouseEvent* ev) override;
     /*! Handles mouse leaving event for widget
         \param[in] ev event
     */
-    virtual void leaveEvent(QEvent* ev);
+    virtual void leaveEvent(QEvent* ev) override;
     /*! Handles key press event for widget
         \param[in] ev event
      */
-    virtual void keyPressEvent(QKeyEvent* ev);
+    virtual void keyPressEvent(QKeyEvent* ev) override;
     /*! Handles key release event for widget
         \param[in] ev event
     */
-    virtual void keyReleaseEvent(QKeyEvent* ev);
+    virtual void keyReleaseEvent(QKeyEvent* ev) override;
     /*! Handles event for Widget
         \param[in] e event
      */
-    virtual bool event(QEvent* e);
+    virtual bool event(QEvent* e) override;
     /*! Catches events, sent to functions
         \param[in] obj object
         \param[in] ev event
      */
-    virtual bool eventFilter(QObject* obj, QEvent* ev);
+    virtual bool eventFilter(QObject* obj, QEvent* ev) override;
 public slots:
     /*! Emitted, when applications starts quitting
      */
