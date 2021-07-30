@@ -2,23 +2,17 @@
 
 #include <cstdio>
 
-fullsearchpacker::ImageArranger::Bucket::Bucket()
-{
+fullsearchpacker::ImageArranger::Bucket::Bucket() = default;
 
-}
-
-fullsearchpacker::ImageArranger::Bucket::Bucket(Texture *t, double padx, double pady)
+fullsearchpacker::ImageArranger::Bucket::Bucket(Texture *t, double pad_x, double pad_y)
 {
     this->Images << t;
     this->Size = t->size();
-    this->Size.setWidth(this->Size.width() + padx);
-    this->Size.setHeight(this->Size.height() + pady);
+    this->Size.setWidth(this->Size.width() + pad_x);
+    this->Size.setHeight(this->Size.height() + pad_y);
 }
 
-fullsearchpacker::ImageArranger::Bucket::~Bucket()
-{
-
-}
+fullsearchpacker::ImageArranger::Bucket::~Bucket() = default;
 
 void fullsearchpacker::ImageArranger::Bucket::shift(const QPointF& p) const
 {
@@ -41,7 +35,7 @@ fullsearchpacker::ImageArranger::Bucket fullsearchpacker::ImageArranger::Bucket:
     result.Images = bucket1.Images;
     result.Images << bucket2.Images;
 
-    if (order.Mode == HORIZONTAL)
+    if (order.Mode == GlueMode::HORIZONTAL)
     {
         // Handle horizontal merge
         result.Size = QSizeF(

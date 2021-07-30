@@ -6,6 +6,7 @@
 #pragma once
 #include "imagegluingorder.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QHash>
 #include <QtCore/QString>
 #include <QtCore/QVariant>
@@ -36,10 +37,10 @@ public:
         Bucket();
         /*! Creates a texture bucket
             \param[in] t texture
-            \param[in] padx x width padding
-            \param[in] pady y height padding
+            \param[in] pad_x x width padding
+            \param[in] pad_y y height padding
          */
-        Bucket(Texture *t, double padx = 0, double pady = 0);
+        Bucket(Texture *t, double pad_x = 0, double pad_y = 0);
         /*! Destroys bucket
          */
         virtual ~Bucket();

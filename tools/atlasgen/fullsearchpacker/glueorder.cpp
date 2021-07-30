@@ -1,7 +1,7 @@
 #include "glueorder.h"
 
 
-fullsearchpacker::GlueOrder::GlueOrder() : Mode(fullsearchpacker::HORIZONTAL)
+fullsearchpacker::GlueOrder::GlueOrder() : Mode(fullsearchpacker::GlueMode::HORIZONTAL)
 {
 
 }

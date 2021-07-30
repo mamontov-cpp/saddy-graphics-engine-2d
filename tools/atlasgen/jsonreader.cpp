@@ -494,7 +494,7 @@ void JSONReader::readAtlasElement(picojson::object& e, Atlas* atlas, QImage& lar
     }
 }
 
-QStringList JSONReader::removeExtension(QString name)
+QStringList JSONReader::removeExtension(const QString& name)
 {
     QStringList name_parts = name.split(".");
     if (name_parts.size() > 1) {

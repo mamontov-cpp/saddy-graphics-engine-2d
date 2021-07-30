@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
     QString config_mapping_file = QString(argv[3]) + ".cfg";
     //Open a file
     FILE * file = fopen(Q2STDSTRING(config_mapping_file).c_str(), "wt");
-    if (file == NULL)
+    if (file == nullptr)
     {
         printf("Cannot open mapping file\n");
         return 3;

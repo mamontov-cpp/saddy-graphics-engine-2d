@@ -23,7 +23,7 @@ fullsearchpacker::GlueEntry fullsearchpacker::GlueEntry::merge(
     double w = 0;
     double h = 0;
     // Handle a horizontal merge
-    if (order.Mode == HORIZONTAL)
+    if (order.Mode == GlueMode::HORIZONTAL)
     {
         w = fullsearchpacker::GlueMetric::sumMerge(entries, order, 0);
         h = fullsearchpacker::GlueMetric::maxMerge(entries, order, 1);

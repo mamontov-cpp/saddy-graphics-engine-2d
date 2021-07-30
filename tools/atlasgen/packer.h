@@ -3,6 +3,7 @@
     Describes a packer for algorithm
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QImage>
 #include "atlas.h"
 
@@ -15,7 +16,7 @@ public:
      */
     Packer();
     /*! Packs an images to atlas
-        \param[in,out] atlas a souce atlas
+        \param[in,out] atlas a source atlas
         \param[out] image an image with data of packer
      */
     virtual void pack(Atlas& atlas, QImage*& image) = 0;
@@ -27,7 +28,7 @@ public:
      */
     virtual ~Packer();
 protected:
-    /*! Copies images from specified atlas to imag
+    /*! Copies images from specified atlas to image
         \param[in] atlas an atlas
         \param[out] image an image
      */

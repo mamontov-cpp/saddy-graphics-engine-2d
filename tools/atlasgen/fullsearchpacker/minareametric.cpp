@@ -17,7 +17,7 @@ double fullsearchpacker::MinAreaMetric::getMetric(
 {
     double w = 0;
     double h = 0;
-    if (order.Mode == fullsearchpacker::HORIZONTAL)
+    if (order.Mode == fullsearchpacker::GlueMode::HORIZONTAL)
     {
         w = fullsearchpacker::GlueMetric::sumMerge(entries, order, 0);
         h = fullsearchpacker::GlueMetric::maxMerge(entries, order, 1);

@@ -6,8 +6,6 @@
 #pragma once
 #include "texture.h"
 
-#include <algorithm>
-
 #include <QtCore/QVector>
 
 
@@ -31,7 +29,7 @@ public:
     bool contains(const QString& name) const;
     /*! Returns texture by it's name
         \param[in] name name of texture
-        \return texture or NULL if not found
+        \return texture or nullptr if not found
      */
     Texture* get(const QString& name) const;
 };

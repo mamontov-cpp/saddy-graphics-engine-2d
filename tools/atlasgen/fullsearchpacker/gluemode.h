@@ -8,7 +8,7 @@
 namespace fullsearchpacker 
 {
 
-enum GlueMode
+enum class GlueMode: int
 {
     /*! Images should be merged horizontally
      */

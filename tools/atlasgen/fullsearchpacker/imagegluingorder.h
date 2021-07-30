@@ -7,6 +7,7 @@
 #pragma once
 #include "../texturearray.h"
 #include "glueorder.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QHash>
 #include <QtCore/QString>
 #include <QtCore/QVariant>

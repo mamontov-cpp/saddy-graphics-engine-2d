@@ -7,6 +7,7 @@
 
 #include "../../include/maybe.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include "texturearray.h"
 
 #include <QtCore/QRectF>

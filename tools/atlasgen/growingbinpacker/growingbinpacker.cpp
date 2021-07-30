@@ -9,18 +9,18 @@
 growingbinpacker::GrowingBinPacker::T::T() :
 m_width(0.0),
 m_height(0.0),
-m_t(NULL)
+m_t(nullptr)
 {
     
 }
 
-growingbinpacker::GrowingBinPacker::T::T(Texture* t, double padx, double pady) :
+growingbinpacker::GrowingBinPacker::T::T(Texture* t, double pad_x, double pad_y) :
 m_width(0.0),
 m_height(0.0),
 m_t(t)
 {
-    m_width = t->Image.width() + padx;
-    m_height = t->Image.height() + pady;
+    m_width = t->Image.width() + pad_x;
+    m_height = t->Image.height() + pad_y;
 }
 
 double growingbinpacker::GrowingBinPacker::T::width() const

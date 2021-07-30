@@ -20,7 +20,6 @@ class GlueMetric
 {
 public:
     /*! A size pair to be indexed
-        \param[in] size pair
      */
     typedef GlueEntry SizePair;
     /*! A pair of order and size
@@ -62,7 +61,7 @@ public:
      */
     QPair<MaybeNumber, fullsearchpacker::GlueMetric::OrdersAndSize>
     static findMinimumOrder(
-        const QPair<MaybeNumber, fullsearchpacker::GlueMetric::OrdersAndSize> start,
+        const QPair<MaybeNumber, fullsearchpacker::GlueMetric::OrdersAndSize>& start,
         const fullsearchpacker::GlueMetric::OrdersAndSize  & results
     );
     /*! Computes a maximum between size dimensions specified by index between images, specified by order

@@ -25,10 +25,10 @@ public:
     T();
     /*! Creates a new texture wrapper for texture
         \param[in] t texture
-        \param[in] padx horizontal padding
-        \param[in] pady vertical padding
+        \param[in] pad_x horizontal padding
+        \param[in] pad_y vertical padding
      */
-    T(Texture* t, double padx = 0, double pady = 0);
+    T(Texture* t, double pad_x = 0, double pad_y = 0);
     /*! Returns width for texture
         \return width
      */
@@ -67,8 +67,8 @@ public:
         \param[in] y y value
         \param[in] width width
         \param[in] height height
-        \param[in] px
-        \param[in] py
+        \param[in] px pad x
+        \param[in] py pad y
      */
     void copy_from(
         growingbinpacker::GrowingBinPacker::T block,
@@ -97,10 +97,10 @@ protected:
      */
     virtual ~GrowingBinPacker();
     /*! Packs an images to atlas
-        \param[in,out] atlas a souce atlas
+        \param[in,out] atlas a source atlas
         \param[out] image an image with data of packer
      */
-    virtual void pack(Atlas& atlas, QImage*& image);
+    virtual void pack(Atlas& atlas, QImage*& image) override;
 };
 
 }

@@ -7,9 +7,12 @@
 #include "atlas.h"
 #include "writer.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QFile>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QTextStream>
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../../include/3rdparty/picojson/valuetotype.h"
 
 
@@ -25,12 +28,12 @@ public:
      */
     virtual ~JSONWriter();
     /*! Writes an atlas to output file
-        \param[in] name a reading name
-        \param[in, out] opts options
+        \param[in] atlas atlas data
+        \param[in,out] opts options
         \return result
      */
     virtual bool write(
         const Atlas& atlas,
         OutputOptions& opts
-    );
+    ) override;
 };

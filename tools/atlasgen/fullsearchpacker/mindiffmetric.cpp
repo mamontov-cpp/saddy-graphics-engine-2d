@@ -29,7 +29,7 @@ double fullsearchpacker::MinDiffMetric::getMetric(
     {
         size_t maxi = 0;
         size_t minj = 0;
-        size_t index = (order.Mode == HORIZONTAL)? 1 : 0;
+        size_t index = (order.Mode == GlueMode::HORIZONTAL)? 1 : 0;
         for(size_t i = 0; i < localentries.size(); i++)
         {
             if (localentries[i][index] > localentries[maxi][index])
@@ -42,7 +42,7 @@ double fullsearchpacker::MinDiffMetric::getMetric(
             }
         }
 
-        if (order.Mode == HORIZONTAL)
+        if (order.Mode == GlueMode::HORIZONTAL)
         {
             w = localentries[minj][0];
             h = localentries[maxi][1] - localentries[minj][1];

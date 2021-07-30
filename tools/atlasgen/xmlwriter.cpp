@@ -5,6 +5,11 @@
 
 #include "../../include/3rdparty/tar7z/include/reader.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomNode>
+// ReSharper disable once CppUnusedIncludeDirective
+#include <QtXml/QDomElement>
 
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>

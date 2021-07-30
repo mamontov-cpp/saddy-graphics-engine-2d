@@ -20,7 +20,7 @@ public:
      */
     virtual ~Writer();
     /*! Writes an atlas to output file
-        \param[in] name a reading name
+        \param[in] atlas an atlas to write
         \param[in, out] opts options
         \return result
      */

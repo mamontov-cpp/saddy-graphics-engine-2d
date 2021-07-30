@@ -4,8 +4,10 @@
     Defines a simple atlas as stored in file
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QHash>
 #include <QtCore/QString>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QVariant>
 #include "atlasentry.h"
 #include "texturearray.h"
@@ -28,7 +30,7 @@ public:
      */
     bool hasEntry(const QString& name, const sad::Maybe<int>& index);
     /*! Adds new entry to the atlas
-        \param[in] entry. An entry to be added to atlas
+        \param[in] entry An entry to be added to atlas
      */
     void pushEntry(const AtlasEntry& entry);
     /*! Returns texture array for atlas
@@ -53,7 +55,7 @@ public:
      */
     void prepareForOutput(const OutputOptions& options);
     /*! Sets output name for config
-        \param[in] a name for output config
+        \param[in] name  name for output config
      */
     void setOutputName(const QString& name);
     /*! Returns output name
@@ -62,7 +64,7 @@ public:
     const QString& outputName() const;
     /*! Sets output texture file name for config
         \param[in] name a file name for output texture
-        \param[in] ignore_settings whether we should ignore settings adnd set the name anyway
+        \param[in] ignore_settings whether we should ignore settings and set the name anyway
      */
     void setOutputTexture(const QString& name, bool ignore_settings = false);
     /*! Returns output texture file name

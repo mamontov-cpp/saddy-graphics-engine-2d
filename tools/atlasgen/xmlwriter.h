@@ -7,11 +7,6 @@
 #include "atlas.h"
 #include "writer.h"
 
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomNode>
-#include <QtXml/QDomElement>
-
-
 /*! Writes output atlas config as XML
  */
 class XMLWriter: public Writer
@@ -24,7 +19,7 @@ public:
      */
     virtual ~XMLWriter();
     /*! Writes an atlas to output file
-        \param[in] name a reading name
+        \param[in] atlas an atlas to write
         \param[in, out] opts options
         \return result
      */

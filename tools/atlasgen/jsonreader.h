@@ -7,7 +7,9 @@
 #include "atlas.h"
 #include "reader.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QFile>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 
@@ -30,7 +32,7 @@ public:
      *  \param[in] name a reading name
      *  \param[in,out] atlas an  atlas to be read
      */
-    virtual void read(const QString& name, Atlas* atlas);
+    virtual void read(const QString& name, Atlas* atlas) override;
     /*! Reads file as already created atlas
      *  \param[in] name an input name
      *  \param[in] ro object
@@ -55,8 +57,8 @@ public:
     void readAtlasElement(picojson::object& e, Atlas* atlas, QImage& large);
     /**
      * Removes extension from name
-     * \param[in] name
+     * \param[in] name string, from which extension should be removed
      * \return name parts
      */
-    QStringList removeExtension(QString name);
+    static QStringList removeExtension(const QString& name);
 };

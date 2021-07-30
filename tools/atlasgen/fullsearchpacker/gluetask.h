@@ -4,6 +4,7 @@
     A task, which is used by metrics to find recursively an order.
     A metric must merge all +entries+ into one, extending +orders+ array
  */
+#pragma once
 #include "glueentry.h"
 #include "glueorder.h"
 
@@ -27,7 +28,7 @@ public:
     /*! Constructs empty glue task
      */
     GlueTask();
-    /*! Contructs new task
+    /*! Constructs new task
         \param[in] entries an entries list
         \param[in] orders an orders list
      */

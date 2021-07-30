@@ -6,7 +6,9 @@
 #pragma once
 #include "atlas.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QFile>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QTextStream>
 
 

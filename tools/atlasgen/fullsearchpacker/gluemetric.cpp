@@ -53,8 +53,8 @@ QVector<fullsearchpacker::GlueOrder> fullsearchpacker::GlueMetric::findMinMetric
         for(size_t i2 = i1 + 1; i2 < entries.size(); i2++)
         {
             QVector<fullsearchpacker::GlueOrder> combinations;
-            combinations << fullsearchpacker::GlueOrder(i1, i2, HORIZONTAL);
-            combinations << fullsearchpacker::GlueOrder(i1, i2, VERTICAL);
+            combinations << fullsearchpacker::GlueOrder(i1, i2, GlueMode::HORIZONTAL);
+            combinations << fullsearchpacker::GlueOrder(i1, i2, GlueMode::VERTICAL);
 
             for(size_t j = 0; j < combinations.size(); j++)
             {
@@ -144,7 +144,7 @@ fullsearchpacker::GlueMetric::OrdersAndSize fullsearchpacker::GlueMetric::findOr
 
 QPair<MaybeNumber, fullsearchpacker::GlueMetric::OrdersAndSize>
 fullsearchpacker::GlueMetric::findMinimumOrder(
-    const QPair<MaybeNumber, fullsearchpacker::GlueMetric::OrdersAndSize> start,
+    const QPair<MaybeNumber, fullsearchpacker::GlueMetric::OrdersAndSize>& start,
     const fullsearchpacker::GlueMetric::OrdersAndSize & result
 )
 {

@@ -19,7 +19,7 @@ bool TextureArray::pushUnique(Texture* t)
 {
     if (!t)
     {
-        throw std::runtime_error("TextureArray::pushUnique: Texture must be not NULL");
+        throw std::runtime_error("TextureArray::pushUnique: Texture must be not nullptr");
     }
     if (contains(t->Name))
     {
@@ -50,5 +50,5 @@ Texture* TextureArray::get(const QString& name) const
             return (*this)[i];
         }
     }
-    return NULL;
+    return nullptr;
 }

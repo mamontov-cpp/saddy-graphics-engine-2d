@@ -28,7 +28,7 @@ public:
     virtual double getMetric(
         const QVector<fullsearchpacker::GlueEntry>& entries,
         const fullsearchpacker::GlueOrder& order
-    );
+    ) override;
 };
 
 }

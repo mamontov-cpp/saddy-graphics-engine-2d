@@ -299,7 +299,7 @@ void tryPrepareForTarWriting(OutputOptions& options)
 
         options.Archive = new tar7z::Archive();
         tar7z::Reader reader;
-        if (reader.read(tarfilename.toStdString(), *(options.Archive)) != tar7z::T7ZE_OK)
+        if (reader.read(tarfilename.toStdString(), *(options.Archive)) != tar7z::Error::T7ZE_OK)
         {
             printf("%s\n", "Unable to read archive. Initializing new empty archive");
             delete options.Archive;
@@ -320,7 +320,7 @@ void tryPerformTarWriting(OutputOptions& options)
         tar7z::Writer writer;
         QString tarfilename =  (*(options.ProgramOptions))["write-to-tar"].toString();
         tar7z::Error e = writer.write(tarfilename.toStdString(), *(options.Archive));
-        if (e != tar7z::T7ZE_OK)
+        if (e != tar7z::Error::T7ZE_OK)
         {
             options.ReturnCode = 6;
             printf("%s\n", "Unable to write archive");
@@ -550,12 +550,12 @@ Options:\n\
         else
         {
             OutputOptions opts;
-            opts.Archive = NULL;
+            opts.Archive = nullptr;
             opts.ProgramOptions = &program_options;
             opts.ReturnCode = 0;
             Atlas atlas;
             atlas.toggleFlagForChangingOutputPropertiesOnlyOnce(take_first);
-            Reader* reader = NULL;
+            Reader* reader = nullptr;
             if (program_options["format"].value<QString>() == "xml")
             {
                 reader = new XMLReader();
@@ -606,7 +606,7 @@ Options:\n\
                 }
                 atlas.prepareForOutput(opts);
 
-                Writer* writer = NULL;
+                Writer* writer = nullptr;
                 if (program_options["format"].value<QString>() == "xml")
                 {
                     writer = new XMLWriter();

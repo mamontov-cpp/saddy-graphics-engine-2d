@@ -21,10 +21,10 @@ public:
      */
     virtual ~FullSearchPacker();
     /*! Packs an images to atlas
-        \param[in,out] atlas a souce atlas
+        \param[in,out] atlas a source atlas
         \param[out] image an image with data of packer
      */
-    virtual void pack(Atlas& atlas, QImage*& image);
+    virtual void pack(Atlas& atlas, QImage*& image) override;
 };
 
 }
