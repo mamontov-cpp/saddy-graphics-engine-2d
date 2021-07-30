@@ -18,7 +18,7 @@ class CollisionTest;
 /*! A bounce solver allows to easily solve problems with 
     bouncing of various objects. 
     
-    Due to hard problems with fastly changed forces it is HIGHLY recommended, that
+    Due to hard problems with fast changed forces it is HIGHLY recommended, that
     objects must be checked for collision with p2d::CollisionTest, before calling a
     bounce. 
  */
@@ -62,7 +62,7 @@ public:
     {
         m_restitution_coefficient = value;
     }
-    /*! Returns restitution coefficien for two objects. A coefficient will be  restored to 1,
+    /*! Returns restitution coefficient for two objects. A coefficient will be  restored to 1,
      *  after performing bounce. If you set coefficient to 1, bounce solver will work with
      *  bouncing as absolutely elastic, 0 - absolutely inelastic
      *  \return flag value
@@ -200,11 +200,11 @@ public:
         can and will cause some strange artifacts, in case, when we went too deep into
         other body, so use it wisely. It could sometimes solve issues, when spawned body
         is already in other body
-        \return a flag velu
+        \return a flag value
      */
     bool getIgnoreNegativeTOIFlag() const;
 protected:
-    p2d::FindContactPoints * m_find;  //!< Current algorithm for finding a contact poinnts
+    p2d::FindContactPoints * m_find;  //!< Current algorithm for finding a contact points
     p2d::Body * m_first;   //!< First body to test against
     p2d::Body * m_second;  //!< Second body to test against
     
@@ -258,7 +258,7 @@ protected:
     bool inelasticBounceWithFixedSecondBody(sad::p2d::Body* b1, sad::p2d::Body* b2);
     /*! Returns list of bodies to recompute collisions with
         \param[in] position a list of positions
-        \return
+        \return list of bodies
      */
     sad::Vector<sad::p2d::Body*> getBodiesToRecomputeCollisionsWith(size_t position) const;
     /*! Reshedules first bodies position after inelastic bounce

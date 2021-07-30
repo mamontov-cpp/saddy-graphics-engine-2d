@@ -884,7 +884,7 @@ sad::layouts::Grid& sad::layouts::Grid::operator=(const sad::layouts::Grid& o)
     return *this;
 }
 
-void sad::layouts::Grid::expandRows(size_t oldrows, size_t newrows)
+void sad::layouts::Grid::expandRows(size_t old_rows, size_t new_rows)
 {
     sad::db::Database* db = nullptr;
     sad::db::Table* table = this->table();
@@ -892,7 +892,7 @@ void sad::layouts::Grid::expandRows(size_t oldrows, size_t newrows)
     {
         db = table->database();
     }
-    for(size_t row = oldrows; row < newrows; row++)
+    for(size_t row = old_rows; row < new_rows; row++)
     {
         for(size_t col = 0; col < m_cols; col++)
         {
@@ -910,13 +910,13 @@ void sad::layouts::Grid::expandRows(size_t oldrows, size_t newrows)
     }
     CellComparator less;
     std::sort(m_cells.begin(), m_cells.end(), less);
-    makeCellViews(&newrows, nullptr);
+    makeCellViews(&new_rows, nullptr);
 }
 
-void sad::layouts::Grid::shrinkRows(size_t oldrows, size_t newrows)
+void sad::layouts::Grid::shrinkRows(size_t old_rows, size_t new_rows)
 {
     sad::Vector<sad::layouts::Cell*> toberemoved;
-    for(size_t row = oldrows - 1; row >= newrows; row--)
+    for(size_t row = old_rows - 1; row >= new_rows; row--)
     {
         for(size_t col = 0; col < m_cols; col++)
         {
@@ -943,10 +943,10 @@ void sad::layouts::Grid::shrinkRows(size_t oldrows, size_t newrows)
     }
     CellComparator less;
     std::sort(m_cells.begin(), m_cells.end(), less);
-    makeCellViews(&newrows, nullptr);
+    makeCellViews(&new_rows, nullptr);
 }
 
-void sad::layouts::Grid::expandColumns(size_t oldcols, size_t newcols)
+void sad::layouts::Grid::expandColumns(size_t old_cols, size_t new_cols)
 {
     sad::db::Database* db = nullptr;
     sad::db::Table* table = this->table();
@@ -954,7 +954,7 @@ void sad::layouts::Grid::expandColumns(size_t oldcols, size_t newcols)
     {
         db = table->database();
     }
-    for(size_t col = oldcols; col < newcols; col++)
+    for(size_t col = old_cols; col < new_cols; col++)
     {
         for(size_t row = 0; row < m_rows; row++)
         {
@@ -972,13 +972,13 @@ void sad::layouts::Grid::expandColumns(size_t oldcols, size_t newcols)
     }
     CellComparator less;
     std::sort(m_cells.begin(), m_cells.end(), less);
-    makeCellViews(nullptr, &newcols);
+    makeCellViews(nullptr, &new_cols);
 }
 
-void sad::layouts::Grid::shrinkColumns(size_t oldcols, size_t newcols)
+void sad::layouts::Grid::shrinkColumns(size_t old_cols, size_t new_cols)
 {
     sad::Vector<sad::layouts::Cell*> toberemoved;
-    for(size_t col = oldcols - 1; col >= newcols; col--)
+    for(size_t col = old_cols - 1; col >= new_cols; col--)
     {
         for(size_t row = 0; row < m_rows; row++)
         {
@@ -1005,20 +1005,20 @@ void sad::layouts::Grid::shrinkColumns(size_t oldcols, size_t newcols)
     }
     CellComparator less;
     std::sort(m_cells.begin(), m_cells.end(), less);
-    makeCellViews(nullptr, &newcols);
+    makeCellViews(nullptr, &new_cols);
 }
 
-void sad::layouts::Grid::makeCellViews(size_t* prows, size_t* pcols)
+void sad::layouts::Grid::makeCellViews(size_t* p_rows, size_t* p_cols)
 {
     size_t rows = m_rows;
     size_t cols = m_cols;
-    if (prows)
+    if (p_rows)
     {
-        rows = *prows;
+        rows = *p_rows;
     }
-    if (pcols)
+    if (p_cols)
     {
-        cols = *pcols;
+        cols = *p_cols;
     }
     m_cell_views.clear();
     sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > > coverage;
@@ -1108,7 +1108,7 @@ void sad::layouts::Grid::buildCoverage(sad::Hash<size_t, sad::Hash<size_t, sad::
     }
 }
 
-sad::layouts::Cell* sad::layouts::Grid::makeCell(size_t row, size_t col, size_t rowspan, size_t colspan)
+sad::layouts::Cell* sad::layouts::Grid::makeCell(size_t row, size_t col, size_t row_span, size_t col_span)
 {
     sad::db::Database* db = nullptr;
     if (this->table())
@@ -1124,8 +1124,8 @@ sad::layouts::Cell* sad::layouts::Grid::makeCell(size_t row, size_t col, size_t 
     newcell->setPaddingRight(m_padding_right, false);
     newcell->Row = row;
     newcell->Col = col;
-    newcell->setRowSpan(rowspan);
-    newcell->setColSpan(colspan);
+    newcell->setRowSpan(row_span);
+    newcell->setColSpan(col_span);
 
     return newcell;
 }
@@ -1134,13 +1134,13 @@ sad::layouts::Cell* sad::layouts::Grid::makeCell(size_t row, size_t col, size_t 
 void sad::layouts::Grid::cellsAffectedByRegion(
     size_t row, 
     size_t col, 
-    size_t rowspan, 
-    size_t colspan,
+    size_t row_span, 
+    size_t col_span,
     sad::Hash<size_t, sad::layouts::Cell*>& affected_cells
 )
 {
-    size_t rangerowmax = row + rowspan - 1;
-    size_t rangecolmax = col + colspan - 1;
+    size_t rangerowmax = row + row_span - 1;
+    size_t rangecolmax = col + col_span - 1;
     for(size_t i = 0; i < m_cells.size(); i++)
     {
         unsigned int rowmin = m_cells[i]->Row;
@@ -1158,15 +1158,15 @@ void sad::layouts::Grid::cellsAffectedByRegion(
 void sad::layouts::Grid::recalculateSpansOfAffectedCells(
     size_t row, 
     size_t col, 
-    size_t rowspan, 
-    size_t colspan,
+    size_t row_span, 
+    size_t col_span,
     bool merge,
     const sad::Hash<size_t, sad::layouts::Cell*>& affected_cells,
     sad::Vector<sad::layouts::Cell*>& to_be_erased
 )
 {
-    size_t rangerowmax = row + rowspan - 1;
-    size_t rangecolmax = col + colspan - 1;
+    size_t rangerowmax = row + row_span - 1;
+    size_t rangecolmax = col + col_span - 1;
     for(sad::Hash<size_t, sad::layouts::Cell*>::const_iterator it = affected_cells.const_begin(); it != affected_cells.const_end(); ++it) {
         sad::layouts::Cell* cell = it.value();
         unsigned int rowmin = cell->Row;

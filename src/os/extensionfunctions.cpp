@@ -92,7 +92,7 @@ void sad::os::ExtensionFunctions::setParent(sad::OpenGL* ogl)
     m_parent = ogl;
 }
 
-#define TRY_GET_PROC_ADDRESS(TYPE, VARIABLE)  m_##VARIABLE = reinterpret_cast< TYPE >(getProcAdress(#VARIABLE)); m_init = m_init && (m_##VARIABLE != nullptr); if (m_##VARIABLE == nullptr) this->showGetProcAddressFailedError(#VARIABLE);
+#define TRY_GET_PROC_ADDRESS(TYPE, VARIABLE)  m_##VARIABLE = reinterpret_cast< TYPE >(getProcAddress(#VARIABLE)); m_init = m_init && (m_##VARIABLE != nullptr); if (m_##VARIABLE == nullptr) this->showGetProcAddressFailedError(#VARIABLE);
 
 void sad::os::ExtensionFunctions::tryInit()
 {

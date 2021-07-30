@@ -54,7 +54,7 @@ public:
     /*! Maps a point from client coordinates to OpenGL viewport
         \param[in] p point
         \param[in] ztest whether ztesting should be performed
-        \return mapped point in vierport
+        \return mapped point in viewport
      */
     virtual sad::Point3D mapToViewport(const sad::Point2D & p, bool ztest = false);
     /*! Returns current OpenGL context

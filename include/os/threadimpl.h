@@ -78,7 +78,7 @@ public:
      */
     void wait(unsigned int milliseconds);
     /*! Tests, whether thread  is finished
-        \param[in] whether thread finished his job
+        \return whether thread finished his job
      */
     bool running() const;
 protected:

@@ -12,6 +12,7 @@
 // ReSharper disable once CppInconsistentNaming
 #define TAR7Z_SADDY  // NOLINT(clang-diagnostic-unused-macros)
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include "3rdparty/tar7z/include/tar.h"
 #include "3rdparty/tar7z/include/reader.h"
 
@@ -23,7 +24,7 @@ m_root(new sad::resource::Folder()),
 m_temporary_root_folder(nullptr), 
 m_factory(new sad::resource::Factory()),
 m_renderer(r),
-m_storelinks(false)
+m_store_links(false)
 {
     if (r == nullptr)
     {
@@ -189,15 +190,15 @@ sad::Maybe<sad::String> sad::resource::Tree::tryLoadFromFile(const sad::String &
 
 
 sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
-        const sad::String& typehint, 
+        const sad::String& type_hint, 
         const sad::String& filename, 
-        const sad::Maybe<sad::String>& resourcename
+        const sad::Maybe<sad::String>& resource_name
 )
 {
     return load(
-        typehint, 
+        type_hint, 
         filename, 
-        resourcename, 
+        resource_name, 
         m_root, 
         picojson::value(picojson::null_type, false), 
         m_files
@@ -205,9 +206,9 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
 }
 
 sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
-    const sad::String& typehint, 
+    const sad::String& type_hint, 
     const sad::String& filename, 
-    const sad::Maybe<sad::String>& resourcename,
+    const sad::Maybe<sad::String>& resource_name,
     sad::resource::Folder * store,
     const picojson::value & v,
     sad::Vector<sad::resource::ResourceFile *> & files
@@ -226,16 +227,16 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
     if (resourcedescription.is<picojson::object>() == false)
     {
         resourcedescription = picojson::object();
-        resourcedescription.insert("type", picojson::value(typehint));
+        resourcedescription.insert("type", picojson::value(type_hint));
         resourcedescription.insert("filename", picojson::value(newfilename));
-        if (resourcename.exists())
+        if (resource_name.exists())
         {
-            resourcedescription.insert("name", picojson::value(resourcename.value()));
+            resourcedescription.insert("name", picojson::value(resource_name.value()));
         }
     }
 
     // Try create physical file
-    sad::resource::ResourceFile * file = m_factory->fileByType(typehint);
+    sad::resource::ResourceFile * file = m_factory->fileByType(type_hint);
     // First of all file could not be created sometimes
     const int tar7zlength = 6;
     bool isTar7z = newfilename.startsWith("tar7z:", tar7zlength);
@@ -243,16 +244,16 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
     {
         file->setTree(this);
         file->setName(newfilename);
-        sad::resource::Resource  * resource = m_factory->create(typehint);
+        sad::resource::Resource  * resource = m_factory->create(type_hint);
         // Sometimes a resource takes care of loading itself, otherwise it could be done
         // via file
         if (resource)
         {
-            resource->setFactoryName(typehint);
+            resource->setFactoryName(type_hint);
             bool ok = false;
             if (!isTar7z || resource->supportsLoadingFromTar7z())
             {
-                ok = resource->tryLoad(*file, m_renderer, resourcedescription , m_storelinks);
+                ok = resource->tryLoad(*file, m_renderer, resourcedescription , m_store_links);
             }
             // Sometimes loading of resource could fail
             if (ok)
@@ -260,18 +261,18 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
                 file->add(resource);
                 resource->setPhysicalFile(file);
                 // Whend appending a resource, resource could be anonymous
-                if (resourcename.exists())
+                if (resource_name.exists())
                 {
                     // Sometimes resource could be duplicated
-                    if (temporary->resource(resourcename.value()) != nullptr)
+                    if (temporary->resource(resource_name.value()) != nullptr)
                     {
-                        errors << new sad::resource::ResourceAlreadyExists(resourcename.value());
+                        errors << new sad::resource::ResourceAlreadyExists(resource_name.value());
                         delete resource;
                     }
                     else
                     {
-                        resource->setName(resourcename.value());
-                        temporary->addResource(resourcename.value(), resource);
+                        resource->setName(resource_name.value());
+                        temporary->addResource(resource_name.value(), resource);
                     }
                 }
                 else
@@ -289,9 +290,9 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
                 }
                 delete resource;
                 sad::String fileerrorname = filename;
-                if (resourcename.exists())
+                if (resource_name.exists())
                 {
-                    fileerrorname = resourcename.value();
+                    fileerrorname = resource_name.value();
                 }
                 if (unsupported)
                 {
@@ -318,7 +319,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
     }
     else
     {
-        errors << new sad::resource::UnregisteredFileType(typehint);
+        errors << new sad::resource::UnregisteredFileType(type_hint);
     }
 
     // Cleanup all state or try to copy all data, if errors not found 
@@ -436,7 +437,7 @@ const sad::Vector<sad::resource::ResourceFile*>& sad::resource::Tree::files() co
     return m_files;
 }
 
-sad::resource::Factory* sad::resource::Tree::factory()
+sad::resource::Factory* sad::resource::Tree::factory() const
 {
     return m_factory;
 }
@@ -459,12 +460,12 @@ sad::Renderer * sad::resource::Tree::renderer() const
 
 bool sad::resource::Tree::shouldStoreLinks() const
 {
-    return m_storelinks;
+    return m_store_links;
 }
 
 void sad::resource::Tree::setStoreLinks(bool store)
 {
-    m_storelinks = store;
+    m_store_links = store;
 }
 
 sad::Vector<sad::resource::Error *> sad::resource::Tree::duplicatesToErrors(
@@ -489,9 +490,9 @@ void sad::resource::Tree::unloadResourcesFromGPU()
     this->root()->unloadResourcesFromGPU();
 }
 
-tar7z::Entry* sad::resource::Tree::archiveEntry(const sad::String& archive, const sad::String filename, bool loadnew)
+tar7z::Entry* sad::resource::Tree::archiveEntry(const sad::String& archive, const sad::String& filename, bool load_new)
 {
-    if (m_archives.contains(archive) && !loadnew)
+    if (m_archives.contains(archive) && !load_new)
     {
         return m_archive_list[m_archives[archive]]->file(filename);
     }

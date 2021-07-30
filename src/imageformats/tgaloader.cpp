@@ -84,10 +84,7 @@ bool sad::imageformats::TGALoader::load(tar7z::Entry* entry, sad::Texture* textu
     return result;
 }
 
-sad::imageformats::TGALoader::~TGALoader()
-{
-
-}
+sad::imageformats::TGALoader::~TGALoader() = default;
 
 bool sad::imageformats::TGALoader::load(sad::Texture* texture)
 {

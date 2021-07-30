@@ -3,11 +3,11 @@
 #include <3rdparty/format/format.h>
 #include <db/dbtypename.h>
 
-sad::log::ConsoleTarget::ConsoleTarget(const sad::String & format, int minpriority,  bool colored , bool allocate_console )
+sad::log::ConsoleTarget::ConsoleTarget(const sad::String & format, int min_priority,  bool colored , bool allocate_console )
 : m_console(new sad::os::ConsoleImpl())
 {
     m_format = format;
-    m_min_priority = minpriority;
+    m_min_priority = min_priority;
     if (colored)    this->createColoredOutput(); 
     else            this->createNormalOutput();
     if (allocate_console) 
@@ -19,8 +19,8 @@ void sad::log::ConsoleTarget::receive(const sad::log::Message & message)
     if (((int)message.priority()) < m_min_priority)
         return;
     std::string mesg = str(fmt::Format(m_format) 
-                           << message.stime() 
-                           << message.spriority()
+                           << message.timeAsString() 
+                           << message.priorityAsString()
                            << formatSubsystem(message)
                            << formatFileLine(message)
                            << message.message()

@@ -38,7 +38,7 @@ public:
          \return line if can construct
       */
      static InfiniteLine appliedVector(const p2d::Point & p, const p2d::Vector & v);
-     /*! Computes an intersection with infinte line.
+     /*! Computes an intersection with infinite line.
          If line matches other line, random point is returned
          \param[in] a other line
          \return point if has one
@@ -80,7 +80,7 @@ private:
      p2d::Point randomPoint() const;
 };
 
-/*! Computes intesection of two cutters if can
+/*! Computes intersection of two cutters if can
     \param[in] a first cutter
     \param[in] b second cutter
     \return point if can be computed

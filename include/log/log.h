@@ -6,10 +6,13 @@
 #pragma once
 #include "priority.h"
 #include "stringcaster.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "color.h"
 #include "logmessage.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "filetarget.h"
 #include "consoletarget.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "logscope.h"
 
 #include "../sadvector.h"
@@ -51,153 +54,153 @@ public:
      */
     virtual sad::log::Log & removeTarget(sad::log::Target * t);
     /*! Broadcasts a message of priority FATAL to all targets
-        \param[in] mesg message
+        \param[in] message message
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */
     template<typename T> 
-    void fatal(const T & mesg, const char * file = nullptr, int line = 0)
+    void fatal(const T & message, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(mesg, sad::log::Priority::FATAL, file, line);
+        _createAndBroadcast(message, sad::log::Priority::FATAL, file, line);
     }
     /*! Broadcasts a message of priority CRITICAL to all targets
-        \param[in] mesg message
+        \param[in] message message
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */
     template<typename T> 
-    void critical(const T & mesg, const char * file = nullptr, int line = 0)
+    void critical(const T & message, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(mesg, sad::log::Priority::CRITICAL, file, line);
+        _createAndBroadcast(message, sad::log::Priority::CRITICAL, file, line);
     }
     /*! Broadcasts a message of priority WARNING to all targets
-        \param[in] mesg message
+        \param[in] message message
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */		
     template<typename T> 
-    void warning(const T & mesg, const char * file = nullptr, int line = 0)
+    void warning(const T & message, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(mesg, sad::log::Priority::WARNING, file, line);
+        _createAndBroadcast(message, sad::log::Priority::WARNING, file, line);
     }
     /*! Broadcasts a message of priority MESSAGE to all targets
-        \param[in] mesg message
+        \param[in] message message
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */		
     template<typename T> 
-    void message(const T & mesg, const char * file = nullptr, int line = 0)
+    void message(const T & message, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(mesg, sad::log::Priority::MESSAGE, file, line);
+        _createAndBroadcast(message, sad::log::Priority::MESSAGE, file, line);
     }
     /*! Broadcasts a message of priority DEBUG to all targets
-        \param[in] mesg message
+        \param[in] message message
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */		
     template<typename T> 
-    void debug(const T & mesg, const char * file = nullptr, int line = 0)
+    void debug(const T & message, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(mesg, sad::log::Priority::DEBUG, file, line);
+        _createAndBroadcast(message, sad::log::Priority::DEBUG, file, line);
     }
     /*! Broadcasts a message of user priority to all targets
-        \param[in] mesg message
+        \param[in] message message
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
         \param[in] user a user priority name
      */		
     template<typename T> 
     void user(
-        const T & mesg, 
+        const T & message, 
         const char * file = nullptr, 
         int line = 0, 
         const sad::String & user =  sad::String()
     )
     {
-        _createAndBroadcast(mesg, sad::log::Priority::USER, file, line, user);
+        _createAndBroadcast(message, sad::log::Priority::USER, file, line, user);
     }
     /*! Broadcasts a message of SADDY_INTERNAL to all targets
-        \param[in] mesg message
+        \param[in] message message
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */		
     template<typename T> 
     void saddyInternal(
-        const T & mesg, 
+        const T & message, 
         const char * file = nullptr, 
         int line = 0
     )
     {
-        _createAndBroadcast(mesg, sad::log::Priority::SADDY_INTERNAL, file, line);
+        _createAndBroadcast(message, sad::log::Priority::SADDY_INTERNAL, file, line);
     }
     /*! Broadcasts a message of priority FATAL to all targets
-        \param[in] mesg message
+        \param[in] message message
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */
-    void fatal(const char * mesg, const char * file = nullptr, int line = 0)
+    void fatal(const char * message, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(sad::String(mesg), sad::log::Priority::FATAL, file, line);
+        _createAndBroadcast(sad::String(message), sad::log::Priority::FATAL, file, line);
     }
     /*! Broadcasts a message of priority CRITICAL to all targets
-        \param[in] mesg message
+        \param[in] message message
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */
-    void critical(const char * mesg, const char * file = nullptr, int line = 0)
+    void critical(const char * message, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(sad::String(mesg), sad::log::Priority::CRITICAL, file, line);
+        _createAndBroadcast(sad::String(message), sad::log::Priority::CRITICAL, file, line);
     }
     /*! Broadcasts a message of priority WARNING to all targets
-        \param[in] mesg message
+        \param[in] message message
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */		
-    void warning(const char * mesg, const char * file = nullptr, int line = 0)
+    void warning(const char * message, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(sad::String(mesg), sad::log::Priority::WARNING, file, line);
+        _createAndBroadcast(sad::String(message), sad::log::Priority::WARNING, file, line);
     }
     /*! Broadcasts a message of priority MESSAGE to all targets
-        \param[in] mesg message
+        \param[in] message message
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */		
-    void message(const char * mesg, const char * file = nullptr, int line = 0)
+    void message(const char * message, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(sad::String(mesg), sad::log::Priority::MESSAGE, file, line);
+        _createAndBroadcast(sad::String(message), sad::log::Priority::MESSAGE, file, line);
     }
     /*! Broadcasts a message of priority DEBUG to all targets
-        \param[in] mesg message
+        \param[in] message message
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */		
-    void debug(const char  * mesg, const char * file = nullptr, int line = 0)
+    void debug(const char  * message, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(sad::String(mesg), sad::log::Priority::DEBUG, file, line);
+        _createAndBroadcast(sad::String(message), sad::log::Priority::DEBUG, file, line);
     }
     /*! Broadcasts a message of user priority to all targets
-        \param[in] mesg message
+        \param[in] message message
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
         \param[in] user a user priority name
      */		
-    void user(const char *  mesg, const char * file = nullptr, int line = 0, const sad::String & user =  sad::String())
+    void user(const char *  message, const char * file = nullptr, int line = 0, const sad::String & user =  sad::String())
     {
-        _createAndBroadcast(sad::String(mesg), sad::log::Priority::USER, file, line, user);
+        _createAndBroadcast(sad::String(message), sad::log::Priority::USER, file, line, user);
     }
     /*! Broadcasts a message of SADDY_INTERNAL to all targets
-        \param[in] mesg message
+        \param[in] message message
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */		
     template<typename T> 
     void saddyInternal(
-        const char * mesg, 
+        const char * message, 
         const char * file = nullptr, 
         int line = 0
     )
     {
-        _createAndBroadcast(sad::String(mesg), sad::log::Priority::SADDY_INTERNAL, file, line);
+        _createAndBroadcast(sad::String(message), sad::log::Priority::SADDY_INTERNAL, file, line);
     }
     /*! Pushes current subsystem name into stack of subsystem names
         \param[in] str string
@@ -205,7 +208,7 @@ public:
     virtual void pushSubsystem(const sad::String & str);
     /*! Pushes current subsystem name into stack of subsystem names
         \param[in] str string
-        \param[in] file a name of source file, where entering to subsystem occured
+        \param[in] file a name of source file, where entering to subsystem occurred
         \param[in] line a source file line, where entering 
      */
     virtual void pushSubsystem(const sad::String & str, const char * file, int line);
@@ -252,37 +255,37 @@ protected:
      */
     virtual sad::String subsystem();
     /*! Creates new message and broadcasts them to all contained targets
-        \param[in] mesg text message, that is being logged
+        \param[in] message text message, that is being logged
         \param[in] priority  a priority for message
         \param[in] file      a name of file, where message was emitted
         \param[in] line      a line number of line, where message was emitted
-        \param[in] upriority use-defined priority
+        \param[in] user_priority use-defined priority
      */
     virtual void createAndBroadcast(
-        const sad::String & mesg, 
+        const sad::String & message, 
         sad::log::Priority priority,
         const char * file = nullptr, 
         int line = 0,
-        const sad::String & upriority = sad::String()
+        const sad::String & user_priority = sad::String()
     );
     /*! Creates new message, converts it to string 
         and broadcasts them to all contained targets
-        \param[in] mesg       message, that is being logged
+        \param[in] message       message, that is being logged
         \param[in] priority  a priority for message
         \param[in] file      a name of file, where message was emitted
-        \param[in] line      a lnumber of line, where message was emitted
-        \param[in] upriority  user-defined priority
+        \param[in] line      a line number of line, where message was emitted
+        \param[in] user_priority  user-defined priority
      */
     template<typename T>
     void _createAndBroadcast(
-        const T & mesg, 
+        const T & message, 
         sad::log::Priority priority,
         const char * file = nullptr, 
         int line = 0,
-        const sad::String & upriority = sad::String()
+        const sad::String & user_priority = sad::String()
     )
     {
-        createAndBroadcast(sad::log::StringCaster<T>::cast(mesg), priority, file, line, upriority);
+        createAndBroadcast(sad::log::StringCaster<T>::cast(message), priority, file, line, user_priority);
     }
 };
 

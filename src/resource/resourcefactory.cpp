@@ -62,31 +62,31 @@ sad::resource::Resource* sad::resource::Factory::create(const sad::String& name)
     return result;	
 }
 
-sad::resource::ResourceFile * sad::resource::Factory::fileByType(const sad::String & typehint)
+sad::resource::ResourceFile * sad::resource::Factory::fileByType(const sad::String & type_hint)
 {
-    if (typehint == "sad::resource::TextureAtlasFile")
+    if (type_hint == "sad::resource::TextureAtlasFile")
     {
         return new sad::resource::TextureAtlasFile();
     }
-    if (typehint == "sad::animations::File")
+    if (type_hint == "sad::animations::File")
     {
         return new sad::animations::File();
     }
-    if (typehint == "sad::db::custom::SchemaFile")
+    if (type_hint == "sad::db::custom::SchemaFile")
     {
         sad::db::custom::SchemaFile* file = new sad::db::custom::SchemaFile();
         file->setFactory(m_factory);
         return file;
     }
-    if (typehint == "sad::Texture" 
-        || typehint == "sad::TextureMappedFont"
-        || typehint == "sad::freetype::Font")
+    if (type_hint == "sad::Texture" 
+        || type_hint == "sad::TextureMappedFont"
+        || type_hint == "sad::freetype::Font")
     {
         return new sad::resource::ResourceFile();
     }
-    if (m_file_creators.contains(typehint))
+    if (m_file_creators.contains(type_hint))
     {
-        return m_file_creators[typehint]->create();
+        return m_file_creators[type_hint]->create();
     }
     return nullptr;
 }

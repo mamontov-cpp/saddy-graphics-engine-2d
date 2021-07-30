@@ -25,8 +25,8 @@ class Loader
 {
 public:
     /*! Loads a texture from file stream. file must be opened in binary format for reading
-        \param[in] file
-        \param[in] texture
+        \param[in] file a file
+        \param[in] texture a texture
         \return true on success
      */
     virtual bool load(FILE * file, sad::Texture * texture) = 0;

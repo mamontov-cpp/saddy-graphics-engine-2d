@@ -22,9 +22,9 @@ LU_Auto = 0,
 LU_Pixels = 1,
 /*! Width or height should be computed requested as specified size in percents to a grid
  */
-LU_Percents = 2	
+LU_Percents = 2
 };
 
-}	
+}
     
 }

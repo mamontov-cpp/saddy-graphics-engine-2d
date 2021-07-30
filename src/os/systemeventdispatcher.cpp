@@ -395,12 +395,12 @@ void sad::os::SystemEventDispatcher::processMouseWheel(sad::os::SystemWindowEven
     double delta = 0;
     if (e.Event.xbutton.button == Button4)
     {
-        delta  = m_renderer->controls()->wheelTickSensivity();
+        delta  = m_renderer->controls()->wheelTickSensitivity();
     }
     else
     {
         // e.Event.xbutton.button  should be Button5 here
-        delta  = m_renderer->controls()->wheelTickSensivity() * -1;
+        delta  = m_renderer->controls()->wheelTickSensitivity() * -1;
     }
     sad::Point2D p(e.Event.xbutton.x, e.Event.xbutton.y);
     sad::Point3D viewportpoint = m_renderer->mapToViewport(p);

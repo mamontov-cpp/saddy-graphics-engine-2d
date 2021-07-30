@@ -6,7 +6,9 @@
  */
 #pragma once
 #include "body.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "circle.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "line.h"
 #include "bounds.h"
 
@@ -29,7 +31,7 @@ public:
     /*! Creates bounding walls with specified padding, which defines how far
         walls are from edges of window. If we pass here 14, that the bounding
         rectangle will be 14 points larger than screen bounds.
-        \param[in] padding
+        \param[in] padding a padding value
      */
     Walls(double padding = 0);
     /*! Creates bounding walls with specified padding within window [0..width], [0..height].
@@ -47,7 +49,7 @@ public:
      */
     virtual ~Walls();
 protected:
-    /*! A non-reentrant constructor, which creates walls, populating lists of 
+    /*! A non-re-entrant constructor, which creates walls, populating lists of 
         walls and their bodies. Note, that padding must be already pre-set before call
         of this method.
         \param[in] width width of walls
@@ -73,9 +75,10 @@ public:
      */
     Wall(double padding = 0.0);
     /*! Tries to teleport an object
-        \param[in] p body
+        \param[in] b body
      */
-    void tryTeleport(p2d::Body * p);
+    // ReSharper disable once CppInconsistentNaming
+    void tryTeleport(p2d::Body * b);
     /*! Returns a body
         \return body
      */

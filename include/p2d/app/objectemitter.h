@@ -22,7 +22,7 @@ namespace app
 {
 
 
-/*! A basic object emitter, that can emit a lot of objectas
+/*! A basic object emitter, that can emit a lot of objects
  */
 class AbstractObjectEmitter: public sad::PeriodicalEvent
 {
@@ -33,7 +33,7 @@ public:
         inline AbstractObjectEmitter(p2d::app::App * app = nullptr) : m_app(app) {}
         /*! An emitter does not own application
          */
-        virtual ~AbstractObjectEmitter() {}
+        virtual ~AbstractObjectEmitter()  override = default;
         /*! Sets an application
             \param[in] app application
          */
@@ -59,12 +59,12 @@ public:
          */
         virtual void position(p2d::Point & p) = 0;
         /*! Produces an object
-            \return onject
+            \return object
          */
         virtual p2d::app::Object * produce() = 0;
         /*! Emits object
          */
-        virtual void perform();
+        virtual void perform() override;
         /*! Adds an additional group, where objects should be stored
             \param[in] group_name a group name
          */
@@ -117,7 +117,7 @@ public:
     /*! Returns angular velocity
         \return angular velocity
      */
-    virtual double angularVelocity()
+    virtual double angularVelocity() override
     {
         return m_min_angular + (m_max_angular - m_min_angular) * this->prand();
     }
@@ -125,7 +125,7 @@ public:
     /*! Sets a tangential velocity
         \param[out] v velocity
      */
-    virtual void tangentialVelocity(p2d::Vector & v)
+    virtual void tangentialVelocity(p2d::Vector & v) override
     {
         v = m_min_speed + (m_max_speed - m_min_speed) * this->prand();
     }
@@ -133,31 +133,31 @@ public:
     /*! Sets an angle
         \return angle
       */
-    virtual double angle() 
+    virtual double angle()  override
     {
         return m_min_angle + (m_max_angle - m_min_angle) * this->prand();
     }
     /*! Returns a position
         \param[out] p  a position, where object should be created
      */
-    virtual void position(p2d::Point & p)
+    virtual void position(p2d::Point & p) override
     {
         p = m_min_position + (m_max_position - m_min_position) * this->prand();
     }
 
     /*! Produces an object
-        \return onject
+        \return object
      */
-    virtual p2d::app::Object * produce()
+    virtual p2d::app::Object * produce() override
     {
         return new _Object();
     }
 
     /*! Emits objects
      */
-    virtual void perform()
+    virtual void perform() override
     {
-        unsigned int c = (unsigned int)(m_min_count + (m_max_count - m_min_count) * this->prand());
+	    const unsigned int c = static_cast<unsigned>(m_min_count + (m_max_count - m_min_count) * this->prand());
         for(unsigned int i = 0; i < c; i++)
         {
             this->p2d::app::AbstractObjectEmitter::perform();
@@ -165,7 +165,7 @@ public:
     }
 protected:
     double m_min_angle; //!< A minimal angle, which objects speed differs
-    double m_max_angle; //!< A maximum angle, wichi objects speed differs
+    double m_max_angle; //!< A maximum angle, which objects speed differs
 
     p2d::Vector m_min_speed; //!< A minimal speed of object
     p2d::Vector m_max_speed; //!< A maximal speed of object
@@ -179,9 +179,9 @@ protected:
     unsigned int m_min_count;  //!< Determines, how many objects should be emitted (minimal)
     unsigned int m_max_count;  //!< Determines, how many objects should be emitted  (maximal)
 
-    inline double prand()
+    static inline double prand()
     {
-        return ((double)rand()) / RAND_MAX;
+        return static_cast<double>(rand()) / RAND_MAX;
     }
 };
 

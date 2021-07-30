@@ -14,7 +14,7 @@ namespace pipeline
 {
 
 /*! Defines a basic pipeline process, which should be performed every time
-    insided of pipeline loop
+    inside of pipeline loop
  */
 class AbstractProcess: public sad::pipeline::Step
 {
@@ -25,7 +25,7 @@ public:
     /*! An abstract process should never be destroyed after processing
         \return false
      */
-    virtual bool shouldBeDestroyedAfterProcessing();
+    virtual bool shouldBeDestroyedAfterProcessing() override;
 };
 
 
@@ -71,15 +71,15 @@ public:
 
     /*! Destroys a delegate in process
      */
-    virtual ~Process();
+    virtual ~Process() override;
     /*! Changes object for all method call. Object is casted down to method
         \param[in] o object for method call
      */
-    virtual void changeObject(void * o);
+    virtual void changeObject(void * o) override;
 protected:
     /*! Invokes a delegate inside of process
      */ 
-    virtual void _process();
+    virtual void _process() override;
     /*!  A linked delegate for process
      */
     sad::pipeline::Delegate * m_delegate;

@@ -16,7 +16,7 @@ sad::p2d::ElasticForce::ElasticForce(
     {
         m_second->addRef();
     }
-    m_defaultdistance = m_second->currentShape()->center()
+    m_default_distance = m_second->currentShape()->center()
                         .distance(first->currentShape()->center());
     m_elasticity = elasticity;
     m_resistance = resistance;
@@ -37,7 +37,7 @@ const sad::p2d::Vector & sad::p2d::ElasticForce::value(sad::p2d::Body* first) co
     p2d::Point s2 = first->currentShape()->center();
     
     double distance = s1.distance(s2);
-    double delta = distance - m_defaultdistance;
+    double delta = distance - m_default_distance;
 
     force->m_value = s1;
     force->m_value -= s2;

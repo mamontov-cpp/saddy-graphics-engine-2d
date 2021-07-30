@@ -18,92 +18,48 @@ DECLARE_SOBJ_INHERITANCE(sad::resource::EmptyTextureAtlas, sad::resource::Error)
 DECLARE_SOBJ_INHERITANCE(sad::resource::TreeNotFound, sad::resource::Error);
 DECLARE_SOBJ_INHERITANCE(sad::resource::ResourceCannotBeLoadedFromArchive, sad::resource::Error);
 
-sad::resource::Error::~Error() throw()
-{
+sad::resource::Error::~Error() = default;
 
-}
+sad::resource::FileLoadError::~FileLoadError() = default;
 
-sad::resource::FileLoadError::~FileLoadError() throw()
-{
-    
-}
+sad::resource::ResourceLoadError::~ResourceLoadError() = default;
 
-sad::resource::ResourceLoadError::~ResourceLoadError() throw()
-{
-    
-}
+sad::resource::MissingResource::~MissingResource() = default;
 
-sad::resource::MissingResource::~MissingResource() throw()
-{
+sad::resource::ResourceAlreadyExists::~ResourceAlreadyExists() = default;
 
-}
+sad::resource::CannotDeleteReferencedResource::~CannotDeleteReferencedResource() = default;
 
-sad::resource::ResourceAlreadyExists::~ResourceAlreadyExists() throw()
-{
-    
-}
+sad::resource::UnregisteredFileType::~UnregisteredFileType() = default;
 
-sad::resource::CannotDeleteReferencedResource::~CannotDeleteReferencedResource() throw()
-{
-    
-}
+sad::resource::UnregisteredResourceType::~UnregisteredResourceType() = default;
 
-sad::resource::UnregisteredFileType::~UnregisteredFileType() throw()
-{
-    
-}
+sad::resource::AnonymousResource::~AnonymousResource() = default;
 
-sad::resource::UnregisteredResourceType::~UnregisteredResourceType() throw()
-{
-    
-}
+sad::resource::FileLoadingNotImplemented::~FileLoadingNotImplemented() = default;
 
-sad::resource::AnonymousResource::~AnonymousResource() throw()
-{
-    
-}
+sad::resource::JSONParseError::~JSONParseError() = default;
 
-sad::resource::FileLoadingNotImplemented::~FileLoadingNotImplemented() throw()
-{
-    
-}
+sad::resource::MalformedResourceEntry::~MalformedResourceEntry() = default;
 
-sad::resource::JSONParseError::~JSONParseError() throw()
-{
-    
-}
+sad::resource::EmptyTextureAtlas::~EmptyTextureAtlas() = default;
 
-sad::resource::MalformedResourceEntry::~MalformedResourceEntry() throw()
-{
+sad::resource::TreeNotFound::~TreeNotFound() = default;
 
-}
+sad::resource::ResourceCannotBeLoadedFromArchive::~ResourceCannotBeLoadedFromArchive() = default;
 
-sad::resource::EmptyTextureAtlas::~EmptyTextureAtlas() throw()
-{
-
-}
-
-sad::resource::TreeNotFound::~TreeNotFound() throw()
-{
-    
-}
-
-sad::resource::ResourceCannotBeLoadedFromArchive::~ResourceCannotBeLoadedFromArchive() throw()
-{
-
-}
 
 
 sad::String sad::resource::format(
     const sad::Vector<sad::resource::Error *> & errors,
-    const sad::String & lineformat,
+    const sad::String & line_format,
     const sad::String & separator
 )
 {
     sad::Vector<sad::String> list;
     for(size_t i = 0; i < errors.size(); i++)
     {
-        list << fmt::str(fmt::Format(lineformat) << sad::String(errors[i]->what()));
+        list << fmt::str(fmt::Format(line_format) << sad::String(errors[i]->what()));
     }
     return sad::join(list, separator);
 }
@@ -111,9 +67,9 @@ sad::String sad::resource::format(
 
 sad::Maybe<sad::String> sad::resource::errorsToString(const sad::Vector<sad::resource::Error *>& errors)
 {
-    if (errors.size())
+    if (!errors.empty())
     {
-        sad::String result = sad::resource::format(errors);
+	    const sad::String result = sad::resource::format(errors);
         sad::resource::free_vector(errors);
         return sad::Maybe<sad::String>(result);
     }

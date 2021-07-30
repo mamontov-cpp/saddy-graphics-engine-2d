@@ -100,7 +100,7 @@ const sad::String&  sad::resource::AbstractLink::path() const
 
 const sad::String & sad::resource::AbstractLink::treeName() const
 {
-    return m_treename;
+    return m_tree_name;
 }
 
 void  sad::resource::AbstractLink::setTree(resource::Tree * tree)
@@ -122,19 +122,19 @@ sad::resource::Tree* sad::resource::AbstractLink::tree() const
 {
     if (!m_tree && m_render_dependent && m_renderer)
     {
-        const_cast<sad::resource::Tree *&>(this->m_tree) = m_renderer->tree(m_treename);
+        const_cast<sad::resource::Tree *&>(this->m_tree) = m_renderer->tree(m_tree_name);
     }
     return m_tree;	
 }
 
-void sad::resource::AbstractLink::setTree(sad::Renderer * r, const sad::String& treename)
+void sad::resource::AbstractLink::setTree(sad::Renderer * r, const sad::String& tree_name)
 {
-    bool changed = m_render_dependent == false || m_tree == nullptr || r != m_renderer || treename != m_treename;
+    bool changed = m_render_dependent == false || m_tree == nullptr || r != m_renderer || tree_name != m_tree_name;
     if (m_render_dependent && (m_tree != nullptr) && (r == m_renderer))
     {
         if (r != nullptr)
         {
-            changed = changed || (m_tree != r->tree(treename));
+            changed = changed || (m_tree != r->tree(tree_name));
             if (changed)
             {
                 m_tree = nullptr;
@@ -143,7 +143,7 @@ void sad::resource::AbstractLink::setTree(sad::Renderer * r, const sad::String& 
     }
     m_render_dependent = true;
     m_renderer = r;
-    m_treename = treename;
+    m_tree_name = tree_name;
     if (changed)
     {
         if (m_resource && m_notify_resource)
@@ -173,5 +173,5 @@ sad::Renderer * sad::resource::AbstractLink::renderer() const
 
 void sad::resource::AbstractLink::setRenderer(sad::Renderer * r)
 {
-    this->setTree(r, m_treename);
+    this->setTree(r, m_tree_name);
 }

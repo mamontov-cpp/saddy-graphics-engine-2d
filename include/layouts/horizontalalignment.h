@@ -22,9 +22,9 @@ LHA_Left = 0,
 LHA_Middle = 1,
 /*! Right alignment
  */
-LHA_Right = 2	
+LHA_Right = 2
 };
 
-}	
+}
     
 }

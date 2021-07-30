@@ -4,8 +4,10 @@
     Describes a way as a set of points, on which body will evenly move
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../vector.h"
 #include "../point.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../axle.h"
 
 #include "../../sadvector.h"
@@ -21,13 +23,13 @@ namespace p2d
 namespace app
 {
 
-/*! A waypoint is a point in 2D space
+/*! A way point is a point in 2D space
  */
 typedef p2d::Point WayPoint;
 
 
 /*! Describes a way as a set of points, determining how way is performed.
-    Building a way constists of two phases - construction, toggled, when calling
+    Building a way consists of two phases - construction, toggled, when calling
     p2d:Way::startConstruction(), and work - when called p2d::Way::construct.
 
     You can reset state by calling p2d::Way::startConstruction.
@@ -40,11 +42,11 @@ public:
     Way();
     /*! Destructor for a way
      */
-    virtual ~Way();
+    virtual ~Way() override;
     /*! Steps a link on way
         \param[in] current_time a current time 
         \param[in] step a time step
-        \return a oint from way
+        \return a point from way
      */
     sad::p2d::Point getPointInTime(double current_time, double step);
     /*! Sets i-th point to another point
@@ -88,7 +90,7 @@ public:
     /*! Returns a way points
         \return way points
      */
-    inline const sad::Vector<p2d::app::WayPoint> & wayPoints() const { return m_waypoints; }
+    inline const sad::Vector<p2d::app::WayPoint> & wayPoints() const { return m_way_points; }
     /*! Constructs a way
      */
     void construct();
@@ -98,7 +100,7 @@ public:
     /*! Returns string "sad::p2d::app::Way"
         \return name, under which object will be serialized
      */
-    virtual const sad::String& serializableName() const;
+    virtual const sad::String& serializableName() const override;
     /*! Returns schema for all kinds of way
         \return schema
      */
@@ -106,17 +108,17 @@ public:
     /*! Returns schema for an object
         \return schema
      */
-    virtual sad::db::schema::Schema* schema() const;
+    virtual sad::db::schema::Schema* schema() const override;
     /*! Loads sprite from picojson object
         \param[in] v a picojson object
         \return  whether it as successfull
      */
-    virtual bool load(const picojson::value& v);
+    virtual bool load(const picojson::value& v) override;
 protected:
     bool m_constructed;                           //!< Whether way is constructed
     bool m_closed;                                //!< Whether way is closed
-    double m_totaltime;                           //!< Amount of time,  which is needed to pass all way
-    sad::Vector<p2d::app::WayPoint> m_waypoints;  //!< A set of waypoints
+    double m_total_time;                           //!< Amount of time,  which is needed to pass all way
+    sad::Vector<p2d::app::WayPoint> m_way_points;  //!< A set of way points
     sad::Vector<double>        m_times;           //!< A time, when the point should be reached
 };
 

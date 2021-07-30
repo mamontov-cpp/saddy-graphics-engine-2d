@@ -7,6 +7,7 @@
 #include "axle.h"
 #include "grahamscan.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../maybe.h"
 #include "../sadvector.h"
 
@@ -85,17 +86,17 @@ public:
      sad::p2d::Point center() const;
      /*! Returns set from hull
       */
-     inline const sad::Vector<sad::p2d::Point> & set() { return m_set; }
+     inline const sad::Vector<sad::p2d::Point> & set() const { return m_set; }
 private: 
      sad::Vector<sad::p2d::Point> m_set;
      /*!  Inserts axle to container if not found in container
-          \param[in, out] container container with axis
+          \param[in,out] container container with axis
           \param[in] axle one axle
       */
      void tryInsertAxle(sad::Vector<sad::p2d::Axle> & container, 
                         const sad::p2d::Axle & axle) const;
      /*! Appends axis for specified side in container
-          \param[in, out] container container with axis
+          \param[in,out] container container with axis
           \param[in] number number of current side of convex hull
       */
      void appendAxisForSide(sad::Vector<sad::p2d::Axle> & container, int number) const;
@@ -116,20 +117,20 @@ sad::p2d::Cutter1D projectPointSet(const T & container, unsigned int size, const
 {
     double min = 0;
     double max = 0;
-    bool minisset = false;
-    bool maxisset = false;
+    bool min_is_set = false;
+    bool max_is_set = false;
     double a2 = sad::p2d::scalar(axle, axle);
     for(size_t i = 0; i < size ; i++)
     {
-        double p = sad::p2d::scalar(container[i], axle) / a2;
-        if (p < min || !minisset)
+        const double p = sad::p2d::scalar(container[i], axle) / a2;
+        if (p < min || !min_is_set)
         {
-            minisset = true;
+            min_is_set = true;
             min = p;
         }
-        if (p > max || !maxisset)
+        if (p > max || !max_is_set)
         {
-            maxisset = true;
+            max_is_set = true;
             max = p;
         }
     }

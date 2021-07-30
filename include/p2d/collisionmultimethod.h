@@ -30,7 +30,7 @@ class BasicCollisionMultiMethodInstance
          \return reverse flag
       */
      virtual bool reverse() const = 0;
-     virtual ~BasicCollisionMultiMethodInstance() {}
+     virtual ~BasicCollisionMultiMethodInstance() = default;
 };
 
 /*! Describes a basic method for invocation a multi-method with arguments
@@ -55,7 +55,7 @@ class BasicCollisionMultiMethodInstanceWithArg
          \return reverse flag
       */
      virtual bool reverse() const = 0;
-     virtual ~BasicCollisionMultiMethodInstanceWithArg() {}
+	 virtual ~BasicCollisionMultiMethodInstanceWithArg() = default;
 };
 
 template<
@@ -75,16 +75,16 @@ public:
           _ReturnType (*p)(_FirstObject * o1, _SecondObject * o2),
           bool reverse
     ) : m_p(p), m_reverse(reverse) {}
-    /*! Returns true, if arguments will be reversed on exectution
+    /*! Returns true, if arguments will be reversed on execution
          \return reverse flag
       */
-    bool reverse() const { return m_reverse; }
+    bool reverse() const override { return m_reverse; }
      /*! Invokes a method
          \param[in] a1 first object
          \param[in] a2 second object
          \return returned type
       */
-     virtual _ReturnType invoke(p2d::CollisionShape * a1, p2d::CollisionShape * a2)
+     virtual _ReturnType invoke(p2d::CollisionShape * a1, p2d::CollisionShape * a2) override
      {
          // Checked casts are replaced with static cast, since
          // type-checking is performed in p2d::CollisionMultiMethod
@@ -129,10 +129,10 @@ public:
           inner_t p,
           bool reverse
     ) : m_p(p), m_reverse(reverse) {}
-    /*! Returns true, if arguments will be reversed on exectution
+    /*! Returns true, if arguments will be reversed on execution
          \return reverse flag
       */
-    bool reverse() const { return m_reverse; }
+    bool reverse() const  override { return m_reverse; }
      /*! Invokes a method
          \param[in] a1 first object
          \param[in] ak1 argument, related to first object
@@ -145,7 +145,7 @@ public:
          const _Arg & ak1, 
          p2d::CollisionShape * a2,
          const _Arg & ak2
-         )
+         ) override
      {
          if (!m_reverse)
          {
@@ -179,17 +179,17 @@ class CollisionMultiMethod
         typedef instance_t * instances_t[MULTIMETHOD_REGISTERED_TYPES][MULTIMETHOD_REGISTERED_TYPES];
     protected:
         instances_t m_instances; //!< Instances of method
-        bool m_init;             //!< Whether multimethod initted
-        /*! This function inits all callbacks. 
+        bool m_init;             //!< Whether multimethod initialized
+        /*! This function initializes all callbacks. 
             You should add your dispatchers here 
          */
         virtual void init() 
         {
-            for(int i = 0; i < MULTIMETHOD_REGISTERED_TYPES; i++)
+            for (auto& m_instance : m_instances)
             {
                 for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
                 {
-                    m_instances[i][j] = nullptr;
+                    m_instance[j] = nullptr;
                 }
             }
         }
@@ -234,8 +234,7 @@ class CollisionMultiMethod
         {
             unsigned int type1 = a->metaIndex();
             unsigned int type2 = b->metaIndex();
-            instance_t * result = nullptr;
-            result  = m_instances[type1][type2];;
+            instance_t* result = m_instances[type1][type2];
             return result;
         }
     public:
@@ -260,11 +259,11 @@ class CollisionMultiMethod
         {
             if (m_init)
             {
-                for(int i = 0; i < MULTIMETHOD_REGISTERED_TYPES; i++)
+                for (auto& m_instance : m_instances)
                 {
                     for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
                     {
-                        delete m_instances[i][j];
+                        delete m_instance[j];
                     }
                 }
             }
@@ -282,17 +281,17 @@ class CollisionMultiMethodWithArg
         typedef instance_t * instances_t[MULTIMETHOD_REGISTERED_TYPES][MULTIMETHOD_REGISTERED_TYPES];
     protected:
         instances_t m_instances; //!< Instances of method
-        bool m_init;             //!< Whether multimethod initted
-        /*! This function inits all callbacks. 
+        bool m_init;             //!< Whether multimethod initialized
+        /*! This function initializes all callbacks. 
             You should add your dispatchers here 
          */
         virtual void init() 
         { 
-            for(int i = 0; i < MULTIMETHOD_REGISTERED_TYPES; i++)
+            for (auto& m_instance : m_instances)
             {
                 for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
                 {
-                    m_instances[i][j] = nullptr;
+	                m_instance[j] = nullptr;
                 }
             }		
         }
@@ -337,8 +336,7 @@ class CollisionMultiMethodWithArg
         {
             unsigned int type1 = a->metaIndex();
             unsigned int type2 = b->metaIndex();
-            instance_t * result = nullptr;
-            result  = m_instances[type1][type2];;
+            instance_t* result = m_instances[type1][type2];
             return result;
         }
         /*! Reverses a parts return type if need to
@@ -374,11 +372,11 @@ class CollisionMultiMethodWithArg
         {
             if (m_init)
             {
-                for(int i = 0; i < MULTIMETHOD_REGISTERED_TYPES; i++)
+                for (auto& m_instance : m_instances)
                 {
                     for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
                     {
-                        delete m_instances[i][j];
+                        delete m_instance[j];
                     }
                 }
             }

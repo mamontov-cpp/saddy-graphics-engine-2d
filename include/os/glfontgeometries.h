@@ -5,6 +5,7 @@
 #pragma once
 #include "../sadvector.h"
 #include "../sadpoint.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../fontshaderfunction.h"
 #include "glfontgeometry.h"
 

@@ -92,7 +92,7 @@ public:
         /*! Tries to set transformer for all active bodies
          */
         void trySetTransformer();
-        /*! Builds bodys' inner caches required for shapes and acceleration
+        /*! Builds bodies' inner caches required for shapes and acceleration
             \param[in] time_step a current time step for a world
          */
         void buildBodyCaches(double time_step);
@@ -314,14 +314,14 @@ public:
             \param[in] h handler
             \return amount of times
          */
-        size_t totalHandlerOccurences(sad::p2d::BasicCollisionHandler* h);
+        size_t totalHandlerOccurrences(sad::p2d::BasicCollisionHandler* h);
         /*! Returns amount of times, handler occurs in container group pair
             \param[in] i1 first group index
             \param[in] i2 second group index
             \param[in] h handler
             \return amount of times
          */
-        size_t totalHandlerOccurences(size_t i1, size_t i2, sad::p2d::BasicCollisionHandler* h);
+        size_t totalHandlerOccurrences(size_t i1, size_t i2, sad::p2d::BasicCollisionHandler* h);
         /*! Returns a handler list for all of groups 
             \return a handler list
          */
@@ -383,7 +383,7 @@ public:
         double StepValue;
     };
     /*! A collision event with  a callback, that it can be performed on.
-        Used to store all the collision event's, that were occured in world
+        Used to store all the collision event's, that were occurred in world
      */
     struct EventWithCallback
     {
@@ -401,9 +401,9 @@ public:
         }
         /*! Makes new event with callback
             \param ev event
-            \param cblst callback list
+            \param callback_list callback list
          */
-        inline EventWithCallback(const  sad::p2d::BasicCollisionEvent& ev, sad::Vector<sad::p2d::BasicCollisionHandler*>* cblst) : Event(ev), CallbackList(cblst)
+        inline EventWithCallback(const  sad::p2d::BasicCollisionEvent& ev, sad::Vector<sad::p2d::BasicCollisionHandler*>* callback_list) : Event(ev), CallbackList(callback_list)
         {
 
         }
@@ -452,7 +452,7 @@ public:
          */
         inline bool operator>=(const sad::p2d::World::EventWithCallback& ewc) const
         {
-            return ((*this) >= ewc) || ((*this) == ewc);
+            return ((*this) > ewc) || ((*this) == ewc);
         }
 
         /*! A comparison operator, that only will compare time
@@ -461,7 +461,7 @@ public:
          */
         inline bool operator<=(const sad::p2d::World::EventWithCallback& ewc) const
         {
-            return ((*this) <= ewc) || ((*this) == ewc);
+            return ((*this) < ewc) || ((*this) == ewc);
         }
         /*! Invokes a callback
          */
@@ -486,7 +486,7 @@ public:
     World();
     /*! Destroys world
      */
-    virtual ~World();
+    virtual ~World() override;
     /*! Returns a transformer for all circles
         \return a transformer for all circles
      */
@@ -564,7 +564,6 @@ public:
         \param[in] first_group_name name of first group, object from which will be passed as first argument to callback.
         \param[in] second_group_name name of second group, object from which will be passed as first argument to callback
         \param[in] h handler
-        \return a handler
     */
     void removeHandlerFromGroups(
         const sad::String & first_group_name,
@@ -652,14 +651,14 @@ public:
         \param[in] h handler
         \return amount of times
      */
-    size_t totalHandlerOccurences(sad::p2d::BasicCollisionHandler* h);
+    size_t totalHandlerOccurrences(sad::p2d::BasicCollisionHandler* h);
     /*! Returns amount of times, handler occurs in container group pair
         \param[in] s1 first group
         \param[in] s2 second group
         \param[in] h handler
         \return amount of times
      */
-    size_t totalHandlerOccurencesInGroups(const sad::String& s1, const sad::String& s2, sad::p2d::BasicCollisionHandler* h);
+    size_t totalHandlerOccurrencesInGroups(const sad::String& s1, const sad::String& s2, sad::p2d::BasicCollisionHandler* h);
     /*! Returns whether handler is in world
         \param[in] h handler
         \return whether handler is in world
@@ -677,10 +676,10 @@ public:
         \return all handlers, existing in a world
      */
     sad::Vector<sad::p2d::BasicCollisionHandler*> allHandlers();
-    /*! Returns all handlers, that are binded to group pair in exact order
+    /*! Returns all handlers, that are bound to group pair in exact order
         \param[in] s1 first group
         \param[in] s2 second group
-        \return all handlers, that are binded to group pair in exact order
+        \return all handlers, that are bound to group pair in exact order
     */
     sad::Vector<sad::p2d::BasicCollisionHandler*> allHandlersForGroups(const sad::String& s1, const sad::String& s2);
 
@@ -709,8 +708,8 @@ public:
     template<typename T1, typename T2>
     sad::p2d::BasicCollisionHandler* addHandler(const std::function<void(const sad::p2d::CollisionEvent<T1, T2>&)>& f)
     {
-        sad::String t1 = T1::globalMetaData()->name();
-        sad::String t2 = T2::globalMetaData()->name();
+        const sad::String t1 = T1::globalMetaData()->name();
+        const sad::String t2 = T2::globalMetaData()->name();
         return this->addHandler<T1, T2>(t1, t2, f);
     }
 
@@ -722,13 +721,13 @@ public:
     sad::p2d::BasicCollisionHandler*
     addHandler(void (*p)(const sad::p2d::CollisionEvent<T1, T2>&))
     {
-        sad::String t1 = T1::globalMetaData()->name();
-        sad::String t2 = T2::globalMetaData()->name();
+        const sad::String t1 = T1::globalMetaData()->name();
+        const sad::String t2 = T2::globalMetaData()->name();
         sad::p2d::BasicCollisionHandler* h = new sad::p2d::TypedCollisionHandler<T1, T2>(p);
         addHandler(t1, t2, h);
         return h;
     }
-    /*! Adds new collision handler for grpoups with specified callback
+    /*! Adds new collision handler for groups with specified callback
         \param[in] g1 first group for collision
         \param[in] g2 first group for collision
         \param[in] p specified handler
@@ -852,10 +851,10 @@ protected:
     /*! A lock for adding commands into command queue
      */
     sad::Mutex m_command_queue_lock;
-    /*! A world lock to support multithreading at least patially
+    /*! A world lock to support multi-threading at least partially
      */
     sad::Mutex m_world_lock;
-    /*! A lock for lockes flag
+    /*! A lock for locks flag
      */
     sad::Mutex m_is_locked_lock;
     /*! Whether world could be changed (not in step)
@@ -880,11 +879,11 @@ protected:
      */
     void performQueuedCommands();
 
-    /*! Peforms adding a body to a world
+    /*! Performs adding a body to a world
         \param[in] b body
      */
     void addBodyNow(sad::p2d::Body* b);
-    /*! Peforms removing a body from all groups and a world
+    /*! Performs removing a body from all groups and a world
         \param[in] b body
      */
     void removeBodyNow(sad::p2d::Body* b);
@@ -931,7 +930,6 @@ protected:
         \param[in] first_group_name name of first group, object from which will be passed as first argument to callback.
         \param[in] second_group_name name of second group, object from which will be passed as first argument to callback
         \param[in] h handler
-        \return a handler
     */
     void removeHandlerFromGroupsNow(
         const sad::String & first_group_name,

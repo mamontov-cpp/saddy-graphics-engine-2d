@@ -50,14 +50,14 @@ void insertUnique(
     const p2d::PointsPair & pair
 );
 /*! Merges two pairs of points into one pair, honoring uniqueness
-    \param[in, out] set1 first set of points
+    \param[in,out] set1 first set of points
     \param[in] set2 second set of points
  */
 void merge(p2d::SetOfPointsPair & set1, const p2d::SetOfPointsPair & set2);
 /*! Filters optimal set of points pair, with case when p1 of each pair
     moves toward p2 with speed v. It'll leave only points with minimal t
     where t = |p2 - p1| / | v |.  
-    \param[in, out] set set of pairs
+    \param[in,out] set set of pairs
     \param[in] v   vector of speed
  */ 
 void filterOptimalSet(p2d::SetOfPointsPair & set, const p2d::Vector & v);
@@ -168,13 +168,13 @@ public p2d::CollisionMultiMethodWithArg<p2d::SetOfPointsPair, p2d::Vector>
          const p2d::Vector & v2	
      );
 protected:
-        /*! Reverses a set of points if neeeded
-            \param[in, out] pairs a set of pairs to be reversed
+        /*! Reverses a set of points if needed
+            \param[in,out] pairs a set of pairs to be reversed
          */
-        virtual void reverse(p2d::SetOfPointsPair & pairs);
-        /*! Inits a callbacks in set
+        virtual void reverse(p2d::SetOfPointsPair & pairs) override;
+        /*! Initializes a callbacks in set
          */
-        virtual void init();
+        virtual void init() override;
 };
 
 /*! Computes intersection for normal, emitted from p, to a line, determined

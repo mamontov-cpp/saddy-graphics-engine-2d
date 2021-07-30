@@ -40,7 +40,7 @@ enum class ResourceFileType: int
     RFT_TAR7Z_INNER_FILE = 1
 };
 
-/*! An idetifier, that identifies resource to be loaded
+/*! An identifier, that identifies resource to be loaded
  */
 struct ResourceFileIdentifier
 {
@@ -80,7 +80,7 @@ struct ResourceFileIdentifier
 class ResourceFile  
 {	
 public:	
-    /*! Creates new flle with specified name. Supposedly it must be path to specified file.
+    /*! Creates new file with specified name. Supposedly it must be path to specified file.
         \param[in] name a filename (with or without path) to it
      */
     ResourceFile(const sad::String& name = "");	
@@ -103,13 +103,13 @@ public:
         should be loaded only.
 
         Default implementation only returns error. Implement your own type of files, if
-        you need some non-standard resources, like spritesheets or something.
+        you need some non-standard resources, like sprite sheets or something.
 
         \param[in] parent a parent folder, where all created resources should be stored
      */
     virtual sad::Vector<sad::resource::Error*> load(sad::resource::Folder * parent);
     /*! Reloads all resources from a file
-        \return errors if any occured on resources
+        \return errors if any occurred on resources
      */
     virtual sad::Vector<sad::resource::Error*> reload();
     /*! Loads a physical file to a root of tree
@@ -160,10 +160,10 @@ protected:
      */
     sad::Maybe<sad::String> tryReadToString(bool force_reload = false) const;
     /*! Replaces resources of texture atlas file with list
-        \param[in] resourcelist a list of resources
+        \param[in] resource_list a list of resources
      */
     void replaceResources(
-        const sad::resource::ResourceEntryList & resourcelist
+        const sad::resource::ResourceEntryList & resource_list
     );
     /*! Fills resources with resources, stored in this file
         \param[out] resources a resource list
@@ -188,7 +188,7 @@ protected:
     /*! Converts referenced options to be removed to CannotDeleteReferencedResource errors, 
         appending them to a vector
         \param[in] toberemoved a list of resources
-        \param[in] errors an occured errors
+        \param[in] errors an occurred errors
      */
     static void convertReferencedOptionsToBeRemovedToErrors(
         const sad::resource::ResourceEntryList & toberemoved,

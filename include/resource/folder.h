@@ -4,7 +4,7 @@
     Contains definition of class Folder.
 
     A folder may contain resources and subfolders, behaving like leaf of tree
-    of resourcesm storing all data. Note, that adding new resource to non-existing
+    of resources storing all data. Note, that adding new resource to non-existing
     subfolders causes creating new subfolders.
  */
 #pragma once
@@ -40,7 +40,7 @@ void free(const sad::resource::ResourceEntryList & list);
 /*! \class Folder
 
     A folder may contain resources and subfolders, behaving like leaf of tree
-    of resourcesm storing all data. Note, that adding new resource to non-existing
+    of resources storing all data. Note, that adding new resource to non-existing
     subfolders causes creating new subfolders.
  */
 class Folder  
@@ -60,7 +60,7 @@ public:
         \return whether folder has resources
      */
     bool hasResources() const;
-    /*! Adds new subbolder with specified name to current folder. Note that old folder will
+    /*! Adds new subfolder with specified name to current folder. Note that old folder will
         be replaced if it exists, destroying old linked resources.
         \param[in] path	a path to subfolder, including  it's name, using "/" as separator.
         \param[in] folder a subfolder to be added
@@ -76,7 +76,6 @@ public:
     bool addResources(const sad::resource::ResourceEntryList & list, bool ref = true);
     /*! Replaces a resource list
         \param[in] list a list
-        \return whether all resources are added successfully
      */
     void replaceResources(const sad::resource::ResourceEntryList & list);
     /*! Removes a resource list, freeing or not a data
@@ -89,7 +88,7 @@ public:
         \return list of items
      */
     sad::Vector<sad::String> duplicatesBetween(const sad::resource::ResourceEntryList & list);
-    /*! Adds new subresource with specified name to current folder
+    /*! Adds new sub-resource with specified name to current folder
         \param[in] path a path to resource, including  it's name, using "/" as separator 
         \param[in] res a resource to be added
         \param[in] ref whether we should reference this resource
@@ -108,12 +107,12 @@ public:
         \param[in] free whether we should free memory from folder, erasing some data
      */
     void removeResource(const sad::String& path, bool free = true);
-    /*! Returns a subfollder  by specified path, or null if not found
+    /*! Returns a sub-folder  by specified path, or null if not found
         \param[in] name a path to folder, including it's name, using "/" as separator
         \return a folder
      */
     sad::resource::Folder* folder(const sad::String& name);
-    /*! Returns a subfollder  by specified path, or null if not found
+    /*! Returns a sub-folder  by specified path, or null if not found
         \param[in] name a path to resource, including it's name, using "/" as separator
         \return a folder
      */
@@ -162,7 +161,7 @@ public:
      */
     sad::Maybe<sad::String> find(sad::resource::Resource * r);
     /*! Recursively copies entities stored in folder in list, clearing data in 
-        folders rescursively
+        folders recursively
         \return resource list
      */
     ResourceEntryList copyAndClear();
@@ -170,7 +169,7 @@ public:
      */
     void unloadResourcesFromGPU();
 protected: 
-    /*! Navigates to parent folder of resource of folder named fullpath
+    /*! Navigates to parent folder of resource of folder named full path
         \param[in] path a path to folder or resource
         \param[in] create   whether we can create subfolders
         \param[out] name extracted name of resource or folder

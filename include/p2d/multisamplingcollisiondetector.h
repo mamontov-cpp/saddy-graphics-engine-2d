@@ -29,7 +29,7 @@ public:
      )
      : m_tester(t), m_tests(tests)
      {
-         if (tests == 0) tests =1;
+         if (m_tests == 0) m_tests =1;
      }
 
      /*! Tests, whether two bodies collide within specified limit
@@ -42,13 +42,13 @@ public:
        */
       virtual p2d::MaybeTime collides(p2d::Body * b1, 
                                       p2d::Body * b2, 
-                                      double limit);
+                                      double limit) override;
 
       /*! Returns a sample  count, needed to fetch samples for detection
        */
-      virtual int sampleCount() const;
+      virtual int sampleCount() const override;
 
-     ~MultisamplingCollisionDetector();
+     ~MultisamplingCollisionDetector() override;
 private:
      p2d::CollisionTest * m_tester; // !< A tester, which tests shapes for collisions
      unsigned int  m_tests;  //!< An amount of tests to be performed

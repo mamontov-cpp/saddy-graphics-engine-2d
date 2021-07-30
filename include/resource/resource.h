@@ -3,7 +3,7 @@
     
     Contains definition of class Resource.
 
-    A resource is a basic object, which can be loaded from file and stored in resource databse
+    A resource is a basic object, which can be loaded from file and stored in resource database
     and have dependency on it.
  */
 #pragma once
@@ -24,14 +24,14 @@ class AbstractLink;
 
 /*! \class Resource
 
-    A resource is a basic object, which can be loaded from file and stored in resource databse
+    A resource is a basic object, which can be loaded from file and stored in resource database
     and have dependency on it.
  */
 class Resource: public sad::Object  
 {	
 SAD_OBJECT
 public:
-    /*! Inits new resource, which does not belong to any folder
+    /*! Initializes new resource, which does not belong to any folder
      */
     Resource();
     /*! This class can be inherited 
@@ -129,15 +129,15 @@ protected:
         \param[in] options  an options for loading a resource
         \return whether loading was successfull
      */
-    virtual bool load(
+    virtual bool load(  // NOLINT(clang-diagnostic-overloaded-virtual)
         const sad::resource::ResourceFile & file,
         sad::Renderer * r,
         const picojson::value& options
     ) = 0;
-    /*! A parent folder of resoruce
+    /*! A parent folder of resource
      */
     sad::resource::Folder* m_folder;
-    /*! A physical file, where resouces are stored
+    /*! A physical file, where resources are stored
      */
     sad::resource::ResourceFile * m_file;
     /*! Whether we should store links to resources
@@ -145,7 +145,7 @@ protected:
     bool m_store_links;
     /*! Returns name for resource
      */
-    sad::String m_name;
+    sad::String m_name;  // NOLINT(clang-diagnostic-shadow-field)
     /*! A name for type, via which it was created in factory
      */
     sad::String m_factory_name;

@@ -21,16 +21,16 @@ void sad::hfsm::Machine::enterState(const sad::String & state)
     sad::String trimmedstate = state;
     trimmedstate.trimSpaces();
 
-    sad::hfsm::State * previousstate  = this->state(m_currentstate);
+    sad::hfsm::State * previousstate  = this->state(m_current_state);
     sad::hfsm::State * currentstate   = this->state(trimmedstate);
-    if (trimmedstate == m_currentstate || currentstate == nullptr)
+    if (trimmedstate == m_current_state || currentstate == nullptr)
         return;
     
-    m_previousstate = m_currentstate;
-    m_currentstate = state;
+    m_previous_state = m_current_state;
+    m_current_state = state;
     
     previousstate->leave();
-    m_transitions->invoke(m_previousstate, state);
+    m_transitions->invoke(m_previous_state, state);
     currentstate->enter();
 }
 
@@ -57,7 +57,7 @@ sad::hfsm::State * sad::hfsm::Machine::state(const sad::String & s)
 }
 
 bool sad::hfsm::Machine::addState(
-    const sad::String fullpath, 
+    const sad::String& full_path, 
     sad::hfsm::State * state, 
     bool force
 )
@@ -71,7 +71,7 @@ bool sad::hfsm::Machine::addState(
     }
 
     // Perform unsafe insertion
-    sad::String trimmedfullpath = fullpath;
+    sad::String trimmedfullpath = full_path;
     trimmedfullpath.trimSpaces();
     if (trimmedfullpath.length() == 0)
     {
@@ -118,10 +118,10 @@ bool sad::hfsm::Machine::addState(
 }
 
 
-void sad::hfsm::Machine::removeState(const sad::String fullpath)
+void sad::hfsm::Machine::removeState(const sad::String& full_path)
 {
     // Perform unsafe insertion
-    sad::String trimmedfullpath = fullpath;
+    sad::String trimmedfullpath = full_path;
     trimmedfullpath.trimSpaces();
     if (trimmedfullpath.length() == 0)
     {
@@ -183,12 +183,12 @@ sad::hfsm::Transition * sad::hfsm::Machine::transition(
 
 const sad::String & sad::hfsm::Machine::currentState() const
 {
-    return m_currentstate;
+    return m_current_state;
 }
 
 const sad::String & sad::hfsm::Machine::previousState() const
 {
-    return m_previousstate;
+    return m_previous_state;
 }
 
 bool sad::hfsm::Machine::isInState(const sad::String & state) const
@@ -226,17 +226,14 @@ bool sad::hfsm::CurrentStateCheck::check(const sad::input::AbstractEvent & e)
     return m_machine->currentState() == m_state;
 }
 
-sad::input::AbstractHanderCondition * sad::hfsm::CurrentStateCheck::clone()
+sad::input::AbstractHandlerCondition * sad::hfsm::CurrentStateCheck::clone()
 {
     return new sad::hfsm::CurrentStateCheck(*this);
 }
 
-sad::hfsm::CurrentStateCheck::~CurrentStateCheck()
-{
+sad::hfsm::CurrentStateCheck::~CurrentStateCheck() = default;
 
-}
-
-sad::input::AbstractHanderCondition * operator*(
+sad::input::AbstractHandlerCondition * operator*(
     sad::hfsm::Machine * machine,
     const sad::String & state
 )
@@ -253,10 +250,7 @@ sad::hfsm::MachineStateChangeTask::MachineStateChangeTask(
 
 }
 
-sad::hfsm::MachineStateChangeTask::~MachineStateChangeTask()
-{
-
-}
+sad::hfsm::MachineStateChangeTask::~MachineStateChangeTask() = default;
 
 void sad::hfsm::MachineStateChangeTask::_process()
 {

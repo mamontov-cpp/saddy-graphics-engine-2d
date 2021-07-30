@@ -44,7 +44,7 @@ public:
     KeyDecoder();
     /*! Decodes a system key, converting it from common key to
         current
-        \param[in] a system window event
+        \param[in] e a system window event
         \return decoded key from saddy
      */
     sad::KeyboardKey decode(sad::os::SystemWindowEvent * e);
@@ -55,7 +55,7 @@ public:
      */
     sad::Maybe<sad::String> convert(sad::os::SystemWindowEvent * e, sad::Window * win);
 protected:
-    /*! Fills table with mapppings
+    /*! Fills table with mappings
      */
     void init();
     /*! Test, whether keyboard key is readable

@@ -1,7 +1,7 @@
 /*! \file consoleimpl.h
     
 
-    Describes a crossplatform implementation for working with console interface
+    Describes a cross-platform implementation for working with console interface
  */
 #pragma once
 #include "../log/color.h"
@@ -9,7 +9,7 @@
 #ifdef WIN32
     #ifndef NOMINMAX
     #define NOMINMAX 
-    #endif	
+    #endif
     #include <windows.h>
 #endif
 
@@ -19,12 +19,12 @@ namespace sad
 namespace os
 {
 
-/*! A console class, which implements crossplatform support for low-level console IO
+/*! A console class, which implements cross-platform support for low-level console IO
  */
 class ConsoleImpl
 {
 public:
-    /*! Connects to console and initializates support for console
+    /*! Connects to console and initializes support for console
      */
     ConsoleImpl();
     /*! Disconnects from console and restores default color scheme
@@ -47,7 +47,7 @@ public:
 private:
     WORD m_oldattributes;
     HANDLE m_console;
-    /*! Inits console information
+    /*! Initializes console information
      */
     void initConsole();
 #endif

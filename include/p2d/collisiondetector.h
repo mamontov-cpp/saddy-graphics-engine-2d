@@ -2,10 +2,11 @@
     
 
     Describes a basic collision detector, used to determine, whether
-    bodies collide and when does it occured.
+    bodies collide and when does it occurred.
  */
 #pragma once
 #include "body.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "collisiontest.h"
 #include "../maybe.h"
 #include "../object.h"
@@ -18,7 +19,7 @@ namespace p2d
 {
 typedef sad::Maybe<double> MaybeTime;
 /*! A basic collision detector, used to determine, whether bodies
-    collide and when does it ocurred.
+    collide and when does it occurred.
  */
 class CollisionDetector: public sad::Object
 {

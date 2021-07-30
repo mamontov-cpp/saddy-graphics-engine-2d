@@ -26,6 +26,6 @@ LST_Vertical = 1,
 LST_NoStacking = 2
 };
 
-}	
+}
     
 }

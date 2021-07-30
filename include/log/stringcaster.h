@@ -1,7 +1,7 @@
 /*! \file stringcaster.h
     
 
-    Defines a special caster, which convers data to stream, using std::ostringstream, if needed
+    Defines a special caster, which converts data to stream, using std::ostringstream, if needed
     or user-defined methods
  */
 #pragma once
@@ -31,7 +31,7 @@ class StringCaster
 {
 public:
     /*! Casts object to string, for passing it to a log message
-        \param[in] object an objecct
+        \param[in] object an object
         \return string representation of object
      */
     static std::string cast(const T & object)
@@ -42,7 +42,7 @@ public:
     }
 };
 
-/*! This is special type of caster, which allows writing statementss, 
+/*! This is special type of caster, which allows writing statements, 
     like SL_CRITICAL(fmt::Print("{0}") << 5)
  */
 template<>
@@ -51,7 +51,7 @@ class StringCaster<fmt::internal::ArgInserter<char> >
 public:
     /*! This caster performs conversion from format library internal structure
         to string, allowing to pass it to a log message
-        \param[in] string an inserter from inner formatlibrary
+        \param[in] string an inserter from inner format library
         \return string
       */
     static inline std::string cast(const fmt::internal::ArgInserter<char> & string)

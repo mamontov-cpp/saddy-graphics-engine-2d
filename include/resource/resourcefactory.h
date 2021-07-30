@@ -45,16 +45,13 @@ public:
     /*! Creates a resource
         \return created resource (nullptr if cannot)
      */ 
-    virtual sad::resource::Resource* create()
+    virtual sad::resource::Resource* create() override
     {
         return new _Resource();
     }
     /*! A creator must be inherited to create some stuff
      */
-    virtual ~CreatorFor()
-    {
-        
-    }
+	virtual ~CreatorFor() override = default;
 };
 
 /*! A special kind of delegate, which is used by Factory to create files for specified type
@@ -82,7 +79,7 @@ public:
     /*! Creates a resource
         \return created resource (nullptr if cannot)
      */ 
-    virtual sad::resource::ResourceFile* create()
+    virtual sad::resource::ResourceFile* create() override
     {
         return new _File();
     }
@@ -117,12 +114,12 @@ public:
     template<typename _ResourceType, typename _FileType>
     void registerFileTypeFor()
     {
-        sad::String tname = _ResourceType::globalMetaData()->name();
-        if (m_file_creators.contains(tname))
+        sad::String resource_type_name = _ResourceType::globalMetaData()->name();
+        if (m_file_creators.contains(resource_type_name))
         {
-            delete m_file_creators[tname]; //-V515
+            delete m_file_creators[resource_type_name]; //-V515
         }
-        m_file_creators.insert(tname, new resource::FileCreatorFor<_FileType>());
+        m_file_creators.insert(resource_type_name, new resource::FileCreatorFor<_FileType>());
     }
     /*! Registers default file type to be used with this resource
      */
@@ -145,10 +142,10 @@ public:
      */
     virtual sad::resource::Resource* create(const sad::String& name);
     /*! Creates a file type by a hint, using data
-        \param[in] typehint type data
+        \param[in] type_hint type data
         \return data for a file
      */  
-    virtual sad::resource::ResourceFile * fileByType(const sad::String & typehint);
+    virtual sad::resource::ResourceFile * fileByType(const sad::String & type_hint);
     /*! Sets stored property factory for created schemas
         \param[in] factory  a factory for schema
      */
@@ -164,15 +161,15 @@ protected:
     /*! A map for creating files
      */
     sad::PtrHash<sad::String, resource::FileCreator> m_file_creators;
-    /*! A factory for stored properties. Used for creating itema in custom resources
+    /*! A factory for stored properties. Used for creating items in custom resources
      */
     sad::db::StoredPropertyFactory * m_factory;
 private:
-    /*! Disabled, factory is uncopyable
+    /*! Disabled, factory is un-copyable
         \param[in] o other factory
      */
     Factory(const Factory & o);
-    /*! Disabled, factory is uncopyable
+    /*! Disabled, factory is un-copyable
         \param[in] o other factory
         \return self-reference
      */

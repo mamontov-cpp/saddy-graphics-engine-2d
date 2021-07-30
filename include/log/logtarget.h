@@ -24,7 +24,7 @@ class Message;
 class Target: public RefCountable
 {
 public:
-    /*! Receives a messages from targetting information
+    /*! Receives a messages from target information
         \param[in] message taken message
      */
     virtual void receive(const sad::log::Message & message) = 0;

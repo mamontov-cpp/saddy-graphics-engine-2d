@@ -40,7 +40,7 @@ public:
     /*! Sets resource link to object to nullptr
      */
     void detach();
-    /*! Lazily fatches a resource
+    /*! Lazily fetches a resource
         \return fetched resource
      */
     sad::resource::Resource* resource() const;
@@ -65,11 +65,11 @@ public:
      */
     sad::resource::Tree* tree() const;
     /*! Sets a tree for a link, defined by renderer, where it's stored 
-        and treename
+        and tree name
         \param[in] r renderer
-        \param[in] treename a trename
+        \param[in] tree_name a tree name
      */
-    void setTree(sad::Renderer * r, const sad::String& treename = "");
+    void setTree(sad::Renderer * r, const sad::String& tree_name = "");
     /*! Whether link depends on renderer
         \return whether link depends on renderer
      */ 
@@ -104,9 +104,9 @@ protected:
     /*! A source renderer for a link
      */
     sad::Renderer * m_renderer;
-    /*! Sets treename, where tree should be located
+    /*! Sets tree name, where tree should be located
      */
-    sad::String m_treename;
+    sad::String m_tree_name;
     /*! Tests, whether link depends on renderer or on a tree
      */
     bool m_render_dependent;

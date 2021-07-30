@@ -4,7 +4,7 @@
 #include <renderer.h>
 #include <pipeline/pipeline.h>
 
-sad::p2d::app::App::App() : m_layer(0), m_world(nullptr), m_steptask(nullptr), m_renderer(nullptr)
+sad::p2d::app::App::App() : m_layer(0), m_world(nullptr), m_step_task(nullptr), m_renderer(nullptr)
 {
 }
 
@@ -30,9 +30,9 @@ void sad::p2d::app::App::initApp(unsigned int layer, sad::Renderer * r)
     createWorld();
 
     // Inserts world step task to an end of pipeline
-    m_steptask = new p2d::WorldStepTask(m_world, r);
-    m_steptask->mark("sad::p2d::WorldStepTask");
-    r->pipeline()->append(m_steptask);
+    m_step_task = new p2d::WorldStepTask(m_world, r);
+    m_step_task->mark("sad::p2d::WorldStepTask");
+    r->pipeline()->append(m_step_task);
 }
 
 sad::Scene * sad::p2d::app::App::scene()

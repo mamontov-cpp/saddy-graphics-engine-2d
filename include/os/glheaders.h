@@ -22,18 +22,18 @@
 
 #include <3rdparty/glext/glext.h>
 
-// Placing get proc adress here to make sure it could be accessible
+// Placing get proc address here to make sure it could be accessible
 
 #ifdef WIN32
-    #define getProcAdress wglGetProcAddress
+    #define getProcAddress wglGetProcAddress
 #endif
 
 #ifdef X11
 
 #ifdef GLX_ARB_get_proc_adress
-    #define getProcAdress(X) glXGetProcAddressARB((const GLubyte *)(X))
+    #define getProcAddress(X) glXGetProcAddressARB((const GLubyte *)(X))
 #else
-    #define getProcAdress(X) glXGetProcAddress((const GLubyte *)(X))
+    #define getProcAddress(X) glXGetProcAddress((const GLubyte *)(X))
 #endif
 
 #endif

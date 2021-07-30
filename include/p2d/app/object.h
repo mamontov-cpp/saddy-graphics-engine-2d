@@ -9,6 +9,7 @@
 
 #include "../../sprite2d.h"
 #include "../../object.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../../sadvector.h"
 
 namespace sad
@@ -83,21 +84,21 @@ public:
      /*! Sets scene for a sprite
          \param[in] s scene
       */
-     virtual void setScene(sad::Scene * s);
+     virtual void setScene(sad::Scene * s) override;
      /*! Called, when scene renderer's changed
       */
-     virtual void rendererChanged();
+     virtual void rendererChanged() override;
      /*! The object does not own anything, if game is not null
       */
-     virtual ~Object();
+     virtual ~Object() override;
      /*! Returns body of object	
          \return body of object
       */ 
      p2d::Body * body();
-     /*! Called, when object is rendered. Object can easily reimplement
+     /*! Called, when object is rendered. Object can easily re-implement
          it to work with AI, or do something other (like shoot). 
       */
-     virtual void render();
+     virtual void render() override;
      /*! Returns a world for object
          \return object
       */
@@ -113,7 +114,8 @@ public:
      /*! A basic method for moving object
          \param[in] p point
       */
-     virtual void moveBy(sad::Point2D& p);
+    // ReSharper disable once CppInconsistentNaming
+    virtual void moveBy(sad::Point2D& p);  // NOLINT(clang-diagnostic-overloaded-virtual)
      /*! Returns an angle of  object
          \return an angle
       */
@@ -133,13 +135,13 @@ public:
      /*! Sets shader function
       *  \param[in] fun a function
       */
-     virtual void setShaderFunction(sad::ShaderFunction* fun);
+     virtual void setShaderFunction(sad::ShaderFunction* fun) override;
      /*! Called, when object is added to scene
       */
-     void onAddedToScene();
+     void onAddedToScene() override;
      /*! Called, when object is removed from scene
       */
-     void onRemovedFromScene();
+     void onRemovedFromScene() override;
 protected:
      /*! A body is representation for a game object in physics engine, needed
       */
@@ -157,7 +159,7 @@ protected:
       */
      p2d::MovementDeltaListener<p2d::app::Object, double> * m_listener2;
 protected:
-     /*! Inits object parameters from constants of specified type
+     /*! Initializes object parameters from constants of specified type
       */
      template<typename T> void initFromConstants()
      {

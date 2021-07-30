@@ -27,7 +27,7 @@ namespace os
 
 /*!  \class SemaphoreImpl
      
-     A  semaphore is  asimple synchonization primitive. 
+     A  semaphore is  simple synchronization primitive. 
     Semaphore blocks execution, when
     it's value less than zero, and does not
     block execution otherwise
@@ -36,7 +36,7 @@ class SemaphoreImpl
 {
 public:
     /*! Constructs new semaphore with specified values 
-        \param[in] currentvalue currentvalue of semaphore
+        \param[in] currentvalue current value of semaphore
         \param[in] maxvalue maximum value of semaphore
      */
     SemaphoreImpl(unsigned int currentvalue, unsigned int maxvalue); 

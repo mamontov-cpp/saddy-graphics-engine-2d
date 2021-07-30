@@ -64,7 +64,7 @@ enum class EventType: int
 
 /*! A count of elements in EventType
  */
-#define SAD_INPUT_EVENTTYPE_COUNT  (13)
+#define SAD_INPUT_EVENT_TYPE_COUNT  (13)
 
 /*! An abstract event, which is base for all events of engine.
     Can be used for marking or run-time check of events
@@ -168,7 +168,7 @@ public:
     virtual ~KeyEvent();
 };
 
-/*! A type of event, which is emitted, when user presses keyboard buttton
+/*! A type of event, which is emitted, when user presses keyboard button
  */
 class KeyPressEvent: public sad::input::KeyEvent
 {
@@ -206,7 +206,7 @@ public:
      */
     sad::Point2D Point;
 
-    inline MouseCursorEvent() : Point3D()
+    inline MouseCursorEvent()
     {
 
     }
@@ -265,7 +265,7 @@ class MouseEvent: public sad::input::MouseCursorEvent
 public:
     sad::MouseButton  Button;  //!< A button, which is pressed or held by user
 
-    /*! Inits event with no mouse pressed and zero points
+    /*! Initializes event with no mouse pressed and zero points
      */
     inline MouseEvent() : MouseCursorEvent(), Button(sad::MouseButton::MouseNone) 
     {
@@ -328,7 +328,7 @@ public:
      */
     double Delta;  
 
-    /*! Inits wheel event with zero delta
+    /*! Initializes wheel event with zero delta
      */
     inline MouseWheelEvent() : MouseCursorEvent(), Delta(0)
     {
@@ -349,10 +349,7 @@ public:
 
     /*! A Constructs new event
      */
-    inline ResizeEvent() 
-    {
-
-    }
+	inline ResizeEvent() = default;
     /*! Kept, for purpose of inheritance
      */
     virtual ~ResizeEvent();
@@ -369,28 +366,28 @@ struct EnumValueForEventType
 
 };
 
-#define SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(TYPE)  \
+#define SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(TYPE)  \
 template< >                                         \
 struct EnumValueForEventType< TYPE >                \
 {                                                   \
     static const sad::input::EventType Type;        \
 };
 
-SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::QuitEvent)
-SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::ActivateEvent)
-SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::DeactivateEvent)
-SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::KeyPressEvent)
-SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::KeyReleaseEvent)
-SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::MouseMoveEvent)
-SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::MouseEnterEvent)
-SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::MouseLeaveEvent)
-SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::MousePressEvent)
-SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::MouseReleaseEvent)
-SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::MouseDoubleClickEvent)
-SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::MouseWheelEvent)
-SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::ResizeEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::QuitEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::ActivateEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::DeactivateEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::KeyPressEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::KeyReleaseEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::MouseMoveEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::MouseEnterEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::MouseLeaveEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::MousePressEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::MouseReleaseEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::MouseDoubleClickEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::MouseWheelEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::ResizeEvent)
 
-#undef SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE
+#undef SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE
 
 }
 

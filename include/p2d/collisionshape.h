@@ -35,7 +35,7 @@ public:
         \return center of shape
      */
     virtual p2d::Point center() const = 0;
-    /*! Convers a shape to convex hull
+    /*! Converts a shape to convex hull
         \return convex hull
      */
     virtual p2d::ConvexHull toHull() const = 0;
@@ -48,7 +48,7 @@ public:
         \return projection
      */
     virtual p2d::Cutter1D project(const p2d::Axle & a) const = 0;
-    /*! Populates a vector two pooints, belonging to a border of bound
+    /*! Populates a vector two points, belonging to a border of bound
         \param[in] v vector
      */
     virtual void populatePoints(sad::Vector<p2d::Point> & v) const = 0;

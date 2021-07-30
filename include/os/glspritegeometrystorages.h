@@ -26,7 +26,7 @@ public:
     /*! Frees all related data
      */
     inline ~GLSpriteGeometryStorages() {}
-    /*! Sets renderer and preallocates geometries, related to renderer
+    /*! Sets renderer and pre-allocates geometries, related to renderer
      *  \param[in] r renderer
      */
     inline void setRenderer(sad::Renderer* r)

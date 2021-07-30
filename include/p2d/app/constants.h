@@ -12,8 +12,11 @@
  */
 #pragma once
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../circle.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../line.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../rectangle.h"
 
 #include "../../sprite2d.h"
@@ -105,7 +108,7 @@ public:
         Interval = 0;
     }
 
-    /*! Inits constants from static constants
+    /*! Initializes constants from static constants
      */
     template<typename T>
     void initFromStatic()

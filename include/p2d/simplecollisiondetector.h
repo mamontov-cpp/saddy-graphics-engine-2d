@@ -42,9 +42,9 @@ public:
        */
       virtual p2d::MaybeTime collides(p2d::Body * b1, 
                                       p2d::Body * b2, 
-                                      double limit);
+                                      double limit) override;
 
-     ~SimpleCollisionDetector();
+     ~SimpleCollisionDetector() override;
 private:
      p2d::CollisionTest * m_tester; // !< A tester, which tests shapes for collisions
      double  m_moment;  //!< A moment, when we should determine collision

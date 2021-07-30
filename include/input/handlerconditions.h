@@ -7,6 +7,7 @@
 #include "events.h"
 #include "../sadvector.h"
 #include "../sadpair.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../maybe.h"
 
 
@@ -16,7 +17,7 @@ namespace sad
 namespace input
 {
 
-class AbstractHanderCondition
+class AbstractHandlerCondition
 {
 public:
     /*! Checks a condition against abstract event
@@ -27,15 +28,15 @@ public:
     /*! Clones a condition
         \return new condition, which should be exact copy of current
      */
-    virtual sad::input::AbstractHanderCondition * clone() = 0;
+    virtual sad::input::AbstractHandlerCondition * clone() = 0;
     /*! You can inherit condition for implementing your very own conditions
      */
-    virtual ~AbstractHanderCondition();
+    virtual ~AbstractHandlerCondition();
 };
 
 /*! A handler conditions as a list of conditions
  */
-typedef sad::Vector<sad::input::AbstractHanderCondition *> 
+typedef sad::Vector<sad::input::AbstractHandlerCondition *> 
     HandlerConditionsList;
 
 
@@ -64,7 +65,7 @@ public:
     )
     {
     }
-    /*! A parametric cnstructor for options
+    /*! A parametric constructor for options
         \param[in] t type of event
         \param[in] m a list of handler conditions
      */
@@ -78,9 +79,9 @@ public:
     /*! Adds new condition into list, preserving constant parts
         \param[in] c a condition
      */
-    inline const HandlerTypeAndConditions & operator<<(sad::input::AbstractHanderCondition * c) const
+    inline const HandlerTypeAndConditions & operator<<(sad::input::AbstractHandlerCondition * c) const
     {
-        HandlerTypeAndConditions & me = const_cast<sad::input::HandlerTypeAndConditions &>(*this);
+	    auto& me = const_cast<sad::input::HandlerTypeAndConditions &>(*this);
         me._2() << c;
         return *this;
     }
@@ -111,10 +112,10 @@ inline sad::input::HandlerTypeAndConditions operator*(sad::input::EventType t)
  */
 inline sad::input::HandlerTypeAndConditions operator&(
     const sad::input::HandlerTypeAndConditions & t,
-    sad::input::AbstractHanderCondition * condition
+    sad::input::AbstractHandlerCondition * condition
 )
 {
-    sad::input::HandlerTypeAndConditions & mt = const_cast<sad::input::HandlerTypeAndConditions &>(t);
+	auto& mt = const_cast<sad::input::HandlerTypeAndConditions &>(t);
     mt._2() << condition;
     return t;
 }

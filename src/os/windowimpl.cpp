@@ -120,11 +120,11 @@ LRESULT CALLBACK sad_renderer_window_proc (
     LPARAM lParam
 );
 
-bool sad::os::WindowImpl::registerWindowClass(bool lastresult)
+bool sad::os::WindowImpl::registerWindowClass(bool last_result)
 {
     SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::registerWindowClass()", this->renderer());
 
-    if (!lastresult)
+    if (!last_result)
     {
         return false;
     }
@@ -178,11 +178,11 @@ void sad::os::WindowImpl::unregisterWindowClass()
     }
 }
 
-bool sad::os::WindowImpl::adjustWindowRect(bool lastresult)
+bool sad::os::WindowImpl::adjustWindowRect(bool last_result)
 {
     SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::adjustWindowRect()", this->renderer());
 
-    if (!lastresult)
+    if (!last_result)
     {
         return false;
     }
@@ -221,11 +221,11 @@ bool sad::os::WindowImpl::adjustWindowRect(bool lastresult)
     return true;
 }
 
-bool sad::os::WindowImpl::makeWindowAndObtainDeviceContext(bool lastresult)
+bool sad::os::WindowImpl::makeWindowAndObtainDeviceContext(bool last_result)
 {
     SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::makeWindowAndObtainDeviceContext()", this->renderer());
 
-    if (!lastresult)
+    if (!last_result)
     {
         return false;
     }
@@ -325,11 +325,11 @@ void sad::os::WindowImpl::releaseContextAndDestroyWindow()
 #endif
 }
 
-bool sad::os::WindowImpl::chooseAndSetPixelFormatDescriptor(bool lastresult)
+bool sad::os::WindowImpl::chooseAndSetPixelFormatDescriptor(bool last_result)
 {
     SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::chooseAndSetPixelFormatDescriptor()", this->renderer());
 
-    if (!lastresult)
+    if (!last_result)
     {
         return false;
     }

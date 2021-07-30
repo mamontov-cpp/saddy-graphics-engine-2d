@@ -239,11 +239,11 @@ struct CollisionData
 
     typedef p2d::MovementDeltaConstListener<p2d::Body, p2d::Vector> const_move_t;
     typedef p2d::MovementDeltaConstListener<p2d::Body, double> const_rotate_t;
-    /*! Inits angle for body
+    /*! Initializes angle for body
         \param[in] angle an angle
      */
     void initAngle(double angle) const;
-    /*! Inits position for body
+    /*! Initializes position for body
         \param[in] p point
      */
     void initPosition(const p2d::Point& p) const;
@@ -255,7 +255,7 @@ struct CollisionData
         \param[in] p point
      */
     void shedulePosition(const p2d::Point & p) const;
-    /*! Shedules specific position at specified time
+    /*! Schedules specific position at specified time
         \param[in] p point
         \param[in] time time when position should change
      */
@@ -281,11 +281,11 @@ struct CollisionData
         \param[in] v velocity
      */
     void setCurrentTangentialVelocity(const p2d::Vector & v) const;
-    /*! Shedules new velocity
+    /*! Schedules new velocity
         \param[in] v velocity
      */
     void sheduleTangentialVelocity(const p2d::Vector & v) const;
-    /*! Shedules new velocity at specified time
+    /*! Schedules new velocity at specified time
         \param[in] v velocity
         \param[in] time time when velocity should be applied
      */
@@ -310,7 +310,7 @@ struct CollisionData
         \param[in] angle specified angle
      */
     void sheduleAngle(double angle) const;
-    /*! Shedules angle for object at specified time
+    /*! Schedules angle for object at specified time
         \param[in] angle specified angle
         \param[in] time  a specified time
      */
@@ -323,7 +323,7 @@ struct CollisionData
         \return whether position will change
      */
     bool willAngleChange() const;
-    /*! Returns next angle, which body will be set , due to user call of shedule
+    /*! Returns next angle, which body will be set , due to user call of schedule
         \return next angle
      */
     double nextAngle() const;
@@ -331,11 +331,11 @@ struct CollisionData
         \param[in] v velocity
      */
     void setCurrentAngularVelocity(double v) const;
-    /*! Shedules new angular velocity
+    /*! Schedules new angular velocity
         \param[in] v velocity
      */
     void sheduleAngularVelocity(double v) const;
-    /*! Shedules new angular velocity at specified time
+    /*! Schedules new angular velocity at specified time
         \param[in] v velocity
         \param[in] time time of specified velocity
      */
@@ -450,7 +450,7 @@ struct CollisionData
     /*! If next position is scheduled, places object between two positions,
         otherwise schedules new position. Note, that instead a position, a distance
         between current position and new is passed
-        \param[in] distance
+        \param[in] distance a distance between current position and new
      */
     void correctPosition(const p2d::Vector & distance);
     /*! If next velocity is scheduled, computes middle of two velocities, otherwise
@@ -499,8 +499,7 @@ private:
     /*! A world simulation
      */
     p2d::World* m_world;
-    /*! Returns a user object
-        \return user object for a body
+    /*! A list of user objects
      */
     sad::Vector<sad::Object*> m_user_objects;
     /*! A tangential movement for body

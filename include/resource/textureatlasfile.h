@@ -1,12 +1,13 @@
 /*! \file textureatlasfile.h
     
 
-    Describes a file, which contains a Sprite2D::Options - a spritesheet file 
+    Describes a file, which contains a Sprite2D::Options - a sprite sheet file 
  */
 #pragma once
 #include "resourcefile.h"
 #include "tree.h"
 #include "../sprite2d.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../sadpair.h"
 
 namespace sad
@@ -24,32 +25,32 @@ class TextureAtlasFile: public sad::resource::ResourceFile
 public:
     /*! A partial result of parsing atlas file
      */
-    struct parse_result
+    struct parse_result  // NOLINT(cppcoreguidelines-pro-type-member-init)
     {
        sad::String ResourceName;   //!< A resource name for texture
        sad::String FileName;       //!< A name of file for texture
        bool        NoMipMaps;      //!< Whether we should not build mip-maps for file
        picojson::array EntryList;  //!< A list of entries for atlas
     };
-    /*! Creates new flle with specified name. Supposedly it must be path to specified file.
+    /*! Creates new file with specified name. Supposedly it must be path to specified file.
         \param[in] name a filename (with or without path) to it
      */
     TextureAtlasFile(const sad::String& name = "");	
     /*! Whether texture atlas file is found
      */
-    ~TextureAtlasFile();
+    ~TextureAtlasFile() override;
     /*! Loads a file. 
         \param[in] parent a parent folder, where all created resources should be stored
      */
-    virtual sad::Vector<sad::resource::Error*> load(sad::resource::Folder * parent);
+    virtual sad::Vector<sad::resource::Error*> load(sad::resource::Folder * parent) override;
     /*! Reloads all resources from a file
-        \return errors if any occured on resources
+        \return errors if any occurred on resources
      */
-    virtual sad::Vector<sad::resource::Error*> reload();
+    virtual sad::Vector<sad::resource::Error*> reload() override;
     /*! Returns whether resource supports loading from archive
         \return true. This resource supports loading from archives.
      */
-    virtual bool supportsLoadingFromTar7z() const;
+    virtual bool supportsLoadingFromTar7z() const override;
 protected:
     /*! Parses file with texture atlas
         \param[out] result a texture atlas file

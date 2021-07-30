@@ -5,6 +5,7 @@
  */ 
 #pragma once
 #include "logtarget.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "logmessage.h"
 #include "color.h"
 #include "priority.h"
@@ -30,7 +31,7 @@ class ConsoleTarget: public sad::log::Target
 {
 public:
     /*! Creates console target  with specified format.
-        Format defined as followes
+        Format defined as follows
         {0} - current time
         {1} - message priority
         {2} - formatSubsystem() result, by default, subsystem + ": ", 
@@ -39,7 +40,7 @@ public:
               through ', ', nothing if not specified
         {4} - message text
         \param[in] format format string 
-        \param[in] minpriority Minimal priority for outputting. 
+        \param[in] min_priority Minimal priority for outputting. 
                                Messages with priority  value, 
                                lesser than minimal priority are discarded
         \param[in] colored  whether output should be colored
@@ -48,13 +49,13 @@ public:
                                     will be allocated immediately after creation
      */
     ConsoleTarget(const sad::String & format = "{0}: [{1}] {3}{2}{4}", 
-                  int minpriority = 0,  
+                  int min_priority = 0,  
                   bool colored =  true, 
                   bool allocate_console = false);
     /*! Formats message and outputs it to console
         \param[in] message received message
      */
-    virtual void receive(const sad::log::Message & message);
+    virtual void receive(const sad::log::Message & message) override;
     /*! Sets color for specific priority and colored output
        \param[in] p priority
        \param[in] c color
@@ -62,7 +63,7 @@ public:
     void setColorForPriorityAndColoredOutput(sad::log::Priority p, sad::log::Color c);
     /*! Restores default color mode for console, saving problems
       */
-    ~ConsoleTarget();
+    ~ConsoleTarget() override;
 protected:
     /*! An inner implementation of console, used to support low-level console 
         operations, like setting color and printing already formatted output
@@ -95,7 +96,7 @@ protected:
     /*! Initializes default coloring schema
      */
     void createColoredOutput();
-    /*! Initializes schema. The console output, initalized with
+    /*! Initializes schema. The console output, initialized with
         this method won't be colored at all.
      */
     void createNormalOutput();

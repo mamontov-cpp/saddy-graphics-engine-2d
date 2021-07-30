@@ -29,7 +29,7 @@ namespace p2d
      */
     sad::p2d::Vector unit(const sad::p2d::Vector & v);
     /*! Computes unit vector and replace value of vector with it's unit vector
-        \param[in, out] v vector
+        \param[in,out] v vector
      */
     void mutableUnit(sad::p2d::Vector & v);
     /*! A class for orthogonal vector index, used to
@@ -47,9 +47,8 @@ namespace p2d
      */
     sad::p2d::Vector ortho(const sad::p2d::Vector & v, sad::p2d::OrthoVectorIndex i);
     /*! Orthogonal vector to normalized vector
-        \param[in] v vector
+        \param[in,out] v vector
         \param[in] i index
-        \return a vector, corresponding to value
      */
     void mutableNormalizedOrtho(sad::p2d::Vector & v, sad::p2d::OrthoVectorIndex i);
     /*! Scalar multiplication of a vector

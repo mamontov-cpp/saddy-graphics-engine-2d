@@ -28,7 +28,7 @@ public:
     virtual ~Delegate();
 };
 
-/* Determines callable function as nullary function
+/* Determines callable function as null-ary function
  */
 template<
     typename _Callable
@@ -37,20 +37,20 @@ class Function: public Delegate
 {
 public:
     /*! Creates new function delegate
-        \param[in] f a calback
+        \param[in] f a callback
      */
     inline Function(_Callable f) : m_f(f)
     {
     }
     /*! Invokes a delegate
      */
-    virtual void call()
+    virtual void call() override
     {
         m_f();
     }
     /*! Destroys a function
      */
-    virtual ~Function() 
+    virtual ~Function()  override
     {
     }
 private:
@@ -77,20 +77,20 @@ public:
     }
     /*! Invokes a delegate
      */
-    virtual void call()
+    virtual void call() override
     {
         (m_o ->* m_f)();
     }
     /*! Changes object for all method call. Object is casted down to method
         \param[in] o object for method call
      */
-    virtual void changeObject(void * o)
+    virtual void changeObject(void * o) override
     {
-        m_o = reinterpret_cast<_Object *>(o);
+        m_o = static_cast<_Object *>(o);
     }
     /*! Destroys a method call
      */
-    virtual ~MethodCall() 
+    virtual ~MethodCall()  override
     {
     }
 private:
@@ -123,20 +123,20 @@ public:
     }
     /*! Invokes a delegate
      */
-    virtual void call()
+    virtual void call() override
     {
         (((m_o ->* m_f)()) ->* m_g)();
     }
     /*! Changes object for all method call. Object is casted down to method
         \param[in] o object for method call
      */
-    virtual void changeObject(void * o)
+    virtual void changeObject(void * o) override
     {
-        m_o = reinterpret_cast<_Object *>(o);
+        m_o = static_cast<_Object *>(o);
     }
     /*! Destroys a method call
      */
-    virtual ~ComposedMethodCall() 
+    virtual ~ComposedMethodCall()  override
     {
     }
 private:

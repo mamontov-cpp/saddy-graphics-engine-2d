@@ -89,13 +89,13 @@ public:
      */
     virtual bool shouldBeDestroyedAfterProcessing() = 0;
 protected:
-    /*! Reimplement this function to create your own step actions
+    /*! Re-implement this function to create your own step actions
      */ 
     virtual void _process() = 0;
     /*! Whether we should enable or disable step invocation
      */
     bool m_enabled;
-    /*! A mark, uniquely identifiying a tep
+    /*! A mark, uniquely identifying a tep
      */
     sad::Maybe<sad::String> m_mark;
     /*! Defines a source for a step

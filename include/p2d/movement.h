@@ -36,7 +36,7 @@ class AbstractMovementDeltaListener
         \param[in] delta delta from previous value to current
      */
     virtual void notify(const _Value & delta) = 0;
-    virtual ~AbstractMovementDeltaListener() {}
+	virtual ~AbstractMovementDeltaListener() = default;
 };
 
 /*! A lambda as movement listener
@@ -63,11 +63,11 @@ public:
     /*! Notifies a movement for delta
         \param[in] delta delta from previous value to current
      */
-    virtual void notify(const _Value & delta)
+    virtual void notify(const _Value & delta) override
     {
         m_fn(delta);
     }
-    virtual ~LambdaMovementDeltaListener() {}
+	virtual ~LambdaMovementDeltaListener()  override = default;
 protected:
     std::function<void(const _Value&)> m_fn;
 };
@@ -101,7 +101,7 @@ public:
     /*! Notifies a movement for delta
         \param[in] delta delta from previous value to current
      */
-    virtual void notify(const sad::p2d::Vector & delta)
+    virtual void notify(const sad::p2d::Vector & delta) override
     {
         for(size_t i = 0; i < m_objects.size(); i++)
         {
@@ -110,7 +110,7 @@ public:
     }
     /*! Deletes all objects
      */
-    virtual ~ObjectGroupTangentialDeltaListener() 
+    virtual ~ObjectGroupTangentialDeltaListener()  override
     {
         for(size_t i = 0; i < m_objects.size(); i++)
         {
@@ -151,7 +151,7 @@ public:
     /*! Notifies a movement for delta
         \param[in] delta delta from previous value to current
      */
-    virtual void notify(const double & delta)
+    virtual void notify(const double & delta) override
     {
         for(size_t i = 0; i < m_objects.size(); i++)
         {
@@ -163,7 +163,7 @@ public:
     }
     /*! Deletes all objects
      */
-    virtual ~ObjectGroupAngularDeltaListener() 
+    virtual ~ObjectGroupAngularDeltaListener()  override
     {
         for(size_t i = 0; i < m_objects.size(); i++)
         {
@@ -196,13 +196,13 @@ public:
         after step, when current value is changed
         \param[in] delta a difference between previous and current body
      */
-    virtual void notify(const _Value & delta)
+    virtual void notify(const _Value & delta) override
     {
         (m_object->*m_fun)(delta);
     }
     /*! This class does not own object nor method, so nothing here
      */
-    ~MovementDeltaListener() {}
+	~MovementDeltaListener()  override = default;
 protected:
     _Class *  m_object; //!< An object
     method_t  m_fun;      //!< A called pointer to method of class
@@ -231,19 +231,19 @@ public:
         after step, when current value is changed
         \param[in] delta a difference between previous and current body
      */
-    virtual void notify(const _Value & delta)
+    virtual void notify(const _Value & delta) override
     {
         (m_object->*m_fun)(delta);
     }
     /*! This class does not own object nor method, so nothing here
      */
-    ~MovementDeltaConstListener() {}
+	~MovementDeltaConstListener()  override = default;
 protected:
     _Class *  m_object; //!< An object
     method_t  m_fun;      //!< A called pointer to method of class
 };
 
-/*! Describes a movement in specifiec direction, using _Value type as type
+/*! Describes a movement in specified direction, using _Value type as type
     of coordinate axis, or set of axis. 
 
     The value should behave as numeric type, to be a parameter for movement.
@@ -333,7 +333,7 @@ protected:
      }
 public:
      /*! By a default  a weight is one, force is empty, and
-         velocity and position should be zeroish
+         velocity and position should be zero-ish
       */
      Movement()
      {
@@ -448,8 +448,8 @@ public:
       */
      _Value positionDelta(double time, double step_size)
      {
-         bool iswholestep = sad::is_fuzzy_equal(time, step_size);
-         if (iswholestep && m_position_is_cached)
+	     const bool is_whole_step = sad::is_fuzzy_equal(time, step_size);
+         if (is_whole_step && m_position_is_cached)
          {
              return m_position_cache;
          }
@@ -477,17 +477,18 @@ public:
             m_position_cache *= time / 2;
             m_position_cache += m_velocity;
             m_position_cache *= time;
-            m_position_is_cached = iswholestep;
+            m_position_is_cached = is_whole_step;
             return m_position_cache;
          }
          else
          {
             m_position_cache = m_velocity;
             m_position_cache *= time;
-            m_position_is_cached = iswholestep;
+            m_position_is_cached = is_whole_step;
             return m_position_cache;
          }
-         return _Value();
+	     // ReSharper disable once CppUnreachableCode
+	     return _Value();
      }
 
      /*! Returns a position at specified time. 
@@ -505,10 +506,10 @@ public:
      void step(double time, double step_size)
      {
          _Value delta = this->positionDelta(time, step_size);
-         _Value newvelocity = velocityAt(time, step_size);
-         _Value newposition = positionAt(time, step_size);
-         m_velocity = newvelocity;
-         m_position = newposition;
+         _Value new_velocity = velocityAt(time, step_size);
+         _Value new_position = positionAt(time, step_size);
+         m_velocity = new_velocity;
+         m_position = new_position;
          if (sad::is_fuzzy_equal(time, step_size))
          {
              m_next_velocity.clear();
@@ -538,7 +539,7 @@ public:
      /*! Current weight of moved body
          \return current weight of body
       */
-     p2d::Weight * weight() { return m_weight; }
+     p2d::Weight * weight() const { return m_weight; }
      /*! Sets  new weight for body
          \param[in] w weight of body
       */
@@ -574,7 +575,7 @@ public:
      {
          m_next_velocity.setValue(v);
      }
-     /*! Sets next valocity at specified time
+     /*! Sets next velocity at specified time
       */
      void setNextVelocityAt(const _Value & v, double time)
      {
@@ -608,7 +609,7 @@ public:
          m_position_is_cached =  false;
          fireMovement(delta);
      }
-     /*! Inits position for movement to not move stuff
+     /*! Initializes position for movement to not move stuff
       *  \param[in] v a position
       */
      inline void initPosition(const _Value& v)
@@ -659,7 +660,7 @@ public:
      }
 };
 
-/*! A angular movement, as a rotation around ceneter
+/*! A angular movement, as a rotation around center
  */
 typedef p2d::Movement<double> AngularMovement;
 /*! A tangential movement, as moving of whole body

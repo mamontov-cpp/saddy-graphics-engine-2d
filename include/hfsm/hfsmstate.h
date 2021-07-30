@@ -39,7 +39,7 @@ public:
      */
     virtual ~State();
     /*! Sets machine for state
-        \param[in] machine
+        \param[in] machine a machine, that should be used as parent for state
      */
     void setMachine(sad::hfsm::Machine * machine);
     /*! Returns hfsm machine for state

@@ -11,7 +11,7 @@ void sad::KeyHoldCondition::setKey(sad::KeyboardKey key)
     m_key = key;
 }
 
-sad::input::AbstractHanderCondition * sad::KeyHoldCondition::clone()
+sad::input::AbstractHandlerCondition * sad::KeyHoldCondition::clone()
 {
     return new sad::KeyHoldCondition(m_key);
 }
@@ -42,7 +42,7 @@ void sad::SpecialKeyHoldCondition::setKey(sad::SpecialKey key)
     m_key = key;
 }
 
-sad::input::AbstractHanderCondition* sad::SpecialKeyHoldCondition::clone()
+sad::input::AbstractHandlerCondition* sad::SpecialKeyHoldCondition::clone()
 {
      sad::SpecialKeyHoldCondition* result =  new sad::SpecialKeyHoldCondition(m_key);
      return result;
@@ -59,7 +59,7 @@ void sad::MouseButtonHoldCondition::setButton(sad::MouseButton button)
     m_button = button;
 }
 
-sad::input::AbstractHanderCondition * sad::MouseButtonHoldCondition::clone()
+sad::input::AbstractHandlerCondition * sad::MouseButtonHoldCondition::clone()
 {
     return new sad::MouseButtonHoldCondition(m_button);
 }

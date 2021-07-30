@@ -1,7 +1,7 @@
 /*! \file generatemipmaps30.h
     
 
-    Defines crossplatform generation function of mip maps in 2D, as in OpenGL 3.0+
+    Defines cross-platform generation function of mip maps in 2D, as in OpenGL 3.0+
  */
 #pragma once
 #include "glheaders.h"

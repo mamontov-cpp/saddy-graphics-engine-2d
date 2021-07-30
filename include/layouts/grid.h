@@ -40,7 +40,7 @@ public:
     Grid();
     /*! Grid could be inherited
      */
-    virtual ~Grid();
+    virtual ~Grid() override;
     /*! Returns cell by it's row and it's cell
         \param[in] row a row for cell
         \param[in] col a column for cell
@@ -50,15 +50,15 @@ public:
         \param[in] r renderer, which tree should be fetched from
         \param[in] tree_name a name for an item for object
      */
-    virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name);
+    virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name) override;
     /*! Returns renderer for a grid
         \return renderer
      */
     // ReSharper disable once CppHidingFunction
-    sad::Renderer* renderer() const;
+    sad::Renderer* renderer() const override;
     /*! Allows rendering of a grid
      */ 
-    virtual void render();
+    virtual void render() override;
     /*! Allows rendering of a grid with specified color
         \param[in] clr color
      */ 
@@ -66,16 +66,18 @@ public:
     /*! Returns list of regions
         \return list of regions
      */
+	// ReSharper disable once CppInconsistentNaming
+	// ReSharper disable once CppHidingFunction
     sad::Vector<sad::Rect2D> getRegions();
     /*! Fills vector of regions with exactly one region, describing an area of grid
         \param[out] r a vector of regions
      */
-    virtual void regions(sad::Vector<sad::Rect2D> & r);
+    virtual void regions(sad::Vector<sad::Rect2D> & r) override;
     /*! Loads grid from picojson object
         \param[in] v a picojson object
         \return  whether it as successfull
      */
-    virtual bool load(const picojson::value& v);        
+    virtual bool load(const picojson::value& v) override;
     /*! A basic schema for object
         \return a schema 
      */
@@ -83,7 +85,7 @@ public:
     /*! Returns schema for an object
         \return schema
      */
-    virtual sad::db::schema::Schema* schema() const;    
+    virtual sad::db::schema::Schema* schema() const  override;
     /*! Sets an area for table
         \param[in] r area for table
      */
@@ -199,13 +201,13 @@ public:
     /*! Moves a grid by specified vector
         \param[in] p point, which specifies a vector
      */
-    void moveBy(const sad::Point2D& p);
+    virtual void moveBy(const sad::Point2D& p) override;
     /*! Returns a cell by inner position
         \param[in] pos a position
         \return cell
      */
     sad::layouts::Cell* cell(size_t pos) const;
-     /*! Finds a scene node by it's adress
+     /*! Finds a scene node by it's address
         \param[in] node a node
         \return result, which is set if found
      */
@@ -250,42 +252,42 @@ public:
     /*! Sets a table, propagating database to a cells
         \param[in] t a table
      */
-    virtual void setTable(sad::db::Table* t);
+    virtual void setTable(sad::db::Table* t) override;
 private:
     /*! The grid is not copyable
-        \param[in] grid a grid      
+        \param[in] o a grid
      */
-    Grid(const sad::layouts::Grid& grid);
+    Grid(const sad::layouts::Grid& o);
     /*! The grid is not copyable
-        \param[in] grid a grid
+        \param[in] o a grid
         \return self-reference
      */
-    sad::layouts::Grid& operator=(const sad::layouts::Grid& grid);
+    sad::layouts::Grid& operator=(const sad::layouts::Grid& o);
     /*! Expands rows to a specified size
-        \param[in] oldrows an old rows count
-        \param[in] newrows a new rows count
+        \param[in] old_rows an old rows count
+        \param[in] new_rows a new rows count
      */
-    void expandRows(size_t oldrows, size_t newrows);
+    void expandRows(size_t old_rows, size_t new_rows);
     /*! Shrinks rows to a specified size
-        \param[in] oldrows an old rows count
-        \param[in] newrows a new rows count
+        \param[in] old_rows an old rows count
+        \param[in] new_rows a new rows count
      */
-    void shrinkRows(size_t oldrows, size_t newrows);
+    void shrinkRows(size_t old_rows, size_t new_rows);
     /*! Expands columns to a specified size
-        \param[in] oldcols an old columns count
-        \param[in] newcols a new rows count
+        \param[in] old_cols an old columns count
+        \param[in] new_cols a new rows count
      */
-    void expandColumns(size_t oldcols, size_t newcols);
+    void expandColumns(size_t old_cols, size_t new_cols);
     /*! Shrinks columns to a specified size
-        \param[in] oldcols an old columns count
-        \param[in] newcols a new rows count
+        \param[in] old_cols an old columns count
+        \param[in] new_cols a new rows count
      */
-    void shrinkColumns(size_t oldcols, size_t newcols);
+    void shrinkColumns(size_t old_cols, size_t new_cols);
     /*! Regenerates cell views array, according to current settings
-        \param[in] prows a pointer, which should point to current rows count (nullptr for current rows)
-        \param[in] pcols a pointer, which should point to current columns count (nullptr for current columns)
+        \param[in] p_rows a pointer, which should point to current rows count (nullptr for current rows)
+        \param[in] p_cols a pointer, which should point to current columns count (nullptr for current columns)
      */
-    void makeCellViews(size_t* prows = nullptr, size_t* pcols = nullptr);
+    void makeCellViews(size_t* p_rows = nullptr, size_t* p_cols = nullptr);
     /*! Validates list of cells, returning whether it's valid
         \return whether list of cells is valid
      */
@@ -294,32 +296,32 @@ private:
         \param[out] coverage a coverage for cells
      */
     void buildCoverage(sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > >& coverage) const;  
-    /*! Makes new cell with specified row and columng
+    /*! Makes new cell with specified row and column
         \param[in] row a row 
         \param[in] col a column
-        \param[in] rowspan amount of spanning rows
-        \param[in] colspan amount of spanning columnns
+        \param[in] row_span amount of spanning rows
+        \param[in] col_span amount of spanning columns
      */
-    sad::layouts::Cell* makeCell(size_t row, size_t col, size_t rowspan, size_t colspan);
+    sad::layouts::Cell* makeCell(size_t row, size_t col, size_t row_span, size_t col_span);
     /*! A Computes a list of cells, that are affected by changes of region
         \param[in] row a row of affected region
         \param[in] col a column of affected region
-        \param[in] rowspan amount of spanning rows for affected region
-        \param[in] colspan amount of spanning columnns for affected region
+        \param[in] row_span amount of spanning rows for affected region
+        \param[in] col_span amount of spanning columns for affected region
         \param[out] affected_cells a list of affected cells
      */
     void cellsAffectedByRegion(
         size_t row, 
         size_t col, 
-        size_t rowspan, 
-        size_t colspan,
+        size_t row_span, 
+        size_t col_span,
         sad::Hash<size_t, sad::layouts::Cell*>& affected_cells
     );
     /*! Recalculates spans of affected cells
         \param[in] row a row of affected region
         \param[in] col a column of affected region
-        \param[in] rowspan amount of spanning rows for affected region
-        \param[in] colspan amount of spanning columnns for affected region
+        \param[in] row_span amount of spanning rows for affected region
+        \param[in] col_span amount of spanning columns for affected region
         \param[in] merge true if we merging cells, false otherwise
         \param[in] affected_cells a list of affected cells
         \param[out] to_be_erased a list of cells to be erased
@@ -327,8 +329,8 @@ private:
     void recalculateSpansOfAffectedCells(
         size_t row, 
         size_t col, 
-        size_t rowspan, 
-        size_t colspan,
+        size_t row_span, 
+        size_t col_span,
         bool merge,
         const sad::Hash<size_t, sad::layouts::Cell*>& affected_cells,
         sad::Vector<sad::layouts::Cell*>& to_be_erased

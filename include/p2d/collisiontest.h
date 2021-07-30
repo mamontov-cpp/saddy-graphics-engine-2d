@@ -23,9 +23,9 @@ class CollisionTest: public p2d::CollisionMultiMethod<bool>
 public:
      static bool collidesBtoS(p2d::Bound * p1, CollisionShape * p2);
 protected:
-     /*! This function inits all callbacks. 
+     /*! This function initializes all callbacks. 
       */
-     virtual void init();
+     virtual void init() override;
 private:
      static bool collidesRtoR(p2d::Rectangle * p1, p2d::Rectangle * p2);
      static bool collidesRtoC(p2d::Rectangle * p1, p2d::Circle * p2);

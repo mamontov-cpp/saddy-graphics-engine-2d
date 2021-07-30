@@ -71,10 +71,7 @@ bool sad::imageformats::BMPLoader::load(tar7z::Entry* entry, sad::Texture* textu
     return this->load(&buf, texture);
 }
 
-sad::imageformats::BMPLoader::~BMPLoader()
-{
-
-}
+sad::imageformats::BMPLoader::~BMPLoader() = default;
 
 // ========================================================================== PROTECTED METHODS ==========================================================================
 

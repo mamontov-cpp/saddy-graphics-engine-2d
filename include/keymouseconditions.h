@@ -16,7 +16,7 @@ namespace sad
     
     This condition is checked via Key field in KeyEvent
  */
-class KeyHoldCondition: public sad::input::AbstractHanderCondition
+class KeyHoldCondition: public sad::input::AbstractHandlerCondition
 {
 public:
     /*! Creates a new condition, for specified key
@@ -38,7 +38,7 @@ public:
     /*! Clones a condition
         \return clone a condition
      */
-    virtual sad::input::AbstractHanderCondition * clone() override;
+    virtual sad::input::AbstractHandlerCondition * clone() override;
 
 private:
     /*! A keyboard key, which event will be tested against
@@ -49,7 +49,7 @@ private:
 /*! A condition, which is met, when user holds a special key, like Alt, Shift or Control
     and key event for event data
  */
-class SpecialKeyHoldCondition: public sad::input::AbstractHanderCondition
+class SpecialKeyHoldCondition: public sad::input::AbstractHandlerCondition
 {
 public:
     /*! Creates new condition for key, which should be pressed, when event is emitted
@@ -68,7 +68,7 @@ public:
     /*! Clones a condition
         \return clone a condition
      */
-    virtual sad::input::AbstractHanderCondition* clone() override;
+    virtual sad::input::AbstractHandlerCondition* clone() override;
 protected:
     sad::SpecialKey m_key;
 };
@@ -77,7 +77,7 @@ protected:
 /*! A conditions, which is met, when user holds a specified mouse button and mouse event is received.
     
  */
-class MouseButtonHoldCondition: public sad::input::AbstractHanderCondition
+class MouseButtonHoldCondition: public sad::input::AbstractHandlerCondition
 {
 public:
     /*! Creates a new condition, for specified mouse button
@@ -99,7 +99,7 @@ public:
     /*! Clones a condition
         \return clone a condition
      */
-    virtual sad::input::AbstractHanderCondition * clone() override;
+    virtual sad::input::AbstractHandlerCondition * clone() override;
 private:
     /*! A keyboard key, which event will be tested against
      */
@@ -138,7 +138,7 @@ inline sad::input::HandlerTypeAndConditions operator&(
 )
 {
 	auto& mt = const_cast<sad::input::HandlerTypeAndConditions &>(t);
-	sad::input::AbstractHanderCondition* h = new sad::SpecialKeyHoldCondition(key);
+	sad::input::AbstractHandlerCondition* h = new sad::SpecialKeyHoldCondition(key);
     mt._2() << h;
     return t;
 }

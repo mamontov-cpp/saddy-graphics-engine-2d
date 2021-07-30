@@ -593,7 +593,7 @@ size_t sad::p2d::World::GlobalHandlerList::totalHandlerCount(size_t i1, size_t i
     return result;
 }
 
-size_t sad::p2d::World::GlobalHandlerList::totalHandlerOccurences(sad::p2d::BasicCollisionHandler* h)
+size_t sad::p2d::World::GlobalHandlerList::totalHandlerOccurrences(sad::p2d::BasicCollisionHandler* h)
 {
     size_t result = 0;
     for(size_t i = 0; i < List.size(); i++)
@@ -608,7 +608,7 @@ size_t sad::p2d::World::GlobalHandlerList::totalHandlerOccurences(sad::p2d::Basi
     return result;
 }
 
-size_t sad::p2d::World::GlobalHandlerList::totalHandlerOccurences(size_t i1, size_t i2, sad::p2d::BasicCollisionHandler* h)
+size_t sad::p2d::World::GlobalHandlerList::totalHandlerOccurrences(size_t i1, size_t i2, sad::p2d::BasicCollisionHandler* h)
 {
     size_t result = 0;
     for(size_t i = 0; i < List.size(); i++)
@@ -1155,18 +1155,18 @@ size_t sad::p2d::World::amountOfHandlersForGroups(const sad::String& s1, const s
     return result;
 }
 
-size_t sad::p2d::World::totalHandlerOccurences(sad::p2d::BasicCollisionHandler* h)
+size_t sad::p2d::World::totalHandlerOccurrences(sad::p2d::BasicCollisionHandler* h)
 {
     m_world_lock.lock();
 
-    size_t result = m_global_handler_list.totalHandlerOccurences(h);
+    size_t result = m_global_handler_list.totalHandlerOccurrences(h);
 
     m_world_lock.unlock();
 
     return result;
 }
 
-size_t sad::p2d::World::totalHandlerOccurencesInGroups(const sad::String& s1, const sad::String& s2, sad::p2d::BasicCollisionHandler* h)
+size_t sad::p2d::World::totalHandlerOccurrencesInGroups(const sad::String& s1, const sad::String& s2, sad::p2d::BasicCollisionHandler* h)
 {
     size_t result = 0;
     m_world_lock.lock();
@@ -1176,7 +1176,7 @@ size_t sad::p2d::World::totalHandlerOccurencesInGroups(const sad::String& s1, co
 
     if (location1.exists() && location2.exists())
     {
-        result = m_global_handler_list.totalHandlerOccurences(location1.value(), location2.value(), h);
+        result = m_global_handler_list.totalHandlerOccurrences(location1.value(), location2.value(), h);
     }
     m_world_lock.unlock();
 
@@ -1185,12 +1185,12 @@ size_t sad::p2d::World::totalHandlerOccurencesInGroups(const sad::String& s1, co
 
 bool sad::p2d::World::isHandlerInWorld(sad::p2d::BasicCollisionHandler* h)
 {
-    return totalHandlerOccurences(h) != 0;
+    return totalHandlerOccurrences(h) != 0;
 }
 
 bool sad::p2d::World::isHandlerInGroups(const sad::String& s1, const sad::String& s2, sad::p2d::BasicCollisionHandler* h)
 {
-    return totalHandlerOccurencesInGroups(s1, s2, h) != 0;
+    return totalHandlerOccurrencesInGroups(s1, s2, h) != 0;
 }
 
 sad::Vector<sad::p2d::BasicCollisionHandler*> sad::p2d::World::allHandlers()

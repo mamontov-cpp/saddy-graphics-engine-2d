@@ -7,6 +7,7 @@
 #pragma once
 #include "events.h"
 #include <functional>
+#include <utility>
 
 namespace sad
 {
@@ -28,7 +29,7 @@ public:
     virtual ~AbstractHandler();
 };
 
-/*! A basic calback for handling window input
+/*! A basic callback for handling window input
  */
 template<
 typename _EventType
@@ -39,7 +40,7 @@ public:
     /*! Invokes a callback. Used by sad::Input
         \param[in] e event type
      */
-    virtual void invoke(const sad::input::AbstractEvent & e)
+    virtual void invoke(const sad::input::AbstractEvent & e) override
     {
         this->invoke(static_cast<const _EventType&>(e));
     }
@@ -50,6 +51,7 @@ protected:
     /*! Invokes a callback. Used by sad::Input
         \param[in] e event type
      */
+    // ReSharper disable once CppOverridingFunctionWithoutOverrideSpecifier
     virtual void invoke(const _EventType & e) = 0;
 };
 
@@ -61,14 +63,14 @@ public:
     /*! Constructs new handler
         \param[in] f callback
      */
-    inline VoidStdFunctionHandler(const std::function<void()>& f) : m_f(f)
+    inline VoidStdFunctionHandler(std::function<void()> f) : m_f(std::move(f))
     {
     }
 	
     /*! Invokes a callback function
         \param[in] e event type
      */
-    virtual void invoke(const sad::input::AbstractEvent & e);
+    virtual void invoke(const sad::input::AbstractEvent & e) override;
 private:
    std::function<void()> m_f; //!< Called function
 };
@@ -91,7 +93,7 @@ public:
     /*! Invokes a callback function
         \param[in] e event type
      */
-    virtual void invoke(const _EventType & e)
+    virtual void invoke(const _EventType & e) override
     {
         m_f(e);
     }
@@ -117,7 +119,7 @@ public:
     /*! Invokes a callback function
         \param[in] e event type
      */
-    virtual void invoke(const _EventType & e)
+    virtual void invoke(const _EventType & e) override
     {
         m_f(e);
     }
@@ -141,7 +143,7 @@ public:
     /*! Invokes a callback function
         \param[in] e event type
      */
-    virtual void invoke(const sad::input::AbstractEvent & e);
+    virtual void invoke(const sad::input::AbstractEvent & e) override;
 private:
     void (*m_f)(); //!< Called function
 };
@@ -171,7 +173,7 @@ public:
     /*! Invokes a callback function
         \param[in] e event type
      */
-    virtual void invoke(const _EventType & e)
+    virtual void invoke(const _EventType & e) override
     {
         (m_o->*m_f)(e);
     }
@@ -209,7 +211,7 @@ public:
     /*! Invokes a callback function
         \param[in] e event type
      */
-    virtual void invoke(const sad::input::AbstractEvent & e)
+    virtual void invoke(const sad::input::AbstractEvent & e) override
     {
         (m_o->*m_f)();
     }
@@ -250,7 +252,7 @@ public:
     /*! Invokes a callback function
         \param[in] e event type
      */
-    virtual void invoke(const _EventType & e)
+    virtual void invoke(const _EventType & e) override
     {
         (((m_o->*m_f)()) ->* m_g) (e);
     }
@@ -295,7 +297,7 @@ public:
     /*! Invokes a callback function
         \param[in] e event type
      */
-    virtual void invoke(const sad::input::AbstractEvent & e)
+    virtual void invoke(const sad::input::AbstractEvent & e) override
     {
         (((m_o->*m_f)()) ->* m_g) ();
     }

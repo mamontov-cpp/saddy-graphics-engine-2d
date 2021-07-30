@@ -45,7 +45,7 @@ public:
      */
     void setSubData(GLintptr offset, GLsizeiptr size, const GLvoid* data);
     /*! Sets user data for UBO
-        \param[in] userData data
+        \param[in] user_data data
      */
     void setUserData(void* user_data);
     /*! Returns user data
@@ -54,7 +54,6 @@ public:
     void* userData() const;
     /*! Binds buffer
         \param[in] offset offset data
-        \param[in] program a program
         \param[in] uniformBlockBinding binding point
      */
     void bind(GLintptr offset, GLuint uniformBlockBinding);
@@ -64,7 +63,7 @@ public:
     /*! Destroys uniform buffer object
      */
     ~UBO();
-    /*! Tries to log OpenGL error if occured
+    /*! Tries to log OpenGL error if occurred
      *  \param[in] op log info
      */
     void tryLogGlError(const char* op);

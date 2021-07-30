@@ -4,6 +4,7 @@
     Describes a collision event
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include <cstdlib>
 
 namespace sad

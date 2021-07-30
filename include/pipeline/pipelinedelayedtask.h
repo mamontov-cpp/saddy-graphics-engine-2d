@@ -21,7 +21,7 @@ public:
 	/*! Default constructor with empty delegate
 		\param[in] interval an interval for task
 	*/
-	DelayedTask(double interval) : m_interval(interval), m_delegate(nullptr), m_performed(false)
+	DelayedTask(double interval) : m_delegate(nullptr), m_interval(interval), m_performed(false)
 	{
 		m_timer.start();
 	}
@@ -70,18 +70,18 @@ public:
     /*! Changes object for all method call. Object is casted down to method
         \param[in] o object for method call
      */
-    virtual void changeObject(void * o);
+    virtual void changeObject(void * o) override;
     /*! An abstract process should never be destroyed after processing
         \return false
      */
-    virtual bool shouldBeDestroyedAfterProcessing();
+    virtual bool shouldBeDestroyedAfterProcessing() override;
     /*! Destroys a delegate in process
      */
-    virtual ~DelayedTask();
+    virtual ~DelayedTask() override;
 protected:
     /*! Invokes a delegate inside of process
      */
-    virtual void _process();
+    virtual void _process() override;
     /*!  A linked delegate for process
      */
     sad::pipeline::Delegate * m_delegate;

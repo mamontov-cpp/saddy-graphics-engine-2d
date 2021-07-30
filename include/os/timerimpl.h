@@ -5,7 +5,7 @@
  */
 #pragma once
 #include <cstdio>
-#include <time.h>
+#include <ctime>
 #ifdef WIN32
     #ifndef NOMINMAX
     #define NOMINMAX 

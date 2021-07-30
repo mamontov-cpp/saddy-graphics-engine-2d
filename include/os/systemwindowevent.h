@@ -15,7 +15,7 @@ namespace sad
 namespace os
 {
 
-/*! An event, received by window as structre for representing all data, that
+/*! An event, received by window as structure for representing all data, that
     other classes needed to dispatch it
  */
 class SystemWindowEvent
@@ -41,14 +41,6 @@ public:
      */
     SystemWindowEvent();
 #endif
-    /*! Converts mouse position from event to point
-        \return mouse position from event 
-     */
-    sad::Point2D mousePositionToPoint() const;
-    /*! Converts size event properties to size
-        \return size 
-     */
-    sad::Size2D toSize() const;
 #ifdef WIN32
     /*! Window handle parameters 
      */

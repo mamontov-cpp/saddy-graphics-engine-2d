@@ -1,7 +1,7 @@
 #include "input/controls.h"
 
 sad::input::Controls::Controls()
-: m_wheelticksensivity(1), m_doubleclicksensivity(500)
+: m_wheel_tick_sensitivity(1), m_double_click_sensitivity(500)
 {
 
 }
@@ -42,35 +42,35 @@ void sad::input::Controls::startReceivingEvents()
     lockChanges();
 }
 
-void sad::input::Controls::finishRecevingEvents()
+void sad::input::Controls::finishReceivingEvents()
 {
     unlockChanges();
     performQueuedActions();
 }
 
-void sad::input::Controls::setWheelTickSensivity(double delta)
+void sad::input::Controls::setWheelTickSensitivity(double delta)
 {
-    m_wheelticksensivity = delta;
+    m_wheel_tick_sensitivity = delta;
 }
 
-double sad::input::Controls::wheelTickSensivity() const
+double sad::input::Controls::wheelTickSensitivity() const
 {
-    return m_wheelticksensivity;
+    return m_wheel_tick_sensitivity;
 }
 
-void sad::input::Controls::setDoubleClickSensivity(double sensivity)
+void sad::input::Controls::setDoubleClickSensitivity(double sensitivity)
 {
-    m_doubleclicksensivity = sensivity;
+    m_double_click_sensitivity = sensitivity;
 }
 
-double sad::input::Controls::doubleClickSensivity() const
+double sad::input::Controls::doubleClickSensitivity() const
 {
-    return m_doubleclicksensivity;
+    return m_double_click_sensitivity;
 }
 
 void sad::input::Controls::clearNow()
 {
-    for(unsigned int i = 0; i < SAD_INPUT_EVENTTYPE_COUNT; i++) 
+    for(unsigned int i = 0; i < SAD_INPUT_EVENT_TYPE_COUNT; i++) 
     {
         for(unsigned int j = 0; j < m_handlers[i].size(); j++) 
         {
@@ -100,7 +100,7 @@ void sad::input::Controls::addNow(
 
 void sad::input::Controls::removeNow(sad::input::AbstractHandler* o)
 {
-    for(unsigned int i = 0; i < SAD_INPUT_EVENTTYPE_COUNT; i++) 
+    for(unsigned int i = 0; i < SAD_INPUT_EVENT_TYPE_COUNT; i++) 
     {
         for(unsigned int j = 0; j < m_handlers[i].size(); j++) 
         {

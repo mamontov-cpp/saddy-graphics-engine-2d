@@ -17,7 +17,7 @@ namespace p2d
 class Line: public sad::p2d::CollisionShape
 {
 public:
-    inline Line() {}
+	inline Line() = default;
     /*! Sets new cutter
         \param[in] c cutter
      */
@@ -41,32 +41,32 @@ public:
         \return cutter
      */ 
     inline const sad::p2d::Cutter2D & cutter() const { return m_c; }
-    /*! Returns new identical cuttes
+    /*! Returns new identical cutters
         \param[in] count how many cutters we should create
         \return raw array of cutters
      */
-    sad::p2d::CollisionShape * clone(int count) const;
+    sad::p2d::CollisionShape * clone(int count) const override;
     /*! Returns a center of cutter
         \return center of cutter
      */
-    sad::p2d::Point center() const;
-    /*! Rotates a lline around it's center
+    sad::p2d::Point center() const override;
+    /*! Rotates a line around it's center
         \param[in] angle angle to rotate
      */
-    void rotate(double angle);
+    void rotate(double angle) override;
     /*! Moves a line by specified vector
         \param[in] d distance to move
      */
-    void move(const sad::p2d::Vector & d);
+    void move(const sad::p2d::Vector & d) override;
     /*! Converts a cutter to convex hull
         \return convex hull
      */
-    sad::p2d::ConvexHull toHull() const;
+    sad::p2d::ConvexHull toHull() const override;
     /*! Projects cutter to axle
         \param[in] a axle
         \return cutter
      */
-    sad::p2d::Cutter1D project(const sad::p2d::Axle & a) const;
+    sad::p2d::Cutter1D project(const sad::p2d::Axle & a) const override;
     /*! Returns a points from a line
         \return points
      */
@@ -74,7 +74,7 @@ public:
     /*! Returns size of current type
         \return size of type in bytes
      */
-    virtual size_t sizeOfType() const;
+    virtual size_t sizeOfType() const override;
     /*! Returns first point of line
         \return first point
      */
@@ -83,10 +83,10 @@ public:
         \return second point
      */
     const sad::Point2D & p2() const { return m_c.p2();}
-    /*! Populates a vector two pooints, belonging to a border of bound
+    /*! Populates a vector two points, belonging to a border of bound
         \param[in] v vector
      */
-    virtual void populatePoints(sad::Vector<sad::p2d::Point> & v) const;
+    virtual void populatePoints(sad::Vector<sad::p2d::Point> & v) const override;
     /*! In any case, returns normal to a bound. A normal is returned as rotation
         of unit vector of line by 90 degrees. So if line will be like [p1, p2] and normal is like (n1, n2)
         the following cases will be valid:
@@ -97,19 +97,19 @@ public:
         \param[in] p point
         \param[out] n resulting normal
      */
-    virtual void normalToPointOnSurface(const sad::p2d::Point & p, sad::p2d::Vector & n) ;
+    virtual void normalToPointOnSurface(const sad::p2d::Point & p, sad::p2d::Vector & n)  override;
     /*! Dumps object to string
         \return string
      */
-    virtual sad::String dump() const; 
+    virtual sad::String dump() const override; 
     /*! Resizes a shape by specified value
         \param[in] v value
      */
-    virtual void resizeBy(const sad::p2d::Vector& v);
+    virtual void resizeBy(const sad::p2d::Vector& v) override;
     /*! Return private meta-type index for identifying
         type of object, since we must keep shapes as POD as possible
      */
-    virtual unsigned int metaIndex();
+    virtual unsigned int metaIndex() override;
     /*! Return private meta-type index for identifying
         type of object, since we must keep shapes as POD as possible
      */
@@ -117,7 +117,7 @@ public:
     /*! Frees block of memory, correctly, casting an object to specified type
         \param[in] block a block of memory
      */
-    virtual void deleteBlock(sad::p2d::CollisionShape* block);
+    virtual void deleteBlock(sad::p2d::CollisionShape* block) override;
 protected:
     sad::p2d::Cutter2D m_c; //!< An inner cutter
 };

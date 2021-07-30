@@ -35,7 +35,7 @@ public:
     /*! A normalized rectangle, which is used in some computation
      */ 
     typedef sad::Pair<sad::Point2D, sad::Point2D> NormalizedRectangle;
-    /*! Inits a default cell
+    /*! Initializes a default cell
      */
     Cell();
     /*! Could be inherited
@@ -78,7 +78,7 @@ public:
         \param[in] width a new width for a cell
         \param[in] update_grid whether we should notify grid
      */
-    void setWidth(const sad::layouts::LengthValue& width, bool update_grid = true);
+    void setWidth(const sad::layouts::LengthValue& width, bool update_grid = true);  // NOLINT(readability-inconsistent-declaration-parameter-name)
     /*! Returns width of a cell
         \return width of a cell
      */
@@ -87,7 +87,7 @@ public:
         \param[in] height a new width for a cell
         \param[in] update_grid whether we should notify grid
      */
-    void setHeight(const sad::layouts::LengthValue height, bool update_grid = true);
+    void setHeight(const sad::layouts::LengthValue& height, bool update_grid = true); // NOLINT(readability-inconsistent-declaration-parameter-name)
     /*! Returns height of a cell
         \return height of a cell
      */
@@ -104,7 +104,7 @@ public:
         \param[in] align a vertical alignment
         \param[in] update_grid whether we should notify grid
      */
-    void setVerticalAlignment(sad::layouts::VerticalAlignment align, bool update_grid = true);
+    void setVerticalAlignment(sad::layouts::VerticalAlignment align, bool update_grid = true); // NOLINT(readability-inconsistent-declaration-parameter-name)
     /*! Returns vertical alignment for a cell
         \return vertical alignment
      */
@@ -113,7 +113,7 @@ public:
         \param[in] align a horizontal alignment
         \param[in] update_grid whether we should notify grid
      */
-    void setHorizontalAlignment(sad::layouts::HorizontalAlignment align, bool update_grid = true);
+    void setHorizontalAlignment(sad::layouts::HorizontalAlignment align, bool update_grid = true); // NOLINT(readability-inconsistent-declaration-parameter-name)
     /*! Returns horizontal alignment for a cell
         \return horizontal alignment
      */
@@ -122,7 +122,7 @@ public:
         \param[in] type a type of stacking for a cell
         \param[in] update_grid whether we should notify grid        
      */
-    void setStackingType(sad::layouts::StackingType type, bool update_grid = true);
+    void setStackingType(sad::layouts::StackingType type, bool update_grid = true); // NOLINT(readability-inconsistent-declaration-parameter-name)
     /*! Returns stacking type for a cells
         \return stacking type
      */
@@ -247,7 +247,7 @@ public:
         \return database
      */
     sad::db::Database* database() const;
-    /*! Sets a databasw, which is cell linked to
+    /*! Sets a database, which is cell linked to
         \param[in] db database
      */
     void setDatabase(sad::db::Database* db);
@@ -312,27 +312,27 @@ protected:
      */
     void tryNotify(bool update_grid);
     /*! Applies horizontal alignment, recomputing places for child nodes
-        \param[in] minpoint a minimal point for setting cell content
-        \param[in] maxpoint  a maximal point for setting cell content
-        \param[in] assignedheight total height of cell content
+        \param[in] min_point a minimal point for setting cell content
+        \param[in] max_point  a maximal point for setting cell content
+        \param[in] assigned_height total height of cell content
         \param[in] size preferred size of a cell
      */
-    void applyHorizontalAlignment(const sad::Point2D& minpoint, const sad::Point2D& maxpoint, double assignedheight, const sad::Size2D& size);	
+    void applyHorizontalAlignment(const sad::Point2D& min_point, const sad::Point2D& max_point, double assigned_height, const sad::Size2D& size);
     /*! Applies vertical alignment, recomputing places for child nodes
-        \param[in] minpoint a minimal point for setting cell content
-        \param[in] maxpoint  a maximal point for setting cell content
-        \param[in] assignedwidth total width of cell content
+        \param[in] min_point a minimal point for setting cell content
+        \param[in] max_point  a maximal point for setting cell content
+        \param[in] assigned_width total width of cell content
         \param[in] size preferred size of a cell
      */
-    void applyVerticalAlignment(const sad::Point2D& minpoint, const sad::Point2D& maxpoint, double assignedwidth,  const sad::Size2D& size);
+    void applyVerticalAlignment(const sad::Point2D& min_point, const sad::Point2D& max_point, double assigned_width,  const sad::Size2D& size);
     /*! Applies vertical alignment, recomputing places for child nodes
-        \param[in] minpoint a minimal point for setting cell content
-        \param[in] maxpoint  a maximal point for setting cell content
-        \param[in] assignedwidth total width of cell content
-        \param[in] assignedheight total height of cell content
+        \param[in] min_point a minimal point for setting cell content
+        \param[in] max_point  a maximal point for setting cell content
+        \param[in] assigned_width total width of cell content
+        \param[in] assigned_height total height of cell content
         \param[in] size preferred size of a cell
      */
-    void applyNoStackingAlinment(const sad::Point2D& minpoint, const sad::Point2D& maxpoint, double assignedwidth, double assignedheight,  const sad::Size2D& size);
+    void applyNoStackingAlignment(const sad::Point2D& min_point, const sad::Point2D& max_point, double assigned_width, double assigned_height,  const sad::Size2D& size);
     /*! Width of a cell
      */
     sad::layouts::LengthValue m_width;
@@ -369,7 +369,7 @@ protected:
     /*! A right padding for cell 
      */
     double m_padding_right;
-    /*! A rectangles for sized for normalized childrens
+    /*! A rectangles for sized for normalized children
      */
     sad::Vector<sad::layouts::Cell::NormalizedRectangle> m_normalized_children;
 

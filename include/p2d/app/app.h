@@ -53,7 +53,7 @@ public:
     virtual ~App();
 protected:
     p2d::World   * m_world;          //!< A physical engine world
-    p2d::WorldStepTask * m_steptask; //!< A main step task, used to work with world
+    p2d::WorldStepTask * m_step_task; //!< A main step task, used to work with world
     unsigned int         m_layer;    //!< A layer of scene, which should layer work with
     sad::Renderer* m_renderer; //!< A renderer fir application;
 protected:
@@ -64,7 +64,7 @@ protected:
     /*! Creates new physical world for working with optional bodies
      */
     virtual void createWorld();
-    /*! Inits application
+    /*! Initializes application
         \param[in] layer a layer of scene, where world will be attached
         \param[in] r renderer (nullptr for global renderer)
      */

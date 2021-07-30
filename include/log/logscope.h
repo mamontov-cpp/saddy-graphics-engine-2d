@@ -7,6 +7,7 @@
 #include "../sadstring.h"
 #include "../3rdparty/format/format.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <memory>
 
 namespace sad
@@ -28,56 +29,56 @@ public:
         \param[in] file source file name, where scope was created
         \param[in] line source code line, where scope was created
         \param[in] log a log, where changes will be registered (nullptr for global)
-        \param[in] saddyinternal whether this is internal scope of library
+        \param[in] saddy_internal whether this is internal scope of library
      */
     Scope(
         const char * c, 
         const char * file = nullptr, 
         int line = 0, 
         sad::log::Log * log = nullptr,
-        bool saddyinternal = false
+        bool saddy_internal = false
     );
     /*! Pushes a new subsystem name into a log
         \param[in] c subsystem name
         \param[in] file source file name, where scope was created
         \param[in] line source code line, where scope was created
         \param[in] log a log, where changes will be registered (nullptr for global)
-        \param[in] saddyinternal whether scope should be marked as internal
+        \param[in] saddy_internal whether scope should be marked as internal
      */
     Scope(
         const sad::String & c, 
         const char * file = nullptr, 
         int line = 0, 
         sad::log::Log * log = nullptr,
-        bool saddyinternal = false
+        bool saddy_internal = false
     );
     /*! Pushes a new subsystem name into a log
         \param[in] c subsystem name
         \param[in] file source file name, where scope was created
         \param[in] line source code line, where scope was created
         \param[in] log a log, where changes will be registered (nullptr for global)
-        \param[in] saddyinternal whether scope should be marked as internal
+        \param[in] saddy_internal whether scope should be marked as internal
      */
     Scope(
         const std::string & c, 
         const char * file = nullptr, 
         int line  = 0, 
         sad::log::Log * log = nullptr,
-        bool saddyinternal = false
+        bool saddy_internal = false
     );
     /*! Pushes a new subsystem name into a log
         \param[in] c subsystem name
         \param[in] file source file name, where scope was created
         \param[in] line source code line, where scope was created
         \param[in] log a log, where changes will be registered (nullptr for global)
-        \param[in] saddyinternal whether scope should be marked as internal
+        \param[in] saddy_internal whether scope should be marked as internal
      */
     Scope(
         const fmt::internal::ArgInserter<char> & c, 
         const char * file = nullptr, 
         int line  = 0, 
         sad::log::Log * log = nullptr,
-        bool saddyinternal = false
+        bool saddy_internal = false
     );
     /*! Pops  current subsystem, specified on creation of scope from subsystem names
         stack of linked logger
@@ -89,7 +90,7 @@ private:
     sad::log::Log * m_log;
     /*! Toggles, whether scope will be logged as internal messages of saddy
      */
-    bool m_saddyinternal;
+    bool m_saddy_internal;
 };
 
 }

@@ -35,20 +35,20 @@ public:
     ElasticForce(p2d::Body* first, p2d::Body * second, double elasticity = 20, double resistance = 0.005);
     /*! Removes force's reference from second body
      */
-    ~ElasticForce();
-    /*! Returns a value of elastic force, computing formulo - k * dx + b * v
+    ~ElasticForce() override;
+    /*! Returns a value of elastic force, computing formula - k * dx + b * v
         \param[in] body a body
         \return a value for the force
      */
-    virtual const p2d::Vector & value(sad::p2d::Body* body) const;
+    virtual const p2d::Vector & value(sad::p2d::Body* body) const override;  // NOLINT(readability-inconsistent-declaration-parameter-name)
     /*! Sets a default distance, which must persist between two bodies
         \param[in] dist a distance
      */
-    inline void setDefaultDistance(double dist)  { m_defaultdistance = dist; }
+    inline void setDefaultDistance(double dist)  { m_default_distance = dist; }
     /*! Returns a default distance, which should persist between two bodies
         \return a distance
      */
-    inline double defaultDistance() const { return m_defaultdistance; }
+    inline double defaultDistance() const { return m_default_distance; }
     /*! Sets elasticity coefficient for force
         \param[in] elasticity coefficient
      */
@@ -68,13 +68,13 @@ public:
     /** Returns a pointer to body, which force depends from (but not applied to).
         This body should be strong-referenced to ensure some memory-related checks
     */
-    virtual sad::p2d::Body* dependsFromBody() const;
+    virtual sad::p2d::Body* dependsFromBody() const override;
 private:
      p2d::Body * m_second;         //!< A second body, which is force is acting towards
-     double  m_defaultdistance;    //!< An initial distance between bodies, which must persist
+     double  m_default_distance;    //!< An initial distance between bodies, which must persist
 
      double  m_elasticity; //!< An elasticity coefficient, used to describe elasticity
-     double  m_resistance; //!< A resistant coeffficient
+     double  m_resistance; //!< A resistant coefficient
 };
 
 }

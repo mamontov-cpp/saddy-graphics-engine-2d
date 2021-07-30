@@ -276,14 +276,14 @@ sad::Maybe<sad::String> sad::resource::ResourceFile::tryReadToString(bool force_
 }
 
 void sad::resource::ResourceFile::replaceResources(
-        const sad::resource::ResourceEntryList & resourcelist
+        const sad::resource::ResourceEntryList & resource_list
 )
 {
     m_resources.clear();
-    for(size_t i = 0 ; i < resourcelist.size(); i++)
+    for(size_t i = 0 ; i < resource_list.size(); i++)
     {
-        m_resources << resourcelist[i].p2();
-        resourcelist[i].p2()->setPhysicalFile(this);
+        m_resources << resource_list[i].p2();
+        resource_list[i].p2()->setPhysicalFile(this);
     }
 }
 

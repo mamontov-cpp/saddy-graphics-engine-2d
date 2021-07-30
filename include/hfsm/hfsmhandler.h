@@ -75,7 +75,7 @@ public:
     }
     /*! Invokes a handler
      */
-    virtual void invoke()
+    virtual void invoke() override
     {
         m_f();
     }
@@ -110,7 +110,7 @@ public:
     }
     /*! Invokes a handler
      */
-    virtual void invoke()
+    virtual void invoke() override
     {
         (m_o->*m_f)();
     }
@@ -141,7 +141,7 @@ public:
     /*! Creates a simple handler for calling method
         \param[in] o a pointer object, which method should be called on
         \param[in] f a pointer to method
-        \param[in] g a secondpointer, which should belong to object returned by first
+        \param[in] g a second pointer, which should belong to object returned by first
      */
     MethodComposition(_Object o, _MethodFPointer f, _MethodGPointer g)
     : sad::hfsm::AbstractHandler(), m_o(o), m_f(f), m_g(g)
@@ -150,7 +150,7 @@ public:
     }
     /*! Invokes a handler
      */
-    virtual void invoke()
+    virtual void invoke() override
     {
         (((m_o->*m_f)())->*m_g)();
     }

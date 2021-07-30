@@ -157,10 +157,10 @@ void sad::resource::Folder::removeResource(const sad::String& path, bool free)
             
 }
 
-sad::resource::Folder* sad::resource::Folder::folder(const sad::String& path)
+sad::resource::Folder* sad::resource::Folder::folder(const sad::String& name)
 {
     sad::String foldername;
-    resource::Folder * parent = this->navigateParentFolder(path, false, foldername);
+    resource::Folder * parent = this->navigateParentFolder(name, false, foldername);
     resource::Folder * result = nullptr;
     if (parent)
     {
@@ -172,10 +172,10 @@ sad::resource::Folder* sad::resource::Folder::folder(const sad::String& path)
     return result;
 }
 
-sad::resource::Resource* sad::resource::Folder::resource(const sad::String& path)
+sad::resource::Resource* sad::resource::Folder::resource(const sad::String& name)
 {
     sad::String foldername;
-    resource::Folder * parent = this->navigateParentFolder(path, false, foldername);
+    resource::Folder * parent = this->navigateParentFolder(name, false, foldername);
     resource::Resource * result = nullptr;
     if (parent)
     {
@@ -187,15 +187,15 @@ sad::resource::Resource* sad::resource::Folder::resource(const sad::String& path
     return result;	
 }
 
-void sad::resource::Folder::replaceResource(const sad::String& name, resource::Resource* r)
+void sad::resource::Folder::replaceResource(const sad::String& path, resource::Resource* r)
 {
-    sad::resource::Resource * old = resource(name);
+    sad::resource::Resource * old = resource(path);
     if (old)
     {
         old->replaceWith(r);
-        this->removeResource(name, true);
+        this->removeResource(path, true);
     }
-    this->addResource(name, r);
+    this->addResource(path, r);
 }
 
 sad::resource::FolderIterator sad::resource::Folder::folderListBegin()

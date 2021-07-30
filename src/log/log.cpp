@@ -32,20 +32,20 @@ sad::String sad::log::Log::subsystem()
 
 
 void sad::log::Log::createAndBroadcast(
-    const sad::String & mesg, 
+    const sad::String & message, 
     sad::log::Priority priority,
     const char * file , 
     int line ,
-    const sad::String & upriority
+    const sad::String & user_priority
 )
 {
     sad::log::Message * m = new sad::log::Message(
-        mesg,
+        message,
         priority,
         file,
         line ,
         this->subsystem(),
-        upriority
+        user_priority
     );
     broadcast(*m);
     delete m;

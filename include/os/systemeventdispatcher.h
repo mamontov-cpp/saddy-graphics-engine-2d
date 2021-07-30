@@ -97,16 +97,16 @@ protected:
         \param[in] e system event
      */
     void processKeyRelease(SystemWindowEvent & e);
-    /*! Processes event, when user presees a mouse button
+    /*! Processes event, when user presses a mouse button
         \param[in] e system event
      */ 
     void processMousePress(SystemWindowEvent & e);
-    /*! Processes event, when user presees releases a mouse button
+    /*! Processes event, when user presses releases a mouse button
         \param[in] e system event
      */ 
     void processMouseRelease(SystemWindowEvent & e);
 #ifdef X11
-    /*! Processes event, when user presees enters a window
+    /*! Processes event, when user presses enters a window
         \param[in] e system event
      */ 
     void processMouseEnter(SystemWindowEvent & e);
@@ -114,7 +114,7 @@ protected:
 #ifdef WIN32
     /*! Processes event, when user performs a double click with a mouse button
         Note, that X11 cannot recognize double click, so we are switching to simple
-        implementation via sensivity.
+        implementation via sensitivity.
         \param[in] e system event
      */ 
     void processMouseDoubleClick(SystemWindowEvent & e);

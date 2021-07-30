@@ -14,7 +14,7 @@ namespace sad
 namespace log
 {
 
-/*! Describes a logging message, which is broadcasted by sad::log::Log to all targets
+/*! Describes a logging message, which is broadcast by sad::log::Log to all targets
     and contains information of all data
  */
 class Message
@@ -35,8 +35,8 @@ public:
                    const sad::String & subsystem = sad::String(),
                    const sad::String & user_priority = sad::String()
                   )
-    : m_message(message), m_priority(priority), m_file(file),
-      m_line(line), m_subsystem(subsystem), m_user_priority(user_priority)
+    : m_buffer{0}, m_subsystem(subsystem), m_message(message), m_priority(priority),
+      m_user_priority(user_priority), m_file(file), m_line(line)
     {
         m_time = ::time(nullptr);
     }
@@ -53,11 +53,11 @@ public:
     inline const sad::String & message() const
     { 
         return m_message; 
-    } 				
+    }
     /*! Returns string representation of message creation time
         \return string representation of message creation time
      */
-    const char * stime() const; 
+    const char * timeAsString() const; 
     /*! Returns message creation time
         \return message creation time
      */
@@ -75,7 +75,7 @@ public:
     /*! Returns user priority of message
         \return usage priority message
      */
-    inline const sad::String & upriority() const
+    inline const sad::String & userPriority() const
     { 
         return m_user_priority; 
     } 
@@ -89,7 +89,7 @@ public:
         a built-in representation of priority
         \return string representation of priority
      */
-    const char * spriority() const;
+    const char * priorityAsString() const;
     /*! Returns a source code file name, where log function is called
         \return source code file name
      */

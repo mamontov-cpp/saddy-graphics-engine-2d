@@ -3,6 +3,7 @@
 
     Describes a angular force, acting on object
  */
+// ReSharper disable CppInconsistentNaming
 #pragma once
 #include "force.h"
 
@@ -87,7 +88,7 @@ public:
          \param[in] body a body for force
          \param[in] time a time step size
       */
-     virtual void step(sad::p2d::Body* body, double time);
+     virtual void step(sad::p2d::Body* body, double time) override;
 };
 
 

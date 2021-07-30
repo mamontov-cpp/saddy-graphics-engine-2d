@@ -111,7 +111,7 @@ protected:
     _FieldTypeName _Object::*m_f;
 };
 
-/*! Returns a new field by valye
+/*! Returns a new field by value
     \param[in] f object
     \return field
  */

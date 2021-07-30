@@ -134,13 +134,13 @@ public:
         return m_link.tree();
     }
     /*! Sets a tree for a link, defined by renderer, where it's stored
-        and treename
+        and tree name
         \param[in] r renderer
-        \param[in] treename a trename
+        \param[in] tree_name a tree name
     */
-    void setTree(sad::Renderer * r, const sad::String& treename = "")
+    void setTree(sad::Renderer * r, const sad::String& tree_name = "")
     {
-        m_link.setTree(r, treename);
+        m_link.setTree(r, tree_name);
         m_changed = true;
     }
     /*! Whether link depends on renderer
@@ -201,7 +201,7 @@ protected:
     /*! A cached object
      */
     T* m_cached_object;
-    /*! Whether innert value for strong link is changed
+    /*! Whether inner value for strong link is changed
      */
     bool m_changed;
     /*! An inner link for objects

@@ -13,7 +13,7 @@ class Renderer;
 
 namespace os
 {
-/*! Default amount of preallocated geometries
+/*! Default amount of pre-allocated geometries
  */
 #define SAD_OS_GEOMETRY_STORAGE_SIZE (100)
 
@@ -26,7 +26,7 @@ template<
 class GLSpriteGeometryStorage
 {
 public:
-    /*! Inits default, broken storage. To fix it, call  setRenderer
+    /*! Initializes default, broken storage. To fix it, call  setRenderer
      */
     inline GLSpriteGeometryStorage() : m_renderer(nullptr)
     {
@@ -38,7 +38,7 @@ public:
     {
         free();
     }
-    /*! Sets renderer and preallocates geometries, related to renderer
+    /*! Sets renderer and pre-allocates geometries, related to renderer
      *  \param[in] r renderer
      */
     void setRenderer(sad::Renderer* r)

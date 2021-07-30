@@ -10,7 +10,7 @@ static const char * logmesgs[7] = {
     "FATAL",
 };
 
-const char * sad::log::Message::spriority() const
+const char * sad::log::Message::priorityAsString() const
 {
     if (m_priority != sad::log::Priority::USER || m_user_priority.length() == 0)
     {
@@ -20,7 +20,7 @@ const char * sad::log::Message::spriority() const
 }
 
 
-const char * sad::log::Message::stime() const
+const char * sad::log::Message::timeAsString() const
 {
     tm * time = localtime(&m_time);
     sad::log::Message * m = const_cast<sad::log::Message *>(this);

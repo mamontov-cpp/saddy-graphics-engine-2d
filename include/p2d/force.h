@@ -37,6 +37,18 @@ public:
     static _Value zero();
 };
 
+template <typename _Value>
+_Value TickableDefaultValue<_Value>::get()
+{
+    return _Value{};
+}
+
+template <typename _Value>
+_Value TickableDefaultValue<_Value>::zero()
+{
+	return _Value{};
+}
+
 
 /*! A class for getting default value for a tickable state
  */
@@ -44,8 +56,8 @@ template<>
 class TickableDefaultValue<p2d::Vector>
 {
 public:
-    static inline p2d::Vector get() { return p2d::Vector(0, 0); }
-    static inline p2d::Vector zero() { return p2d::Vector(0, 0); } //-V524
+    static inline p2d::Vector get() { return {0, 0}; }
+    static inline p2d::Vector zero() { return {0, 0}; } //-V524
 };
 
 
@@ -62,7 +74,7 @@ public:
     inline Force() { m_alive = true; m_value = TickableDefaultValue<T>::zero(); }
     /*! Could be inherited
      */ 
-    virtual ~Force() { }
+	virtual ~Force()  override = default;
     /*! Creates a force with specific value
         \param[in] v value
     */
@@ -103,7 +115,7 @@ public:
     /** Returns global meta data for force
         \return global meta data
      */
-    virtual sad::ClassMetaData * metaData() const
+    virtual sad::ClassMetaData * metaData() const override
     {
         return sad::p2d::Force<T>::globalMetaData();
     }
@@ -139,7 +151,7 @@ public:
         \param[in] body a body
         \param[in] time a time step size
      */
-    virtual void step(sad::p2d::Body* body, double time) { this->die(); }
+    virtual void step(sad::p2d::Body* body, double time) override { this->die(); }
 
     /** Returns global meta data for force
         \return global meta data
@@ -155,7 +167,7 @@ public:
     /** Returns global meta data for force
         \return global meta data
      */
-    virtual sad::ClassMetaData * metaData() const
+    virtual sad::ClassMetaData * metaData() const override
     {
         return sad::p2d::Force<T>::globalMetaData();
     }
@@ -174,7 +186,7 @@ template<
 class ActingForces
 {
 public:
-    ActingForces() {}
+    ActingForces() : m_body(nullptr) {}
     /*! Force container owns all forces, belonging to it
      */
     virtual ~ActingForces() { clear(); }
@@ -327,7 +339,7 @@ protected:
         }
         virtual ~Command() {}
     };
-    /*! A sheduled adding, without time checking
+    /*! A scheduled adding, without time checking
      */
     class ScheduledAdd: public sad::p2d::ActingForces<T>::Command
     {
@@ -338,7 +350,7 @@ protected:
           \param[in] container a container
           \return whether it was performed
         */
-        virtual bool perform(double time, ActingForces<T> * container)
+        virtual bool perform(double time, ActingForces<T> * container) override
         {
             container->add(m_force);
             return true;
@@ -347,7 +359,7 @@ protected:
     protected:
         p2d::Force<T> * m_force; //!< A force         
     };
-    /*! A sheduled adding, without time checking
+    /*! A scheduled adding, without time checking
      */
     class ScheduledAddAt: public sad::p2d::ActingForces<T>::Command
     {
@@ -358,7 +370,7 @@ protected:
           \param[in] container a container
           \return whether it was performed
         */
-        virtual bool perform(double time, ActingForces<T> * container)
+        virtual bool perform(double time, ActingForces<T> * container) override
         {
             if (time > m_time || ::sad::is_fuzzy_equal(time, m_time))
             {

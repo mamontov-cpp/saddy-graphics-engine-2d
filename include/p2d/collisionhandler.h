@@ -8,6 +8,7 @@
 #include "body.h"
 
 #include <functional>
+#include <utility>
 
 #include "../refcountable.h"
 
@@ -39,13 +40,13 @@ public:
       /*! Constructs new handler
        * \param[in] f inner functional handler
        */
-      inline UntypedCollisionHandler(const std::function<void(const sad::p2d::BasicCollisionEvent &)>& f ) : m_f(f)
+      inline UntypedCollisionHandler(std::function<void(const sad::p2d::BasicCollisionEvent&)> f ) : m_f(std::move(f))
       {
       }
       /*! Calls an inner handler for basic collision event
           \param[in] ev event
        */
-      virtual void invoke(const sad::p2d::BasicCollisionEvent & ev);
+      virtual void invoke(const sad::p2d::BasicCollisionEvent & ev) override;
 private:
     /*! An inner untyped handler
         \brief[in] m_f a handler
@@ -67,7 +68,7 @@ public:
         \param[in] f function
         \param[in] checked whether we should type check a handler
      */
-    inline TypedCollisionHandler(const std::function<void(const sad::p2d::CollisionEvent<_Object1, _Object2>&)>& f, bool checked = true) : m_f(f), m_checked(checked)
+    inline TypedCollisionHandler(const std::function<void(const sad::p2d::CollisionEvent<_Object1, _Object2>&)>& f, bool checked = true) : m_checked(checked), m_f(f)
     {
 
     }
@@ -75,7 +76,7 @@ public:
     /*! Calls an inner handler for basic collision event
         \param[in] ev event
      */
-    virtual void invoke(const sad::p2d::BasicCollisionEvent & ev)
+    virtual void invoke(const sad::p2d::BasicCollisionEvent & ev) override
     {
         if (ev.m_object_1 != nullptr && ev.m_object_2 != nullptr)
         {
@@ -137,13 +138,13 @@ public:
       /*! Constructs new handler
        * \param[in] f inner functional handler
        */
-      inline TypedCollisionHandler(const std::function<void(const sad::p2d::BasicCollisionEvent &)>& f ) : m_f(f)
+      inline TypedCollisionHandler(std::function<void(const BasicCollisionEvent&)> f ) : m_f(std::move(f))
       {
       }
       /*! Calls an inner handler for basic collision event
           \param[in] ev event
        */ 
-      virtual void invoke(const sad::p2d::BasicCollisionEvent & ev);
+      virtual void invoke(const sad::p2d::BasicCollisionEvent & ev) override;
 private:
     /*! An inner untyped handler
         \brief[in] m_f a handler

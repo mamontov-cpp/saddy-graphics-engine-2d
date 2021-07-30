@@ -22,9 +22,9 @@ LVA_Top = 0,
 LVA_Middle = 1,
 /*! Place objects in bottom of cell
  */
-LVA_Bottom = 2	
+LVA_Bottom = 2
 };
 
-}	
+}
     
 }

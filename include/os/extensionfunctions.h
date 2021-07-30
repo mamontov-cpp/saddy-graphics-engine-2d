@@ -636,7 +636,7 @@ private:
     /*! glCreateShader procedure
      */
     PFNGLCREATESHADERPROC m_glCreateShader;
-    /*! glDeleteShader prdocedure
+    /*! glDeleteShader procedure
      */
     PFNGLDELETESHADERPROC m_glDeleteShader;
     /*! glCreateProgram procedure
@@ -657,7 +657,7 @@ private:
     /*! glBufferData procedure
      */
     PFNGLBUFFERDATAPROC m_glBufferData;
-    /*! glDeleteBufferes procedure
+    /*! glDeleteBuffers procedure
      */
     PFNGLDELETEBUFFERSPROC m_glDeleteBuffers;
     /*! glEnableVertexAttribArray procedure

@@ -45,58 +45,58 @@ public:
     Tree(sad::Renderer * r = nullptr);
     /*! This class can be inherited 
      */
-    virtual ~Tree();
+    virtual ~Tree() override;
     /*! Loads a tree from a string, adding to existing data new stored resources if new errors
-        occured.
-        \param[in] string
+        occurred.
+        \param[in] string a string with content
         \return list of errors
      */
     virtual sad::Vector<sad::resource::Error*> loadFromString(const sad::String & string);
     /*! Loads a tree from a string, adding to existing data new stored resources if new errors
-        occured.
-        \param[in] string
+        occurred.
+        \param[in] string a string with content
         \return maybe error message
      */
     sad::Maybe<sad::String> tryLoadFromString(const sad::String & string);
     /*! Loads a tree from a file, adding to existing data new stored resources if new errors
-        occured.
-        \param[in] string
+        occurred.
+        \param[in] string a file name
         \return list of errors
      */
     sad::Vector<sad::resource::Error*> loadFromFile(const sad::String& string);
     /*! Loads a tree from a string, adding to existing data new stored resources if new errors
-        occured.
-        \param[in] string
+        occurred.
+        \param[in] string a file name
         \return maybe error message
      */
     sad::Maybe<sad::String> tryLoadFromFile(const sad::String & string);
     /*! Loads new file. If no errors found, all resources will be stored in
         node.
 
-        \param[in] typehint a hint for type of file to be loaded
+        \param[in] type_hint a hint for type of file to be loaded
         \param[in] filename a name of file to be loaded
-        \param[in] resourcename a name of resource, if any should be loaded
+        \param[in] resource_name a name of resource, if any should be loaded
     */
     sad::Vector<sad::resource::Error*> load(
-        const sad::String& typehint, 
+        const sad::String& type_hint, 
         const sad::String& filename, 
-        const sad::Maybe<sad::String>& resourcename
+        const sad::Maybe<sad::String>& resource_name
     );
     /*! Loads new file. If no errors found, all resources will be stored in
         node.
 
-        \param[in] typehint a hint for type of file to be loaded
+        \param[in] type_hint a hint for type of file to be loaded
         \param[in] filename a name of file to be loaded
-        \param[in] resourcename a name of resource, if any should be loaded
+        \param[in] resource_name a name of resource, if any should be loaded
         \param[in] store where new resources, should be stored (nullptr for current root)
         \param[in] v  a parsed JSON value
         \param[out] files list of files, where new resources should be stored
         \return list of errors
      */
     virtual sad::Vector<sad::resource::Error*> load(
-        const sad::String& typehint, 
+        const sad::String& type_hint, 
         const sad::String& filename, 
-        const sad::Maybe<sad::String>& resourcename,
+        const sad::Maybe<sad::String>& resource_name,
         sad::resource::Folder * store,
         const picojson::value & v,
         sad::Vector<sad::resource::ResourceFile *> & files		
@@ -129,7 +129,7 @@ public:
     /*! Returns a factory for a tree
         \return a factory
      */
-    sad::resource::Factory* factory();
+    sad::resource::Factory* factory() const;
     /*! Sets new factory for a tree
         \param[in] factory a factory to be stored
      */
@@ -185,10 +185,10 @@ public:
     /*! Returns archive entry by name. Tries to load archive if need to
         \param[in] archive an archive name
         \param[in] filename a file name
-        \param[in] loadnew force loading new archive
+        \param[in] load_new force loading new archive
         \return entry if entry exists
      */
-    tar7z::Entry* archiveEntry(const sad::String& archive, const sad::String filename, bool loadnew = false);
+    tar7z::Entry* archiveEntry(const sad::String& archive, const sad::String& filename, bool load_new = false);
 protected:
     /*! An archive list
      */
@@ -213,7 +213,7 @@ protected:
     sad::Renderer * m_renderer;
     /*! Whether we should store links
      */
-    bool m_storelinks;
+    bool m_store_links;
 private:
     /*! A current root for loading data
      */
@@ -221,11 +221,11 @@ private:
     /*! A temporary root for loading data
      */
     sad::String m_temporary_root;
-    /*! Disabled, tree is uncopyable
+    /*! Disabled, tree is un-copyable
         \param[in] o other tree
      */
     Tree(const Tree & o);
-    /*! Disabled, tree is uncopyable
+    /*! Disabled, tree is un-copyable
         \param[in] o other tree
         \return self-reference
      */

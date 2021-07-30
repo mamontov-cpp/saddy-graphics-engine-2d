@@ -47,21 +47,21 @@ public:
         \return pointer to state (nullptr if not found)
      */ 
     virtual sad::hfsm::State * state(const sad::String & s);
-    /*! Adds new state where fullpath determines a parent node to add, defined from top to bottom
+    /*! Adds new state where full path determines a parent node to add, defined from top to bottom
         with "/". Any existing node will be replaced. Pass empty string for top node. Also you can
         force adding absent nodes with default states, setting force flag to true
-        \param[in] fullpath a path for parent node to add
+        \param[in] full_path a path for parent node to add
         \param[in] state    a state to be added (nullptr will construct default state as object of class sad::hfsm:State)
         \param[in] force    force inserting new intermediate states
         \return whether state was successfully inserted
      */
-    virtual bool addState(const sad::String fullpath, sad::hfsm::State * state = nullptr, bool force = false);
+    virtual bool addState(const sad::String& full_path, sad::hfsm::State * state = nullptr, bool force = false);
     /*! Removes a state by full path, that determines a parent node. 
         That top level state could be removed, but it will be replaced by new state, not preserving 
         hierarchy. If state full path is not found, it will be removed.
-        \param[in] fullpath node with full path
+        \param[in] full_path node with full path
      */
-    virtual void removeState(const sad::String fullpath);
+    virtual void removeState(const sad::String& full_path);
     /*! Tests, whether state of hierarchical finite state machine exists.
         State defined as full path, separated by "/"
         \param[in] s string
@@ -101,7 +101,7 @@ public:
         \return current state
      */
     const sad::String & currentState() const;
-    /*! Returns previous state of hierarchical finit state machine
+    /*! Returns previous state of hierarchical finite state machine
         \return previous state
      */
     const sad::String & previousState() const;
@@ -112,10 +112,10 @@ public:
 protected:
     /*! A current state of machine
      */
-    sad::String m_currentstate;
+    sad::String m_current_state;
     /*! A previous state of machine
      */
-    sad::String m_previousstate;
+    sad::String m_previous_state;
     /*! A top-level state, which contains ALL of states
      */
     sad::hfsm::State * m_top;
@@ -126,7 +126,7 @@ protected:
 
 /*! A special type of condition, which checks machine's current state
  */
-class CurrentStateCheck: public sad::input::AbstractHanderCondition
+class CurrentStateCheck: public sad::input::AbstractHandlerCondition
 {
 public:
     /*! Constructs new check
@@ -138,14 +138,14 @@ public:
         \param[in] e event
         \return whether we should  run an event
      */
-    virtual bool check(const sad::input::AbstractEvent & e);
+    virtual bool check(const sad::input::AbstractEvent & e) override;
     /*! Clones a condition
         \return new condition, which should be exact copy of current
      */
-    virtual sad::input::AbstractHanderCondition * clone();	
+    virtual sad::input::AbstractHandlerCondition * clone() override;
     /*! Frees state
      */
-    virtual ~CurrentStateCheck();
+    virtual ~CurrentStateCheck() override;  // NOLINT(clang-diagnostic-deprecated-copy-dtor)
 protected:
     /*! A machine, which will be checked with getting current state
      */
@@ -170,11 +170,11 @@ public:
     );
     /*! Destroys an object. 
      */
-    virtual ~MachineStateChangeTask();
+    virtual ~MachineStateChangeTask() override;
 protected:
     /*! Switches machine state to defined by user
      */ 
-    virtual void _process();
+    virtual void _process() override;
     /*! A machine, which will be checked with getting current state
      */
     sad::hfsm::Machine * m_machine;
@@ -191,7 +191,7 @@ protected:
     \param[in] machine  a machine, which current state is being compared
     \param[in] state    a state name
  */
-sad::input::AbstractHanderCondition * operator*(
+sad::input::AbstractHandlerCondition * operator*(
     sad::hfsm::Machine * machine,
     const sad::String & state
 );

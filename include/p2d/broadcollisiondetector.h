@@ -36,7 +36,7 @@ public:
        */
       virtual p2d::MaybeTime collides(p2d::Body * b1, 
                                       p2d::Body * b2, 
-                                      double limit);
+                                      double limit) override;
 protected:
      p2d::CollisionTest * m_tester; //!< A collision tester, used to determining a data
      p2d::SimpleCollisionDetector * m_detector; //!< Inner detector for simplified computing of collisions

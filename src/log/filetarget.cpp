@@ -3,8 +3,8 @@
 #include <db/dbtypename.h>
 
 
-sad::log::FileTarget::FileTarget(const sad::String & format, int minpriority)
-: m_min_priority(minpriority), m_format(format), m_file(nullptr)
+sad::log::FileTarget::FileTarget(const sad::String & format, int min_priority)
+: m_file(nullptr), m_min_priority(min_priority), m_format(format)
 {
 }
 
@@ -21,8 +21,8 @@ void sad::log::FileTarget::receive(const sad::log::Message & message)
     if (((int)message.priority()) < m_min_priority || m_file == nullptr)
         return;
     std::string mesg = str(fmt::Format(m_format) 
-                           << message.stime() 
-                           << message.spriority()
+                           << message.timeAsString() 
+                           << message.priorityAsString()
                            << formatSubsystem(message)
                            << formatFileLine(message)
                            << message.message()

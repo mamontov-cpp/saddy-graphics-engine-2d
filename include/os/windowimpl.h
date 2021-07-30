@@ -170,7 +170,7 @@ private:
     /*! Whether window is minimized
      */
     bool m_minimized;
-    /*! Size, that should be set, when creating a windo
+    /*! Size, that should be set, when creating a window
      */
     sad::Size2I  m_creation_size;
     /*! A window title for window
@@ -188,21 +188,21 @@ protected:
 #ifdef WIN32
     LONG_PTR m_style;
     /*! Registers WNDCLASS object via RegisterWindowClass, if last result is true
-        \param[in] lastresult result of last operation, whether it was successfull
+        \param[in] last_result result of last operation, whether it was successfull
         \return whether it was successfull
      */
-    virtual bool registerWindowClass(bool lastresult);
+    virtual bool registerWindowClass(bool last_result);
     /*! Adjust window rectangle for creation, if last result is true. Note, that 
         size is being taken from size
-        \param[in] lastresult result of last operation, whether it was successfull
+        \param[in] last_result result of last operation, whether it was successfull
         \return whether it was successfull
      */
-    virtual bool adjustWindowRect(bool lastresult);
+    virtual bool adjustWindowRect(bool last_result);
     /*! Makes window and obtains device context
-        \param[in] lastresult result of last operation, whether it was successfull
+        \param[in] last_result result of last operation, whether it was successfull
         \return whether it was successfull
      */
-    virtual bool makeWindowAndObtainDeviceContext(bool lastresult);
+    virtual bool makeWindowAndObtainDeviceContext(bool last_result);
     /*! Tries to unregister window class, also checking that it correctly filled
      */
     virtual void unregisterWindowClass();
@@ -210,10 +210,10 @@ protected:
      */
     virtual void releaseContextAndDestroyWindow();
     /*! Chooses and sets a pixel format descriptor for a window
-        \param[in] lastresult result of last operation, whether it was successfull
+        \param[in] last_result result of last operation, whether it was successfull
         \return whether it was successfull
      */
-    virtual bool chooseAndSetPixelFormatDescriptor(bool lastresult);
+    virtual bool chooseAndSetPixelFormatDescriptor(bool last_result);
 #endif
 
 #ifdef X11

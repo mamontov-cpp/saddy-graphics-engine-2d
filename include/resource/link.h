@@ -311,7 +311,7 @@ public:
     /*! Attaches a link to specified resource
         \param[in] r a new resource, which links should be attached to
      */
-    virtual void attach(sad::resource::Resource* r)
+    virtual void attach(sad::resource::Resource* r) override
     {
         this->sad::resource::AbstractLink::attach(r);
         if (r)

@@ -11,7 +11,7 @@
 
 // ========================================= sad::p2d::app::Way METHODS =========================================
 
-sad::p2d::app::Way::Way() : m_constructed(true), m_closed(false), m_totaltime(100)
+sad::p2d::app::Way::Way() : m_constructed(true), m_closed(false), m_total_time(100)
 {
 
 }
@@ -29,19 +29,19 @@ sad::p2d::Point sad::p2d::app::Way::getPointInTime(double current_time, double s
         construct();
     }
 
-    if (m_waypoints.size() == 1)
+    if (m_way_points.size() == 1)
     {
-        return m_waypoints[0];
+        return m_way_points[0];
     }
 
     double time = current_time + step;
-    if (time > m_totaltime  && !m_closed)
+    if (time > m_total_time  && !m_closed)
     {
-        return m_waypoints[m_waypoints.size() - 1];
+        return m_way_points[m_way_points.size() - 1];
     }
 
-    while(time > m_totaltime)
-        time -= m_totaltime;
+    while(time > m_total_time)
+        time -= m_total_time;
 
     int index = -1;
     for(unsigned int i = 0; (i < m_times.size() - 1) && index == -1; i++)
@@ -53,15 +53,15 @@ sad::p2d::Point sad::p2d::app::Way::getPointInTime(double current_time, double s
     }
     double timespan = m_times[index+1] - m_times[index];
     double relativetime = time - m_times[index];
-    sad::p2d::Point p1 = m_waypoints[index]; 
+    sad::p2d::Point p1 = m_way_points[index]; 
     sad::p2d::Point p2;
-    if (index + 1 == m_waypoints.size())
+    if (index + 1 == m_way_points.size())
     {
-        p2 = m_waypoints[0];
+        p2 = m_way_points[0];
     }
     else
     {
-        p2 = m_waypoints[index + 1];
+        p2 = m_way_points[index + 1];
     }
     p1 += (p2 - p1) * (relativetime / timespan);
     return p1;
@@ -70,7 +70,7 @@ sad::p2d::Point sad::p2d::app::Way::getPointInTime(double current_time, double s
 
 void sad::p2d::app::Way::setPoint(int i,  const sad::p2d::app::WayPoint & p)
 {
-    m_waypoints[i] = p;
+    m_way_points[i] = p;
     if (m_constructed)
     {
         construct();
@@ -79,7 +79,7 @@ void sad::p2d::app::Way::setPoint(int i,  const sad::p2d::app::WayPoint & p)
 
 void sad::p2d::app::Way::addPoint(const sad::p2d::app::WayPoint & p)
 {
-    m_waypoints << p;
+    m_way_points << p;
     if (m_constructed)
     {
         construct();
@@ -88,7 +88,7 @@ void sad::p2d::app::Way::addPoint(const sad::p2d::app::WayPoint & p)
 
 void sad::p2d::app::Way::insertPoint(int i, const sad::p2d::app::WayPoint& p)
 {
-    m_waypoints.insert(p, i);
+    m_way_points.insert(p, i);
     if (m_constructed)
     {
         construct();
@@ -97,7 +97,7 @@ void sad::p2d::app::Way::insertPoint(int i, const sad::p2d::app::WayPoint& p)
 
 void sad::p2d::app::Way::removePoint(int i)
 {
-    m_waypoints.removeAt(i);
+    m_way_points.removeAt(i);
     if (m_constructed)
     {
         construct();
@@ -138,7 +138,7 @@ void sad::p2d::app::Way::makeOpen()
 
 void sad::p2d::app::Way::setTotalTime(double time)
 {
-    m_totaltime = time;
+    m_total_time = time;
     if (m_constructed)
     {
         construct();
@@ -147,7 +147,7 @@ void sad::p2d::app::Way::setTotalTime(double time)
 
 double sad::p2d::app::Way::totalTime() const
 {
-    return m_totaltime;
+    return m_total_time;
 }
 
 void sad::p2d::app::Way::startConstruction()
@@ -159,33 +159,33 @@ void sad::p2d::app::Way::startConstruction()
 void sad::p2d::app::Way::construct()
 {
     m_constructed = true;
-    if (m_waypoints.size() <= 1 || sad::is_fuzzy_zero(m_totaltime))
+    if (m_way_points.size() <= 1 || sad::is_fuzzy_zero(m_total_time))
     {
         return;
     }
     double curtime = 0;
     double totaldistance = 0;
-    for(unsigned int i = 0; i < m_waypoints.size() - 1; i++)
+    for(unsigned int i = 0; i < m_way_points.size() - 1; i++)
     {
-        totaldistance += m_waypoints[i].distance(m_waypoints[i+1]);
+        totaldistance += m_way_points[i].distance(m_way_points[i+1]);
     }
     if (m_closed)
     {
-        totaldistance +=  m_waypoints[0].distance(m_waypoints[m_waypoints.size()-1]);
+        totaldistance +=  m_way_points[0].distance(m_way_points[m_way_points.size()-1]);
     }
 
-    double avspeed = totaldistance / m_totaltime;
+    double avspeed = totaldistance / m_total_time;
     m_times.clear();
     m_times << 0;
-    for(unsigned int i = 1; i < m_waypoints.size(); i++)
+    for(unsigned int i = 1; i < m_way_points.size(); i++)
     {
-        double d = m_waypoints[i-1].distance(m_waypoints[i]);
+        double d = m_way_points[i-1].distance(m_way_points[i]);
         curtime += d / avspeed;
         m_times << curtime;
     }
     if (m_closed)
     {
-        m_times << m_totaltime;
+        m_times << m_total_time;
     }
 }
 
@@ -221,7 +221,7 @@ sad::db::schema::Schema* sad::p2d::app::Way::basicSchema()
         );
         SadP2DAppWaySchema->add(
             "waypoints", 
-            define_field(&sad::p2d::app::Way::m_waypoints)
+            define_field(&sad::p2d::app::Way::m_way_points)
         );
 
         sad::ClassMetaDataContainer::ref()->pushGlobalSchema(SadP2DAppWaySchema);

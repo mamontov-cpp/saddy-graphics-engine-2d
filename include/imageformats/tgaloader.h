@@ -19,19 +19,19 @@ class TGALoader: public sad::imageformats::Loader
 {
 public:
     /*! Loads a texture from file stream. file must be opened in binary format for reading
-        \param[in] file
-        \param[in] texture
+        \param[in] file a file
+        \param[in] texture a texture
         \return true on success
      */
-    virtual bool load(FILE * file, sad::Texture * texture);
+    virtual bool load(FILE * file, sad::Texture * texture) override;
     /*! Loads texture from archive entry.
         \param[in] entry a file entry to be loaded
         \param[in] texture a source texture
      */
-    virtual bool load(tar7z::Entry* entry, sad::Texture* texture);
+    virtual bool load(tar7z::Entry* entry, sad::Texture* texture) override;
     /*! Kept for purpose of inheritance
      */
-    virtual ~TGALoader();
+    virtual ~TGALoader() override;
 protected:
     /*! Flips texture horizontally and vertically, according to
         flaps, set while loading

@@ -7,6 +7,7 @@
 #include "events.h"
 #include "handlers.h"
 #include "handlerconditions.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../sadptrvector.h"
 #include "../temporarilyimmutablecontainer.h"
 
@@ -26,7 +27,7 @@ typedef sad::TemporarilyImmutableContainerWithHeterogeneousCommands<
 /*! A controls, which hold a event handlers, which handle queued events.
     
     Note that controls DOES NOT provide type-checking of events and handlers.
-    This is done, due to perfomance issues, caused by typecasting.
+    This is done, due to performance issues, caused by typecasting.
  */
 class Controls //-V690
 : public sad::input::ControlsImmutableBase
@@ -38,14 +39,14 @@ public:
     /*! Controls takes ownership for all of conditions and handler. 
         It's frees memory from them, when destroyed
      */ 
-    ~Controls();
-    /*! Adds new handler and conditions for it invocation. Enqueues it to queue, it cannot
+    ~Controls() override;
+    /*! Add new handler and conditions for it invocation. Enqueue it to queue, since it cannot
         be added now
         \param[in] tac defines both type for events, received by handler
         \param[in] h  handler, which will receive events
         \return a handler
      */
-    sad::input::AbstractHandler* add(
+    sad::input::AbstractHandler* add(  // NOLINT(clang-diagnostic-overloaded-virtual)
         const sad::input::HandlerTypeAndConditions & tac, 
         sad::input::AbstractHandler* h
     );
@@ -84,7 +85,7 @@ public:
         \param[in] f function
         \return a handler
      */
-    inline sad::input::AbstractHandler* add(
+    inline sad::input::AbstractHandler* add(  // NOLINT(clang-diagnostic-overloaded-virtual)
         const sad::input::HandlerTypeAndConditions & tac, 
         void (*f)()
     )
@@ -366,7 +367,7 @@ public:
     }	
     /*! Posts event to controls, running callbacks, determined by event type,  with argument of event e
         \param[in] type type of event, which is run
-        \param[in] e event which is being emited
+        \param[in] e event which is being emitted
      */
     void postEvent(EventType type, const sad::input::AbstractEvent & e);
     /*! Must be called at start of new receiving session to make sure, that controls changing
@@ -377,25 +378,25 @@ public:
     /*! Must be called, when all window events are processes to make sure, that all controls changing
         is processed and nothing gets killed in between.
      */
-    void finishRecevingEvents();
+    void finishReceivingEvents();
     /*! An amount of delta, that should be picked in mouse wheel event in X11,
         since X11 does not support it natively.
-        \param[in] delta sensivity
+        \param[in] delta sensitivity
      */
-    void setWheelTickSensivity(double delta);
+    void setWheelTickSensitivity(double delta);
     /*! Returns amount of delta, that should be picked in mouse wheel event in X11,
         since X11 does not support it natively.
-        \return sensivity value
+        \return sensitivity value
      */
-    double wheelTickSensivity() const;
-    /*! Sets sensivity (in ms) for double click in X11, since it does not support it natively
-        \param[in] sensivity a sensivity for double click recognized
+    double wheelTickSensitivity() const;
+    /*! Sets sensitivity (in ms) for double click in X11, since it does not support it natively
+        \param[in] sensitivity a sensitivity for double click recognized
      */
-    void setDoubleClickSensivity(double sensivity);
-    /*! Returns sensivity (in ms) for double click in X11, since it does not support it natively
-        \return sensivity for double click
+    void setDoubleClickSensitivity(double sensitivity);
+    /*! Returns sensitivity (in ms) for double click in X11, since it does not support it natively
+        \return sensitivity for double click
      */
-    double doubleClickSensivity() const;
+    double doubleClickSensitivity() const;
 protected:
     /*! A both handle and conditions, stored in controls
      */
@@ -405,18 +406,18 @@ protected:
     typedef sad::Vector<HandlerAndConditions>  HandlerList;
     /*! A handlers, attached to a event types
      */
-    HandlerList m_handlers[SAD_INPUT_EVENTTYPE_COUNT];
+    HandlerList m_handlers[SAD_INPUT_EVENT_TYPE_COUNT];
     /*! An amount of delta, that should be picked in mouse wheel event in X11,
         since X11 does not support it natively
      */
-    double m_wheelticksensivity;
-    /*! A sensivity for double click as amount of time between two clicks, needed to compose them
+    double m_wheel_tick_sensitivity;
+    /*! A sensitivity for double click as amount of time between two clicks, needed to compose them
         as double click
      */
-    double m_doubleclicksensivity;
+    double m_double_click_sensitivity;
     /*! Immediately clears all handlers, removing all previous bindings
      */
-    virtual void clearNow();
+    virtual void clearNow() override;
     /*! Adds immediately pair of type and handler to controls
         \param[in] o a specified pair
      */
@@ -425,12 +426,12 @@ protected:
             sad::input::HandlerTypeAndConditions, 
             sad::input::AbstractHandler*
         > o
-    );
+    ) override;
     /*! Removes a handler from registered controls, freeing all of it's memory from handler
         and it's conditions
         \param[in] o an abstract handler, to be removed
      */
-    void removeNow(sad::input::AbstractHandler* o);
+    void removeNow(sad::input::AbstractHandler* o) override;
 private:
     /*! This object is non-copyable, this is not implemented
         \param[in] o other controls object

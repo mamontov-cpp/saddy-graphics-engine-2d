@@ -7,9 +7,9 @@ sad::log::Scope::Scope(
     const char * f, 
     int l, 
     sad::log::Log * log, 
-    bool saddyinternal
+    bool saddy_internal
 )
-: m_saddyinternal(saddyinternal)
+: m_saddy_internal(saddy_internal)
 {
     if (log == nullptr)
     {
@@ -19,9 +19,9 @@ sad::log::Scope::Scope(
     {
         m_log = log;
     }
-    if (m_saddyinternal) m_log->setInternalMode(true);
+    if (m_saddy_internal) m_log->setInternalMode(true);
     m_log->pushSubsystem(c, f, l);
-    if (m_saddyinternal) m_log->setInternalMode(false);	
+    if (m_saddy_internal) m_log->setInternalMode(false);	
 }
 
 sad::log::Scope::Scope(
@@ -29,9 +29,9 @@ sad::log::Scope::Scope(
     const char * f, 
     int l, 
     sad::log::Log * log,
-    bool saddyinternal
+    bool saddy_internal
 )
-: m_saddyinternal(saddyinternal)
+: m_saddy_internal(saddy_internal)
 {
     if (log == nullptr)
     {
@@ -41,9 +41,9 @@ sad::log::Scope::Scope(
     {
         m_log = log;
     }
-    if (m_saddyinternal) m_log->setInternalMode(true);
+    if (m_saddy_internal) m_log->setInternalMode(true);
     m_log->pushSubsystem(c, f, l);
-    if (m_saddyinternal) m_log->setInternalMode(false);	
+    if (m_saddy_internal) m_log->setInternalMode(false);	
 }
 
 sad::log::Scope::Scope(
@@ -51,9 +51,9 @@ sad::log::Scope::Scope(
     const char * f, 
     int l, 
     sad::log::Log * log,
-    bool saddyinternal
+    bool saddy_internal
 )
-:m_saddyinternal(saddyinternal)
+:m_saddy_internal(saddy_internal)
 {
     if (log == nullptr)
     {
@@ -63,9 +63,9 @@ sad::log::Scope::Scope(
     {
         m_log = log;
     }
-    if (m_saddyinternal) m_log->setInternalMode(true);
+    if (m_saddy_internal) m_log->setInternalMode(true);
     m_log->pushSubsystem(c.c_str(), f, l);
-    if (m_saddyinternal) m_log->setInternalMode(false);	
+    if (m_saddy_internal) m_log->setInternalMode(false);	
 }
 
 sad::log::Scope::Scope(
@@ -73,9 +73,9 @@ sad::log::Scope::Scope(
     const char * f, 
     int l, 
     sad::log::Log * log,
-    bool saddyinternal
+    bool saddy_internal
 )
-:m_saddyinternal(saddyinternal)
+:m_saddy_internal(saddy_internal)
 {
     if (log == nullptr)
     {
@@ -85,17 +85,17 @@ sad::log::Scope::Scope(
     {
         m_log = log;
     }
-    if (m_saddyinternal) m_log->setInternalMode(true);
+    if (m_saddy_internal) m_log->setInternalMode(true);
     fmt::internal::ArgInserter<char> & fmt = const_cast<fmt::internal::ArgInserter<char>&>(c); 
     m_log->pushSubsystem(str(fmt).c_str() , f, l);
-    if (m_saddyinternal) m_log->setInternalMode(false);	
+    if (m_saddy_internal) m_log->setInternalMode(false);	
 }
 
 
 
 sad::log::Scope::~Scope()
 {
-    if (m_saddyinternal) m_log->setInternalMode(true);
+    if (m_saddy_internal) m_log->setInternalMode(true);
     m_log->popSubsystem();
-    if (m_saddyinternal) m_log->setInternalMode(false);
+    if (m_saddy_internal) m_log->setInternalMode(false);
 }

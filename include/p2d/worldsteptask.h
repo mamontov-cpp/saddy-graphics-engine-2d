@@ -35,7 +35,7 @@ public:
     double stepTick();
     /*! Decreases reference count for world 
      */
-    ~WorldStepTask();
+    ~WorldStepTask() override;
 protected:
     /*! A renderer, which will supply a task with data about FPS
      */
@@ -45,7 +45,7 @@ protected:
     sad::p2d::World* m_world;
     /*! Invokes a delegate inside of process
      */ 
-    virtual void _process();
+    virtual void _process() override;
 };
 
 }

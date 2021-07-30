@@ -65,8 +65,8 @@ namespace p2d
         \return pair of points
      */ 
     p2d::PointsPair swap(const p2d::PointsPair & c);
-    /*! Swaps all points in paird
-        \param[in, out] pairs a pairs of points
+    /*! Swaps all points in pair
+        \param[in,out] pairs a pairs of points
      */
     void swap(sad::Vector<p2d::PointsPair> & pairs);
     /*! Returns a cutter by two points
