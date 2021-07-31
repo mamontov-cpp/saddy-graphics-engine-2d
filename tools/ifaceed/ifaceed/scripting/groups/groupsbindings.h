@@ -73,13 +73,13 @@ unsigned long long entry(
     if animation is already in group
     \param[in]  scripting a scripting part
     \param[in] group a group
-    \param[in] minstance an instance to be added
+    \param[in] my_instance an instance to be added
     \return true on success
  */
 bool addInstance(
     scripting::Scripting* scripting,
     sad::animations::Group* group,
-    sad::animations::Instance* minstance
+    sad::animations::Instance* my_instance
 );
 
 /*! Tries to remove instance from a group
@@ -87,7 +87,7 @@ bool addInstance(
     if position is not valid
     \param[in]  scripting a scripting part
     \param[in] group a group
-    \param[in] pos position of instace in group
+    \param[in] pos position of instance in group
     \return true on success
  */
 bool removeInstance(

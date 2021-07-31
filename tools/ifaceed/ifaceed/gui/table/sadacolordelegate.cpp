@@ -47,10 +47,10 @@ void gui::table::SadAColorDelegate::set(const sad::db::Variant& v)
 
 void gui::table::SadAColorDelegate::clicked()
 {
-    QColor oldvalue = this->currentValue<QColor>();
+    QColor old_value = this->currentValue<QColor>();
     AColorDialog dlg;
     dlg.setColorPalette(m_editor->panelProxy()->colorPalette());
-    dlg.setSelectedColor(oldvalue);
+    dlg.setSelectedColor(old_value);
     
     if (dlg.exec() == QDialog::Accepted)
     {
@@ -58,16 +58,16 @@ void gui::table::SadAColorDelegate::clicked()
         m_editor->panelProxy()->setColorPalette(dlg.colorPalette());
         if (this->isLinkedToDatabase())
         {
-            m_editor->history()->add(new history::database::ChangeProperty<QColor>(oldvalue, i, this));
+            m_editor->history()->add(new history::database::ChangeProperty<QColor>(old_value, i, this));
         }
         else
         {
-            sad::AColor oldvalueforprop;
-            sad::AColor newvalueforprop;
-            core::typeconverters::QColorToSadAColor::convert(oldvalue, oldvalueforprop);
-            core::typeconverters::QColorToSadAColor::convert(i, newvalueforprop);
+            sad::AColor old_valueforprop;
+            sad::AColor new_valueforprop;
+            core::typeconverters::QColorToSadAColor::convert(old_value, old_valueforprop);
+            core::typeconverters::QColorToSadAColor::convert(i, new_valueforprop);
             m_editor->history()->add( 
-                new history::customobject::ChangeProperty<sad::AColor>(m_object, Q2STDSTRING(m_property_name), oldvalueforprop, newvalueforprop)
+                new history::customobject::ChangeProperty<sad::AColor>(m_object, Q2STDSTRING(m_property_name), old_valueforprop, new_valueforprop)
             );
         }
         static_cast<gui::colorview::ColorView*>(m_my_widget)->setBackgroundColor(i);

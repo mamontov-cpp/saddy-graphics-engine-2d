@@ -6,11 +6,13 @@
  */
 
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include "constants.h"
 
 #include <p2d/app/objectemitter.h>
 
-#include <time.h>
+// ReSharper disable once CppUnusedIncludeDirective
+#include <ctime>
 
 
 class GameObject;
@@ -39,7 +41,7 @@ class AbstractAutomaticGun: public sad::p2d::app::AbstractObjectEmitter
       /*! Returns an application
             \return application
         */
-      virtual sad::p2d::app::App * app();
+      virtual sad::p2d::app::App * app() override;
       /*! Sets difference between angle of object and shooting angle
           \param[in] delta delta of angle
        */
@@ -48,9 +50,9 @@ class AbstractAutomaticGun: public sad::p2d::app::AbstractObjectEmitter
           \param[in] o game object
        */
       void setObject(GameObject * o);
-      /*! Returns angle for created objec (0 in our case)
+      /*! Returns angle for created object (0 in our case)
           \return angle
        */
-      virtual double angle();
-      virtual ~AbstractAutomaticGun();
+      virtual double angle() override;
+      virtual ~AbstractAutomaticGun() override;
 };

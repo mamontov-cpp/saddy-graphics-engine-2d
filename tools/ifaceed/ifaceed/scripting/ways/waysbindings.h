@@ -30,14 +30,14 @@ QVector<unsigned long long> list();
     is reserved for call, which will take object, preprocess it's fields and call _add using fields of this object.
     \param[in] scripting a scripting part
     \param[in] name a name for way
-    \param[in] totaltime a total time for way
+    \param[in] total_time a total time for way
     \param[in] closed whether way is closed
     \param[in] points a list of points
  */ 
 unsigned long long _add(
     scripting::Scripting* scripting, 
     sad::String name,
-    double totaltime,
+    double total_time,
     bool closed,
     QVector<sad::Point2D> points
 );

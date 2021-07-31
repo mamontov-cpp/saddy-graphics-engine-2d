@@ -27,15 +27,15 @@ public:
     WayPointSwap(sad::p2d::app::Way* w, int pos1, int pos2);
     /*! Could be inherited
      */
-    virtual ~WayPointSwap();
-    /*! Swaps waypoints
+    virtual ~WayPointSwap() override;
+    /*! Swaps way points
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL);
-    /*! Swaps waypoints
+    virtual void commit(core::Editor * ob = nullptr) override;
+    /*! Swaps way points
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! A current selected way
      */

@@ -19,10 +19,10 @@
 
 history::label::ChangeHasFormatting::ChangeHasFormatting(
     sad::SceneNode* d,
-    bool oldvalue,
-    bool newvalue
+    bool old_value,
+    bool new_value
 
-) : history::scenenodes::ChangeProperty<bool>(d, "hasformatting", oldvalue, newvalue)
+) : history::scenenodes::ChangeProperty<bool>(d, "hasformatting", old_value, new_value)
 {
     m_affects_parent_grid = true;
 }

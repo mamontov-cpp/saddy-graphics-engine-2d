@@ -67,13 +67,13 @@ void gui::actions::CustomObjectActions::cancelAdd()
     core::Shared* s = m_editor->shared();
     sad::SceneNode* node = s->activeObject();
     sad::Renderer::ref()->lockRendering();
-    s->setActiveObject(NULL);
+    s->setActiveObject(nullptr);
     node->scene()->remove(node);
     sad::Renderer::ref()->unlockRendering();
     
     sad::hfsm::Machine* m = m_editor->machine();
     m->enterState(m->previousState());
-    if (m->isInState("adding") || (m->isInState("selected") && s->selectedObject() == NULL))
+    if (m->isInState("adding") || (m->isInState("selected") && s->selectedObject() == nullptr))
     {
         m->enterState("idle");
     }
@@ -112,7 +112,7 @@ void gui::actions::CustomObjectActions::commitAdd(const sad::input::MousePressEv
     sad::SceneNode* node = s->activeObject();
     sad::Renderer::ref()->database("")->table("scenenodes")->add(node);
     history::Command* c = new history::scenenodes::New(node);
-    s->setActiveObject(NULL);
+    s->setActiveObject(nullptr);
     s->setSelectedObject(node);
     m_editor->history()->add(c);
     c->commit(m_editor);
@@ -227,7 +227,7 @@ gui::table::Delegate* gui::actions::CustomObjectActions::delegateForCustomObject
              return d;
          }
      }
-     return NULL;
+     return nullptr;
 }
 
 void gui::actions::CustomObjectActions::updateCustomObjectPropertyValue(
@@ -249,7 +249,7 @@ void gui::actions::CustomObjectActions::updateCustomObjectPropertyValue(
 void gui::actions::CustomObjectActions::add()
 {
     bool valid = true;
-    valid = valid && m_editor->actions()->sceneActions()->currentScene() != NULL;
+    valid = valid && m_editor->actions()->sceneActions()->currentScene() != nullptr;
     valid = valid && m_editor->uiBlocks()->uiCustomObjectBlock()->rtwCustomObjectSchemas->selectedResourceName().exists();
     valid = valid && m_editor->machine()->isInState("adding") == false;
     if (valid)
@@ -335,7 +335,7 @@ void gui::actions::CustomObjectActions::triggerAddFromFastMode()
 
 void gui::actions::CustomObjectActions::schemaChanged(sad::String s)
 {
-    if (m_editor->shared()->activeObject() != NULL)
+    if (m_editor->shared()->activeObject() != nullptr)
     {
         sad::Renderer::ref()->lockRendering();
         m_editor->shared()->activeObject()->setProperty("schema", s);
@@ -348,16 +348,16 @@ void gui::actions::CustomObjectActions::schemaChanged(sad::String s)
         sad::SceneNode* node = m_editor->shared()->selectedObject();
         if (node)
         {
-            sad::Maybe<sad::String> oldvalue = node->getProperty<sad::String>("schema");
-            if (oldvalue.exists() && node->metaData()->canBeCastedTo("sad::db::custom::Object"))
+            sad::Maybe<sad::String> old_value = node->getProperty<sad::String>("schema");
+            if (old_value.exists() && node->metaData()->canBeCastedTo("sad::db::custom::Object"))
             {
-                if (oldvalue.value() != s)
+                if (old_value.value() != s)
                 {
                     sad::db::custom::Object* o  = static_cast<sad::db::custom::Object*>(
                         m_editor->shared()->selectedObject()
                     );
                     history::Command* c = new history::customobject::ChangeSchema(
-                        o, oldvalue.value(), s
+                        o, old_value.value(), s
                     );
                     m_editor->history()->add(c);
                     c->commit(m_editor);						

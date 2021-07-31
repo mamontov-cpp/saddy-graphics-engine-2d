@@ -65,7 +65,7 @@ dukpp03::Maybe<QHash<QString, QVariant> > scripting::resource_options(scripting:
 
 dukpp03::qt::JSObject* scripting::resource_schema(scripting::Scripting* scripting, QString name)
 {
-    dukpp03::qt::JSObject* result = NULL;
+    dukpp03::qt::JSObject* result = nullptr;
 
     sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
     sad::resource::Resource* resource = tree->root()->resource(name.toStdString());

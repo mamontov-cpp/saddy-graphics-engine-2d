@@ -47,7 +47,7 @@ public:
         \param[in] e editor
      */
     void setEditor(core::Editor* e);
-    /*! Returns an editor, which data belons to
+    /*! Returns an editor, which data belongs to
         \return editor
      */
     core::Editor* editor() const;
@@ -149,7 +149,7 @@ public:
      */
     void setWayPointPosition(int p);
     /*! Returns way point position
-        \return
+        \return way point position
      */
     int wayPointPosition() const;
     /*! Sets old point value
@@ -258,7 +258,7 @@ public:
         (for those actions, which are triggered by fast mode)
      */
     bool triggeredByFastMode() const;
-    /*! Setd old state
+    /*! Sets old state
         \param[in] state an old state
      */
     void setOldState(const picojson::value& state);
@@ -326,7 +326,7 @@ private:
     sad::Rect2D m_old_region;
     /*! A node types, which can't be resized
      */
-    sad::Vector<sad::String> m_nonresizeable_nodetypes;
+    sad::Vector<sad::String> m_non_resizeable_node_types;
     /*! An indexes, which should be used for resizing objects 
      */
     sad::Pair<int, int> m_resizing_indexes;
@@ -351,7 +351,7 @@ private:
     /*! A property for simple movement editing
      */
     sad::String m_editing_simple_movement_property;
-    /*! Old angle for all changes of verious angle
+    /*! Old angle for all changes of various angle
      */
     double m_old_angle;
     /*! Saves a name for fast mode

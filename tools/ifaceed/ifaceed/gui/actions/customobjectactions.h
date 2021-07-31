@@ -1,7 +1,7 @@
 /*! \file customobjectactions.h
     
 
-    Describes a group of actions, linked to sprited
+    Describes a group of actions, linked to custom objects
  */
 #pragma once
 #include <QObject>
@@ -57,7 +57,7 @@ public:
     /*! Creates new actions for sprites
         \param[in] parent a parent object
      */
-    CustomObjectActions(QObject* parent = NULL);
+    CustomObjectActions(QObject* parent = nullptr);
     /*! This class could be inherited
      */
     virtual ~CustomObjectActions();
@@ -91,7 +91,7 @@ public:
     void clearCustomObjectPropertiesTable();
     /*! Finds delegate for custom object property in table
      * \param[in] name a name for delegate for custom object
-     * \return found delegate, or NULL
+     * \return found delegate, or nullptr
      */
     gui::table::Delegate* delegateForCustomObjectProperty(const QString& name);
     /*! Updates custom object property value in UI, if it's selected
@@ -138,7 +138,7 @@ private:
         gui::actions::CustomObjectActions::updateCustomObjectPropertyValueNow
      */
     sad::String m_custom_object_property_name;
-    /*! A temporary value for custom object propert value slot, which accessed in
+    /*! A temporary value for custom object property value slot, which accessed in
         gui::actions::CustomObjectActions::updateCustomObjectPropertyValueNow
      */
     sad::db::Variant m_custom_object_property_value;

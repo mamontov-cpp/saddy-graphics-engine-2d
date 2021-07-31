@@ -18,13 +18,13 @@ class ChangeObject: public history::instances::ChangeProperty<unsigned long long
 public:
      /*! Constructs new command for animation
         \param[in] d a node
-        \param[in] oldvalue old text
-        \param[in] newvalue new text
+        \param[in] old_value old text
+        \param[in] new_value new text
       */
-    ChangeObject(sad::animations::Instance* d, unsigned long long oldvalue, unsigned long long newvalue);
+    ChangeObject(sad::animations::Instance* d, unsigned long long old_value, unsigned long long new_value);
     /*! Erases link to an animation
       */
-    virtual ~ChangeObject();
+    virtual ~ChangeObject() override;
 protected:
     /*! Updates object in main list
         \param[in] e editor
@@ -36,7 +36,7 @@ protected:
      * \param[in] e editor
      * \param[in] value a value
      */
-    virtual void updateUI(core::Editor* e, const unsigned long long& value);
+    virtual void updateUI(core::Editor* e, const unsigned long long& value) override;
 };
 
 }

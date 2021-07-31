@@ -15,7 +15,7 @@
 #include "uiblocks/uianimationblock.h"
 // ============================ PUBLIC METHODS ============================
 
-gui::AnimationProcess::AnimationProcess() : m_editor(NULL), m_instance(NULL)
+gui::AnimationProcess::AnimationProcess() : m_editor(nullptr), m_instance(nullptr)
 {
     m_timer.setSingleShot(false);
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerExpired()));
@@ -55,7 +55,7 @@ void gui::AnimationProcess::start(sad::animations::Instance* i)
 void gui::AnimationProcess::stop()
 {
     m_mutex.lock();
-    if (m_instance != NULL)
+    if (m_instance != nullptr)
     {
         if (m_editor->shared()->isAnyKindOfAnimationIsRunning())
         {
@@ -72,7 +72,7 @@ void gui::AnimationProcess::stop()
             }
 
             m_instance->delRef();
-            m_instance = NULL;
+            m_instance = nullptr;
 
             m_editor->emitClosure( bind(&m_timer, &QTimer::stop) );
         }

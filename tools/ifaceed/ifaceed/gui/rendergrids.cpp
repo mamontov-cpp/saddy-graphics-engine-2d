@@ -141,7 +141,7 @@ core::borders::ResizeHotspot* gui::RenderGrids::selectedResizeHotspot(
     sad::layouts::Grid* g = m_editor->shared()->selectedGrid();
     if (!g)
     {
-        return NULL;
+        return nullptr;
     }
     QSet<size_t> excluded;
     if (g->fixedHeight() == false)
@@ -161,7 +161,7 @@ core::borders::ResizeHotspot* gui::RenderGrids::selectedResizeHotspot(
             return m_resize_hotspots[i];
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void gui::RenderGrids::enableResizeHotspots()
@@ -195,7 +195,7 @@ void gui::RenderGrids::_process()
          if (m_editor->isInWaysEditingState() == false)
          {
              sad::layouts::Grid* g = m_editor->shared()->selectedGrid();
-             if (g != NULL)
+             if (g != nullptr)
              {
                  if (!m_disable_resize_hotspots)
                  {

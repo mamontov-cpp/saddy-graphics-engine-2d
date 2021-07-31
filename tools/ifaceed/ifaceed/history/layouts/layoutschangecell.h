@@ -37,13 +37,13 @@ public:
         \param[in] g parent grid for cell
         \param[in] row a row value
         \param[in] column a column value
-        \param[in] propname a property string name
+        \param[in] property_name a property string name
      */
-    ChangeCell(sad::layouts::Grid* g, size_t row, size_t column, const sad::String& propname) 
+    ChangeCell(sad::layouts::Grid* g, size_t row, size_t column, const sad::String& property_name) 
     : m_grid(g), 
       m_row(row),
       m_column(column),
-      m_property_name(propname),
+      m_property_name(property_name),
       m_could_update_area(false)
     {
         m_grid->addRef();        
@@ -71,45 +71,45 @@ public:
      /*! Applies new saved state, described in command
          \param[in] ob an editor
       */
-    virtual void commit(core::Editor * ob = NULL)
-    {
-       if (!ob)
-       {
-           return;
-       }
-       sad::db::Variant v(m_new_value);
-       m_grid->cell(m_row, m_column)->setProperty(m_property_name, v);
-       tryUpdateUI(ob, v);
-    }
-     /*! Reverts to old saved state, describled in command
-         \param[in] ob an editor
-      */
-    virtual void rollback(core::Editor * ob = NULL)
+    virtual void commit(core::Editor * ob = nullptr) override
     {
         if (!ob)
         {
             return;
         }
-       sad::db::Variant v(m_old_value);
-       m_grid->cell(m_row, m_column)->setProperty(m_property_name, v);
+        const sad::db::Variant v(m_new_value);
+        m_grid->cell(m_row, m_column)->setProperty(m_property_name, v);
        tryUpdateUI(ob, v);
+    }
+     /*! Reverts to old saved state, described in command
+         \param[in] ob an editor
+      */
+    virtual void rollback(core::Editor * ob = nullptr) override
+    {
+        if (!ob)
+        {
+            return;
+        }
+        const sad::db::Variant v(m_old_value);
+        m_grid->cell(m_row, m_column)->setProperty(m_property_name, v);
+        tryUpdateUI(ob, v);
     }
     /*! Mark, as layout could change region of grid and all children in it
      */
     void markAsCouldChangeRegion()
     {
-        m_could_update_area = true;
+         m_could_update_area = true;
     }
     /*! Commits a change without updating UI. In that case,
         it doesn't change current cell, if this won't change region
 
         \param[in] e editor
      */
-    virtual void commitWithoutUpdatingUI(core::Editor * e)
+    virtual void commitWithoutUpdatingUI(core::Editor * e) override
     {
-       sad::db::Variant v(m_new_value);
-       m_grid->cell(m_row, m_column)->setProperty(m_property_name, v);
-       tryUpdateUI(e, v, true);
+        const sad::db::Variant v(m_new_value);
+        m_grid->cell(m_row, m_column)->setProperty(m_property_name, v);
+        tryUpdateUI(e, v, true);
     }
 protected:
     /*! Tries to update UI
@@ -122,7 +122,7 @@ protected:
         if (!e)
             return;        
         gui::actions::GridActions* actions = e->actions()->gridActions();
-        bool is_selected = e->shared()->selectedGrid() == m_grid;
+        const bool is_selected = e->shared()->selectedGrid() == m_grid;
         if (!without_cell && is_selected)
         {
            actions->updateCellPartInUI(m_row, m_column, O, v);

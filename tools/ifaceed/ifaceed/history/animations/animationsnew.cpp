@@ -46,7 +46,7 @@ void history::animations::New::rollback(core::Editor* ob)
         }
         if (ob->shared()->selectedAnimation() == m_animation)
         {
-            ob->shared()->setSelectedAnimation(NULL);
+            ob->shared()->setSelectedAnimation(nullptr);
         }
     }
 }

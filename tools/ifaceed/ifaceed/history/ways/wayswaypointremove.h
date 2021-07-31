@@ -1,7 +1,7 @@
 /*! \file wayswaypointremove.h
  *  
  *
- * Describes a simple command for removing a waypoint
+ * Describes a simple command for removing a way point
  */
 #pragma once
 #include "../command.h"
@@ -31,11 +31,11 @@ public:
     /*! Removes a way point
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Adds a way point
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! A current selected way
      */

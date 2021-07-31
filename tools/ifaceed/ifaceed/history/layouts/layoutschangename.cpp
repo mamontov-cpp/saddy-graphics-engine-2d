@@ -24,12 +24,12 @@ Q_DECLARE_METATYPE(sad::layouts::Grid*) //-V566
 
 history::layouts::ChangeName::ChangeName(
     sad::layouts::Grid* d,
-    const sad::String& oldvalue,
-    const sad::String& newvalue
+    const sad::String& old_value,
+    const sad::String& new_value
 
 ) : m_grid(d), 
-    m_oldvalue(oldvalue),
-    m_newvalue(newvalue)
+    m_old_value(old_value),
+    m_new_value(new_value)
 {
     m_grid->addRef();
 }
@@ -43,7 +43,7 @@ void history::layouts::ChangeName::commit(core::Editor * ob)
 {
     if (ob)
     {
-        m_grid->setProperty("name", m_newvalue);    
+        m_grid->setProperty("name", m_new_value);    
         ob->emitClosure(::bind(this, &history::layouts::ChangeName::tryUpdateUIWithEditableFields, ob));
     }
 }
@@ -51,7 +51,7 @@ void history::layouts::ChangeName::rollback(core::Editor * ob)
 {
     if (ob)
     {
-        m_grid->setProperty("name", m_oldvalue);
+        m_grid->setProperty("name", m_old_value);
         ob->emitClosure(::bind(this, &history::layouts::ChangeName::tryUpdateUIWithEditableFields, ob));
     }
 }
@@ -60,7 +60,7 @@ void history::layouts::ChangeName::commitWithoutUpdatingUI(core::Editor * e)
 {
     if (e)
     {
-        m_grid->setProperty("name", m_newvalue);
+        m_grid->setProperty("name", m_new_value);
         e->emitClosure(::bind(this, &history::layouts::ChangeName::tryUpdateUI, e));
     }
 }

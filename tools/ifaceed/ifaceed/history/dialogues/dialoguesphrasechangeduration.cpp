@@ -16,10 +16,10 @@
 history::dialogues::PhraseChangeDuration::PhraseChangeDuration(
     sad::dialogue::Dialogue* dialogue, 
     int i,
-    double oldvalue, 
-    double newvalue
+    double old_value, 
+    double new_value
 )
-: m_dialogue(dialogue), m_position(i), m_oldvalue(oldvalue), m_newvalue(newvalue)
+: m_dialogue(dialogue), m_position(i), m_old_value(old_value), m_new_value(new_value)
 {
     m_dialogue->addRef();	
 }
@@ -31,14 +31,14 @@ history::dialogues::PhraseChangeDuration::~PhraseChangeDuration()
 
 void history::dialogues::PhraseChangeDuration::commit(core::Editor * ob)
 {
-    m_dialogue->phrases()[m_position]->setDuration(m_newvalue);
-    this->tryUpdateUI(ob, m_newvalue);
+    m_dialogue->phrases()[m_position]->setDuration(m_new_value);
+    this->tryUpdateUI(ob, m_new_value);
 }
 
 void history::dialogues::PhraseChangeDuration::rollback(core::Editor * ob)
 {
-    m_dialogue->phrases()[m_position]->setDuration(m_oldvalue);
-    this->tryUpdateUI(ob, m_oldvalue);
+    m_dialogue->phrases()[m_position]->setDuration(m_old_value);
+    this->tryUpdateUI(ob, m_old_value);
 }
 
 void history::dialogues::PhraseChangeDuration::tryUpdateUI(core::Editor* e, double v)

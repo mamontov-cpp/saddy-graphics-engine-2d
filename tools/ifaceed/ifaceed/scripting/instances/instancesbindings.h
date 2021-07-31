@@ -5,12 +5,15 @@
  */
 #pragma once
 #include "../dukqtcontext.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include <sadrect.h>
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QVariant>
 #include <QVector>
 
 #include <animations/animationsinstance.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <animations/animationswayinstance.h>
 
 namespace scripting
@@ -32,7 +35,7 @@ QVector<unsigned long long> list();
     \param[in] name a name for object
     \param[in] way a way to be bind to
     \param[in] object an object to be added
-    \param[in] starttime a start time for instance
+    \param[in] start_time a start time for instance
     \return major id for animation if added, 0 otherwise
  */
 unsigned long long _addWayInstance(
@@ -40,7 +43,7 @@ unsigned long long _addWayInstance(
     sad::String name,
     const QVariant& way,
     const QVariant& object,
-    double starttime
+    double start_time
 );
 
 /*! Removes animation instance

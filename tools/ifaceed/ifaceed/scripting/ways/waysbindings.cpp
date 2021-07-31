@@ -37,7 +37,7 @@ QVector<unsigned long long>  scripting::ways::list()
 unsigned long long scripting::ways::_add(
     scripting::Scripting* scripting, 
     sad::String name,
-    double totaltime,
+    double total_time,
     bool closed,
     QVector<sad::Point2D> points
 )
@@ -46,7 +46,7 @@ unsigned long long scripting::ways::_add(
 
     sad::p2d::app::Way* w = new sad::p2d::app::Way();
     w->setObjectName(name);
-    w->setTotalTime(totaltime);
+    w->setTotalTime(total_time);
     w->setClosed(closed);
     for(size_t i = 0; i < points.size(); i++)
     {

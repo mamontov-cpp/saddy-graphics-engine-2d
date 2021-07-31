@@ -5,7 +5,9 @@
     to perform lookup for most of object stuff
   */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QString>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QVariant>
 #include <dukqt.h>
 

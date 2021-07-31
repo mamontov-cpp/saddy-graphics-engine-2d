@@ -7,12 +7,12 @@
 #include <QRadioButton>
 #include "../resourcetreewidget/resourcetreewidget.h"
 
-gui::uiblocks::UICustomObjectBlock::UICustomObjectBlock() : btnCustomObjectAdd(NULL),
-tabCustomObjectsProperties(NULL),
-rtwCustomObjectSchemas(NULL),
-twCustomObjectProperties(NULL),
-rbCustomObjectPlaceAndRotate(NULL),
-rbCustomObjectTwoClicksPlaces(NULL)
+gui::uiblocks::UICustomObjectBlock::UICustomObjectBlock() : btnCustomObjectAdd(nullptr),
+tabCustomObjectsProperties(nullptr),
+rtwCustomObjectSchemas(nullptr),
+twCustomObjectProperties(nullptr),
+rbCustomObjectPlaceAndRotate(nullptr),
+rbCustomObjectTwoClicksPlaces(nullptr)
 {
 
 }

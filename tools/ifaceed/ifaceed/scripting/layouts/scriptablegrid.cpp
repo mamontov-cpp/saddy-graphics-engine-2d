@@ -37,7 +37,7 @@ scripting::layouts::ScriptableGrid::~ScriptableGrid()
     
 }
 
-sad::layouts::Grid* scripting::layouts::ScriptableGrid::grid(bool throwexc, const QString& name) const
+sad::layouts::Grid* scripting::layouts::ScriptableGrid::grid(bool throw_exception, const QString& name) const
 {
     sad::db::Database* db = sad::Renderer::ref()->database("");
     if (db)
@@ -51,12 +51,12 @@ sad::layouts::Grid* scripting::layouts::ScriptableGrid::grid(bool throwexc, cons
             }
         }
     }
-    if (throwexc)
+    if (throw_exception)
     {
         m_scripting->context()->throwError(std::string("ScriptableGrid.") + name.toStdString()  + ": Reference to a grid is not a valid instance");
         throw dukpp03::ArgumentException();
     }
-    return NULL;
+    return nullptr;
 }
 
 void scripting::layouts::ScriptableGrid::setArea(sad::Rect2D new_area) const
@@ -122,7 +122,7 @@ scripting::layouts::ScriptableGridCell* scripting::layouts::ScriptableGrid::cell
         m_scripting->context()->throwError("ScriptableGrid.cell: Attempt to get cell for non-existing grid");
         throw new dukpp03::ArgumentException();
     }
-    return NULL;
+    return nullptr;
 }
 
 QVector<unsigned long long> scripting::layouts::ScriptableGrid::children() const
@@ -155,7 +155,7 @@ QString scripting::layouts::ScriptableGrid::toString() const
 
 bool scripting::layouts::ScriptableGrid::valid() const
 {
-    return grid(false) != NULL;
+    return grid(false) != nullptr;
 }
 
 
@@ -358,7 +358,7 @@ void scripting::layouts::ScriptableGrid::setPaddingTop(double v, bool p) const
     {
         gui::actions::GridActions* ga = m_scripting->editor()->actions()->gridActions();
         ga->tryChangePaddingForGrid(
-            gui::actions::GridActions::GGAUO_TopPadding,
+            gui::actions::GridActions::GridUpdateOptions::GGAUO_TopPadding,
             g,
             v,
             p,
@@ -374,7 +374,7 @@ void scripting::layouts::ScriptableGrid::setPaddingBottom(double v, bool p) cons
     {
         gui::actions::GridActions* ga = m_scripting->editor()->actions()->gridActions();
         ga->tryChangePaddingForGrid(
-            gui::actions::GridActions::GGAUO_BottomPadding,
+            gui::actions::GridActions::GridUpdateOptions::GGAUO_BottomPadding,
             g,
             v,
             p,
@@ -390,7 +390,7 @@ void scripting::layouts::ScriptableGrid::setPaddingLeft(double v, bool p) const
     {
         gui::actions::GridActions* ga = m_scripting->editor()->actions()->gridActions();
         ga->tryChangePaddingForGrid(
-            gui::actions::GridActions::GGAUO_LeftPadding,
+            gui::actions::GridActions::GridUpdateOptions::GGAUO_LeftPadding,
             g,
             v,
             p,
@@ -406,7 +406,7 @@ void scripting::layouts::ScriptableGrid::setPaddingRight(double v, bool p) const
     {
         gui::actions::GridActions* ga = m_scripting->editor()->actions()->gridActions();
         ga->tryChangePaddingForGrid(
-            gui::actions::GridActions::GGAUO_RightPadding,
+            gui::actions::GridActions::GridUpdateOptions::GGAUO_RightPadding,
             g,
             v,
             p,
@@ -435,24 +435,24 @@ void scripting::layouts::ScriptableGrid::setPaddingRight(double v) const
     this->setPaddingRight(v, true);
 }
 
-bool scripting::layouts::ScriptableGrid::merge(int row, int column, int rowspan, int colspan)
+bool scripting::layouts::ScriptableGrid::merge(int row, int column, int row_span, int col_span)
 {
     sad::layouts::Grid* g = grid(true, "merge");
     if (g)
     {
         gui::actions::GridActions* ga = m_scripting->editor()->actions()->gridActions();
-        return ga->tryPeformMergeOrSplit(true, g, row, column, rowspan, colspan, false);
+        return ga->tryPerformMergeOrSplit(true, g, row, column, row_span, col_span, false);
     }
     return false;
 }
 
-bool scripting::layouts::ScriptableGrid::split(int row, int column, int rowspan, int colspan)
+bool scripting::layouts::ScriptableGrid::split(int row, int column, int row_span, int col_span)
 {
     sad::layouts::Grid* g = grid(true, "split");
     if (g)
     {
         gui::actions::GridActions* ga = m_scripting->editor()->actions()->gridActions();
-        return ga->tryPeformMergeOrSplit(false, g, row, column, rowspan, colspan, false);
+        return ga->tryPerformMergeOrSplit(false, g, row, column, row_span, col_span, false);
     }
     return false;
 }

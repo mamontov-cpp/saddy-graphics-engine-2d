@@ -6,6 +6,7 @@
 #pragma once
 #include "../dukqtcontext.h"
 #include <sadstring.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <sadrect.h>
 #include <maybe.h>
 

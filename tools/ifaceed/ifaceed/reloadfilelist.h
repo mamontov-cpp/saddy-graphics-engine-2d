@@ -5,6 +5,7 @@
  */
 #pragma once
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QDialog>
 #include <QString>
 
@@ -21,7 +22,7 @@ public:
     /*! Creates new file list for reloading
         \param[in] parent a parent widget for selecting
      */
-    ReloadFileList(QWidget* parent = NULL);
+    ReloadFileList(QWidget* parent = nullptr);
     /*! Returns a list of selected file
      */
     sad::resource::ResourceFile* selectedFile();

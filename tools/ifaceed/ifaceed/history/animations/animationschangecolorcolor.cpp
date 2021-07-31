@@ -17,17 +17,17 @@
 
 history::animations::ChangeColorColor::ChangeColorColor(
     sad::animations::Animation* d,
-    const sad::String& propertyname,
+    const sad::String& property_name,
     gui::colorview::ColorView* view,
-    const sad::AColor& oldvalue,
-    const sad::AColor& newvalue
+    const sad::AColor& old_value,
+    const sad::AColor& new_value
 
 )
 : history::animations::ChangeProperty<sad::AColor>(
       d,
-      propertyname,
-      oldvalue,
-      newvalue
+      property_name,
+      old_value,
+      new_value
 ), m_view(view)
 {
 }

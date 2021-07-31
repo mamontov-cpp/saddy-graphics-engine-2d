@@ -15,14 +15,14 @@
 
 history::groups::ChangeLooped::ChangeLooped(
     sad::animations::Group* d,
-    bool oldvalue,
-    bool newvalue
+    bool old_value,
+    bool new_value
 )
 : history::groups::ChangeProperty<bool>(
       d,
       "looped",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
 }

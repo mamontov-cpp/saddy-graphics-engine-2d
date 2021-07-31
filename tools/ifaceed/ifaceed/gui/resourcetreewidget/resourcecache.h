@@ -34,12 +34,12 @@ public:
      */
     ResourceTreeWidget* parent() const;
     /*! Returns image for resource
-        \param[in] resourcename a name for resource
+        \param[in] resource_name a name for resource
         \return image, which should be rendered on resources
      */
-    const QImage& imageForResource(const QString & resourcename);
+    const QImage& imageForResource(const QString & resource_name);
     /*! Creates image for a texture atlas entry
-        \param[in, out] im image, wheres should be placed texture atlas entry
+        \param[in,out] im image, wheres should be placed texture atlas entry
         \param[in] options options, where data about linked texture and coordinates are stored
         \param[in] tree a tree, for a texture data
      */
@@ -49,7 +49,7 @@ public:
         sad::resource::Tree * tree
     );
     /*! Creates image for a texture
-        \param[in, out] im image, wheres should be placed texture 
+        \param[in,out] im image, wheres should be placed texture 
         \param[in] tex texture
      */ 
     static void createImageForTexture(
@@ -57,7 +57,7 @@ public:
         sad::Texture * tex
     );
     /*! Creates default image for specific resource
-        \param[in, out] im a default image for resource
+        \param[in,out] im a default image for resource
      */
     static void createDefaultImage(QImage & im);
     /*!
@@ -66,19 +66,19 @@ public:
     void clear();
 protected:
     /*! Makes image size less or equal to a cell proportions
-        \param[in, out] im an image for normalizing 
+        \param[in,out] im an image for normalizing 
      */
     void normalizeImage(QImage & im);
     /*! Copies pixel from source to destination, transforming it to
         32-bit RGBA format, with respect to source texture format
-        \param[out] destpix location of destination pixel
-        \param[in]  srcpix  location of source pixel
+        \param[out] destination_pixel location of destination pixel
+        \param[in]  source_pixel  location of source pixel
         \param[in]  format  format of source texture (sad::Texture::InternalFormat value)
         \param[in]  sbypp   amount of bytes per pixel in source texture
      */
     static void copyPixel(
-        unsigned char* destpix,
-        const unsigned char* srcpix,
+        unsigned char* destination_pixel,
+        const unsigned char* source_pixel,
         unsigned int format,
         int sbypp
     );

@@ -5,10 +5,10 @@
 #include <QLineEdit>
 #include <QPushButton>
 
-gui::uiblocks::UIDialogueBlock::UIDialogueBlock() : lstDialogues(NULL),
-txtDialogueName(NULL),
-btnDialogueAdd(NULL),
-btnDialogueRemove(NULL)
+gui::uiblocks::UIDialogueBlock::UIDialogueBlock() : lstDialogues(nullptr),
+txtDialogueName(nullptr),
+btnDialogueAdd(nullptr),
+btnDialogueRemove(nullptr)
 {
 
 }

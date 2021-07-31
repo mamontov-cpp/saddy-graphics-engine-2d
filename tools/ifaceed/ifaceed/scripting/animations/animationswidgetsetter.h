@@ -1,7 +1,7 @@
 /*! \file animationswidgetsetter.h
     
 
-    Defines a generic setter for setting a property of animations, where it's binded 
+    Defines a generic setter for setting a property of animations, where it's bound 
     to a widget
  */
 #pragma once
@@ -17,7 +17,7 @@ namespace scripting
 namespace animations
 {
 
-/*! A common setter for setting common property of animations, where it's binded 
+/*! A common setter for setting common property of animations, where it's bound 
     to a widget
  */
 template<
@@ -46,7 +46,7 @@ public:
     /*! Clones an object
         \return copy of object
     */
-    dukpp03::qt::Callable* clone()
+    dukpp03::qt::Callable* clone() override
     {
         return new scripting::animations::WidgetSetter<_AnimationType, _WidgetType,  _PropertyType, _CommandType>(*this);
     }
@@ -64,7 +64,7 @@ public:
         \param[in] old_value old value
         \param[in] new_value new value
     */
-    virtual void callActions(_AnimationType* obj, const sad::String& property_name, _PropertyType old_value, _PropertyType new_value)
+    virtual void callActions(_AnimationType* obj, const sad::String& property_name, _PropertyType old_value, _PropertyType new_value) override
     {
         this->scripting::AbstractSetter<_AnimationType*, _PropertyType>::callActions(obj, property_name, old_value, new_value);
         this->setProperty(obj, property_name, old_value, new_value);
@@ -72,16 +72,16 @@ public:
 
     /*! Performs actually setting property
         \param[in] obj an object to be set
-        \param[in] propertyname a property for object
-        \param[in] oldvalue old value 
-        \param[in] newvalue new value
+        \param[in] property_name a property for object
+        \param[in] old_value old value 
+        \param[in] new_value new value
      */
-    virtual void setProperty(_AnimationType* obj, const sad::String& propertyname, _PropertyType oldvalue,  _PropertyType newvalue)
+    virtual void setProperty(_AnimationType* obj, const sad::String& property_name, _PropertyType old_value,  _PropertyType new_value)
     {
         scripting::Scripting* e = this->m_scripting;
         core::Editor* editor =  e->editor();
 
-        history::Command* c =  new _CommandType(obj, propertyname, m_widget, oldvalue, newvalue);
+        history::Command* c =  new _CommandType(obj, property_name, m_widget, old_value, new_value);
         editor->currentBatchCommand()->add(c);
         c->commit(editor);
     }

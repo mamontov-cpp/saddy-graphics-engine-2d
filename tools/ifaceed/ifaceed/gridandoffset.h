@@ -40,7 +40,7 @@ public:
     /*! Creates new window dialog
         \param[in] parent a parent widget
      */
-    GridAndOffsets(QWidget* parent =  NULL);
+    GridAndOffsets(QWidget* parent =  nullptr);
     /*! Updates global offset in ui
         \param[in] x x coordinate
         \param[in] y y coordinate
@@ -96,25 +96,25 @@ public:
     static sad::db::Database* database();
 public slots:
     /*! Called, when X offset is changed
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void offsetXChanged(double newvalue);
+    void offsetXChanged(double new_value);
     /*! Called, when Y offset is changed
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void offsetYChanged(double newvalue);
+    void offsetYChanged(double new_value);
     /*! Called, when enabled checkbox is changed
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void enabledCheckboxChanged(bool newvalue);
+    void enabledCheckboxChanged(bool new_value);
     /*! Called, when grid X is changed
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void gridXChanged(int newvalue);
+    void gridXChanged(int new_value);
     /*! Called, when grid Y is changed
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void gridYChanged(int newvalue);
+    void gridYChanged(int new_value);
     /*! Called, when changing grid color is clicked
      */
     void changeGridColorClicked();
@@ -140,14 +140,14 @@ signals:
      */ 
     void globalOffsetChanged(QPointF p);
     /*! Emitted, when grid enabled state is changed
-        \param[in] newvalue a flag state
+        \param[in] new_value a flag state
      */
-    void gridEnabledChanged(bool newvalue);
+    void gridEnabledChanged(bool new_value);
     /*! Signal, which is emitted, when grid settings is changed
         \param[in] p point
      */
     void gridSettingsChanged(QPointF p);
-    /*! Signal, which is emiited, when grid color is changed
+    /*! Signal, which is emitted, when grid color is changed
         \param[in] clr color
      */
     void gridColorChanged(sad::AColor clr);

@@ -30,20 +30,20 @@ public:
     );
      /*! Erases link to a node
       */
-     virtual ~RemoveInstance();
+     virtual ~RemoveInstance() override;
      /*! Applies changes, described in command
          \param[in] ob an observer for looking for command
       */
-     virtual void commit(core::Editor * ob = NULL);
+     virtual void commit(core::Editor * ob = nullptr) override;
      /*! Reverts changes, described in command
          \param[in] ob an observer for looking for command
       */
-     virtual void rollback(core::Editor * ob = NULL);
+     virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! A node, which must be added to an item
      */
     sad::animations::Group* m_node;
-    /*! A selected instance to be adde
+    /*! A selected instance to be added
      */
     sad::animations::Instance* m_instance;
     /*! An insertion position

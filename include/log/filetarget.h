@@ -35,6 +35,22 @@ public:
                                lesser than minimum priority are discarded
      */
     FileTarget(const sad::String & format = "{0}: [{1}] {3}{2}{4}", int min_priority = 0);
+    /*! Creates a new file with specified format.
+        Format defined as follows
+        {0} - current time
+        {1} - message priority
+        {2} - formatSubsystem() result, by default, subsystem + ": ", nothing if subsystem is not specified. For example: "commit():", ""
+        {3} - formatFileLine() result, file and line through ', ', nothing if not specified
+        {4} - message text
+        \param[in] format format string 
+        \param[in] min_priority Minimal priority for outputting. 
+                               Messages with priority  value, 
+                               lesser than minimum priority are discarded
+     */
+    inline FileTarget(const sad::String & format, sad::log::Priority min_priority) : FileTarget(format, static_cast<int>(min_priority))
+    {
+
+    }
     /*! Tries to open file for writing. Previous file, if opened with object
         of this target is closed and new file is opened, with destroying it's content
         \param[in] filename name of file

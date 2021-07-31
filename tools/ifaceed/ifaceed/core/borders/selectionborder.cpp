@@ -40,7 +40,7 @@ core::borders::ResizeHotspot* core::borders::SelectionBorder::selectedResizeHots
 {
     if (this->m_data->isSelectionResizeable() == false)
     {
-        return NULL;
+        return nullptr;
     }
     for(size_t i = 0; i < 4; i++)
     {
@@ -49,7 +49,7 @@ core::borders::ResizeHotspot* core::borders::SelectionBorder::selectedResizeHots
             return m_resize_hotspots[i];
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void core::borders::SelectionBorder::_process()

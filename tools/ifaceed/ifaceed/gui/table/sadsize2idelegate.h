@@ -8,10 +8,6 @@
 
 #include "../tuplewidget/int64tuplewidget.h"
 
-#include <QObject>
-
-#include <sadpoint.h>
-
 namespace gui
 {
 
@@ -28,11 +24,11 @@ public:
     SadSize2IDelegate();
     /*! Destroys delegate
      */
-    virtual ~SadSize2IDelegate();
+    virtual ~SadSize2IDelegate() override;
     /*! Sets a value for a delegate. Used by commands to reset
         \param[in] v a value
      */
-    virtual void set(const sad::db::Variant& v);
+    virtual void set(const sad::db::Variant& v) override;
 public slots:
     /*! When widget changed
         \param[in] f a first value
@@ -43,10 +39,10 @@ protected:
     /*! At this point delegate must create own editor, set it to table and connect delegate slots
         to it.
      */
-    virtual void makeEditor();
+    virtual void makeEditor() override;
     /*! Disconnects slots  for own editor here
      */
-    virtual void disconnect();
+    virtual void disconnect() override;
 };
 
 }

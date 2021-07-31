@@ -50,17 +50,17 @@ private:
     /*! A flag, which defines, whether main thread
         should wait for renderer's thread
      */
-    bool m_waitforsaddy;
+    bool m_wait_for_saddy;
     /*! A flag, which defines, whether renderer's thread
         should wait for main thread
      */
-    bool m_waitformain;
-    /*! A lock for m_waitforsaddy
+    bool m_wait_for_main;
+    /*! A lock for m_wait_for_saddy
      */
-    QReadWriteLock m_waitforsaddylock;
-    /*! A lock for m_waitforqt
+    QReadWriteLock m_wait_for_saddy_lock;
+    /*! A lock for m_wait_for_main
      */
-    QReadWriteLock m_waitformainlock;
+    QReadWriteLock m_wait_for_main_lock;
 };
 
 }

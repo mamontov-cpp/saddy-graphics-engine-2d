@@ -20,16 +20,16 @@ history::dialogues::PhraseChangeLineEditBasedProperty::PhraseChangeLineEditBased
     bool update,
     sad::dialogue::Dialogue* dialogue, 
     int i,
-    const sad::String& oldvalue, 
-    const sad::String& newvalue
+    const sad::String& old_value, 
+    const sad::String& new_value
 )
 : m_widget(widget),  
 m_setter(setter), 
 m_update(update), 
 m_dialogue(dialogue), 
 m_position(i), 
-m_oldvalue(oldvalue), 
-m_newvalue(newvalue)
+m_old_value(old_value), 
+m_new_value(new_value)
 {
     m_dialogue->addRef();	
 }
@@ -41,20 +41,20 @@ history::dialogues::PhraseChangeLineEditBasedProperty::~PhraseChangeLineEditBase
 
 void history::dialogues::PhraseChangeLineEditBasedProperty::commitWithoutUpdatingUI(core::Editor * ob)
 {
-    ((m_dialogue->phrases()[m_position])->*m_setter)(m_newvalue);
-    this->tryUpdateUI(ob, m_newvalue, false);
+    ((m_dialogue->phrases()[m_position])->*m_setter)(m_new_value);
+    this->tryUpdateUI(ob, m_new_value, false);
 }
 
 void history::dialogues::PhraseChangeLineEditBasedProperty::commit(core::Editor * ob)
 {
-    ((m_dialogue->phrases()[m_position])->*m_setter)(m_newvalue);
-    this->tryUpdateUI(ob, m_newvalue, true);
+    ((m_dialogue->phrases()[m_position])->*m_setter)(m_new_value);
+    this->tryUpdateUI(ob, m_new_value, true);
 }
 
 void history::dialogues::PhraseChangeLineEditBasedProperty::rollback(core::Editor * ob)
 {
-    ((m_dialogue->phrases()[m_position])->*m_setter)(m_oldvalue);
-    this->tryUpdateUI(ob, m_oldvalue, true);
+    ((m_dialogue->phrases()[m_position])->*m_setter)(m_old_value);
+    this->tryUpdateUI(ob, m_old_value, true);
 }
 
 void history::dialogues::PhraseChangeLineEditBasedProperty::tryUpdateUI(core::Editor* e, const sad::String& v, bool update_ui) const

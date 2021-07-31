@@ -30,7 +30,7 @@ public:
     Clear(sad::Scene * s);
     /*! Deletes reference to a scene
      */
-    ~Clear();
+    ~Clear() override;
     /*! Sets data for clear command
         \param[in] positions a list of positions for clear command
         \param[in] dependent a list of dependent animations
@@ -48,11 +48,11 @@ public:
     /*! Applies changes, described in command
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Reverts changes, described in command
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! Describes an added scene
      */

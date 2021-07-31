@@ -38,7 +38,7 @@ public:
     /*! Clones an object
         \return copy of object
      */
-    dukpp03::qt::Callable* clone()
+    dukpp03::qt::Callable* clone() override
     {
         return new scripting::animations::EasingGetter<_PropertyType>(*this);
     }
@@ -55,7 +55,7 @@ protected:
         \param[in] property_name a name of property
         \return property value if it exists, nothing otherwise
     */
-    virtual  sad::Maybe<_PropertyType> tryGetPropertyValue(sad::animations::Animation* value, const sad::String& property_name)
+    virtual  sad::Maybe<_PropertyType> tryGetPropertyValue(sad::animations::Animation* value, const sad::String& property_name) override
     {
         return  sad::Maybe<_PropertyType>(((value->easing())->*m_getter)());
     }

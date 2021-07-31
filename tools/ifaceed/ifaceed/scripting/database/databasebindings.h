@@ -8,6 +8,7 @@
 
 #include <sadstring.h>
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <db/dbobject.h>
 #include "../dukqtcontext.h"
 
@@ -37,7 +38,7 @@ bool addProperty(scripting::Scripting* s, sad::String type, sad::String name);
  */
 bool removeProperty(scripting::Scripting* s, sad::String name);
 /*! Lists database properties
-    \return list of strings with propeties of database
+    \return list of strings with properties of database
  */
 QStringList list();
 /*! Returns type of object
@@ -47,12 +48,12 @@ QStringList list();
 sad::String type(sad::db::Object* o);
 /*! Lists readableProperties for a type
     \param[in] o object 
-    \return list of strings with propeties of database
+    \return list of strings with properties of database
  */
 QStringList readableProperties(sad::db::Object* o);
 /*! Lists writableProperties for a type
     \param[in] o object
-    \return list of strings with propeties of database
+    \return list of strings with properties of database
  */
 QStringList writableProperties(sad::db::Object* o);
 

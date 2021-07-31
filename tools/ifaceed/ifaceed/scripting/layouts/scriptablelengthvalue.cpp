@@ -19,7 +19,7 @@ scripting::layouts::ScriptableLengthValue::ScriptableLengthValue(const sad::layo
 sad::layouts::LengthValue scripting::layouts::ScriptableLengthValue::toValue() const
 {
     sad::layouts::LengthValue value = m_value;
-    if (value.Unit == sad::layouts::LU_Pixels)
+    if (value.Unit == sad::layouts::Unit::LU_Pixels)
     {
         if (value.Value < 0)
         {
@@ -27,7 +27,7 @@ sad::layouts::LengthValue scripting::layouts::ScriptableLengthValue::toValue() c
         }
     }
 
-    if (value.Unit == sad::layouts::LU_Percents)
+    if (value.Unit == sad::layouts::Unit::LU_Percents)
     {
         if (value.Value < 0)
         {
@@ -48,17 +48,14 @@ QString scripting::layouts::ScriptableLengthValue::toString() const
     QString unit;
     switch(m_value.Unit)
     {
-    case sad::layouts::LU_Auto:      unit = "sad::layouts::LU_Auto"; break;
-    case sad::layouts::LU_Percents:  unit = "sad::layouts::LU_Percents"; break;
-    case sad::layouts::LU_Pixels:    unit = "sad::layouts::LU_Pixels"; break;
-    };
+	case sad::layouts::Unit::LU_Auto:      unit = "sad::layouts::LU_Auto"; break;
+    case sad::layouts::Unit::LU_Percents:  unit = "sad::layouts::LU_Percents"; break;
+    case sad::layouts::Unit::LU_Pixels:    unit = "sad::layouts::LU_Pixels"; break;
+    }
     return QString("ScriptableLengthValue(%1, %2)").arg(unit).arg(m_value.Value);
 }
 
-scripting::layouts::ScriptableLengthValue::~ScriptableLengthValue()
-{
-    
-}
+scripting::layouts::ScriptableLengthValue::~ScriptableLengthValue() = default;
 
 double scripting::layouts::ScriptableLengthValue::value() const
 {
@@ -77,7 +74,9 @@ int scripting::layouts::ScriptableLengthValue::unit() const
 
 void scripting::layouts::ScriptableLengthValue::setUnit(unsigned int v)
 {
-    if ((v == sad::layouts::LU_Auto) || (v == sad::layouts::LU_Percents) || (v == sad::layouts::LU_Pixels))
+    if ((v == static_cast<unsigned int>(sad::layouts::Unit::LU_Auto)) 
+       || (v == static_cast<unsigned int>(sad::layouts::Unit::LU_Percents))
+       || (v == static_cast<unsigned int>(sad::layouts::Unit::LU_Pixels)))
     {
         m_value.Unit = static_cast<sad::layouts::Unit>(v);
     }

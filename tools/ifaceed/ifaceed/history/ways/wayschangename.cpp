@@ -21,14 +21,14 @@
 
 history::ways::ChangeName::ChangeName(
   sad::p2d::app::Way* d,
-  const sad::String& oldvalue,
-  const sad::String& newvalue
+  const sad::String& old_value,
+  const sad::String& new_value
 )
 : history::ways::ChangeProperty<sad::String>(
       d,
       "name",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
 }

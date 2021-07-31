@@ -30,10 +30,10 @@ public:
     void add(history::Command * c);
     /*! Commits changes, moving to next non-applied command
      */
-    void commit(core::Editor * ob = NULL);
+    void commit(core::Editor * ob = nullptr);
     /*! Rollbacks changed, moving to previous command
      */
-    void rollback(core::Editor * ob = NULL);
+    void rollback(core::Editor * ob = nullptr);
     /*! Clears a history
      */
     void clear();

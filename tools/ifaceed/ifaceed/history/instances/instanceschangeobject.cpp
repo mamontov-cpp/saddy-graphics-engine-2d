@@ -18,15 +18,15 @@ Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
 history::instances::ChangeObject::ChangeObject(
     sad::animations::Instance* d,
-    unsigned long long oldvalue,
-    unsigned long long newvalue
+    unsigned long long old_value,
+    unsigned long long new_value
 
 )
 : history::instances::ChangeProperty<unsigned long long>(
       d,
       "object",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
 }

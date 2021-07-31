@@ -44,22 +44,22 @@ void gui::table::SadColorDelegate::set(const sad::db::Variant& v)
 
 void gui::table::SadColorDelegate::clicked()
 {
-    QColor oldvalue = this->currentValue<QColor>();
-    QColor i = QColorDialog::getColor(oldvalue, NULL);
+    QColor old_value = this->currentValue<QColor>();
+    QColor i = QColorDialog::getColor(old_value, nullptr);
     if (i.isValid())
     {
         if (this->isLinkedToDatabase())
         {
-            m_editor->history()->add(new history::database::ChangeProperty<QColor>(oldvalue, i, this));
+            m_editor->history()->add(new history::database::ChangeProperty<QColor>(old_value, i, this));
         }
         else
         {
-            sad::Color oldvalueforprop;
-            sad::Color newvalueforprop;
-            core::typeconverters::QColorToSadColor::convert(oldvalue, oldvalueforprop);
-            core::typeconverters::QColorToSadColor::convert(i, newvalueforprop);
+            sad::Color old_valueforprop;
+            sad::Color new_valueforprop;
+            core::typeconverters::QColorToSadColor::convert(old_value, old_valueforprop);
+            core::typeconverters::QColorToSadColor::convert(i, new_valueforprop);
             m_editor->history()->add( 
-                new history::customobject::ChangeProperty<sad::Color>(m_object, Q2STDSTRING(m_property_name), oldvalueforprop, newvalueforprop)
+                new history::customobject::ChangeProperty<sad::Color>(m_object, Q2STDSTRING(m_property_name), old_valueforprop, new_valueforprop)
             );
         }
         this->setCurrentValue<QColor>(i);

@@ -4,6 +4,7 @@
  */
 #pragma once
 #include <QComboBox>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QVariant>
@@ -50,18 +51,18 @@ public:
     virtual ~AbstractActions();
     /*! Tries to find an item to a list
         \param[in] w widget
-        \param[in] userdata a data
+        \param[in] user_data a data
         \return index
      */
     template<
         typename T
     >
-    static unsigned int findInList(QListWidget* w, T userdata)
+    static unsigned int findInList(QListWidget* w, T user_data)
     {
         size_t pos = - 1;
         for(size_t i = 0; i < w->count(); i++)
         {
-            if (w->item(i)->data(Qt::UserRole).value<T>() == userdata)
+            if (w->item(i)->data(Qt::UserRole).value<T>() == user_data)
             {
                 pos = i;
             }
@@ -70,18 +71,18 @@ public:
     }
     /*! Tries to find an item to a combo box
         \param[in] w widget
-        \param[in] userdata a data
+        \param[in] user_data a data
         \return index (-1 if not found)
      */
     template<
         typename T
     >
-    static int findInComboBox(QComboBox* w, T userdata)
+    static int findInComboBox(QComboBox* w, T user_data)
     {
         int pos = - 1;
         for(size_t i = 0; i < w->count(); i++)
         {
-            if (w->itemData(i, Qt::UserRole).value<T>() == userdata)
+            if (w->itemData(i, Qt::UserRole).value<T>() == user_data)
             {
                 pos = static_cast<int>(i);
             }

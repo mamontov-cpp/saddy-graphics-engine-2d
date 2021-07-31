@@ -63,7 +63,7 @@ void Player::tryStartMovingLeft(const sad::input::KeyPressEvent & e)
     if (this->game()->isPlaying())
     {
         this->setHorizontalSpeed(N_SPEED);
-        m_stopkeys[0] = e.Key;
+        m_stop_keys[0] = e.Key;
     }
 }
 
@@ -72,7 +72,7 @@ void Player::tryStartMovingRight(const sad::input::KeyPressEvent & e)
     if (this->game()->isPlaying())
     {
         this->setHorizontalSpeed(P_SPEED);
-        m_stopkeys[0] = e.Key;
+        m_stop_keys[0] = e.Key;
     }
 }
 
@@ -81,7 +81,7 @@ void Player::tryStartMovingUp(const sad::input::KeyPressEvent & e)
     if (this->game()->isPlaying())
     {
         this->setVerticalSpeed(P_SPEED);
-        m_stopkeys[1] = e.Key;
+        m_stop_keys[1] = e.Key;
     }
 }
 
@@ -90,13 +90,13 @@ void Player::tryStartMovingDown(const sad::input::KeyPressEvent & e)
     if (this->game()->isPlaying())
     {
         this->setVerticalSpeed(N_SPEED);
-        m_stopkeys[1] = e.Key;
+        m_stop_keys[1] = e.Key;
     }
 }
 
 void Player::tryStopMovingHorizontally(const sad::input::KeyReleaseEvent & e)
 {
-    if (e.Key == m_stopkeys[0])
+    if (e.Key == m_stop_keys[0])
     {
         this->setHorizontalSpeed(0);
     }
@@ -104,7 +104,7 @@ void Player::tryStopMovingHorizontally(const sad::input::KeyReleaseEvent & e)
 
 void Player::tryStopMovingVertically(const sad::input::KeyReleaseEvent & e)
 {
-    if (e.Key == m_stopkeys[1])
+    if (e.Key == m_stop_keys[1])
     {
         this->setVerticalSpeed(0);
     }

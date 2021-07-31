@@ -15,15 +15,15 @@
 
 history::ways::ChangeClosed::ChangeClosed(
     sad::p2d::app::Way* d,
-    bool oldvalue,
-    bool newvalue
+    bool old_value,
+    bool new_value
 
 )
 : history::ways::ChangeProperty<bool>(
       d,
       "closed",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
 }

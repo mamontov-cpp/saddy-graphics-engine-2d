@@ -35,7 +35,7 @@ public:
     /*! Constructs new UI group
      */
     UIConsoleBlock();
-    /*! Inits block with children of main widget
+    /*! Initializes block with children of main widget
         param[in] w widget
      */
     void init(QWidget* w);

@@ -9,7 +9,7 @@
 
 class Game;
 
-/*! Descibes a rain of objects in start screen
+/*! Describes a rain of objects in start screen
  */ 
 class EnemySpawn: public sad::PeriodicalEvent
 {
@@ -18,7 +18,7 @@ class EnemySpawn: public sad::PeriodicalEvent
 
      /*! Adds a new objects
       */
-     virtual void perform();
+     virtual void perform() override;
  public:
      /*! Creates new spawn, linked to specified game
       */

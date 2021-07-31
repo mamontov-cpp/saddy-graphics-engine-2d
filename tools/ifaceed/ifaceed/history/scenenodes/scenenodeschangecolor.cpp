@@ -17,15 +17,15 @@
 
 history::scenenodes::ChangeColor::ChangeColor(
     sad::SceneNode* d,
-    const sad::AColor& oldvalue,
-    const sad::AColor& newvalue
+    const sad::AColor& old_value,
+    const sad::AColor& new_value
 
 )
 : history::scenenodes::ChangeProperty<sad::AColor>(
       d,
       "color",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
 }

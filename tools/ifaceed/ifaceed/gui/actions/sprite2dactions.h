@@ -14,12 +14,12 @@
 
 namespace history
 {
-class Command;    
+class Command;
 }
 
 namespace sad
 {
-class SceneNode;    
+class SceneNode;
 }
 
 namespace gui
@@ -37,7 +37,7 @@ public:
     /*! Creates new actions for sprites
         \param[in] parent a parent object
      */
-    Sprite2DActions(QObject* parent = NULL);
+    Sprite2DActions(QObject* parent = nullptr);
     /*! This class could be inherited
      */
     virtual ~Sprite2DActions();

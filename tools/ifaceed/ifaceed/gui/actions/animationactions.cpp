@@ -158,7 +158,7 @@ bool gui::actions::AnimationActions::producesLoop(
 
 void gui::actions::AnimationActions::removeAnimationFromDatabase(
     sad::animations::Animation* a,
-    bool fromeditor
+    bool from_editor
 ) const
 {
     QListWidget* listWidget = m_editor->uiBlocks()->uiAnimationBlock()->lstAnimations;
@@ -213,22 +213,22 @@ void gui::actions::AnimationActions::removeAnimationFromDatabase(
     command->set(dependentinstances);
     command->commit(m_editor);
 
-    m_editor->addToHistory(command, fromeditor);
+    m_editor->addToHistory(command, from_editor);
 }
 
 bool gui::actions::AnimationActions::addAnimationToCompositeList(
     sad::animations::Composite* a,
-    sad::animations::Animation* addedanimation,
-    bool fromeditor
+    sad::animations::Animation* added_animation,
+    bool from_editor
 ) const
 {
     bool result = false;
-    if (producesLoop(a, addedanimation) == false)
+    if (producesLoop(a, added_animation) == false)
     {
         sad::animations::Composite* co = static_cast<sad::animations::Composite*>(a);
-        history::Command* c = new history::animations::AddToComposite(co, addedanimation->MajorId);
+        history::Command* c = new history::animations::AddToComposite(co, added_animation->MajorId);
         c->commit(m_editor);
-        m_editor->addToHistory(c, fromeditor);
+        m_editor->addToHistory(c, from_editor);
         result = true;
     }
     return result;
@@ -238,7 +238,7 @@ bool gui::actions::AnimationActions::addAnimationToCompositeList(
 bool gui::actions::AnimationActions::removeAnimationFromCompositeList(
         sad::animations::Composite* a,
         sad::animations::Animation* animation,
-        bool fromeditor,
+        bool from_editor,
         int row
 ) const
 {
@@ -259,7 +259,7 @@ bool gui::actions::AnimationActions::removeAnimationFromCompositeList(
         result = true;
         history::Command* c = new history::animations::RemoveFromComposite(a, majorid, row);
         c->commit(m_editor);
-        m_editor->addToHistory(c, fromeditor);
+        m_editor->addToHistory(c, from_editor);
     }
     return result;
 }
@@ -270,7 +270,7 @@ QString gui::actions::AnimationActions::nameForAnimation(sad::animations::Animat
     if (a)
     {
         sad::String s = a->serializableName();
-        s.removeAllOccurences("sad::animations::");
+        s.removeAllOccurrences("sad::animations::");
         s.insert('[', 0);
         s << "] ";
         std::string ss = s.c_str(); 
@@ -587,7 +587,7 @@ void gui::actions::AnimationActions::addAnimation() const
         }
         else
         {
-            QMessageBox::critical(NULL, "Coding error", animationtypename + " is not defined");
+            QMessageBox::critical(nullptr, "Coding error", animationtypename + " is not defined");
         }
     }
 }
@@ -595,7 +595,7 @@ void gui::actions::AnimationActions::addAnimation() const
 void gui::actions::AnimationActions::removeAnimation() const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         removeAnimationFromDatabase(a, true);
     }
@@ -775,14 +775,14 @@ void gui::actions::AnimationActions::currentAnimationChanged(int row) const
     }
     else
     {
-        e->shared()->setSelectedAnimation(NULL);
+        e->shared()->setSelectedAnimation(nullptr);
     }
 }
 
 void gui::actions::AnimationActions::nameChanged(const QString& name) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         const sad::String oldname = a->objectName();
         if (oldname != Q2STDSTRING(name))
@@ -799,7 +799,7 @@ void gui::actions::AnimationActions::nameChanged(const QString& name) const
 void gui::actions::AnimationActions::timeChanged(double time) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         double oldtime = a->time();
         if (sad::is_fuzzy_equal(oldtime, time) == false)
@@ -813,15 +813,15 @@ void gui::actions::AnimationActions::timeChanged(double time) const
 }
 
 
-void gui::actions::AnimationActions::loopedChanged(bool newvalue) const
+void gui::actions::AnimationActions::loopedChanged(bool new_value) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
-        bool oldvalue = a->looped();
-        if (oldvalue != newvalue)
+        bool old_value = a->looped();
+        if (old_value != new_value)
         {
-            history::animations::ChangeLooped* c = new history::animations::ChangeLooped(a, oldvalue, newvalue);
+            history::animations::ChangeLooped* c = new history::animations::ChangeLooped(a, old_value, new_value);
             c->commitWithoutUpdatingUI(this->m_editor);
 
             this->m_editor->history()->add(c);
@@ -830,18 +830,18 @@ void gui::actions::AnimationActions::loopedChanged(bool newvalue) const
 }
 
 
-void gui::actions::AnimationActions::blinkingFrequencyChanged(int nvalue) const
+void gui::actions::AnimationActions::blinkingFrequencyChanged(int new_value) const
 {
-    unsigned int newvalue = static_cast<unsigned int>(nvalue);
+    const auto new_u_value = static_cast<unsigned int>(new_value);
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::Blinking")) 
         {
-            unsigned int oldvalue = a->getProperty<unsigned int>("frequency").value();
-            if (oldvalue != newvalue)
+            const unsigned int old_value = a->getProperty<unsigned int>("frequency").value();
+            if (old_value != new_u_value)
             {
-                history::animations::ChangeBlinkingFrequency* c = new history::animations::ChangeBlinkingFrequency(a, oldvalue, newvalue);
+                auto* c = new history::animations::ChangeBlinkingFrequency(a, old_value, new_u_value);
                 c->commitWithoutUpdatingUI(this->m_editor);
 
                 this->m_editor->history()->add(c);
@@ -855,8 +855,8 @@ void gui::actions::AnimationActions::startOnObject() const
 {
     core::Shared* s = m_editor->shared();
     if (s->isAnyKindOfAnimationIsRunning() == false 
-        && s->selectedObject() != NULL
-        && s->selectedAnimation() != NULL)
+        && s->selectedObject() != nullptr
+        && s->selectedAnimation() != nullptr)
     {
         sad::animations::Instance* i = new sad::animations::Instance();
 
@@ -889,11 +889,11 @@ void gui::actions::AnimationActions::stopOnObject() const
 void gui::actions::AnimationActions::colorChangeStartingColor() const
 {
     gui::colorview::ColorView* view = m_editor->uiBlocks()->uiAnimationBlock()->cwColorStartingColor; 
-    QColor oldvalue = view->backgroundColor();
+    QColor old_value = view->backgroundColor();
     AColorDialog dlg;
     QList<QList<QColor> > palette = m_editor->panelProxy()->colorPalette();
     dlg.setColorPalette(palette);
-    dlg.setSelectedColor(oldvalue);
+    dlg.setSelectedColor(old_value);
     
     if (dlg.exec() == QDialog::Accepted)
     {
@@ -901,14 +901,14 @@ void gui::actions::AnimationActions::colorChangeStartingColor() const
         m_editor->panelProxy()->setColorPalette(dlg.colorPalette());
         view->setBackgroundColor(i);
         sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-        if (oldvalue != i && a != NULL)
+        if (old_value != i && a != nullptr)
         {
             if (a->isInstanceOf("sad::animations::Color"))
             {
                 sad::AColor oldcolor;
                 sad::AColor newcolor;
 
-                core::typeconverters::QColorToSadAColor::convert(oldvalue,oldcolor);
+                core::typeconverters::QColorToSadAColor::convert(old_value,oldcolor);
                 core::typeconverters::QColorToSadAColor::convert(i,newcolor);
 
                 history::animations::ChangeColorColor* c = new history::animations::ChangeColorColor(
@@ -929,10 +929,10 @@ void gui::actions::AnimationActions::colorChangeStartingColor() const
 void gui::actions::AnimationActions::colorChangeEndingColor() const
 {
     gui::colorview::ColorView* view = m_editor->uiBlocks()->uiAnimationBlock()->cwColorEndingColor; 
-    QColor oldvalue = view->backgroundColor();
+    QColor old_value = view->backgroundColor();
     AColorDialog dlg;
     dlg.setColorPalette(m_editor->panelProxy()->colorPalette());
-    dlg.setSelectedColor(oldvalue);
+    dlg.setSelectedColor(old_value);
     
     if (dlg.exec() == QDialog::Accepted)
     {
@@ -940,14 +940,14 @@ void gui::actions::AnimationActions::colorChangeEndingColor() const
         m_editor->panelProxy()->setColorPalette(dlg.colorPalette());
         view->setBackgroundColor(i);
         sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-        if (oldvalue != i && a != NULL)
+        if (old_value != i && a != nullptr)
         {
             if (a->isInstanceOf("sad::animations::Color"))
             {
                 sad::AColor oldcolor;
                 sad::AColor newcolor;
 
-                core::typeconverters::QColorToSadAColor::convert(oldvalue,oldcolor);
+                core::typeconverters::QColorToSadAColor::convert(old_value,oldcolor);
                 core::typeconverters::QColorToSadAColor::convert(i,newcolor);
 
                 history::animations::ChangeColorColor* c = new history::animations::ChangeColorColor(
@@ -966,22 +966,22 @@ void gui::actions::AnimationActions::colorChangeEndingColor() const
 }
 
 
-void gui::actions::AnimationActions::resizeChangeStartingSizeX(double newvalue) const
+void gui::actions::AnimationActions::resizeChangeStartingSizeX(double new_value) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a)
     {
         if (a->isInstanceOf("sad::animations::Resize"))
         {
-            sad::Point2D oldvalue = a->getProperty<sad::Point2D>("start_size").value();
-            if (sad::is_fuzzy_equal(oldvalue.x(), newvalue) == false)
+            sad::Point2D old_value = a->getProperty<sad::Point2D>("start_size").value();
+            if (sad::is_fuzzy_equal(old_value.x(), new_value) == false)
             {
-                sad::Point2D nvalue = oldvalue;
-                nvalue.setX(newvalue);
+                sad::Point2D nvalue = old_value;
+                nvalue.setX(new_value);
 
                 history::animations::ChangeResizeStartingSize* c = new history::animations::ChangeResizeStartingSize(
                     a,
-                    oldvalue,
+                    old_value,
                     nvalue
                 );
                 c->commitWithoutUpdatingUI(this->m_editor);
@@ -992,22 +992,22 @@ void gui::actions::AnimationActions::resizeChangeStartingSizeX(double newvalue) 
     }
 }
 
-void gui::actions::AnimationActions::resizeChangeStartingSizeY(double newvalue) const
+void gui::actions::AnimationActions::resizeChangeStartingSizeY(double new_value) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a)
     {
         if (a->isInstanceOf("sad::animations::Resize"))
         {
-            sad::Point2D oldvalue = a->getProperty<sad::Point2D>("start_size").value();
-            if (sad::is_fuzzy_equal(oldvalue.y(), newvalue) == false)
+            sad::Point2D old_value = a->getProperty<sad::Point2D>("start_size").value();
+            if (sad::is_fuzzy_equal(old_value.y(), new_value) == false)
             {
-                sad::Point2D nvalue = oldvalue;
-                nvalue.setY(newvalue);
+                sad::Point2D nvalue = old_value;
+                nvalue.setY(new_value);
 
                 history::animations::ChangeResizeStartingSize* c = new history::animations::ChangeResizeStartingSize(
                     a,
-                    oldvalue,
+                    old_value,
                     nvalue
                 );
                 c->commitWithoutUpdatingUI(this->m_editor);
@@ -1018,22 +1018,22 @@ void gui::actions::AnimationActions::resizeChangeStartingSizeY(double newvalue) 
     }
 }
 
-void gui::actions::AnimationActions::resizeChangeEndingSizeX(double newvalue) const
+void gui::actions::AnimationActions::resizeChangeEndingSizeX(double new_value) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a)
     {
         if (a->isInstanceOf("sad::animations::Resize"))
         {
-            sad::Point2D oldvalue = a->getProperty<sad::Point2D>("end_size").value();
-            if (sad::is_fuzzy_equal(oldvalue.x(), newvalue) == false)
+            sad::Point2D old_value = a->getProperty<sad::Point2D>("end_size").value();
+            if (sad::is_fuzzy_equal(old_value.x(), new_value) == false)
             {
-                sad::Point2D nvalue = oldvalue;
-                nvalue.setX(newvalue);
+                sad::Point2D nvalue = old_value;
+                nvalue.setX(new_value);
 
                 history::animations::ChangeResizeEndingSize* c = new history::animations::ChangeResizeEndingSize(
                     a,
-                    oldvalue,
+                    old_value,
                     nvalue
                 );
                 c->commitWithoutUpdatingUI(this->m_editor);
@@ -1044,22 +1044,22 @@ void gui::actions::AnimationActions::resizeChangeEndingSizeX(double newvalue) co
     }
 }
 
-void gui::actions::AnimationActions::resizeChangeEndingSizeY(double newvalue) const
+void gui::actions::AnimationActions::resizeChangeEndingSizeY(double new_value) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a)
     {
         if (a->isInstanceOf("sad::animations::Resize"))
         {
-            sad::Point2D oldvalue = a->getProperty<sad::Point2D>("end_size").value();
-            if (sad::is_fuzzy_equal(oldvalue.y(), newvalue) == false)
+            sad::Point2D old_value = a->getProperty<sad::Point2D>("end_size").value();
+            if (sad::is_fuzzy_equal(old_value.y(), new_value) == false)
             {
-                sad::Point2D nvalue = oldvalue;
-                nvalue.setY(newvalue);
+                sad::Point2D nvalue = old_value;
+                nvalue.setY(new_value);
 
                 history::animations::ChangeResizeEndingSize* c = new history::animations::ChangeResizeEndingSize(
                     a,
-                    oldvalue,
+                    old_value,
                     nvalue
                 );
                 c->commitWithoutUpdatingUI(this->m_editor);
@@ -1070,23 +1070,23 @@ void gui::actions::AnimationActions::resizeChangeEndingSizeY(double newvalue) co
     }
 }
 
-void gui::actions::AnimationActions::rotateChangeStartingAngle(double newvalue) const
+void gui::actions::AnimationActions::rotateChangeStartingAngle(double new_value) const
 {
-    newvalue = newvalue / 180.0 * M_PI;
+    new_value = new_value / 180.0 * M_PI;
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a)
     {
         if (a->isInstanceOf("sad::animations::Rotate"))
         {
-            double oldvalue = a->getProperty<double>("min_angle").value();
-            if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
+            double old_value = a->getProperty<double>("min_angle").value();
+            if (sad::is_fuzzy_equal(old_value, new_value) == false)
             {				
                 history::animations::ChangeRotateAngle* c = new history::animations::ChangeRotateAngle(
                     a,
                     "min_angle",
                     m_editor->uiBlocks()->uiAnimationBlock()->dsbRotateStartingAngle,
-                    oldvalue,
-                    newvalue
+                    old_value,
+                    new_value
                 );
                 c->commitWithoutUpdatingUI(this->m_editor);
 
@@ -1096,23 +1096,23 @@ void gui::actions::AnimationActions::rotateChangeStartingAngle(double newvalue) 
     }
 }
 
-void gui::actions::AnimationActions::rotateChangeEndingAngle(double newvalue) const
+void gui::actions::AnimationActions::rotateChangeEndingAngle(double new_value) const
 {
-    newvalue = newvalue / 180.0 * M_PI;
+    new_value = new_value / 180.0 * M_PI;
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a)
     {
         if (a->isInstanceOf("sad::animations::Rotate"))
         {
-            double oldvalue = a->getProperty<double>("max_angle").value();
-            if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
+            double old_value = a->getProperty<double>("max_angle").value();
+            if (sad::is_fuzzy_equal(old_value, new_value) == false)
             {				
                 history::animations::ChangeRotateAngle* c = new history::animations::ChangeRotateAngle(
                     a,
                     "max_angle",
                     m_editor->uiBlocks()->uiAnimationBlock()->dsbRotateEndingAngle,
-                    oldvalue,
-                    newvalue
+                    old_value,
+                    new_value
                 );
                 c->commitWithoutUpdatingUI(this->m_editor);
 
@@ -1129,20 +1129,20 @@ void gui::actions::AnimationActions::wayMovingChangeWay(int row) const
     {
         QVariant v = m_editor->uiBlocks()->uiAnimationBlock()->cmbWayAnimationWay->itemData(row, Qt::UserRole);
         sad::p2d::app::Way* w = v.value<sad::p2d::app::Way*>();
-        unsigned long long newvalue = 0;
+        unsigned long long new_value = 0;
         if (w)
         {
-            newvalue = w->MajorId;
+            new_value = w->MajorId;
         }
         sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
         if (a)
         {
             if (a->isInstanceOf("sad::animations::WayMoving"))
             {
-                unsigned long long oldvalue = a->getProperty<unsigned long long>("way").value();
-                if (oldvalue != newvalue)
+                unsigned long long old_value = a->getProperty<unsigned long long>("way").value();
+                if (old_value != new_value)
                 {
-                    history::Command* c =new history::animations::ChangeWayMovingWay(a, oldvalue, newvalue);
+                    history::Command* c =new history::animations::ChangeWayMovingWay(a, old_value, new_value);
                     c->commitWithoutUpdatingUI(m_editor);
                     this->m_editor->history()->add(c);
                 }
@@ -1154,21 +1154,21 @@ void gui::actions::AnimationActions::wayMovingChangeWay(int row) const
 void gui::actions::AnimationActions::fontListEditingFinished() const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::FontList"))
         {
             QStringList list = m_editor->uiBlocks()->uiAnimationBlock()->txtFontListList->toPlainText().split("\n", QString::SkipEmptyParts);
-            sad::Vector<sad::String> newvalue;
+            sad::Vector<sad::String> new_value;
             for(size_t i = 0; i < list.size(); i++)
             {
-                newvalue << Q2STDSTRING(list[i]);
+                new_value << Q2STDSTRING(list[i]);
             }
 
-            sad::Vector<sad::String> oldvalue = a->getProperty<sad::Vector<sad::String> >("fonts").value();
-            if (oldvalue != newvalue)
+            sad::Vector<sad::String> old_value = a->getProperty<sad::Vector<sad::String> >("fonts").value();
+            if (old_value != new_value)
             {
-                history::Command* c = new history::animations::ChangeFontListFonts(a, oldvalue, newvalue);
+                history::Command* c = new history::animations::ChangeFontListFonts(a, old_value, new_value);
                 c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
@@ -1176,22 +1176,22 @@ void gui::actions::AnimationActions::fontListEditingFinished() const
     }
 }
 
-void gui::actions::AnimationActions::fontSizeChangeStartingSize(int newvalue) const
+void gui::actions::AnimationActions::fontSizeChangeStartingSize(int new_value) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::FontSize"))
         {
-            unsigned int oldvalue = a->getProperty<unsigned int>("min_size").value();
-            if (static_cast<unsigned int>(newvalue) != oldvalue)
+            unsigned int old_value = a->getProperty<unsigned int>("min_size").value();
+            if (static_cast<unsigned int>(new_value) != old_value)
             {
                 history::Command* c = new history::animations::ChangeFontSizeSize(
                     a, 
                     "min_size",
                     m_editor->uiBlocks()->uiAnimationBlock()->sbFontSizeStartingSize,
-                    oldvalue,
-                    newvalue
+                    old_value,
+                    new_value
                 );
 
                 c->commitWithoutUpdatingUI(m_editor);
@@ -1201,22 +1201,22 @@ void gui::actions::AnimationActions::fontSizeChangeStartingSize(int newvalue) co
     }
 }
 
-void gui::actions::AnimationActions::fontSizeChangeEndingSize(int newvalue) const
+void gui::actions::AnimationActions::fontSizeChangeEndingSize(int new_value) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::FontSize"))
         {
-            unsigned int oldvalue = a->getProperty<unsigned int>("max_size").value();
-            if (static_cast<unsigned int>(newvalue) != oldvalue)
+            unsigned int old_value = a->getProperty<unsigned int>("max_size").value();
+            if (static_cast<unsigned int>(new_value) != old_value)
             {
                 history::Command* c = new history::animations::ChangeFontSizeSize(
                     a, 
                     "max_size",
                     m_editor->uiBlocks()->uiAnimationBlock()->sbFontSizeEndingSize,
-                    oldvalue,
-                    newvalue
+                    old_value,
+                    new_value
                 );
 
                 c->commitWithoutUpdatingUI(m_editor);
@@ -1229,7 +1229,7 @@ void gui::actions::AnimationActions::fontSizeChangeEndingSize(int newvalue) cons
 void gui::actions::AnimationActions::optionListEditingFinished() const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::OptionList"))
         {
@@ -1237,16 +1237,16 @@ void gui::actions::AnimationActions::optionListEditingFinished() const
             sad::String prop = "list";
 
             QStringList list = widget->toPlainText().split("\n", QString::SkipEmptyParts);
-            sad::Vector<sad::String> newvalue;
+            sad::Vector<sad::String> new_value;
             for(size_t i = 0; i < list.size(); i++)
             {
-                newvalue << Q2STDSTRING(list[i]);
+                new_value << Q2STDSTRING(list[i]);
             }
 
-            sad::Vector<sad::String> oldvalue = a->getProperty<sad::Vector<sad::String> >(prop).value();
-            if (oldvalue != newvalue)
+            sad::Vector<sad::String> old_value = a->getProperty<sad::Vector<sad::String> >(prop).value();
+            if (old_value != new_value)
             {
-                history::Command* c = new history::animations::ChangeList(a, prop, widget, oldvalue, newvalue);
+                history::Command* c = new history::animations::ChangeList(a, prop, widget, old_value, new_value);
                 c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
@@ -1258,7 +1258,7 @@ void gui::actions::AnimationActions::optionListEditingFinished() const
 void gui::actions::AnimationActions::textureCoordinatesListEditingFinished() const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::TextureCoordinatesList"))
         {
@@ -1266,16 +1266,16 @@ void gui::actions::AnimationActions::textureCoordinatesListEditingFinished() con
             sad::String prop = "list";
 
             QStringList list = widget->toPlainText().split("\n", QString::SkipEmptyParts);
-            sad::Vector<sad::String> newvalue;
+            sad::Vector<sad::String> new_value;
             for(size_t i = 0; i < list.size(); i++)
             {
-                newvalue << Q2STDSTRING(list[i]);
+                new_value << Q2STDSTRING(list[i]);
             }
 
-            sad::Vector<sad::String> oldvalue = a->getProperty<sad::Vector<sad::String> >(prop).value();
-            if (oldvalue != newvalue)
+            sad::Vector<sad::String> old_value = a->getProperty<sad::Vector<sad::String> >(prop).value();
+            if (old_value != new_value)
             {
-                history::Command* c = new history::animations::ChangeList(a, prop, widget, oldvalue, newvalue);
+                history::Command* c = new history::animations::ChangeList(a, prop, widget, old_value, new_value);
                 c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
@@ -1286,20 +1286,20 @@ void gui::actions::AnimationActions::textureCoordinatesListEditingFinished() con
 void gui::actions::AnimationActions::textureCoordinatesChangeStartRect(QRectF value) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::TextureCoordinatesContinuous"))
         {
             gui::rectwidget::RectWidget* widget = m_editor->uiBlocks()->uiAnimationBlock()->rctTCCStartingRect;
             sad::String prop = "start_rect";
 
-            sad::Rect2D newvalue;
-            core::typeconverters::QRectFToSadRect2D::convert(value, newvalue);
+            sad::Rect2D new_value;
+            core::typeconverters::QRectFToSadRect2D::convert(value, new_value);
 
-            sad::Rect2D oldvalue = a->getProperty< sad::Rect2D >(prop).value();
-            if (sad::equal(oldvalue, newvalue) == false)
+            sad::Rect2D old_value = a->getProperty< sad::Rect2D >(prop).value();
+            if (sad::equal(old_value, new_value) == false)
             {
-                history::Command* c = new history::animations::ChangeRect(a, prop, widget, oldvalue, newvalue);
+                history::Command* c = new history::animations::ChangeRect(a, prop, widget, old_value, new_value);
                 c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
@@ -1310,20 +1310,20 @@ void gui::actions::AnimationActions::textureCoordinatesChangeStartRect(QRectF va
 void gui::actions::AnimationActions::textureCoordinatesChangeEndRect(QRectF value) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::TextureCoordinatesContinuous"))
         {
             gui::rectwidget::RectWidget* widget = m_editor->uiBlocks()->uiAnimationBlock()->rctTCCEndingRect;
             sad::String prop = "end_rect";
 
-            sad::Rect2D newvalue;
-            core::typeconverters::QRectFToSadRect2D::convert(value, newvalue);
+            sad::Rect2D new_value;
+            core::typeconverters::QRectFToSadRect2D::convert(value, new_value);
 
-            sad::Rect2D oldvalue = a->getProperty< sad::Rect2D >(prop).value();
-            if (sad::equal(oldvalue, newvalue) == false)
+            sad::Rect2D old_value = a->getProperty< sad::Rect2D >(prop).value();
+            if (sad::equal(old_value, new_value) == false)
             {
-                history::Command* c = new history::animations::ChangeRect(a, prop, widget, oldvalue, newvalue);
+                history::Command* c = new history::animations::ChangeRect(a, prop, widget, old_value, new_value);
                 c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
@@ -1331,19 +1331,19 @@ void gui::actions::AnimationActions::textureCoordinatesChangeEndRect(QRectF valu
     }
 }
 
-void gui::actions::AnimationActions::cameraRotationChangePivotX(double newx) const
+void gui::actions::AnimationActions::cameraRotationChangePivotX(double new_x) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::CameraRotation"))
         {
-            sad::Point3D newvalue(newx, m_editor->uiBlocks()->uiAnimationBlock()->dsbCameraRotationPivotY->value(), 0.0);
+            sad::Point3D new_value(new_x, m_editor->uiBlocks()->uiAnimationBlock()->dsbCameraRotationPivotY->value(), 0.0);
 
-            sad::Point3D oldvalue = a->getProperty< sad::Point3D >("pivot").value();
-            if (sad::equal(oldvalue, newvalue) == false)
+            sad::Point3D old_value = a->getProperty< sad::Point3D >("pivot").value();
+            if (sad::equal(old_value, new_value) == false)
             {
-                history::Command* c = new history::animations::ChangeCameraPivot(a, oldvalue, newvalue);
+                history::Command* c = new history::animations::ChangeCameraPivot(a, old_value, new_value);
                 c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
@@ -1351,19 +1351,19 @@ void gui::actions::AnimationActions::cameraRotationChangePivotX(double newx) con
     }
 }
 
-void gui::actions::AnimationActions::cameraRotationChangePivotY(double newy) const
+void gui::actions::AnimationActions::cameraRotationChangePivotY(double new_y) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::CameraRotation"))
         {
-            sad::Point3D newvalue(m_editor->uiBlocks()->uiAnimationBlock()->dsbCameraRotationPivotX->value(), newy, 0.0);
+            sad::Point3D new_value(m_editor->uiBlocks()->uiAnimationBlock()->dsbCameraRotationPivotX->value(), new_y, 0.0);
 
-            sad::Point3D oldvalue = a->getProperty< sad::Point3D >("pivot").value();
-            if (sad::equal(oldvalue, newvalue) == false)
+            sad::Point3D old_value = a->getProperty< sad::Point3D >("pivot").value();
+            if (sad::equal(old_value, new_value) == false)
             {
-                history::Command* c = new history::animations::ChangeCameraPivot(a, oldvalue, newvalue);
+                history::Command* c = new history::animations::ChangeCameraPivot(a, old_value, new_value);
                 c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
@@ -1371,19 +1371,19 @@ void gui::actions::AnimationActions::cameraRotationChangePivotY(double newy) con
     }
 }
 
-void gui::actions::AnimationActions::cameraRotationChangeStartingAngle(double newvalue) const
+void gui::actions::AnimationActions::cameraRotationChangeStartingAngle(double new_value) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::CameraRotation"))
         {
             sad::String prop = "min_angle";
             QDoubleSpinBox* widget = m_editor->uiBlocks()->uiAnimationBlock()->dsbCameraRotationStartingAngle;
-            double oldvalue = a->getProperty< double >(prop).value();
-            if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
+            double old_value = a->getProperty< double >(prop).value();
+            if (sad::is_fuzzy_equal(old_value, new_value) == false)
             {
-                history::Command* c = new history::animations::ChangeCameraAngle(a, prop, widget, oldvalue, newvalue);
+                history::Command* c = new history::animations::ChangeCameraAngle(a, prop, widget, old_value, new_value);
                 c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
@@ -1391,19 +1391,19 @@ void gui::actions::AnimationActions::cameraRotationChangeStartingAngle(double ne
     }
 }
 
-void gui::actions::AnimationActions::cameraRotationChangeEndingAngle(double newvalue) const
+void gui::actions::AnimationActions::cameraRotationChangeEndingAngle(double new_value) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::CameraRotation"))
         {
             sad::String prop = "max_angle";
             QDoubleSpinBox* widget = m_editor->uiBlocks()->uiAnimationBlock()->dsbCameraRotationEndingAngle;
-            double oldvalue = a->getProperty< double >(prop).value();
-            if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
+            double old_value = a->getProperty< double >(prop).value();
+            if (sad::is_fuzzy_equal(old_value, new_value) == false)
             {
-                history::Command* c = new history::animations::ChangeCameraAngle(a, prop, widget, oldvalue, newvalue);
+                history::Command* c = new history::animations::ChangeCameraAngle(a, prop, widget, old_value, new_value);
                 c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
@@ -1411,19 +1411,19 @@ void gui::actions::AnimationActions::cameraRotationChangeEndingAngle(double newv
     }
 }
 
-void gui::actions::AnimationActions::cameraShakingChangeOffsetX(double newx) const
+void gui::actions::AnimationActions::cameraShakingChangeOffsetX(double new_x) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::CameraShaking"))
         {
-            sad::Point2D newvalue(newx, m_editor->uiBlocks()->uiAnimationBlock()->dsbCameraShakingOffsetY->value());
+            sad::Point2D new_value(new_x, m_editor->uiBlocks()->uiAnimationBlock()->dsbCameraShakingOffsetY->value());
 
-            sad::Point2D oldvalue = a->getProperty< sad::Point2D >("offset").value();
-            if (sad::equal(oldvalue, newvalue) == false)
+            sad::Point2D old_value = a->getProperty< sad::Point2D >("offset").value();
+            if (sad::equal(old_value, new_value) == false)
             {
-                history::Command* c = new history::animations::ChangeCameraOffset(a, oldvalue, newvalue);
+                history::Command* c = new history::animations::ChangeCameraOffset(a, old_value, new_value);
                 c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
@@ -1431,19 +1431,19 @@ void gui::actions::AnimationActions::cameraShakingChangeOffsetX(double newx) con
     }
 }
 
-void gui::actions::AnimationActions::cameraShakingChangeOffsetY(double newy) const
+void gui::actions::AnimationActions::cameraShakingChangeOffsetY(double new_y) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::CameraShaking"))
         {
-            sad::Point2D newvalue(m_editor->uiBlocks()->uiAnimationBlock()->dsbCameraShakingOffsetX->value(), newy);
+            sad::Point2D new_value(m_editor->uiBlocks()->uiAnimationBlock()->dsbCameraShakingOffsetX->value(), new_y);
 
-            sad::Point2D oldvalue = a->getProperty< sad::Point2D >("offset").value();
-            if (sad::equal(oldvalue, newvalue) == false)
+            sad::Point2D old_value = a->getProperty< sad::Point2D >("offset").value();
+            if (sad::equal(old_value, new_value) == false)
             {
-                history::Command* c = new history::animations::ChangeCameraOffset(a, oldvalue, newvalue);
+                history::Command* c = new history::animations::ChangeCameraOffset(a, old_value, new_value);
                 c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
@@ -1451,17 +1451,17 @@ void gui::actions::AnimationActions::cameraShakingChangeOffsetY(double newy) con
     }
 }
 
-void gui::actions::AnimationActions::cameraShakingChangeFrequency(int newvalue) const
+void gui::actions::AnimationActions::cameraShakingChangeFrequency(int new_value) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::CameraShaking"))
         {
-            int oldvalue = a->getProperty< int >("frequency").value();
-            if (oldvalue != newvalue)
+            int old_value = a->getProperty< int >("frequency").value();
+            if (old_value != new_value)
             {
-                history::Command* c = new history::animations::ChangeShakingFrequency(a, oldvalue, newvalue);
+                history::Command* c = new history::animations::ChangeShakingFrequency(a, old_value, new_value);
                 c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
@@ -1530,7 +1530,7 @@ void gui::actions::AnimationActions::updateCompositeList() const
 void gui::actions::AnimationActions::addAnimationToComposite() const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::Parallel") || a->isInstanceOf("sad::animations::Sequential"))
         {
@@ -1549,7 +1549,7 @@ void gui::actions::AnimationActions::addAnimationToComposite() const
 void gui::actions::AnimationActions::removeAnimationFromComposite() const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::Parallel") || a->isInstanceOf("sad::animations::Sequential"))
         {
@@ -1568,7 +1568,7 @@ void gui::actions::AnimationActions::removeAnimationFromComposite() const
 void gui::actions::AnimationActions::moveBackInCompositeList() const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::Parallel") || a->isInstanceOf("sad::animations::Sequential"))
         {
@@ -1588,7 +1588,7 @@ void gui::actions::AnimationActions::moveBackInCompositeList() const
 void gui::actions::AnimationActions::moveFrontInCompositeList() const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::Parallel") || a->isInstanceOf("sad::animations::Sequential"))
         {
@@ -1605,23 +1605,23 @@ void gui::actions::AnimationActions::moveFrontInCompositeList() const
     }
 }
 
-void gui::actions::AnimationActions::simpleMovementChangeStartingPointX(double newx) const
+void gui::actions::AnimationActions::simpleMovementChangeStartingPointX(double new_x) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::SimpleMovement"))
         {
-            sad::Point2D newvalue(newx, m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementStartingPointY->value());
+            sad::Point2D new_value(new_x, m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementStartingPointY->value());
 
-            sad::Point2D oldvalue = a->getProperty< sad::Point2D >("start_point").value();
-            if (sad::equal(oldvalue, newvalue) == false)
+            sad::Point2D old_value = a->getProperty< sad::Point2D >("start_point").value();
+            if (sad::equal(old_value, new_value) == false)
             {
                 history::Command* c = new history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes(
                     a, 
                     "start_point",
-                    oldvalue, 
-                    newvalue,
+                    old_value, 
+                    new_value,
                     m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementStartingPointX,
                     m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementStartingPointY
                 );
@@ -1632,23 +1632,23 @@ void gui::actions::AnimationActions::simpleMovementChangeStartingPointX(double n
     }
 }
 
-void gui::actions::AnimationActions::simpleMovementChangeStartingPointY(double newy) const
+void gui::actions::AnimationActions::simpleMovementChangeStartingPointY(double new_y) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::SimpleMovement"))
         {
-            sad::Point2D newvalue(m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementStartingPointX->value(), newy);
+            sad::Point2D new_value(m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementStartingPointX->value(), new_y);
 
-            sad::Point2D oldvalue = a->getProperty< sad::Point2D >("start_point").value();
-            if (sad::equal(oldvalue, newvalue) == false)
+            sad::Point2D old_value = a->getProperty< sad::Point2D >("start_point").value();
+            if (sad::equal(old_value, new_value) == false)
             {
                 history::Command* c = new history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes(
                     a, 
                     "start_point",
-                    oldvalue, 
-                    newvalue,
+                    old_value, 
+                    new_value,
                     m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementStartingPointX,
                     m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementStartingPointY
                 );
@@ -1659,23 +1659,23 @@ void gui::actions::AnimationActions::simpleMovementChangeStartingPointY(double n
     }
 }
 
-void gui::actions::AnimationActions::simpleMovementChangeEndingPointX(double newx) const
+void gui::actions::AnimationActions::simpleMovementChangeEndingPointX(double new_x) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::SimpleMovement"))
         {
-            sad::Point2D newvalue(newx, m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementEndingPointY->value());
+            sad::Point2D new_value(new_x, m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementEndingPointY->value());
 
-            sad::Point2D oldvalue = a->getProperty< sad::Point2D >("end_point").value();
-            if (sad::equal(oldvalue, newvalue) == false)
+            sad::Point2D old_value = a->getProperty< sad::Point2D >("end_point").value();
+            if (sad::equal(old_value, new_value) == false)
             {
                 history::Command* c = new history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes(
                     a, 
                     "end_point",
-                    oldvalue, 
-                    newvalue,
+                    old_value, 
+                    new_value,
                     m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementEndingPointX,
                     m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementEndingPointY
                 );
@@ -1686,23 +1686,23 @@ void gui::actions::AnimationActions::simpleMovementChangeEndingPointX(double new
     }
 }
 
-void gui::actions::AnimationActions::simpleMovementChangeEndingPointY(double newy) const
+void gui::actions::AnimationActions::simpleMovementChangeEndingPointY(double new_y) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::SimpleMovement"))
         {
-            sad::Point2D newvalue(m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementEndingPointX->value(), newy);
+            sad::Point2D new_value(m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementEndingPointX->value(), new_y);
 
-            sad::Point2D oldvalue = a->getProperty< sad::Point2D >("end_point").value();
-            if (sad::equal(oldvalue, newvalue) == false)
+            sad::Point2D old_value = a->getProperty< sad::Point2D >("end_point").value();
+            if (sad::equal(old_value, new_value) == false)
             {
                 history::Command* c = new history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes(
                     a, 
                     "end_point",
-                    oldvalue, 
-                    newvalue,
+                    old_value, 
+                    new_value,
                     m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementEndingPointX,
                     m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementEndingPointY
                 );
@@ -1721,7 +1721,7 @@ void gui::actions::AnimationActions::startPickingStartingPointForSimpleMovement(
         return;
     }
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::SimpleMovement"))
         {
@@ -1741,7 +1741,7 @@ void gui::actions::AnimationActions::startPickingEndingPointForSimpleMovement() 
         return;
     }
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::SimpleMovement"))
         {
@@ -1762,11 +1762,11 @@ void gui::actions::AnimationActions::cancelPickingPointForSimpleMovement() const
 void gui::actions::AnimationActions::pickedPointForSimpleMovement(const sad::input::MousePressEvent& e) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
         if (a->isInstanceOf("sad::animations::SimpleMovement"))
         {
-            sad::Point2D newvalue(e.pos2D());
+            sad::Point2D new_value(e.pos2D());
             sad::String propertyName = this->m_editor->shared()->editingSimpleMovementProperty();
             QDoubleSpinBox* xwidget =  m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementEndingPointX;
             QDoubleSpinBox* ywidget =  m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementEndingPointY;
@@ -1775,14 +1775,14 @@ void gui::actions::AnimationActions::pickedPointForSimpleMovement(const sad::inp
                 xwidget =  m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementStartingPointX;
                 ywidget =  m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementStartingPointY;
             }
-            sad::Point2D oldvalue = a->getProperty< sad::Point2D >(propertyName).value();
-            if (sad::equal(oldvalue, newvalue) == false)
+            sad::Point2D old_value = a->getProperty< sad::Point2D >(propertyName).value();
+            if (sad::equal(old_value, new_value) == false)
             {
                 history::Command* c = new history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes(
                     a, 
                     propertyName,
-                    oldvalue, 
-                    newvalue,
+                    old_value, 
+                    new_value,
                     xwidget,
                     ywidget
                 );
@@ -1796,15 +1796,15 @@ void gui::actions::AnimationActions::pickedPointForSimpleMovement(const sad::inp
     this->m_editor->panelProxy()->lockTypesTab(false);
 }
 
-void gui::actions::AnimationActions::easingOvershootAmplitudeChanged(double newvalue) const
+void gui::actions::AnimationActions::easingOvershootAmplitudeChanged(double new_value) const
 {
      sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
-        double oldvalue = a->easing()->overshootAmplitude();
-        if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
+        double old_value = a->easing()->overshootAmplitude();
+        if (sad::is_fuzzy_equal(old_value, new_value) == false)
         {
-            history::Command* c = new history::animations::ChangeEasingOvershootAmplitude(a, oldvalue, newvalue);
+            history::Command* c = new history::animations::ChangeEasingOvershootAmplitude(a, old_value, new_value);
             c->commitWithoutUpdatingUI(this->m_editor);
 
             this->m_editor->history()->add(c);
@@ -1812,15 +1812,15 @@ void gui::actions::AnimationActions::easingOvershootAmplitudeChanged(double newv
     }
 }
 
-void gui::actions::AnimationActions::easingPeriodChanged(double newvalue) const
+void gui::actions::AnimationActions::easingPeriodChanged(double new_value) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
-        double oldvalue = a->easing()->period();
-        if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
+        double old_value = a->easing()->period();
+        if (sad::is_fuzzy_equal(old_value, new_value) == false)
         {
-            history::Command* c = new history::animations::ChangeEasingPeriod(a, oldvalue, newvalue);
+            history::Command* c = new history::animations::ChangeEasingPeriod(a, old_value, new_value);
             c->commitWithoutUpdatingUI(this->m_editor);
 
             this->m_editor->history()->add(c);
@@ -1828,16 +1828,16 @@ void gui::actions::AnimationActions::easingPeriodChanged(double newvalue) const
     }
 }
 
-void gui::actions::AnimationActions::easingFunctionTypeChanged(int newvalue) const
+void gui::actions::AnimationActions::easingFunctionTypeChanged(int new_value) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
-    if (a != NULL)
+    if (a != nullptr)
     {
-        unsigned int oldvalue = a->easing()->functionTypeAsUnsignedInt();
-        unsigned int nv = newvalue;
-        if (oldvalue != nv)
+        unsigned int old_value = a->easing()->functionTypeAsUnsignedInt();
+        unsigned int nv = new_value;
+        if (old_value != nv)
         {
-            history::Command* c = new history::animations::ChangeEasingFunctionType(a, oldvalue, nv);
+            history::Command* c = new history::animations::ChangeEasingFunctionType(a, old_value, nv);
             c->commitWithoutUpdatingUI(this->m_editor);
 
             this->m_editor->history()->add(c);

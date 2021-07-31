@@ -47,7 +47,7 @@ public:
     /*! Constructs new UI group
      */
     UILabelBlock();
-    /*! Inits block with children of main widget
+    /*! Initializes block with children of main widget
         param[in] w widget
      */
     void init(QWidget* w);
@@ -56,7 +56,7 @@ public:
     ~UILabelBlock();
 
     QPushButton* btnLabelAdd;
-    QTabWidget* tabLabelOpttions;
+    QTabWidget* tabLabelOptions;
     gui::fontsizewidget::FontSizeWidget* fswLabelFontSize;
     QPlainTextEdit* txtLabelText;
     gui::resourcetreewidget::ResourceTreeWidget* rtwLabelFont;

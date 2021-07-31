@@ -27,7 +27,7 @@ class ScriptableGrid: public QObject
 {
  Q_OBJECT
 public:
-    /*! Initiailizes a scriptable grid
+    /*! Initializes a scriptable grid
         \param[in] major_id a major id for a grid
         \param[in] s scripting
      */
@@ -38,12 +38,12 @@ public:
     /*! A destructor for grid
      */
     virtual ~ScriptableGrid();
-    /*! Returns object, if reference is valid or returns NULL and throws exception otherwise
-        \param[in] throwexc whether we should throw exception or not
+    /*! Returns object, if reference is valid or returns nullptr and throws exception otherwise
+        \param[in] throw_exception whether we should throw exception or not
         \param[in] name a name for a called method, which can be used in exception
         \return grid
      */
-    sad::layouts::Grid* grid(bool throwexc = true, const QString& name = "") const;
+    sad::layouts::Grid* grid(bool throw_exception = true, const QString& name = "") const;
     /*! Sets an area for a grid
         \param[in] new_area new area value
     */
@@ -56,12 +56,13 @@ public:
     /*! Returns a cell for specified row or column
         \param[in] row a row value
         \param[in] column a column value
-        \return NULL and throws exception if cell not exists, cell otherwiser
+        \return nullptr and throws exception if cell not exists, cell otherwise
     */
     scripting::layouts::ScriptableGridCell* cell(int row, int column);
-    /*! Returns list of childrens major ids from a grid
+    /*! Returns list of children major ids from a grid
         \return list of major ids of children
     */
+    // ReSharper disable once CppHidingFunction
     QVector<unsigned long long> children() const;
 public slots:
     /*! Converts object to string representation
@@ -115,7 +116,7 @@ public slots:
         \param[in] rows amount of rows
      */
     void setRows(int rows) const;
-    /*! Returns amount of columngs in grid
+    /*! Returns amount of columns in grid
         \return amount of columns
      */
     unsigned long columns() const;
@@ -178,19 +179,19 @@ public slots:
     /*! Tries to merge cells, using specified region
         \param[in] row row of top-left cell of region
         \param[in] column column of top-left cell of region
-        \param[in] rowspan amount of rows spanned
-        \param[in] colspan amount of columns spanned
+        \param[in] row_span amount of rows spanned
+        \param[in] col_span amount of columns spanned
         \return whether it was successfull or failed
      */
-    bool merge(int row, int column, int rowspan, int colspan);
+    bool merge(int row, int column, int row_span, int col_span);
     /*! Tries to split cells, using specified region
         \param[in] row row of top-left cell of region
         \param[in] column column of top-left cell of region
-        \param[in] rowspan amount of rows spanned
-        \param[in] colspan amount of columns spanned
+        \param[in] row_span amount of rows spanned
+        \param[in] col_span amount of columns spanned
         \return whether it was successfull or failed
      */
-    bool split(int row, int column, int rowspan, int colspan);
+    bool split(int row, int column, int row_span, int col_span);
 protected:
     /*! A major id for database object
      */

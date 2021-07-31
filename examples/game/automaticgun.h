@@ -21,7 +21,7 @@ class AutomaticGun: public AbstractAutomaticGun
  protected:
      /*! Shoots bullets of specified bullet type
       */
-     virtual void perform()
+     virtual void perform() override
      {
          // Check paused flag
          if (m_object->game()->isPaused() == false)
@@ -38,16 +38,16 @@ class AutomaticGun: public AbstractAutomaticGun
      }
 
      /*! Produces an object
-         \return onject
+         \return object
       */
-     virtual sad::p2d::app::Object * produce()
+     virtual sad::p2d::app::Object * produce() override
      {
          return new _Bullet();
      }
      /*! Returns angular velocity
          \return angular velocity
       */
-     virtual double angularVelocity()
+     virtual double angularVelocity() override
      {
          return 1.0;
      }
@@ -55,17 +55,17 @@ class AutomaticGun: public AbstractAutomaticGun
      /*! Returns a position
          \param[out] p position
       */
-     virtual void position(sad::p2d::Point & p)
+     virtual void position(sad::p2d::Point & p) override
      {
          p = m_object->position();
      }
      /*! Sets a tangential velocity
          \param[out] v velocity
       */
-     virtual void tangentialVelocity(sad::p2d::Vector & v)
+     virtual void tangentialVelocity(sad::p2d::Vector & v) override
      {
-         double angle = m_object->angle() + m_dangle;
-         double speed = sad::p2d::app::Constants<_Bullet>::velocity();
+         const double angle = m_object->angle() + m_dangle;
+         const double speed = sad::p2d::app::Constants<_Bullet>::velocity();
          v.setX(speed * cos(angle));
          v.setY(speed * sin(angle));
      }

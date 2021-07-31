@@ -11,15 +11,15 @@
 
 history::animations::ChangeLooped::ChangeLooped(
     sad::animations::Animation* d,
-    bool oldvalue,
-    bool newvalue
+    bool old_value,
+    bool new_value
 
 )
 : history::animations::ChangeProperty<bool>(
       d,
       "looped",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
 }

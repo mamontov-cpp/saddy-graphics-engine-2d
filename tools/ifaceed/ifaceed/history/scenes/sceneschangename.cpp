@@ -18,9 +18,9 @@ Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
 history::scenes::ChangeName::ChangeName(
     sad::Scene * s, 
-    const sad::String& oldname, 
-    const sad::String& newname
-) : m_scene(s), m_old(oldname), m_new(newname) 
+    const sad::String& old_name, 
+    const sad::String& new_name
+) : m_scene(s), m_old(old_name), m_new(new_name) 
 {
     m_scene->addRef();
 }

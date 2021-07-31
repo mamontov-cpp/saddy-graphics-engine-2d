@@ -19,15 +19,15 @@
 
 history::scenenodes::ChangeArea::ChangeArea(
     sad::SceneNode* d,
-    const sad::Rect2D& oldvalue,
-    const sad::Rect2D& newvalue
+    const sad::Rect2D& old_value,
+    const sad::Rect2D& new_value
 
 )
 : history::scenenodes::ChangeProperty<sad::Rect2D>(
       d,
       "area",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
     m_affects_parent_grid = true;

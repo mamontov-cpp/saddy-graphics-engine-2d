@@ -21,25 +21,25 @@ class ChangeName: public history::Command
 public:
     /*! Adds a scene, which was added. Command links to scene
         \param[in] s a scene
-        \param[in] oldname old name of a scene
-        \param[in] newname new name of a scene
+        \param[in] old_name old name of a scene
+        \param[in] new_name new name of a scene
      */
-    ChangeName(sad::Scene * s, const sad::String& oldname, const sad::String& newname);
+    ChangeName(sad::Scene * s, const sad::String& old_name, const sad::String& new_name);
     /*! Deletes reference to a scene
      */
-    ~ChangeName();
+    ~ChangeName() override;
     /*! Applies changes without affecting UI
         \param[in] ob an editor
      */
-    virtual void commitWithoutUpdatingUI(core::Editor * ob = NULL);
+    virtual void commitWithoutUpdatingUI(core::Editor * ob = nullptr) override;
     /*! Applies changes, described in command
         \param[in] ob an editor
      */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Reverts changes, described in command
         \param[in] ob an editor
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! Commits a changing for name
         \param[in] ob editor

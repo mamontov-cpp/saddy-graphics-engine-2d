@@ -10,7 +10,7 @@
 
 // ============================ PUBLIC METHODS ============================
 
-gui::AnimationGroupProcess::AnimationGroupProcess() : m_editor(NULL), m_instance(NULL)
+gui::AnimationGroupProcess::AnimationGroupProcess() : m_editor(nullptr), m_instance(nullptr)
 {
     m_timer.setSingleShot(false);
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerExpired()));
@@ -50,7 +50,7 @@ void gui::AnimationGroupProcess::start(sad::animations::Group* i)
 void gui::AnimationGroupProcess::stop()
 {
     m_mutex.lock();
-    if (m_instance != NULL)
+    if (m_instance != nullptr)
     {
         if (m_editor->shared()->isAnyKindOfAnimationIsRunning())
         {
@@ -66,7 +66,7 @@ void gui::AnimationGroupProcess::stop()
                 sad::Renderer::ref()->unlockRendering();
             }
 
-            m_instance = NULL;
+            m_instance = nullptr;
 
             m_editor->emitClosure( bind(&m_timer, &QTimer::stop) );
         }

@@ -53,7 +53,7 @@ public:
     /*! Clones an object
          \return copy of object
     */
-    dukpp03::qt::Callable* clone()
+    dukpp03::qt::Callable* clone() override
     {
         return new scripting::animations::EasingSetter<_PropertyType, _CommandType>(*this);
     }
@@ -64,7 +64,7 @@ public:
         \param[in] old_value old value
         \param[in] new_value new value
     */
-    virtual void callActions(sad::animations::Animation* obj, const sad::String& property_name, _PropertyType old_value, _PropertyType new_value)
+    virtual void callActions(sad::animations::Animation* obj, const sad::String& property_name, _PropertyType old_value, _PropertyType new_value) override
     {
         this->scripting::AbstractSetter<sad::animations::Animation*, _PropertyType>::callActions(obj, property_name, old_value, new_value);
         this->setProperty(obj, property_name, old_value, new_value);
@@ -72,16 +72,16 @@ public:
 
     /*! Performs making new command and committing it
         \param[in] obj an object to be set
-        \param[in] propertyname a property for object
-        \param[in] oldvalue old value 
-        \param[in] newvalue new value
+        \param[in] property_name a property for object
+        \param[in] old_value old value 
+        \param[in] new_value new value
      */
-    virtual void setProperty(sad::animations::Animation* obj, const sad::String& propertyname, _PropertyType oldvalue,  _PropertyType newvalue)
+    virtual void setProperty(sad::animations::Animation* obj, const sad::String& property_name, _PropertyType old_value,  _PropertyType new_value)
     {
         scripting::Scripting* e = this->m_scripting;
         core::Editor* editor =  e->editor();
 
-        _CommandType* c = new _CommandType(obj, oldvalue, newvalue);
+        _CommandType* c = new _CommandType(obj, old_value, new_value);
         c->commit(editor);
         editor->currentBatchCommand()->add(c);
     }
@@ -91,7 +91,7 @@ protected:
         \param[in] property_name a name of property
         \return true, if exists
     */
-    virtual bool hasProperty(sad::animations::Animation* value, const sad::String& property_name)
+    virtual bool hasProperty(sad::animations::Animation* value, const sad::String& property_name) override
     {
         return true;
     }
@@ -101,7 +101,7 @@ protected:
         \param property_name a name of property
         \return property value
     */
-    virtual  _PropertyType getOldPropertyValue(sad::animations::Animation* value, const sad::String& property_name)
+    virtual  _PropertyType getOldPropertyValue(sad::animations::Animation* value, const sad::String& property_name) override
     {
         return ((value->easing())->*m_getter)();
     }

@@ -13,12 +13,12 @@ namespace scripting
 /*! Queries table, returning list of major ids for active objects
     with specified types
     \param[in] table name of table
-    \param[in] typeofobjects type, that most ob objects have
+    \param[in] type_of_objects type, that most ob objects have
     \return list of major ids
  */
 QVector<unsigned long long> query_table(
     const sad::String& table,
-    const sad::String& typeofobjects
+    const sad::String& type_of_objects
 );
 
 }

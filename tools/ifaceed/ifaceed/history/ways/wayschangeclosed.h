@@ -18,20 +18,20 @@ class ChangeClosed: public history::ways::ChangeProperty<bool>
 public:
      /*! Constructs new command for way
         \param[in] d a node
-        \param[in] oldvalue old time
-        \param[in] newvalue new time
+        \param[in] old_value old time
+        \param[in] new_value new time
       */
-    ChangeClosed(sad::p2d::app::Way* d, bool oldvalue, bool newvalue);
+    ChangeClosed(sad::p2d::app::Way* d, bool old_value, bool new_value);
     /*! Erases link to a node
       */
-    virtual ~ChangeClosed();
+    virtual ~ChangeClosed() override;
 protected:
     /*!
      * Updates current text in field of total time
      * \param[in] e editor
      * \param[in] value a value
      */
-    virtual void updateUI(core::Editor* e, const bool& value);
+    virtual void updateUI(core::Editor* e, const bool& value) override;
 };
 
 }

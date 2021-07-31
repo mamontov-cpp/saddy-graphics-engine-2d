@@ -71,11 +71,11 @@ Q_DECLARE_METATYPE(sad::SceneNode*) //-V566
 core::Editor::Editor()
 {
     // Add message data
-    m_qttarget = new core::QtTarget(this);
-    sad::Renderer::ref()->log()->addTarget(m_qttarget);
+    m_qt_target = new core::QtTarget(this);
+    sad::Renderer::ref()->log()->addTarget(m_qt_target);
 
     // Add small user log
-    sad::log::FileTarget * t = new sad::log::FileTarget("{0}: [{1}] {3}{2}{4}", sad::log::MESSAGE);
+    sad::log::FileTarget * t = new sad::log::FileTarget("{0}: [{1}] {3}{2}{4}", sad::log::Priority::MESSAGE);
     t->open("user.txt");
     sad::log::Log::ref()->addTarget(t);
 
@@ -84,10 +84,10 @@ core::Editor::Editor()
     t->open("full.txt");
     sad::log::Log::ref()->addTarget(t);
 
-    m_args = NULL;
-    m_renderthread = new core::SaddyThread(this);
-    m_qtapp = NULL;
-    m_current_batchcommand = NULL;
+    m_args = nullptr;
+    m_render_thread = new core::SaddyThread(this);
+    m_qt_app = nullptr;
+    m_current_batch_command = nullptr;
     m_history = new history::History();
 
     m_machine = new sad::hfsm::Machine();
@@ -119,7 +119,7 @@ core::Editor::Editor()
     m_machine->addState("layouts/resizing", new sad::hfsm::State(), true);
 
     // We create grids more early to ensure binding events on it
-    m_rendergrids = new gui::RenderGrids(this);   
+    m_render_grids = new gui::RenderGrids(this);   
     
     // Disable rendering resize hotspots when editing objects.
     // Note that this is done to avoid interlocked non-atomic changes between machine and grids
@@ -140,14 +140,14 @@ core::Editor::Editor()
         "layouts/adding", 
         "layouts/adding/firstpoint", 
         "layouts/adding/secondpoint", 
-        NULL
+        nullptr
     };
     size_t i = 0;
     while(editing_states[i])
     {
         sad::hfsm::State* s = m_machine->state(editing_states[i]);
-        s->addEnterHandler(m_rendergrids, &gui::RenderGrids::disableResizeHotspots);
-        s->addLeaveHandler(m_rendergrids, &gui::RenderGrids::enableResizeHotspots);
+        s->addEnterHandler(m_render_grids, &gui::RenderGrids::disableResizeHotspots);
+        s->addLeaveHandler(m_render_grids, &gui::RenderGrids::enableResizeHotspots);
         ++i;
     }
 
@@ -161,16 +161,16 @@ core::Editor::Editor()
     
     m_synchronization = new core::Synchronization();
 
-    sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::Z & sad::HoldsControl, this, &core::Editor::undo);
-    sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::R & sad::HoldsControl, this, &core::Editor::redo);
+    sad::Renderer::ref()->controls()->add(*sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Z & sad::SpecialKey::HoldsControl, this, &core::Editor::undo);
+    sad::Renderer::ref()->controls()->add(*sad::input::EventType::ET_KeyPress & sad::KeyboardKey::R & sad::SpecialKey::HoldsControl, this, &core::Editor::redo);
 
     sad::Renderer::ref()->pipeline()->append(m_selection_border);
     sad::Renderer::ref()->pipeline()->append(m_active_border);
-    m_renderways = new gui::RenderWays(this);
-    m_rendereditorgrid  = new gui::RenderEditorGrid();
-    sad::Renderer::ref()->pipeline()->prepend(m_rendereditorgrid);
-    sad::Renderer::ref()->pipeline()->append(m_renderways);
-    sad::Renderer::ref()->pipeline()->append(m_rendergrids);
+    m_render_ways = new gui::RenderWays(this);
+    m_render_editor_grid  = new gui::RenderEditorGrid();
+    sad::Renderer::ref()->pipeline()->prepend(m_render_editor_grid);
+    sad::Renderer::ref()->pipeline()->append(m_render_ways);
+    sad::Renderer::ref()->pipeline()->append(m_render_grids);
 
     m_selection = new core::Selection();
     m_selection->setEditor(this);
@@ -192,15 +192,15 @@ core::Editor::Editor()
 core::Editor::~Editor()
 {
     delete m_args;
-    delete m_renderthread;
+    delete m_render_thread;
     delete m_parsed_args;
     delete m_history;
     delete m_shared;
     delete m_machine;
     delete m_synchronization;
     delete m_selection;
-    delete m_mainwindow;
-    delete m_qtapp;
+    delete m_main_window;
+    delete m_qt_app;
     delete m_ui_blocks;
     delete m_actions;
     delete m_panel_proxy;
@@ -221,20 +221,20 @@ void core::Editor::init(int argc,char ** argv)
     QCoreApplication::addLibraryPath(".");
 #endif
 
-    m_qtapp = new QApplication(m_args->count(), m_args->arguments());
+    m_qt_app = new QApplication(m_args->count(), m_args->arguments());
 
     // This thread only runs qt event loop. SaddyThread runs only event loop of renderer of Saddy.
     m_synchronization->startSynchronizationWithSaddyThread();
-    m_renderthread->start();
+    m_render_thread->start();
     // Wait for Saddy's window to show up
     m_synchronization->waitForSaddyThread();
     this->runQtEventLoop();
-    m_renderthread->wait();
+    m_render_thread->wait();
 }
 
 MainPanel* core::Editor::panel() const
 {
-    return m_mainwindow;
+    return m_main_window;
 }
 
 sad::hfsm::Machine* core::Editor::machine() const
@@ -259,7 +259,7 @@ history::History* core::Editor::history() const
 
 QApplication* core::Editor::app() const
 {
-    return m_qtapp;
+    return m_qt_app;
 }
 
 // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -286,17 +286,17 @@ core::borders::SelectionBorder* core::Editor::selectionBorder() const
 
 gui::RenderWays* core::Editor::renderWays() const
 {
-    return m_renderways;
+    return m_render_ways;
 }
 
 gui::RenderGrids* core::Editor::renderGrids() const
 {
-    return m_rendergrids;
+    return m_render_grids;
 }
 
 gui::RenderEditorGrid* core::Editor::renderEditorGrid() const
 {
-    return m_rendereditorgrid;
+    return m_render_editor_grid;
 }
 
 core::Selection* core::Editor::selection() const
@@ -330,7 +330,7 @@ void core::Editor::cleanupBeforeAdding()
         sad::Renderer::ref()->lockRendering();
 
         sad::SceneNode* node = this->shared()->activeObject();
-        this->shared()->setActiveObject(NULL);
+        this->shared()->setActiveObject(nullptr);
         node->scene()->remove(node);
 
         sad::Renderer::ref()->unlockRendering();
@@ -346,7 +346,7 @@ bool core::Editor::isNodeSelected(sad::SceneNode* node) const
 
 void core::Editor::enteredIdleState()
 {
-    m_mainwindow->highlightIdleState();
+    m_main_window->highlightIdleState();
     this->emitClosure( bind(m_actions->customObjectActions(), &gui::actions::CustomObjectActions::clearCustomObjectPropertiesTable));
 }
 
@@ -380,46 +380,46 @@ bool core::Editor::isInEditingState() const
 void core::Editor::cleanDatabase()
 {
     m_machine->enterState("idle");
-    m_shared->setSelectedObject(NULL);
-    m_shared->setSelectedWay(NULL);
-    m_shared->setSelectedDialogue(NULL);
-    m_shared->setActiveObject(NULL);
-    m_shared->setSelectedAnimation(NULL);
-    m_shared->setSelectedInstance(NULL);
-    m_shared->setSelectedGroup(NULL);
-    m_shared->setActiveGrid(NULL);
-    m_shared->setSelectedGrid(NULL);
+    m_shared->setSelectedObject(nullptr);
+    m_shared->setSelectedWay(nullptr);
+    m_shared->setSelectedDialogue(nullptr);
+    m_shared->setActiveObject(nullptr);
+    m_shared->setSelectedAnimation(nullptr);
+    m_shared->setSelectedInstance(nullptr);
+    m_shared->setSelectedGroup(nullptr);
+    m_shared->setActiveGrid(nullptr);
+    m_shared->setSelectedGrid(nullptr);
     m_history->clear();
-    m_mainwindow->clearDatabaseProperties();
+    m_main_window->clearDatabaseProperties();
     sad::Renderer::ref()->clear();
-    m_mainwindow->UI()->lstSceneObjects->clear();
-    m_mainwindow->UI()->lstScenes->clear();
-    m_mainwindow->UI()->lstWays->clear();
-    m_mainwindow->UI()->lstWayPoints->clear();
-    m_mainwindow->UI()->lstDialogues->clear();
-    m_mainwindow->UI()->lstPhrases->clear();
-    m_mainwindow->UI()->lstAnimations->clear();
-    m_mainwindow->UI()->lstAnimationInstances->clear();
-    m_mainwindow->UI()->lstCompositeCandidates->clear();
-    m_mainwindow->UI()->lstCompositeList->clear();
-    m_mainwindow->UI()->lstLayoutGridList->clear();
-    m_mainwindow->UI()->cmbAnimationInstanceObject->clear();
-    m_mainwindow->UI()->cmbAnimationInstanceAnimationFromDatabase->clear();
-    m_mainwindow->UI()->cmbWayAnimationInstanceWay->clear();
-    m_mainwindow->UI()->cmbWayAnimationWay->clear();
-    m_mainwindow->UI()->lstAnimationInstances->clear();
-    m_mainwindow->UI()->lstAnimationsGroupAllAnimations->clear();
-    m_mainwindow->UI()->lstAnimationsGroupInGroup->clear();
-    m_mainwindow->UI()->lstLayoutGridList->clear();
+    m_main_window->UI()->lstSceneObjects->clear();
+    m_main_window->UI()->lstScenes->clear();
+    m_main_window->UI()->lstWays->clear();
+    m_main_window->UI()->lstWayPoints->clear();
+    m_main_window->UI()->lstDialogues->clear();
+    m_main_window->UI()->lstPhrases->clear();
+    m_main_window->UI()->lstAnimations->clear();
+    m_main_window->UI()->lstAnimationInstances->clear();
+    m_main_window->UI()->lstCompositeCandidates->clear();
+    m_main_window->UI()->lstCompositeList->clear();
+    m_main_window->UI()->lstLayoutGridList->clear();
+    m_main_window->UI()->cmbAnimationInstanceObject->clear();
+    m_main_window->UI()->cmbAnimationInstanceAnimationFromDatabase->clear();
+    m_main_window->UI()->cmbWayAnimationInstanceWay->clear();
+    m_main_window->UI()->cmbWayAnimationWay->clear();
+    m_main_window->UI()->lstAnimationInstances->clear();
+    m_main_window->UI()->lstAnimationsGroupAllAnimations->clear();
+    m_main_window->UI()->lstAnimationsGroupInGroup->clear();
+    m_main_window->UI()->lstLayoutGridList->clear();
     m_actions->gridActions()->clearGridCellsBrowser();
 
     // Cleanup layout view
     QGridLayout* table = new QGridLayout();
     QWidget* w = new QWidget();
     w->setLayout(table);
-    m_mainwindow->UI()->tblLayoutCells->setWidget(w);
+    m_main_window->UI()->tblLayoutCells->setWidget(w);
 
-    m_mainwindow->clearDatabaseProperties();
+    m_main_window->clearDatabaseProperties();
     sad::Renderer::ref()->removeDatabase("");
 }
 
@@ -442,18 +442,18 @@ void core::Editor::reportResourceLoadingErrors(
 
 bool core::Editor::isInObjectEditingState() const
 {
-    return m_mainwindow->UI()->tabTypes->currentIndex() == 0;
+    return m_main_window->UI()->tabTypes->currentIndex() == 0;
 }
 
 bool core::Editor::isInWaysEditingState() const
 {
-    return m_mainwindow->UI()->tabTypes->currentIndex() == 1;
+    return m_main_window->UI()->tabTypes->currentIndex() == 1;
 }
 
 bool core::Editor::isInGridEditingState() const
 {
-    return m_mainwindow->UI()->tabTypes->currentIndex() == 0
-        && m_mainwindow->UI()->tabObjects->currentIndex() == 7;
+    return m_main_window->UI()->tabTypes->currentIndex() == 0
+        && m_main_window->UI()->tabObjects->currentIndex() == 7;
 }
 
 // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -465,24 +465,24 @@ void core::Editor::tryEnterObjectEditingState()
         return;
     }
     this->m_machine->enterState("idle");
-    m_shared->setSelectedObject(NULL);
-    m_shared->setActiveObject(NULL);
-    m_shared->setSelectedWay(NULL);
-    m_shared->setSelectedGrid(NULL);
+    m_shared->setSelectedObject(nullptr);
+    m_shared->setActiveObject(nullptr);
+    m_shared->setSelectedWay(nullptr);
+    m_shared->setSelectedGrid(nullptr);
 
-    int currentrow = m_mainwindow->UI()->lstSceneObjects->currentRow();
+    int currentrow = m_main_window->UI()->lstSceneObjects->currentRow();
     if (currentrow > -1)
     {
-        QVariant v = m_mainwindow->UI()->lstSceneObjects->item(currentrow)->data(Qt::UserRole);
+        QVariant v = m_main_window->UI()->lstSceneObjects->item(currentrow)->data(Qt::UserRole);
         m_shared->setSelectedObject(v.value<sad::SceneNode*>());
     }
-    currentrow = m_mainwindow->UI()->lstLayoutGridList->currentRow();
+    currentrow = m_main_window->UI()->lstLayoutGridList->currentRow();
     if (currentrow > - 1)
     {
-        QVariant v = m_mainwindow->UI()->lstLayoutGridList->item(currentrow)->data(Qt::UserRole);
+        QVariant v = m_main_window->UI()->lstLayoutGridList->item(currentrow)->data(Qt::UserRole);
         m_shared->setSelectedGrid(v.value<sad::layouts::Grid*>());
     }
-    invoke_blocked(m_mainwindow->UI()->tabTypes, &QTabWidget::setCurrentIndex, 0);
+    invoke_blocked(m_main_window->UI()->tabTypes, &QTabWidget::setCurrentIndex, 0);
 }
 
 // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -495,16 +495,16 @@ void core::Editor::tryEnterWayEditingState()
     }
     this->m_machine->enterState("idle");
     this->m_machine->enterState("ways/idle");
-    m_shared->setSelectedObject(NULL);
-    m_shared->setActiveObject(NULL);
-    m_shared->setSelectedWay(NULL);	
-    m_shared->setSelectedGrid(NULL);
-    invoke_blocked(m_mainwindow->UI()->tabTypes, &QTabWidget::setCurrentIndex, 1);
-    if (m_mainwindow->UI()->lstWays->currentRow() >= 0)
+    m_shared->setSelectedObject(nullptr);
+    m_shared->setActiveObject(nullptr);
+    m_shared->setSelectedWay(nullptr);	
+    m_shared->setSelectedGrid(nullptr);
+    invoke_blocked(m_main_window->UI()->tabTypes, &QTabWidget::setCurrentIndex, 1);
+    if (m_main_window->UI()->lstWays->currentRow() >= 0)
     {
         this->m_machine->enterState("ways/selected");
-        int row = m_mainwindow->UI()->lstWays->currentRow();
-        sad::p2d::app::Way* way = m_mainwindow->UI()->lstWays->item(row)->data(Qt::UserRole).value<sad::p2d::app::Way*>();
+        int row = m_main_window->UI()->lstWays->currentRow();
+        sad::p2d::app::Way* way = m_main_window->UI()->lstWays->item(row)->data(Qt::UserRole).value<sad::p2d::app::Way*>();
         m_shared->setSelectedWay(way);	
         this->actions()->wayActions()->wayChanged(row);
     }
@@ -512,12 +512,12 @@ void core::Editor::tryEnterWayEditingState()
 
 void core::Editor::setCurrentBatchCommand(history::BatchCommand* c)
 {
-    m_current_batchcommand = c;
+    m_current_batch_command = c;
 }
 
 history::BatchCommand* core::Editor::currentBatchCommand() const
 {
-    return m_current_batchcommand;
+    return m_current_batch_command;
 }
 
 // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -557,14 +557,14 @@ gui::MainPanelProxy* core::Editor::panelProxy() const
 
 QWidget* core::Editor::panelAsWidget() const
 {
-    return m_mainwindow;
+    return m_main_window;
 }
 
 // ReSharper disable once CppMemberFunctionMayBeStatic
 // ReSharper disable once CppMemberFunctionMayBeConst
-void core::Editor::addToHistory(history::Command* c, bool fromeditor)
+void core::Editor::addToHistory(history::Command* c, bool from_editor)
 {
-    if (fromeditor)
+    if (from_editor)
     {
         this->history()->add(c);
     }
@@ -666,16 +666,16 @@ void core::Editor::start()
         }
         else
         {
-            this->m_mainwindow->updateResourceViews();
+            this->m_main_window->updateResourceViews();
         }
     }
     else
     {
-        this->m_mainwindow->toggleEditingButtons(false);
+        this->m_main_window->toggleEditingButtons(false);
     }
     
     bool database_loaded = false;
-    if (this->m_mainwindow->isEditingEnabled() && this->parsedArgs()->defaultOption().exists() && !mustquit)
+    if (this->m_main_window->isEditingEnabled() && this->parsedArgs()->defaultOption().exists() && !mustquit)
     {		
         // Try load database	
         sad::String value = this->parsedArgs()->defaultOption().value();
@@ -704,7 +704,7 @@ void core::Editor::start()
         // Default database has empty name
         sad::Renderer::ref()->addDatabase("", db);
     }
-    this->m_mainwindow->viewDatabase();
+    this->m_main_window->viewDatabase();
 
     if (mustquit)
     {
@@ -712,7 +712,7 @@ void core::Editor::start()
     }
     else
     {
-        m_renderways->enable();
+        m_render_ways->enable();
     }
 }
 
@@ -797,8 +797,8 @@ void core::Editor::initConversionTable()
 
 void core::Editor::saddyQuitSlot()
 {
-    if (m_quit_reason == core::QR_NOTSET) {
-        m_quit_reason = core::QR_SADDY;
+    if (m_quit_reason == core::QuitReason::QR_NOTSET) {
+        m_quit_reason = core::QuitReason::QR_SADDY;
         QTimer::singleShot(0,this,SLOT(onQuitActions()));
     }
 }
@@ -807,41 +807,41 @@ void core::Editor::saddyQuitSlot()
 
 void core::Editor::runQtEventLoop()
 {
-    m_mainwindow = new MainPanel();
-    m_ui_blocks->init(m_mainwindow);
-    m_mainwindow->setEditor(this);
+    m_main_window = new MainPanel();
+    m_ui_blocks->init(m_main_window);
+    m_main_window->setEditor(this);
 
     gui::actions::GridActions* ga = m_actions->gridActions();
 
     m_machine->state("idle")->addEnterHandler(this, &core::Editor::enteredIdleState);
-    m_machine->state("selected")->addEnterHandler(m_mainwindow, &MainPanel::highlightSelectedState);
+    m_machine->state("selected")->addEnterHandler(m_main_window, &MainPanel::highlightSelectedState);
     m_machine->state("selected")->addEnterHandler(m_actions->sceneNodeActions(), &gui::actions::SceneNodeActions::updateUIForSelectedSceneNode);
-    m_machine->state("adding/label")->addEnterHandler(m_mainwindow, &MainPanel::highlightLabelAddingState);
+    m_machine->state("adding/label")->addEnterHandler(m_main_window, &MainPanel::highlightLabelAddingState);
     m_machine->state("ways/idle")->addEnterHandler(this, &core::Editor::enteredIdleState);
-    m_machine->state("ways/selected")->addEnterHandler(m_mainwindow, &MainPanel::highlightSelectedState);
-    m_machine->state("layouts/adding")->addEnterHandler(ga, &gui::actions::GridActions::higlightAddingState);
+    m_machine->state("ways/selected")->addEnterHandler(m_main_window, &MainPanel::highlightSelectedState);
+    m_machine->state("layouts/adding")->addEnterHandler(ga, &gui::actions::GridActions::highlightAddingState);
     m_machine->state("layouts/adding/firstpoint")->addEnterHandler(ga, &gui::actions::GridActions::highlightPlaceFirstPointState);
     m_machine->state("layouts/adding/secondpoint")->addEnterHandler(ga, &gui::actions::GridActions::highlightPlaceSecondPointState);
-    m_machine->state("layouts/moving")->addEnterHandler(ga, &gui::actions::GridActions::higlightMovingState);
+    m_machine->state("layouts/moving")->addEnterHandler(ga, &gui::actions::GridActions::highlightMovingState);
     m_machine->state("layouts/resizing")->addEnterHandler(ga, &gui::actions::GridActions::highlightResizingState);
 
     // This should be called this explicitly,
     // because state machine entered idle state
     // before we bind a handler on it
-    m_mainwindow->highlightIdleState();
+    m_main_window->highlightIdleState();
 
-    sad::Renderer::ref()->controls()->add(*sad::input::ET_MouseMove, m_mainwindow, &MainPanel::updateMousePosition);
+    sad::Renderer::ref()->controls()->add(*sad::input::EventType::ET_MouseMove, m_main_window, &MainPanel::updateMousePosition);
 
     gui::EventFilter* filter = new gui::EventFilter();
     filter->setEditor(this);
     QCoreApplication::instance()->installEventFilter(filter);
 
     QObject::connect(
-        this->m_qtapp,
+        this->m_qt_app,
         SIGNAL(lastWindowClosed()),
         this,
         SLOT(qtQuitSlot()));
-    this->m_mainwindow->show();
+    this->m_main_window->show();
 
     QObject::connect(
         this, 
@@ -849,25 +849,25 @@ void core::Editor::runQtEventLoop()
         this, 
         SLOT(runClosure(sad::ClosureBasic*))
     );
-    m_qttarget->enable();
+    m_qt_target->enable();
     QTimer::singleShot(0, this, SLOT(start()));
-    this->m_qtapp->exec();
-    m_qttarget->disable();
+    m_qt_app->exec();
+    m_qt_target->disable();
 }
 
 void core::Editor::runSaddyEventLoop() 
 {
-    m_quit_reason = core::QR_NOTSET;
+    m_quit_reason = core::QuitReason::QR_NOTSET;
     sad::Renderer::ref()->run();
     // Quit reason can be set by main thread, when window is closed
-    if (m_quit_reason == core::QR_NOTSET)
+    if (m_quit_reason == core::QuitReason::QR_NOTSET)
         this->saddyQuitSlot();
 }
 
 void core::Editor::qtQuitSlot()
 {
-    if (m_quit_reason == core::QR_NOTSET) {
-        m_quit_reason = core::QR_QTWINDOW;
+    if (m_quit_reason == core::QuitReason::QR_NOTSET) {
+        m_quit_reason = core::QuitReason::QR_QTWINDOW;
         this->onQuitActions();
     }
 }
@@ -876,15 +876,15 @@ void core::Editor::qtQuitSlot()
 // ReSharper disable once CppMemberFunctionMayBeConst
 void core::Editor::onQuitActions()
 {
-    if (m_quit_reason == core::QR_SADDY) {
-        this->m_mainwindow->close();
-        GridAndOffsets* gao = this->m_mainwindow->gridAndOffset();
+    if (m_quit_reason == core::QuitReason::QR_SADDY) {
+        this->m_main_window->close();
+        GridAndOffsets* gao = this->m_main_window->gridAndOffset();
         if (gao->isVisible())
         {
             gao->close();
         }
     }
-    if (m_quit_reason == core::QR_QTWINDOW) {
+    if (m_quit_reason == core::QuitReason::QR_QTWINDOW) {
         sad::Renderer::ref()->quit();
     }
 }

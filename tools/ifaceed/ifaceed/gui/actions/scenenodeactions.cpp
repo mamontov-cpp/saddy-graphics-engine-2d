@@ -105,9 +105,9 @@ void gui::actions::SceneNodeActions::commitObjectMoving(const sad::input::MouseR
     this->moveObject(ev);
 
     sad::SceneNode * node = m_editor->shared()->selectedObject();
-    sad::Maybe<sad::Rect2D> newvalue = node->getProperty<sad::Rect2D>("area");
-    if (newvalue.exists()) {
-        sad::Rect2D nv = newvalue.value();
+    sad::Maybe<sad::Rect2D> new_value = node->getProperty<sad::Rect2D>("area");
+    if (new_value.exists()) {
+        sad::Rect2D nv = new_value.value();
         sad::Rect2D ov = m_editor->shared()->oldArea();
         bool eq = sad::equal(nv, ov);
         if (!eq)
@@ -161,9 +161,9 @@ void gui::actions::SceneNodeActions::commitObjectResizing(const sad::input::Mous
     this->resizeObject(ev);
 
     sad::SceneNode * node = m_editor->shared()->selectedObject();
-    sad::Maybe<sad::Rect2D> newvalue = node->getProperty<sad::Rect2D>("area");
-    if (newvalue.exists()) {
-        sad::Rect2D nv = newvalue.value();
+    sad::Maybe<sad::Rect2D> new_value = node->getProperty<sad::Rect2D>("area");
+    if (new_value.exists()) {
+        sad::Rect2D nv = new_value.value();
         sad::Rect2D ov = m_editor->shared()->oldArea();
         bool eq = sad::equal(nv, ov);
         if (!eq)
@@ -253,7 +253,7 @@ void gui::actions::SceneNodeActions::cancelSelection()
         }
     }
     m_editor->machine()->enterState("idle");
-    m_editor->shared()->setSelectedObject(NULL);
+    m_editor->shared()->setSelectedObject(nullptr);
     gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
     QListWidget* w = blk->lstSceneObjects;
 
@@ -270,7 +270,7 @@ void gui::actions::SceneNodeActions::updateRegionForNode()
 {
     core::Shared* s = this->m_editor->shared();
     sad::SceneNode* node = s->activeObject();
-    if (node == NULL)
+    if (node == nullptr)
     {
         node  = s->selectedObject(); 
     }
@@ -298,7 +298,7 @@ void gui::actions::SceneNodeActions::updateAngleForNode()
 {
     core::Shared* s = this->m_editor->shared();
     sad::SceneNode* node = s->activeObject();
-    if (node == NULL)
+    if (node == nullptr)
     {
         node  = s->selectedObject(); 
     }
@@ -334,12 +334,12 @@ void gui::actions::SceneNodeActions::tryUpdateParentGridForNode(sad::SceneNode* 
     }
 }
 
-void gui::actions::SceneNodeActions::tryChangeAreaForActiveOrSelectedNode(const sad::Rect2D& newarea, bool force_update)
+void gui::actions::SceneNodeActions::tryChangeAreaForActiveOrSelectedNode(const sad::Rect2D& new_area, bool force_update)
 {
-    sad::Rect2D newvalue = newarea;
-    if (m_editor->shared()->activeObject() != NULL)
+    sad::Rect2D new_value = new_area;
+    if (m_editor->shared()->activeObject() != nullptr)
     {
-        m_editor->shared()->activeObject()->setProperty("area", newvalue);
+        m_editor->shared()->activeObject()->setProperty("area", new_value);
         if (force_update)
         {
             this->updateRegionForNode();
@@ -350,35 +350,35 @@ void gui::actions::SceneNodeActions::tryChangeAreaForActiveOrSelectedNode(const 
         sad::SceneNode* node = m_editor->shared()->selectedObject();
         if (node)
         {
-            sad::Maybe<sad::Rect2D> oldvalue = node->getProperty<sad::Rect2D>("area");
-            if (oldvalue.exists()) {
-                sad::Rect2D ov = oldvalue.value();
-                bool eq = sad::equal(ov, newvalue);
+            sad::Maybe<sad::Rect2D> old_value = node->getProperty<sad::Rect2D>("area");
+            if (old_value.exists()) {
+                sad::Rect2D ov = old_value.value();
+                bool eq = sad::equal(ov, new_value);
                 if (!eq)
                 {
-                    node->setProperty("area", newvalue);
-                    newvalue = node->getProperty<sad::Rect2D>("area").value();
-                    eq = sad::equal(ov, newvalue);
+                    node->setProperty("area", new_value);
+                    new_value = node->getProperty<sad::Rect2D>("area").value();
+                    eq = sad::equal(ov, new_value);
                     bool updated = false;
                     if (!eq) {
                         gui::actions::GridActions* ga = m_editor->actions()->gridActions();
                         sad::layouts::Grid* parent = ga->parentGridFor(node);
-                        if (parent != NULL)
+                        if (parent != nullptr)
                         {
                             parent->update();
                             ga->updateParentGridsRecursively(parent, true);
                             sad::Rect2D valueafterupdate = node->getProperty<sad::Rect2D>("area").value();
-                            if (!sad::equal(valueafterupdate, newvalue))
+                            if (!sad::equal(valueafterupdate, new_value))
                             {
                                 updated = true;
                                 this->updateRegionForNode();
                             }
                             eq = sad::equal(valueafterupdate, ov);
-                            newvalue = valueafterupdate;
+                            new_value = valueafterupdate;
                         }
                         if (!eq)
                         {
-                            m_editor->history()->add(new history::scenenodes::ChangeArea(node, ov, newvalue));
+                            m_editor->history()->add(new history::scenenodes::ChangeArea(node, ov, new_value));
                         }
                     }
                     if ((!updated) && force_update)
@@ -390,11 +390,11 @@ void gui::actions::SceneNodeActions::tryChangeAreaForActiveOrSelectedNode(const 
         }
     }
 }
-void gui::actions::SceneNodeActions::tryChangeAreaForCurrentNode(QRectF newarea, bool force_update) 
+void gui::actions::SceneNodeActions::tryChangeAreaForCurrentNode(QRectF new_area, bool force_update) 
 {
-    sad::Rect2D newvalue;
-    core::typeconverters::QRectFToSadRect2D::convert(newarea, newvalue);
-    tryChangeAreaForActiveOrSelectedNode(newvalue, force_update);
+    sad::Rect2D new_value;
+    core::typeconverters::QRectFToSadRect2D::convert(new_area, new_value);
+    tryChangeAreaForActiveOrSelectedNode(new_value, force_update);
 }
 
 void gui::actions::SceneNodeActions::tryChangeAreaViaKeyPress(const sad::input::KeyPressEvent& ev)
@@ -410,7 +410,7 @@ void gui::actions::SceneNodeActions::tryChangeAreaViaKeyPress(const sad::input::
         if (g)
         {
             sad::Maybe<sad::Rect2D> area_maybe = g->getProperty<sad::Rect2D>("area");
-            if (area_maybe.exists() && m_editor->actions()->gridActions()->parentGridFor(g) == NULL)
+            if (area_maybe.exists() && m_editor->actions()->gridActions()->parentGridFor(g) == nullptr)
             {                
                 sad::Rect2D r = area_maybe.value();
                 for(size_t i = 0; i < 4; i++)
@@ -657,10 +657,10 @@ void gui::actions::SceneNodeActions::copyPositionAndSizeFromOtherNodeClicked()
 
 void gui::actions::SceneNodeActions::nameEdited(const QString& name)
 {
-    sad::String newvalue = Q2STDSTRING(name);
-    if (m_editor->shared()->activeObject() != NULL)
+    sad::String new_value = Q2STDSTRING(name);
+    if (m_editor->shared()->activeObject() != nullptr)
     {
-        m_editor->shared()->activeObject()->setObjectName(newvalue);
+        m_editor->shared()->activeObject()->setObjectName(new_value);
         this->updateSceneNodeName(m_editor->shared()->activeObject(), false);
     }
     else
@@ -668,12 +668,12 @@ void gui::actions::SceneNodeActions::nameEdited(const QString& name)
         sad::SceneNode* node = m_editor->shared()->selectedObject();
         if (node)
         {
-            sad::String oldvalue = node->objectName();            
-            if (newvalue != oldvalue)
+            sad::String old_value = node->objectName();            
+            if (new_value != old_value)
             {
-                node->setObjectName(newvalue);
+                node->setObjectName(new_value);
                 this->updateSceneNodeName(m_editor->shared()->selectedObject(), false);
-                m_editor->history()->add(new history::scenenodes::ChangeName(node, oldvalue, newvalue));
+                m_editor->history()->add(new history::scenenodes::ChangeName(node, old_value, new_value));
             }            
         }
     }
@@ -682,9 +682,9 @@ void gui::actions::SceneNodeActions::nameEdited(const QString& name)
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::SceneNodeActions::visibilityChanged(bool state)
 {
-    bool newvalue = state;
+    bool new_value = state;
     gui::uiblocks::UISceneNodeBlock* blk = m_editor->uiBlocks()->uiSceneNodeBlock();
-    if (m_editor->shared()->activeObject() != NULL)
+    if (m_editor->shared()->activeObject() != nullptr)
     {
         blk->cbSceneNodeVisible->setCheckState(Qt::Checked);
     }
@@ -693,17 +693,17 @@ void gui::actions::SceneNodeActions::visibilityChanged(bool state)
         sad::SceneNode* node = m_editor->shared()->selectedObject();
         if (node)
         {
-            sad::Maybe<bool> oldvalue = node->getProperty<bool>("visible");
-            if (oldvalue.exists())
+            sad::Maybe<bool> old_value = node->getProperty<bool>("visible");
+            if (old_value.exists())
             {
-                if (newvalue != oldvalue.value())
+                if (new_value != old_value.value())
                 {
-                    node->setProperty("visible", newvalue);
+                    node->setProperty("visible", new_value);
                     m_editor->history()->add(history::scenenodes::changeVisibility(
                         m_editor,
                         node, 
-                        oldvalue.value(), 
-                        newvalue
+                        old_value.value(), 
+                        new_value
                     ));
                 }
             }
@@ -712,26 +712,26 @@ void gui::actions::SceneNodeActions::visibilityChanged(bool state)
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void gui::actions::SceneNodeActions::colorChanged(QColor newcolor)
+void gui::actions::SceneNodeActions::colorChanged(QColor new_color)
 {
-    sad::AColor newvalue;
-    core::typeconverters::QColorToSadAColor::convert(newcolor, newvalue);
-    if (m_editor->shared()->activeObject() != NULL)
+    sad::AColor new_value;
+    core::typeconverters::QColorToSadAColor::convert(new_color, new_value);
+    if (m_editor->shared()->activeObject() != nullptr)
     {
-        m_editor->shared()->activeObject()->setProperty("color", newvalue);
+        m_editor->shared()->activeObject()->setProperty("color", new_value);
     }
     else
     {
         sad::SceneNode* node = m_editor->shared()->selectedObject();
         if (node)
         {
-            sad::Maybe<sad::AColor> oldvalue = node->getProperty<sad::AColor>("color");
-            if (oldvalue.exists()) {
-                sad::AColor ov = oldvalue.value();
-                if (newvalue.r() != ov.r() || newvalue.g() != ov.g() || newvalue.b() != ov.b() || newvalue.a() != ov.a())
+            sad::Maybe<sad::AColor> old_value = node->getProperty<sad::AColor>("color");
+            if (old_value.exists()) {
+                sad::AColor ov = old_value.value();
+                if (new_value.r() != ov.r() || new_value.g() != ov.g() || new_value.b() != ov.b() || new_value.a() != ov.a())
                 {
-                    node->setProperty("color", newvalue);
-                    m_editor->history()->add(new history::scenenodes::ChangeColor(node, ov, newvalue));
+                    node->setProperty("color", new_value);
+                    m_editor->history()->add(new history::scenenodes::ChangeColor(node, ov, new_value));
                 }
             }
         }
@@ -739,12 +739,12 @@ void gui::actions::SceneNodeActions::colorChanged(QColor newcolor)
 }
 
 
-void gui::actions::SceneNodeActions::areaChanged(QRectF newarea)
+void gui::actions::SceneNodeActions::areaChanged(QRectF new_area)
 {
-    this->tryChangeAreaForCurrentNode(newarea, false);
+    this->tryChangeAreaForCurrentNode(new_area, false);
 }
 
-void gui::actions::SceneNodeActions::angleChanged(double newvalue)
+void gui::actions::SceneNodeActions::angleChanged(double new_value)
 {
     // Block changing in diagonal placing state
     gui::uiblocks::UISceneNodeBlock* blk = m_editor->uiBlocks()->uiSceneNodeBlock();
@@ -772,7 +772,7 @@ void gui::actions::SceneNodeActions::angleChanged(double newvalue)
         sad::Maybe<float> maybeangle = node->getProperty<float>("angle");
         if (maybeangle.exists())
         {
-            node->setProperty("angle", newvalue);
+            node->setProperty("angle", new_value);
             if (selected)
             {
                 gui::actions::GridActions* ga_actions = m_editor->actions()->gridActions();
@@ -786,7 +786,7 @@ void gui::actions::SceneNodeActions::angleChanged(double newvalue)
                         ga_actions->updateRegion();
                     }
                 }
-                m_rotation->start(node, maybeangle.value(), newvalue);
+                m_rotation->start(node, maybeangle.value(), new_value);
             }
         }
     }
@@ -1121,12 +1121,12 @@ void gui::actions::SceneNodeActions::enterSpanningObjectBetweenTwoPoints()
     sad::SceneNode* node = m_editor->shared()->selectedObject();
     if (m_editor->isInEditingState() == false 
         &&  m_editor->shared()->isAnyKindOfAnimationIsRunning() == false
-        && 	node != NULL
+        && 	node != nullptr
         &&  m_editor->machine()->isInState("selected"))
     {
         if (m_editor->actions()->gridActions()->isInGrid(node))
         {
-            QMessageBox::critical(NULL, "Node cannot be spanned", "This node cannot be spanned between two points, because it\'s within a grid");
+            QMessageBox::critical(nullptr, "Node cannot be spanned", "This node cannot be spanned between two points, because it\'s within a grid");
         }
         sad::Maybe<sad::Rect2D> old_area_maybe = node->getProperty<sad::Rect2D>("area");
         sad::Maybe<double> old_angle_maybe = node->getProperty<double>("angle");

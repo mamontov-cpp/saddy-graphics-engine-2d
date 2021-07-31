@@ -7,7 +7,9 @@
 #include "../dukqtcontext.h"
 #include <sadstring.h>
 #include <sadrect.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <sadcolor.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <scene.h>
 
 #include <QVector>
@@ -37,10 +39,10 @@ QVector<unsigned long long> listScene(sad::Scene* scene);
     \param[in] scripting a scripting part
     \param[in] scene a scene
     \param[in] resource a resource part
-    \param[in] fontsize a font size
+    \param[in] font_size a font size
     \param[in] text a text part
     \param[in] name a name part
-    \param[in] topleftpoint a topleft point point
+    \param[in] top_left_point a top-left point point
     \param[in] clr a color
     \return major id a major id for label
  */
@@ -48,10 +50,10 @@ unsigned long long _addLabel(
     scripting::Scripting* scripting, 
     sad::Scene* scene,
     sad::String resource, 
-    unsigned int fontsize,
+    unsigned int font_size,
     sad::String text, 
     sad::String name,
-    sad::Point2D topleftpoint,
+    sad::Point2D top_left_point,
     sad::AColor clr
 );
 
@@ -80,7 +82,7 @@ unsigned long long _addSprite2D(
     \param[in] scene a scene
     \param[in] resource a resource part
     \param[in] name a name part
-    \param[in] fontsize a size of font of added object, if it'll be shown as label
+    \param[in] font_size a size of font of added object, if it'll be shown as label
     \param[in] text a text of object, if it'll be shown as label
     \param[in] rect a bounding rectangle
     \param[in] clr a color
@@ -91,7 +93,7 @@ unsigned long long _addCustomObject(
     sad::Scene* scene,
     sad::String resource,
     sad::String name,
-    unsigned int fontsize,
+    unsigned int font_size,
     sad::String text,
     sad::Rect2D rect,
     sad::AColor clr

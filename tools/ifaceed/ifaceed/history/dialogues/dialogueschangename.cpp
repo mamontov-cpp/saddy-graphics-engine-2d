@@ -19,9 +19,9 @@
 
 history::dialogues::ChangeName::ChangeName(
     sad::dialogue::Dialogue* dialogue,
-    const sad::String& oldvalue,
-    const sad::String& newvalue
-) : m_dialogue(dialogue), m_oldvalue(oldvalue), m_newvalue(newvalue)
+    const sad::String& old_value,
+    const sad::String& new_value
+) : m_dialogue(dialogue), m_old_value(old_value), m_new_value(new_value)
 {
     m_dialogue->addRef();
 }
@@ -34,19 +34,19 @@ history::dialogues::ChangeName::~ChangeName()
 
 void history::dialogues::ChangeName::commit(core::Editor* ob)
 {
-    m_dialogue->setObjectName(m_newvalue);
+    m_dialogue->setObjectName(m_new_value);
     if (ob)
     {
-        ob->emitClosure( ::bind(this, &history::dialogues::ChangeName::updateUI, ob, m_newvalue) );
+        ob->emitClosure( ::bind(this, &history::dialogues::ChangeName::updateUI, ob, m_new_value) );
     }
 }
 
 void history::dialogues::ChangeName::rollback(core::Editor* ob)
 {
-    m_dialogue->setObjectName(m_oldvalue);
+    m_dialogue->setObjectName(m_old_value);
     if (ob)
     {
-        ob->emitClosure( ::bind(this, &history::dialogues::ChangeName::updateUI, ob, m_oldvalue) );
+        ob->emitClosure( ::bind(this, &history::dialogues::ChangeName::updateUI, ob, m_old_value) );
     }
 }
 

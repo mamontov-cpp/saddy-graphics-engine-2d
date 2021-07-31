@@ -19,14 +19,14 @@
 
 history::label::ChangeLineSpacing::ChangeLineSpacing(
     sad::SceneNode* d,
-    float oldvalue,
-    float newvalue
+    float old_value,
+    float new_value
 )
 : history::scenenodes::ChangeProperty<float>(
       d,
       "linespacing",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
     m_affects_parent_grid = true;

@@ -11,13 +11,6 @@
 #include "game.h"
 
 #include <renderer.h>
-#include <texturemappedfont.h>
-#include <mousecursor.h>
-#include <sprite2d.h>
-#include <objectdependentfpsinterpolation.h>
-
-#include <math.h>
-#include <time.h>
 
 /*! A main function 
     \param[in] argc count of arguments

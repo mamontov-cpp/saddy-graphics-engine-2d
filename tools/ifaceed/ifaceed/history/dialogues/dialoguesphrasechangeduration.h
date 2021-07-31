@@ -6,6 +6,7 @@
 #pragma once
 #include "../command.h"
 #include <dialogue/dialogue.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QLineEdit>
 
 namespace history
@@ -23,26 +24,26 @@ public:
     /*! Creates new command
         \param[in] dialogue dialogue
         \param[in] i position of phrase in dialogue
-        \param[in] oldvalue old value 
-        \param[in] newvalue new value 
+        \param[in] old_value old value 
+        \param[in] new_value new value 
      */
     PhraseChangeDuration(
         sad::dialogue::Dialogue* dialogue, 
         int i,
-        double oldvalue, 
-        double newvalue
+        double old_value, 
+        double new_value
     );
     /*! Could be inherited
      */
-    virtual ~PhraseChangeDuration();
+    virtual ~PhraseChangeDuration() override;
     /*! Makes way active, adds it to list
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Makes way inactive, removes it from list
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! A current dialogue
      */
@@ -52,10 +53,10 @@ protected:
     int m_position;
     /*! Old value for name
      */
-    double m_oldvalue;
+    double m_old_value;
     /*! New value for name
      */
-    double m_newvalue;
+    double m_new_value;
     /*! Tries to update UI with new value
         \param[in] e editor
         \param[in] v value

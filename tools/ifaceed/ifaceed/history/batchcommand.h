@@ -32,11 +32,11 @@ public:
     /*! Applies changes, described in command
         \param[in] ob an observer for looking for command
     */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Reverts changes, described in command
         \param[in] ob an observer for looking for command
     */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
     /*! Adds a command to batch
         \param[in] c command
      */
@@ -46,7 +46,7 @@ public:
      */
     void remove(history::Command* c);
     /*! Returns count of commands inside of editor
-        \return cound of commands
+        \return count of commands
      */
     size_t count() const;
 protected:

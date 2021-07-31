@@ -110,7 +110,7 @@ sad::Scene* gui::actions::SceneActions::currentScene()
 {
     QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes;    
     QListWidgetItem* item = lstScenes->currentItem();
-    sad::Scene* scene = NULL;
+    sad::Scene* scene = nullptr;
     if (item)
     {
         scene = item->data(Qt::UserRole).value<sad::Scene*>();
@@ -164,12 +164,12 @@ void gui::actions::SceneActions::setScenesInList(sad::Scene* s1, sad::Scene* s2,
 }
 
 
-unsigned long long  gui::actions::SceneActions::addSceneWithName(const QString& name, bool fromeditor)
+unsigned long long  gui::actions::SceneActions::addSceneWithName(const QString& name, bool from_editor)
 {
     sad::Scene* s  = new sad::Scene();
     QLineEdit* txtSceneName = m_editor->uiBlocks()->uiSceneBlock()->txtSceneName; 
     QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes; 
-    if (fromeditor)
+    if (from_editor)
     {
         QString kname = txtSceneName->text();
         if (kname.length())
@@ -187,7 +187,7 @@ unsigned long long  gui::actions::SceneActions::addSceneWithName(const QString& 
 
     history::Command* c = new history::scenes::Add(s);
     c->commit(m_editor);
-    if (fromeditor)
+    if (from_editor)
     {
         m_editor->history()->add(c);
     }
@@ -201,13 +201,13 @@ unsigned long long  gui::actions::SceneActions::addSceneWithName(const QString& 
 }
 
 
-void gui::actions::SceneActions::scriptableRemoveScene(sad::Scene* scene, bool fromeditor)
+void gui::actions::SceneActions::scriptableRemoveScene(sad::Scene* scene, bool from_editor)
 {
     if (m_editor->isInEditingState())
     {
         return;
     }
-    if (fromeditor)
+    if (from_editor)
     {
         scene = currentScene();
     }
@@ -218,11 +218,11 @@ void gui::actions::SceneActions::scriptableRemoveScene(sad::Scene* scene, bool f
         if (m_editor->machine()->isInState("selected"))
         {
             m_editor->machine()->enterState("idle");
-            m_editor->shared()->setSelectedObject(NULL);
+            m_editor->shared()->setSelectedObject(nullptr);
         }
 
         int row; 
-        if (fromeditor)
+        if (from_editor)
         {	
             row = lstScenes->currentRow();
         }
@@ -371,7 +371,7 @@ void gui::actions::SceneActions::removeScene()
 {
     /*! Run it from editor
      */
-    scriptableRemoveScene(NULL, true);
+    scriptableRemoveScene(nullptr, true);
 }
 
 void gui::actions::SceneActions::sceneMoveBack()

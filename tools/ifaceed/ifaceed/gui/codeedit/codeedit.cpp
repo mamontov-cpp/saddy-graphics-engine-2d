@@ -53,7 +53,7 @@ gui::codeedit::CodeEdit::CodeEdit(QWidget* parent) : gui::textedit::TextEdit(par
 gui::codeedit::CodeEdit::~CodeEdit()
 {
     delete m_line_number_area;
-    m_line_number_area = NULL;
+    m_line_number_area = nullptr;
     delete m_highlighter;
 }
 
@@ -156,7 +156,7 @@ int gui::codeedit::CodeEdit::lineNumberAreaWidth()
     return space;
 }
 
-Qt::CaseSensitivity gui::codeedit::CodeEdit::caseSensivity() const
+Qt::CaseSensitivity gui::codeedit::CodeEdit::caseSensitivity() const
 {
     return Qt::CaseSensitive;
 }
@@ -177,7 +177,7 @@ void gui::codeedit::CodeEdit::updateLineNumberArea(int)
 
 void gui::codeedit::CodeEdit::updateLineNumberArea()
 {
-    if (m_line_number_area == NULL)
+    if (m_line_number_area == nullptr)
     {
         return;
     }

@@ -8,6 +8,7 @@
 #pragma once
 #include "../textedit/textedit.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QPaintEvent>
 
 class QCompleter;
@@ -31,16 +32,16 @@ public:
     LineNumberArea(gui::codeedit::CodeEdit* editor);
      /*! Destructor for widget
       */
-    virtual ~LineNumberArea();
+    virtual ~LineNumberArea() override;
     /*! Returns size hint for line number
         \return size hint
      */
-    QSize sizeHint() const;
+    QSize sizeHint() const override;
 protected:
     /*! A rendering event for widget
         \param[in] e event
      */
-    void paintEvent(QPaintEvent* e);
+    void paintEvent(QPaintEvent* e) override;
     /*! A code editor
      */
     gui::codeedit::CodeEdit* m_code_editor;

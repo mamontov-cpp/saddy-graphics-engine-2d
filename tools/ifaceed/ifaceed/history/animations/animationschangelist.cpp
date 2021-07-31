@@ -16,17 +16,17 @@
 
 history::animations::ChangeList::ChangeList(
     sad::animations::Animation* d,
-    const sad::String& propertyname,
+    const sad::String& property_name,
     QTextEdit* view,
-    const sad::Vector<sad::String>& oldvalue,
-    const sad::Vector<sad::String>& newvalue
+    const sad::Vector<sad::String>& old_value,
+    const sad::Vector<sad::String>& new_value
 
 )
 : history::animations::ChangeProperty<sad::Vector<sad::String> >(
       d,
-      propertyname,
-      oldvalue,
-      newvalue
+      property_name,
+      old_value,
+      new_value
 ), m_view(view), m_should_change_widget(true)
 {
 }

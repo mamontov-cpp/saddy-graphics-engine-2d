@@ -37,7 +37,7 @@ void history::ways::New::rollback(core::Editor* ob)
         if (ob->shared()->selectedWay() == m_way)
         {
             ob->machine()->enterState("ways/idle");
-            ob->shared()->setSelectedWay(NULL);
+            ob->shared()->setSelectedWay(nullptr);
         }
     }
 }

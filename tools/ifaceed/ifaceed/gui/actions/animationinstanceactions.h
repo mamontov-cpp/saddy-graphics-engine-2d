@@ -5,10 +5,14 @@
  */
 #pragma once
 #include <QObject>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QRectF>
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <sadhash.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <animations/animationscomposite.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <animations/animationswayinstance.h>
 
 #include "abstractactions.h"
@@ -34,7 +38,7 @@ namespace actions
 
 
 /*! A group of actions, linked to animation instances
- */	
+ */
 class AnimationInstanceActions: public QObject, public gui::actions::AbstractActions
 {
 Q_OBJECT
@@ -42,14 +46,14 @@ public:
     /*! Creates new label actions
         \param[in] parent a parent object
      */
-    AnimationInstanceActions(QObject* parent = NULL);
+    AnimationInstanceActions(QObject* parent = nullptr);
     /*! This class could be inherited
      */
-    virtual ~AnimationInstanceActions();
+    virtual ~AnimationInstanceActions() override;
     /*! Sets inner editor link of process
         \param[in] e editor
      */
-    virtual void setEditor(core::Editor* e);
+    virtual void setEditor(core::Editor* e) override;
     /*! Updates instance list for groups
      */
     void updateGroupInstanceList();
@@ -59,12 +63,12 @@ public:
     void updateCurrentInstanceAnimation(sad::animations::Instance* a);
     /*! Tries to remove animation instance from list
         \param[in] a instance
-        \param[in] fromeditor whether instance is being removed from editor
+        \param[in] from_editor whether instance is being removed from editor
         \param[in] row a row, where instance is removed from
      */
     void removeInstanceFromDatabase(
         sad::animations::Instance* a,
-        bool fromeditor,
+        bool from_editor,
         int row = -1
     );
     /*! Returns name for animation instance
@@ -95,25 +99,25 @@ public slots:
      */
     void databaseLinkStateChanged(bool state);
     /*! Called, whether tree element changed
-        \param[in] newrow a row 
+        \param[in] new_row a row 
      */
-    void treeElementChanged(int newrow);
+    void treeElementChanged(int new_row);
     /*! Called, whether database element changed
-        \param[in] newrow a row 
+        \param[in] new_row a row 
      */
-    void databaseElementChanged(int newrow);
+    void databaseElementChanged(int new_row);
     /*! Called, when object element changed
-        \param[in] newrow a row 
+        \param[in] new_row a row 
      */
-    void objectChanged(int newrow);
+    void objectChanged(int new_row);
     /*! Called, when start time changed
-        \param[in] newvalue new value
+        \param[in] new_value new value
      */
-    void startTimeChanged(double newvalue);
+    void startTimeChanged(double new_value);
     /*! Called, when object element changed
-        \param[in] newrow a row 
+        \param[in] new_row a row 
      */
-    void wayChanged(int newrow);
+    void wayChanged(int new_row);
     /*! Starts an instance
      */
     void start();

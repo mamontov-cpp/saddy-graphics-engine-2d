@@ -5,14 +5,14 @@
 #include <QLineEdit>
 #include <QPushButton>
 
-gui::uiblocks::UISceneBlock::UISceneBlock() : lstScenes(NULL),
-txtSceneName(NULL),
-btnSceneAdd(NULL),
-btnScenesMoveFront(NULL),
-btnScenesMoveBack(NULL),
-btnSceneDelete(NULL),
-lstSceneObjects(NULL),
-btnSceneClear(NULL)
+gui::uiblocks::UISceneBlock::UISceneBlock() : lstScenes(nullptr),
+txtSceneName(nullptr),
+btnSceneAdd(nullptr),
+btnScenesMoveFront(nullptr),
+btnScenesMoveBack(nullptr),
+btnSceneDelete(nullptr),
+lstSceneObjects(nullptr),
+btnSceneClear(nullptr)
 {
 
 }

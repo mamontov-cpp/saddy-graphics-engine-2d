@@ -4,9 +4,13 @@
     Describes a QtTarget as class, that whole purpose is to show message boxes
     on fatal cases
  */
+#pragma once
 #include <log/log.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QString>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <sstream>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QMessageBox>
 #pragma once
 
@@ -46,8 +50,8 @@ class QtTarget:public sad::log::Target
         /*! Receives a messages from targetting information
             \param[in] message taken message
          */
-        virtual void receive(const sad::log::Message & message);
-        ~QtTarget();
+        virtual void receive(const sad::log::Message & message) override;
+        ~QtTarget() override;
 };
 
 }

@@ -22,31 +22,35 @@
 #include <keymouseconditions.h>
 #include <objectdependentfpsinterpolation.h>
 #include <mousecursor.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <shader.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <glcontext.h>
 
-const sad::String GameState::START = "start";
-const sad::String GameState::PLAYING = "playing";
+// ReSharper disable once CppInconsistentNaming
+const sad::String GameState::START = "start";  // NOLINT(clang-diagnostic-exit-time-destructors)
+// ReSharper disable once CppInconsistentNaming
+const sad::String GameState::PLAYING = "playing";  // NOLINT(clang-diagnostic-exit-time-destructors)
 
 
 Game::Game(sad::Renderer* renderer) : m_renderer(renderer)
 {
     m_highscore = 0;
-    m_ispaused = false;
+    m_is_paused = false;
 
     // Create a new machine
     m_machine = new sad::hfsm::Machine();
     sad::hfsm::Machine * m = m_machine;
 
     sad::input::Controls * controls = m_renderer->controls();
-    controls->add(*sad::input::ET_KeyPress & sad::F, this, &Game::tryToggleFullscreen);  
-    controls->add(*sad::input::ET_KeyPress & sad::Esc, this, &sad::p2d::app::App::quit);
+    controls->add(*sad::input::EventType::ET_KeyPress & sad::KeyboardKey::F, this, &Game::tryToggleFullscreen);
+    controls->add(*sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc, this, &sad::p2d::app::App::quit);
 
     // Create a new idle state
     sad::hfsm::State * idleState = new sad::hfsm::State();
 
     controls->add(
-        (*sad::input::ET_KeyPress) & sad::Enter & (m * GameState::START), 
+        (*sad::input::EventType::ET_KeyPress) & sad::KeyboardKey::Enter & (m * GameState::START), 
         this, &Game::startPlaying
     );
 
@@ -56,73 +60,73 @@ Game::Game(sad::Renderer* renderer) : m_renderer(renderer)
     // Create a new playing state
     sad::hfsm::State * playState = new sad::hfsm::State();
     controls->add(
-        *sad::input::ET_KeyPress & sad::P & (m * GameState::PLAYING), 
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::P & (m * GameState::PLAYING), 
         this,  &Game::togglePaused
     );
 
     // Controls, that respond for player shooting
     controls->add(
-        *sad::input::ET_KeyPress & sad::Enter & (m * GameState::PLAYING), 
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Enter & (m * GameState::PLAYING), 
         this, &Game::player, &Player::startShooting
     );
     controls->add(
-        *sad::input::ET_KeyPress & sad::Space & (m * GameState::PLAYING), 
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Space & (m * GameState::PLAYING), 
         this, &Game::player, &Player::startShooting
     );
     controls->add(
-        *sad::input::ET_MousePress & (m * GameState::PLAYING), 
+        *sad::input::EventType::ET_MousePress & (m * GameState::PLAYING), 
         this, &Game::player, &Player::startShooting
     );
     controls->add(
-        *sad::input::ET_KeyRelease & sad::Enter & (m * GameState::PLAYING), 
+        *sad::input::EventType::ET_KeyRelease & sad::KeyboardKey::Enter & (m * GameState::PLAYING), 
         this, &Game::player, &Player::stopShooting
     );
     controls->add(
-        *sad::input::ET_KeyRelease & sad::Space & (m * GameState::PLAYING), 
+        *sad::input::EventType::ET_KeyRelease & sad::KeyboardKey::Space & (m * GameState::PLAYING), 
         this, &Game::player, &Player::stopShooting
     );
     controls->add(
-        *sad::input::ET_MouseRelease & (m * GameState::PLAYING), 
+        *sad::input::EventType::ET_MouseRelease & (m * GameState::PLAYING), 
         this, &Game::player, &Player::stopShooting
     );
 
     // Controls, that respond for player movement
     controls->add(
-        *sad::input::ET_KeyPress & sad::KeyLeft & (m * GameState::PLAYING), 
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::KeyLeft & (m * GameState::PLAYING), 
         this, &Game::player, &Player::tryStartMovingLeft
     );
     controls->add(
-        *sad::input::ET_KeyPress & sad::KeyRight & (m * GameState::PLAYING), 
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::KeyRight & (m * GameState::PLAYING), 
         this, &Game::player, &Player::tryStartMovingRight
     );
     controls->add(
-        *sad::input::ET_KeyPress & sad::KeyUp & (m * GameState::PLAYING), 
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::KeyUp & (m * GameState::PLAYING), 
         this, &Game::player, &Player::tryStartMovingUp
     );
     controls->add(
-        *sad::input::ET_KeyPress & sad::KeyDown & (m * GameState::PLAYING), 
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::KeyDown & (m * GameState::PLAYING), 
         this, &Game::player, &Player::tryStartMovingDown
     );
     controls->add(
-        *sad::input::ET_KeyRelease & sad::KeyLeft & (m * GameState::PLAYING), 
+        *sad::input::EventType::ET_KeyRelease & sad::KeyboardKey::KeyLeft & (m * GameState::PLAYING), 
         this, &Game::player, &Player::tryStopMovingHorizontally
     );
     controls->add(
-        *sad::input::ET_KeyRelease & sad::KeyRight & (m * GameState::PLAYING), 
+        *sad::input::EventType::ET_KeyRelease & sad::KeyboardKey::KeyRight & (m * GameState::PLAYING), 
         this, &Game::player, &Player::tryStopMovingHorizontally
     );
     controls->add(
-        *sad::input::ET_KeyRelease & sad::KeyUp & (m * GameState::PLAYING), 
+        *sad::input::EventType::ET_KeyRelease & sad::KeyboardKey::KeyUp & (m * GameState::PLAYING), 
         this, &Game::player, &Player::tryStopMovingVertically
     );
     controls->add(
-        *sad::input::ET_KeyRelease & sad::KeyDown & (m * GameState::PLAYING), 
+        *sad::input::EventType::ET_KeyRelease & sad::KeyboardKey::KeyDown & (m * GameState::PLAYING), 
         this, &Game::player, &Player::tryStopMovingVertically
     );
 
     // Mouse movement
     controls->add(
-        *sad::input::ET_MouseMove & (m * GameState::PLAYING), 
+        *sad::input::EventType::ET_MouseMove & (m * GameState::PLAYING), 
         this, &Game::player, &Player::tryLookAt
     );
 
@@ -137,14 +141,14 @@ Game::Game(sad::Renderer* renderer) : m_renderer(renderer)
     m_machine->addState(GameState::PLAYING, playState);
     SL_LOCAL_MESSAGE("States bound successfully", *m_renderer);
 
-    m_player = NULL;
+    m_player = nullptr;
     
     this->App::initApp(0, m_renderer);
-    m_spawntask =  new sad::PeriodicalEventPollProcess(NULL);
-    m_renderer->pipeline()->append(m_spawntask);
+    m_spawn_task =  new sad::PeriodicalEventPollProcess(nullptr);
+    m_renderer->pipeline()->append(m_spawn_task);
 
-    m_walls = NULL;
-    m_registered_supershooting_enemies_count = 0;
+    m_walls = nullptr;
+    m_registered_super_shooting_enemies_count = 0;
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -166,7 +170,7 @@ Game::~Game()
 
 bool Game::isPaused() const
 {
-    return m_ispaused;
+    return m_is_paused;
 }
 
 bool Game::isPlaying() const
@@ -176,16 +180,16 @@ bool Game::isPlaying() const
 
 void Game::togglePaused()
 {
-    m_ispaused = !m_ispaused;
+    m_is_paused = !m_is_paused;
     if (isPaused())
     {
         // Disable stepping the world
-        this->m_steptask->disable();
+        this->m_step_task->disable();
     }
     else
     {
         // Enable stepping the world
-        this->m_steptask->enable();
+        this->m_step_task->enable();
     }
 }
 
@@ -249,7 +253,7 @@ bool Game::trySetup()
 
     SL_LOCAL_MESSAGE("Renderer successfully initialized!", *m_renderer);	
     // Inits generator for spawns and random raings
-    srand(static_cast<unsigned int>(time(NULL)));
+    srand(static_cast<unsigned int>(time(nullptr)));
 
     //Loading resources
     bool result = true; 
@@ -363,8 +367,8 @@ void Game::leaveStartingScreen()
         m_world->delRef();
     }
     createWorld();
-    m_steptask->setWorld(m_world);
-    m_registered_supershooting_enemies_count = 0;
+    m_step_task->setWorld(m_world);
+    m_registered_super_shooting_enemies_count = 0;
 }
 
 // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -387,7 +391,7 @@ void Game::enterStartingScreen()
 
 void Game::enterPlayingScreen()
 {
-    m_ispaused = false;
+    m_is_paused = false;
     sad::Scene * sc = this->scene();
 
     sad::Texture * tex = m_renderer->texture("background");
@@ -412,7 +416,7 @@ void Game::enterPlayingScreen()
     label->argFPS(m_renderer);
 
     sc->add(label);
-    m_spawntask->setEvent(new EnemySpawn(this) );
+    m_spawn_task->setEvent(new EnemySpawn(this) );
 
     // Handlers also register types in world, so they MUST BE added before
     // any object ia added to scene
@@ -447,7 +451,7 @@ void Game::removeObject(sad::p2d::app::Object *o)
     }
     if (o->metaData()->name() == "SuperShootingEnemy")
     {
-        --m_registered_supershooting_enemies_count;
+        --m_registered_super_shooting_enemies_count;
     }
     this->sad::p2d::app::App::removeObject(o);
 }
@@ -461,18 +465,18 @@ const sad::String & Game::state()
 
 GameObject *  Game::produce(Objects type)
 {
-    GameObject * result = NULL;
+    GameObject * result = nullptr;
     switch(type)
     {
-        case O_BONUS: result = new Bonus(); break;
-        case O_ENEMY: result = new Enemy(); break;
-        case O_SHOOTINGENEMY: result = new ShootingEnemy(); break;
-        case O_SUPERSHOOTINGENEMY: 
+        case Objects::O_BONUS: result = new Bonus(); break;
+        case Objects::O_ENEMY: result = new Enemy(); break;
+        case Objects::O_SHOOTING_ENEMY: result = new ShootingEnemy(); break;
+        case Objects::O_SUPER_SHOOTING_ENEMY: 
         {
-            if (m_registered_supershooting_enemies_count < 3)
+            if (m_registered_super_shooting_enemies_count < 3)
             {
                 result = new SuperShootingEnemy(); 
-                ++m_registered_supershooting_enemies_count;
+                ++m_registered_super_shooting_enemies_count;
             }
             break;
         }
@@ -589,10 +593,10 @@ void Game::moveToStartingScreen()
         m_world->delRef();
     }
     createWorld();
-    m_steptask->setWorld(m_world);
+    m_step_task->setWorld(m_world);
     
-    m_player = NULL;
-    m_ispaused = false;
+    m_player = nullptr;
+    m_is_paused = false;
     sad::Scene * sc = this->scene();
 
     // Fill screne with background, label and rain of element (the last object does that).
@@ -617,12 +621,12 @@ void Game::moveToStartingScreen()
     sc->add(label);
     
 
-    m_spawntask->setEvent(new StartScreenRain(this) );
+    m_spawn_task->setEvent(new StartScreenRain(this) );
     // Handlers also register types in world, so they MUST BE added before
     // any object ia added to scene
     m_world->addHandler("sad::p2d::Wall", "GameObject", this, &Game::onWallCollision);
     this->createWalls();
     
-    m_registered_supershooting_enemies_count = 0;
+    m_registered_super_shooting_enemies_count = 0;
 }
 

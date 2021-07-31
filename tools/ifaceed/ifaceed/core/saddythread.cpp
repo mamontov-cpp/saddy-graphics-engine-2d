@@ -36,16 +36,16 @@ void core::SaddyThread::run()
 }
 
 unsigned int core::SaddyThread::tryParseWidthOrHeight(
-    const sad::Maybe<sad::String> & maybevalue,
+    const sad::Maybe<sad::String> & maybe_value,
     unsigned int default_value,
     unsigned int min_value,
     unsigned int max_value
 )
 {
     unsigned int result = default_value;
-    if (maybevalue.exists())
+    if (maybe_value.exists())
     {
-        bool ok = sscanf(maybevalue.value().c_str(), "%u", &result) == 1;
+        bool ok = sscanf(maybe_value.value().c_str(), "%u", &result) == 1;
         if (ok)
         {
             if (result < min_value || result > max_value)

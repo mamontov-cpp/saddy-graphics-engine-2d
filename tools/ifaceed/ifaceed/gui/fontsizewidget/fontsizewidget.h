@@ -4,6 +4,7 @@
     Describes a widget, which displays font sizes
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -25,7 +26,7 @@ public:
     /*! Constructs new widget, placing vertical layout and creating labels, button and combo box
         \param[in] parent a parent widget
      */
-    FontSizeWidget(QWidget * parent = NULL);
+    FontSizeWidget(QWidget * parent = nullptr);
     /*! Sets new value for a widget. Adds it to combo box, if the value is absent int list
         \param[in] value a value for a widget
      */

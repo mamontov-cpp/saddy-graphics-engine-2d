@@ -46,7 +46,7 @@ public:
     }
     /*! Destroys all linked data
      */
-    virtual ~Change()
+    virtual ~Change() override
     {
         m_grid->delRef();
         for(size_t i = 0; i < m_affected_nodes.size(); i++)
@@ -103,7 +103,7 @@ public:
      /*! Applies new saved state, described in command
          \param[in] ob an editor
       */
-    virtual void commit(core::Editor * ob = NULL)
+    virtual void commit(core::Editor * ob = nullptr) override
     {
        if (!ob)
        {
@@ -113,10 +113,10 @@ public:
        m_grid->update();
        tryUpdateUI(ob);
     }
-     /*! Reverts to old saved state, describled in command
+     /*! Reverts to old saved state, described in command
          \param[in] ob an editor
       */
-    virtual void rollback(core::Editor * ob = NULL)
+    virtual void rollback(core::Editor * ob = nullptr) override
     {
         if (!ob)
         {
@@ -167,7 +167,7 @@ protected:
         {
             if (m_should_update_children)
             {
-                actions->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GGAUO_Cells);
+                actions->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GridUpdateOptions::GGAUO_Cells);
             }
 
             actions->updateOnlyGridPropertiesInUI(O);

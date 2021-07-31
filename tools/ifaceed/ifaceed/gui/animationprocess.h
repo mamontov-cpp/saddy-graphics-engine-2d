@@ -60,7 +60,7 @@ protected:
     /*! A linked editor
      */
     core::Editor* m_editor;
-    /*! A pending instance, runned inside of renderer
+    /*! A pending instance, launched inside of renderer
      */
     sad::animations::Instance* m_instance;
 };

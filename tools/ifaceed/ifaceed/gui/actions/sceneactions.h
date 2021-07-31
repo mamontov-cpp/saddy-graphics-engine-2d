@@ -28,7 +28,7 @@ public:
     /*! Creates new action for scene nodes
         \param[in] parent a parent object
      */
-    SceneActions(QObject* parent = NULL);
+    SceneActions(QObject* parent = nullptr);
     /*! This class could be inherited
      */
     virtual ~SceneActions();
@@ -56,7 +56,7 @@ public:
         \return current scene
      */
     sad::Scene* currentScene();
-    /*! Updates scene name, finding it in list, settting it to current name
+    /*! Updates scene name, finding it in list, setting it to current name
         \param[in] s scene
         \param[in] update_ui whether we should update a text node
      */
@@ -74,20 +74,20 @@ public:
      */
     void setScenesInList(sad::Scene* s1, sad::Scene* s2, int pos1, int pos2);
     /*! Adds scene with name 
-        \param[in] name a name withname
-        \param[in] fromeditor whether it's run from editor or script
+        \param[in] name a name for a scene
+        \param[in] from_editor whether it's run from editor or script
      */
-    unsigned long long addSceneWithName(const QString& name, bool fromeditor);
+    unsigned long long addSceneWithName(const QString& name, bool from_editor);
     /*! Removes scene. Could be scripted
         \param[in] scene a scene
-        \param[in] fromeditor whether it's run from editor or script
+        \param[in] from_editor whether it's run from editor or script
      */
-    void scriptableRemoveScene(sad::Scene* scene, bool fromeditor);
+    void scriptableRemoveScene(sad::Scene* scene, bool from_editor);
 public slots:
     /*! Adds new scene to a database
      */
     void addScene();
-    /*! Emitted, when current scene is chaned
+    /*! Emitted, when current scene is changed
         \param[in] index index of scene in list
      */
     void currentSceneChanged(int index);

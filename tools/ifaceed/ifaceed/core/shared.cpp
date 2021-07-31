@@ -5,17 +5,17 @@
 #include <db/custom/customobject.h>
 
 core::Shared::Shared() : 
-m_selected(NULL),
-m_active(NULL),
-m_selected_way(NULL),
-m_selected_dialogue(NULL),
-m_selected_animation(NULL),
-m_selected_instance(NULL),
-m_selected_group(NULL), 
-m_active_grid(NULL),
-m_selected_grid(NULL),
+m_selected(nullptr),
+m_active(nullptr),
+m_selected_way(nullptr),
+m_selected_dialogue(nullptr),
+m_selected_animation(nullptr),
+m_selected_instance(nullptr),
+m_selected_group(nullptr), 
+m_active_grid(nullptr),
+m_selected_grid(nullptr),
 m_way_point_position(0),
-m_editor(NULL),
+m_editor(nullptr),
 m_animation_is_running(false),
 m_animation_instance_is_running(false),
 m_animation_group_is_running(false),
@@ -23,7 +23,7 @@ m_old_angle(0.0),
 m_triggered_by_fast_mode(false)
 {
     m_show_active_border = true;
-    m_nonresizeable_nodetypes << "sad::Label";
+    m_non_resizeable_node_types << "sad::Label";
 }
 
 core::Shared::~Shared()
@@ -67,7 +67,7 @@ sad::SceneNode* core::Shared::activeObject() const
 
 bool core::Shared::canShowActiveBorder() const
 {
-    return m_show_active_border  && m_active != NULL;
+    return m_show_active_border  && m_active != nullptr;
 }
 
 void core::Shared::toggleActiveBorder(bool flag) 
@@ -97,12 +97,12 @@ const sad::Rect2D& core::Shared::oldArea() const
 
 bool core::Shared::isSelectionResizeable() const
 {
-    if (m_selected == NULL)
+    if (m_selected == nullptr)
         return false;
     bool result  = true;
-    for(size_t i = 0; i < m_nonresizeable_nodetypes.size(); i++)
+    for(size_t i = 0; i < m_non_resizeable_node_types.size(); i++)
     {
-        if (m_selected->metaData()->canBeCastedTo(m_nonresizeable_nodetypes[i]))
+        if (m_selected->metaData()->canBeCastedTo(m_non_resizeable_node_types[i]))
         {
             result = false;
         }

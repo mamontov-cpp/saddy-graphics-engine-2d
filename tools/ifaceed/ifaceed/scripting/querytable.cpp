@@ -9,19 +9,19 @@
 
 QVector<unsigned long long> scripting::query_table(
     const sad::String& table,
-    const sad::String& typeofobjects
+    const sad::String& type_of_objects
 )
 {
     sad::db::Database* db = sad::Renderer::ref()->database("");
-    sad::Vector<sad::db::Object*> objs;
-    db->table(table)->objects(objs);
+    sad::Vector<sad::db::Object*> objects;
+    db->table(table)->objects(objects);
 
     QVector<unsigned long long> result;
-    for(size_t i = 0; i < objs.size(); i++)
+    for(size_t i = 0; i < objects.size(); i++)
     {
-        if (objs[i]->Active && objs[i]->isInstanceOf(typeofobjects))
+        if (objects[i]->Active && objects[i]->isInstanceOf(type_of_objects))
         {
-            result << objs[i]->MajorId;
+            result << objects[i]->MajorId;
         }
     }
 

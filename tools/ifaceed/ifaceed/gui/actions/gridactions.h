@@ -39,7 +39,7 @@ struct CellLocation
     /*! A default constructor
      */
     inline CellLocation()
-    : Grid(NULL), Row(0), Col(0)
+    : Grid(nullptr), Row(0), Col(0)
     {
         
     }
@@ -128,11 +128,12 @@ struct GridPosition
 
 /*! A cell region, as selection of cells
  */
-struct CellRegion
+// ReSharper disable once CppInconsistentNaming
+struct CellRegion  // NOLINT(cppcoreguidelines-pro-type-member-init)
 {
     /*! A flags for cell region
      */
-    enum Flags
+    enum class Flags: int
     {
         GCRF_OK = 0,       //!< Region is valid
         GCRF_EMPTY = 1,    //!< Region is not selected
@@ -147,6 +148,7 @@ struct CellRegion
 namespace actions
 {
 
+
 /*! A group of actions, linked to grids (sad::layout::Grid)
  */
 class GridActions: public QObject, public gui::actions::AbstractActions
@@ -156,7 +158,7 @@ public:
 /*! A options for including for excluding GUI elements for 
     grids to a batch update actions
  */
-enum GridUpdateOptions
+enum class GridUpdateOptions: int
 {
     GGAUO_Name = 0, //!< Corresponds to name fields updating
     GGAUO_Area = 1, //!< Corresponds to area fields updating
@@ -172,7 +174,7 @@ enum GridUpdateOptions
     GGAUO_None = 11,          //!< Corresponds to nothing for cases, when nothing should be updated (or everything in other case)
 };
 
-enum CellUpdateOptions
+enum class CellUpdateOptions: int
 {
     GCAUO_Width = 0,               //!< Corresponds to width field updating,
     GCAUO_Height = 1,              //!< Corresponds to height field updating,
@@ -187,14 +189,14 @@ enum CellUpdateOptions
     /*! Creates new label actions
         \param[in] parent a parent object
      */
-    GridActions(QObject* parent = NULL);
+    GridActions(QObject* parent = nullptr);
     /*! Sets editor
         \param[in] e editor
      */
-    virtual void setEditor(core::Editor* e);
+    virtual void setEditor(core::Editor* e) override;
     /*! This class could be inherited
      */
-    virtual ~GridActions();
+    virtual ~GridActions() override;
     /*! Returns selected grid, according to editor
         \return a current selected grid
      */
@@ -215,7 +217,7 @@ enum CellUpdateOptions
     /*! Removes last grid from list of grids, updating UI
      */
     void removeLastGrid();
-    /*! Tries to insert child to curent grid, thus updating ui
+    /*! Tries to insert child to current grid, thus updating ui
         \param[in] g grid
         \param[in] row a row
         \param[in] col a column
@@ -223,7 +225,7 @@ enum CellUpdateOptions
         \param[in] majorid a major id of a node
      */
     void insertChildToGrid(sad::layouts::Grid* g,  size_t row, size_t col, size_t pos, size_t majorid);
-    /*! Tries to insert child to curent grid, thus updating ui
+    /*! Tries to insert child to current grid, thus updating ui
         \param[in] g grid
         \param[in] row a row
         \param[in] col a column
@@ -259,8 +261,8 @@ enum CellUpdateOptions
         \param[in] name a new name
      */
     void updateChildName(sad::layouts::Grid* g,  size_t row, size_t col, size_t pos, const QString& name);
-    /*! Updates cell browser's UI from current vieewed grid
-        \param[in] immediate whether it should be invoed now, or postponed via closure
+    /*! Updates cell browser's UI from current viewed grid
+        \param[in] immediate whether it should be invoked now, or postponed via closure
      */
     void updateCellBrowser(bool immediate = false);
     /*! Updates region, when grid is picked
@@ -269,7 +271,7 @@ enum CellUpdateOptions
     void updateRegion(bool immediate = false);
     /*! Update current grid properties in UI, only specified in parameter
         \param[in] group a widget group for grid properties
-        \param[in] immediate whether it should be invoked now, or postoponed
+        \param[in] immediate whether it should be invoked now, or postponed
      */
     void updateOnlyGridPropertiesInUI(
         gui::actions::GridActions::GridUpdateOptions group,
@@ -277,14 +279,14 @@ enum CellUpdateOptions
     );
     /*! Update current grid properties in UI, except for those, specified in parameter
         \param[in] group a widget group for grid properties
-        \param[in] immediate whether it should be invoked now, or postoponed
+        \param[in] immediate whether it should be invoked now, or postponed
      */
     void updateGridPropertiesInUIExcept(
         gui::actions::GridActions::GridUpdateOptions group,
         bool immediate = false
     );
     /*! Update current grid properties
-        \param[in] immediate whether it should be invoked now, or postoponed
+        \param[in] immediate whether it should be invoked now, or postponed
      */
     void updateGridPropertiesInUI(bool immediate = false);
     /*! Returns a cell editor
@@ -303,8 +305,8 @@ enum CellUpdateOptions
     void clearGridCellsBrowser();
     /*! Highlights adding state in main panel status box
      */
-    void higlightAddingState() const;
-    /*! Higlights state, when first point of grid should be placed.
+    void highlightAddingState() const;
+    /*! Highlights state, when first point of grid should be placed.
         This should occur when user presses "Add By Stretching" button
      */
     void highlightPlaceFirstPointState() const;
@@ -315,7 +317,7 @@ enum CellUpdateOptions
     void highlightPlaceSecondPointState() const;
     /*! Highlights adding state in main panel status box
      */
-    void higlightMovingState() const;
+    void highlightMovingState() const;
     /*! Highlights resizing state in main panel status box
      */
     void highlightResizingState() const;
@@ -416,7 +418,7 @@ enum CellUpdateOptions
      */
     void insertNodesToGrids(const sad::Vector<sad::Pair<sad::SceneNode*, gui::GridPosition> >& parent_pairs);
     /*! Removes grid from editor
-        \param grid a grid to be removed (NULL for selected)
+        \param grid a grid to be removed (nullptr for selected)
         \param from_editor whether we are removing this from editor
      */
     void scriptableRemoveGrid(sad::layouts::Grid* grid, bool from_editor);
@@ -434,9 +436,10 @@ enum CellUpdateOptions
      */
     void tryUpdateRegionsInChildren(sad::layouts::Grid* grid);
     /*! Tries to update regions in children if selected
-        \param[in] grid a grid, which contains children to be updated
+        \param[in] cell a cell, which contains children to be updated
      */
-    void tryUpdateRegionsInChildren(sad::layouts::Cell* grid);
+     // ReSharper disable once CppInconsistentNaming
+     void tryUpdateRegionsInChildren(sad::layouts::Cell* cell);
     /*! Updates cell part in UI
         \param[in] row a row of cell
         \param[in] col a column
@@ -452,7 +455,7 @@ enum CellUpdateOptions
         bool immediate = false
     );
     /*! Tries to set cell property in UI if options match specified in template parameters and also
-        property coudld be set
+        property could be set
         \param[in] opts options
         \param[in] edit widget to be changed
         \param[in] setter setter value
@@ -479,7 +482,7 @@ enum CellUpdateOptions
         }
     }
     /*! Tries to set cell property in UI if options match specified in template parameters and also
-        property coudld be set
+        property could be set
         \param[in] opts options
         \param[in] edit widget to be changed
         \param[in] setter setter value
@@ -506,7 +509,7 @@ enum CellUpdateOptions
         }
     }
     /*! Tries to set cell property in UI if options match specified in template parameters and also
-        property coudld be set
+        property could be set
         \param[in] opts options
         \param[in] edit widget to be changed
         \param[in] setter setter value
@@ -533,7 +536,7 @@ enum CellUpdateOptions
         }
     }
     /*! Tries to set cell property in UI if options match specified in template parameters and also
-        property coudld be set
+        property could be set
         \param[in] opts options
         \param[in] edit widget to be changed
         \param[in] setter setter value
@@ -626,14 +629,14 @@ enum CellUpdateOptions
     QCheckBox* propagateCheckboxForPadding(gui::actions::GridActions::GridUpdateOptions opts);
     /*! Applies change in padding to specified grid
         \param[in] opts options for grid
-        \param[in] newvalue a new value for padding
+        \param[in] new_value a new value for padding
         \param[in] grid grid to be changed
         \param[in] propagate whether we propagated changes for grid to it's cells
      */
     void applyPaddingChangeToGrid(
         gui::actions::GridActions::GridUpdateOptions opts,
         sad::layouts::Grid* grid,
-        double newvalue,
+        double new_value,
         bool propagate
     );
     /*! Handles attempt to change padding for a grid
@@ -641,7 +644,7 @@ enum CellUpdateOptions
         \param[in] grid a grid to be changed
         \param[in] value a new value
         \param[in] propagate whether we propagated changes for grid to it's cells
-        \param[in] from_editor whether this was called from editror
+        \param[in] from_editor whether this was called from editor
      */
     void tryChangePaddingForGrid(
         gui::actions::GridActions::GridUpdateOptions opts,
@@ -653,29 +656,29 @@ enum CellUpdateOptions
     /*! Describes actions, which should be performed when some kind of
         padding, specified by options is changed
         \param opts options
-        \param newvalue new value of padding
+        \param new_value new value of padding
      */
     void paddingChanged(
         gui::actions::GridActions::GridUpdateOptions opts,
-        double newvalue
+        double new_value
     );
     /*! Tries to perform merging cells with specified parameters
         \param[in] merge whether we are merging cells (splitting otherwise)
         \param[in] grid a changed grid
         \param[in] row a row for stating region
         \param[in] col a column for stating region
-        \param[in] rowspan amount of spanning rows of region
-        \param[in] colspan amount of spanning columns of region
+        \param[in] row_span amount of spanning rows of region
+        \param[in] col_span amount of spanning columns of region
         \param[in] from_editor whether it's being performed from editor
-        \return
+        \return whether it was successfull
      */
-    bool tryPeformMergeOrSplit(
+    bool tryPerformMergeOrSplit(
         bool merge,
         sad::layouts::Grid* grid,
         int row,
         int col,
-        int rowspan,
-        int colspan,
+        int row_span,
+        int col_span,
         bool from_editor = true
     );
     /*! Tries to move selected grid by keyboard
@@ -693,49 +696,49 @@ public slots:
      */
     void addGridByStretchingClicked();
     /*! Called, when user changes area of grid
-        \param[in] newarea assumed new area for a grid
+        \param[in] new_area assumed new area for a grid
      */
-    void areaChanged(QRectF newarea);
+    void areaChanged(QRectF new_area);
     /*! Called, when user wants to navigate to specified cell row
-        \param[in] newvalue row position
+        \param[in] new_value row position
      */
-    void navigateCellRow(int newvalue);
+    void navigateCellRow(int new_value);
     /*! Called, when user wants to navigate to specified cell column
-        \param[in] newvalue column position
+        \param[in] new_value column position
     */
-    void navigateCellColumn(int newvalue);
+    void navigateCellColumn(int new_value);
     /*! Called, when user changes row count for a grid
-        \param[in] newvalue a new row count for a grid
+        \param[in] new_value a new row count for a grid
      */
-    void rowCountChanged(int newvalue);
+    void rowCountChanged(int new_value);
     /*! Called, when user changes column count for a grid
-        \param[in] newvalue a new column count for a grid
+        \param[in] new_value a new column count for a grid
      */
-    void columnCountChanged(int newvalue);
+    void columnCountChanged(int new_value);
     /*! Called, when user changes whether width is fixed for a grid
-        \param[in] newvalue a new value for fixed with 
+        \param[in] new_value a new value for fixed with 
      */
-    void fixedWidthClicked(bool newvalue);
+    void fixedWidthClicked(bool new_value);
     /*! Called, when user changes whether height is fixed for a grid
-        \param[in] newvalue a new value for fixed with 
+        \param[in] new_value a new value for fixed with 
      */
-    void fixedHeightClicked(bool newvalue);
+    void fixedHeightClicked(bool new_value);
     /*! Called, when user changes top padding for a grid
-        \param[in] newvalue a new top padding value
+        \param[in] new_value a new top padding value
      */
-    void topPaddingChanged(double newvalue);
+    void topPaddingChanged(double new_value);
     /*! Called, when user changes bottom padding for a grid
-        \param[in] newvalue a new bottom padding value
+        \param[in] new_value a new bottom padding value
      */
-    void bottomPaddingChanged(double newvalue);
+    void bottomPaddingChanged(double new_value);
     /*! Called, when user changes left padding for a grid
-        \param[in] newvalue a new left padding value
+        \param[in] new_value a new left padding value
      */
-    void leftPaddingChanged(double newvalue);
+    void leftPaddingChanged(double new_value);
     /*! Called, when user changes right padding for a grid
-        \param[in] newvalue a new right padding value
+        \param[in] new_value a new right padding value
      */
-    void rightPaddingChanged(double newvalue);
+    void rightPaddingChanged(double new_value);
     /*! Called, when user toggles show or hide grids
         \param[in] state a new state for a checkbox
      */
@@ -751,71 +754,71 @@ public slots:
     /*! Called, when cell width is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value for width
+        \param[in] new_value a new value for width
      */
-    void cellWidthChanged(size_t row, size_t col, sad::layouts::LengthValue newvalue);
+    void cellWidthChanged(size_t row, size_t col, sad::layouts::LengthValue new_value);
     /*! Called, when cell height is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value for width
+        \param[in] new_value a new value for width
      */
-    void cellHeightChanged(size_t row, size_t col, sad::layouts::LengthValue newvalue);
+    void cellHeightChanged(size_t row, size_t col, sad::layouts::LengthValue new_value);
     /*! Called, when cell horizontal alignment is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value for horizontal alignment
+        \param[in] new_value a new value for horizontal alignment
      */
-    void cellHorizontalAlignmentChanged(size_t row, size_t col, sad::layouts::HorizontalAlignment newvalue);
+    void cellHorizontalAlignmentChanged(size_t row, size_t col, sad::layouts::HorizontalAlignment new_value);
     /*! Called, when cell vertical alignment is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value for vertical alignment
+        \param[in] new_value a new value for vertical alignment
      */
-    void cellVerticalAlignmentChanged(size_t row, size_t col, sad::layouts::VerticalAlignment newvalue);
+    void cellVerticalAlignmentChanged(size_t row, size_t col, sad::layouts::VerticalAlignment new_value);
     /*! Called, when cell stacking type is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value for stacking type
+        \param[in] new_value a new value for stacking type
      */
-    void cellStackingTypeChanged(size_t row, size_t col, sad::layouts::StackingType newvalue);
+    void cellStackingTypeChanged(size_t row, size_t col, sad::layouts::StackingType new_value);
     /*! Called, when cell top padding is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void cellTopPaddingChanged(size_t row, size_t col, double newvalue);
+    void cellTopPaddingChanged(size_t row, size_t col, double new_value);
     /*! Called, when cell bottom padding is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void cellBottomPaddingChanged(size_t row, size_t col, double newvalue);
+    void cellBottomPaddingChanged(size_t row, size_t col, double new_value);
     /*! Called, when cell left padding is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void cellLeftPaddingChanged(size_t row, size_t col, double newvalue);
+    void cellLeftPaddingChanged(size_t row, size_t col, double new_value);
     /*! Called, when cell right padding is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void cellRightPaddingChanged(size_t row, size_t col, double newvalue);
+    void cellRightPaddingChanged(size_t row, size_t col, double new_value);
     /*! Called, when cell child is added
         \param[in] row a row
         \param[in] col a column
         \param[in] majorid a major id
-        \param[in] nodename a name for a node
+        \param[in] node_name a name for a node
      */
-    void cellChildAdded(size_t row, size_t col, unsigned long long majorid, QString nodename);
+    void cellChildAdded(size_t row, size_t col, unsigned long long majorid, QString node_name);
     /*! Called, when cell child is removed
         \param[in] row a row
         \param[in] col a column
         \param[in] pos a position, where child is added
      */
     void cellChildRemoved(size_t row, size_t col, size_t pos);
-    /*! Called, when cell is clearead
+    /*! Called, when cell is cleared
         \param[in] row a row
         \param[in] col a column
      */
@@ -848,16 +851,16 @@ private:
      */
     sad::layouts::Grid* prepareGridForAdding();
     /*! Makes buckets for sorting
-        \param[in] parent_pairs
+        \param[in] parent_pairs a parent pairs
         \param[out] buckets a buckets list
      */
     void makeBuckets(const sad::Vector<sad::Pair<sad::SceneNode*, gui::GridPosition> >& parent_pairs, gui::SortingBuckets& buckets) const;
-    /*! Makes new command, related to changing padding of grid, or NULL
+    /*! Makes new command, related to changing padding of grid, or nullptr
         if opts is not related to padding
         \param[in] opts options
         \param[in] g grid
-        \param[in] oldstate an old state of grid
-        \param[in] newstate a new state of grid
+        \param[in] old_state an old state of grid
+        \param[in] new_state a new state of grid
         \param[in] children a children of grid
         \param[in] propagate whether we propagated changes to grid
         \return created command
@@ -865,15 +868,15 @@ private:
     history::Command* makePaddingChangeCommand(
         gui::actions::GridActions::GridUpdateOptions opts,
         sad::layouts::Grid* g,
-        const picojson::value& oldstate,
-        const picojson::value& newstate,
+        const picojson::value& old_state,
+        const picojson::value& new_state,
         const sad::Vector<sad::SceneNode*>& children,
         bool propagate
     );
     /*! Makes new command, related to changing padding of grid
         \param[in] g grid
-        \param[in] oldstate an old state of grid
-        \param[in] newstate a new state of grid
+        \param[in] old_state an old state of grid
+        \param[in] new_state a new state of grid
         \param[in] children a children of grid
         \param[in] propagate whether we propagated changes to grid
         \return created command
@@ -883,8 +886,8 @@ private:
     >
     history::Command* makePaddingChangeCommand(
         sad::layouts::Grid* g,
-        const picojson::value& oldstate,
-        const picojson::value& newstate,
+        const picojson::value& old_state,
+        const picojson::value& new_state,
         const sad::Vector<sad::SceneNode*>& children,
         bool propagate
     );

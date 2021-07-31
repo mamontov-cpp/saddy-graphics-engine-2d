@@ -11,9 +11,9 @@ history::scenenodes::ChangePropertyWhichLinkedToCheckbox::ChangePropertyWhichLin
     QCheckBox* cb,
     sad::SceneNode* d,
     const sad::String& property,
-    bool oldvalue,
-    bool newvalue
-) : history::scenenodes::ChangeProperty<bool>(d, property, oldvalue, newvalue), m_cb(cb)
+    bool old_value,
+    bool new_value
+) : history::scenenodes::ChangeProperty<bool>(d, property, old_value, new_value), m_cb(cb)
 {
     
 }

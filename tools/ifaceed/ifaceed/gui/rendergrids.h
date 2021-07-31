@@ -81,7 +81,7 @@ public:
      */
     static const sad::AColor& defaultColor();
     /*! Returns hotspot for resizing, whether point within one
-        \return a hotspot (NULL if not found)
+        \return a hotspot (nullptr if not found)
      */
     core::borders::ResizeHotspot* selectedResizeHotspot(const sad::Point2D& p);
     /*! Enables rendering resizing hotspots
@@ -111,7 +111,7 @@ protected:
     static sad::AColor m_selected_color;
     /*! Renders grids if enabled
      */ 
-    virtual void _process();
+    virtual void _process() override;
 
     /*! A hotspots for resizing grids
      */

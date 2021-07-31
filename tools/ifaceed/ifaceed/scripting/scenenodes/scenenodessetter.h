@@ -36,7 +36,7 @@ public:
     /*! Clones an object
         \return copy of object
      */
-    dukpp03::qt::Callable* clone()
+    dukpp03::qt::Callable* clone() override
     {
         return new scripting::scenenodes::Setter<_PropertyType, _CommandType>(*this);
     }
@@ -49,13 +49,13 @@ public:
     }
     /*! Returns command for editing a property
         \param[in] obj an object to be set
-        \param[in] oldvalue old value 
-        \param[in] newvalue new value
+        \param[in] old_value old value 
+        \param[in] new_value new value
         \return a command to be used
      */
-    virtual history::Command* command(sad::SceneNode* obj, const sad::String&, _PropertyType oldvalue,  _PropertyType newvalue)
+    virtual history::Command* command(sad::SceneNode* obj, const sad::String&, _PropertyType old_value,  _PropertyType new_value) override
     {
-        return new _CommandType(obj, oldvalue, newvalue);
+        return new _CommandType(obj, old_value, new_value);
     }
 };
 

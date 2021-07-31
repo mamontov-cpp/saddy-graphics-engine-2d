@@ -28,11 +28,11 @@ public:
     /*! Clones an object
         \return copy of object
      */
-    dukpp03::qt::Callable* clone();
+    dukpp03::qt::Callable* clone() override;
     
     /*! Could be inherited
      */
-    virtual ~WaySetter();
+    virtual ~WaySetter() override;
 };
 
 }

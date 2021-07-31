@@ -31,7 +31,7 @@ public:
     Remove(sad::Scene * s, int position);
     /*! Deletes reference to a scene
      */
-    ~Remove();
+    ~Remove() override;
     /*! Sets an elements
         \param[in] position_in_instance_combo a position of instance in removal
         \param[in] positions a positions list
@@ -53,11 +53,11 @@ public:
     /*! Applies changes, described in command
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Reverts changes, described in command
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! Describes an added scene
      */

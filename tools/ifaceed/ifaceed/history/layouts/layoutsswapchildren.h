@@ -33,21 +33,21 @@ public:
     );
     /*! Erases link to a node
      */
-    virtual ~SwapChildren();
+    virtual ~SwapChildren() override;
     /*! Applies changes, described in command
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Reverts changes, described in command
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
     /*! Commits a change without updating UI. In that case,
         it swaps to children in cell
 
         \param[in] e editor
      */
-    virtual void commitWithoutUpdatingUI(core::Editor * e);
+    virtual void commitWithoutUpdatingUI(core::Editor * e) override;
 protected:
     /*! Really performs commit
         \param[in] ob object of editor

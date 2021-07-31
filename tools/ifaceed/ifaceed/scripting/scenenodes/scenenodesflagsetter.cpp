@@ -16,11 +16,11 @@ dukpp03::qt::Callable* scripting::scenenodes::FlagSetter::clone()
 
 scripting::scenenodes::FlagSetter::~FlagSetter()
 {
-    
+
 }
 
-history::Command* scripting::scenenodes::FlagSetter::command(sad::SceneNode* obj, const sad::String&, bool oldvalue,  bool newvalue)
+history::Command* scripting::scenenodes::FlagSetter::command(sad::SceneNode* obj, const sad::String&, bool old_value,  bool new_value)
 {
-    return m_f(m_scripting->editor(), obj, oldvalue, newvalue);
+    return m_f(m_scripting->editor(), obj, old_value, new_value);
 }
 

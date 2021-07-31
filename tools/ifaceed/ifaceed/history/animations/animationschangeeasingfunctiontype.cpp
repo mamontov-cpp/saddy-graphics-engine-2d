@@ -12,9 +12,9 @@
 
 history::animations::ChangeEasingFunctionType::ChangeEasingFunctionType(
     sad::animations::Animation* d,
-    unsigned int oldvalue,
-    unsigned int newvalue
-) : history::animations::ChangeEasingProperty<unsigned int>(d, &sad::animations::easing::Function::setFunctionTypeAsUnsignedInt, oldvalue, newvalue)
+    unsigned int old_value,
+    unsigned int new_value
+) : history::animations::ChangeEasingProperty<unsigned int>(d, &sad::animations::easing::Function::setFunctionTypeAsUnsignedInt, old_value, new_value)
 {
 
 }

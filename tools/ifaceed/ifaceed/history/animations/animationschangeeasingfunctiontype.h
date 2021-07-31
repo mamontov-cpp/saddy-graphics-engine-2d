@@ -18,13 +18,13 @@ class ChangeEasingFunctionType: public history::animations::ChangeEasingProperty
 public:
     /*! Constructs new command for animation
         \param[in] d an animation
-        \param[in] oldvalue old value of property
-        \param[in] newvalue new value of property
+        \param[in] old_value old value of property
+        \param[in] new_value new value of property
      */
     ChangeEasingFunctionType(
         sad::animations::Animation* d,
-        unsigned int oldvalue,
-        unsigned int newvalue
+        unsigned int old_value,
+        unsigned int new_value
     );
     /*! Could be inherited
      */
@@ -34,7 +34,7 @@ protected:
      * \param e editor
      * \param value a value of property
      */
-    virtual void updateUI(core::Editor* e, const unsigned int& value);
+    virtual void updateUI(core::Editor* e, const unsigned int& value) override;
 };
 
 }

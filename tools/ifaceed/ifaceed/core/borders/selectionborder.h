@@ -25,7 +25,7 @@ public:
     SelectionBorder(core::Shared* data);
     /*! Can be inherited
      */
-    virtual ~SelectionBorder();	
+    virtual ~SelectionBorder() override;
     /*! Whether we should show hotspots
         \param[in] flag a flag for hotspots
      */
@@ -35,13 +35,13 @@ public:
      */
     core::borders::DeleteHotspot* deleteHotspot();
     /*! Returns hotspot for resizing, whether point within one
-        \return a hotspot (NULL if not found)
+        \return a hotspot (nullptr if not found)
      */
     core::borders::ResizeHotspot* selectedResizeHotspot(const sad::Point2D& p);
 protected:
      /*! Renders a selected object border as render border
       */
-     void _process();
+     void _process() override;
      /*! A delete hotspot for deletion
       */
      core::borders::DeleteHotspot* m_delete_hotspot;

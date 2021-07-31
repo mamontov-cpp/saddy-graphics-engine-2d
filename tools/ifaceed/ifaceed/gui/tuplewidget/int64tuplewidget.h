@@ -24,7 +24,7 @@ public:
     /*! Constructs new widget
         \param[in] parent a parent widget
      */
-    Int64TupleWidget(QWidget* parent = NULL);
+    Int64TupleWidget(QWidget* parent = nullptr);
     /*! Could be inherited
      */
     virtual ~Int64TupleWidget();

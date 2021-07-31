@@ -18,21 +18,21 @@ class MakeBackground: public history::Command
 public:
      /*! Constructs new command for node
         \param[in] d a node
-        \param[in] oldarea old area of sprite
-        \param[in] oldangle old angle
-        \param[in] oldlayer old layer of sprite
-        \param[in] newarea new area of sprite
-        \param[in] newangle new angle
-        \param[in] newlayer new layer of sprite
+        \param[in] old_area old area of sprite
+        \param[in] old_angle old angle
+        \param[in] old_layer old layer of sprite
+        \param[in] new_area new area of sprite
+        \param[in] new_angle new angle
+        \param[in] new_layer new layer of sprite
       */
     MakeBackground(
         sad::SceneNode* d, 
-        const sad::Rect2D& oldarea,
-        float oldangle,
-        unsigned int oldlayer,
-        const sad::Rect2D& newarea,
-        float newangle,
-        unsigned int newlayer
+        const sad::Rect2D& old_area,
+        float old_angle,
+        unsigned int old_layer,
+        const sad::Rect2D& new_area,
+        float new_angle,
+        unsigned int new_layer
     );
     /*! Erases link to a node
       */
@@ -40,33 +40,33 @@ public:
     /*! Commits changed
         \param[in] e editor
      */
-    virtual void commit(core::Editor* e = NULL);
+    virtual void commit(core::Editor* e = nullptr) override;
     /*! Rolls back command
         \param[in] e editor
      */
-    virtual void rollback(core::Editor* e = NULL);
+    virtual void rollback(core::Editor* e = nullptr) override;
 protected:
     /*! An action node for making background
      */
     sad::SceneNode* m_node;
     /*! Old area for making background
      */
-    sad::Rect2D m_oldarea;
+    sad::Rect2D m_old_area;
     /*! New area for making background
      */
-    sad::Rect2D m_newarea;
+    sad::Rect2D m_new_area;
     /*! An old angle
      */
-    float m_oldangle;
+    float m_old_angle;
     /*! A new angle
      */
-    float m_newangle;
+    float m_new_angle;
     /*! An old layer for item
      */
-    unsigned int m_oldlayer;
+    unsigned int m_old_layer;
     /*! A new layer for item
      */
-    unsigned int m_newlayer;
+    unsigned int m_new_layer;
 
     /*! Updates a background
         \param[in] e area

@@ -5,7 +5,7 @@
 #pragma once
 namespace core
 {
-class Editor;	
+class Editor;
 }
 
 namespace gui
@@ -86,7 +86,7 @@ public:
      */
     gui::actions::GridActions* gridActions() const;
 protected:
-    /*! An actions, linkes to scenes
+    /*! An actions, linked to scenes
      */
     gui::actions::SceneActions* m_scene_actions;
     /*! An actions, linked to scene nodes

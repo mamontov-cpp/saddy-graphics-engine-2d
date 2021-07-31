@@ -5,8 +5,10 @@
  */
 #pragma once
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QDialog>
 #include <QString>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QTextEdit>
 
 #include "ui_scriptinghelp.h"
@@ -20,7 +22,7 @@ public:
     /*! Creates new file list for reloading
         \param[in] parent a parent widget for selecting
      */
-    ScriptingHelp(QWidget* parent = NULL);
+    ScriptingHelp(QWidget* parent = nullptr);
     /*! Could be inherited
      */
     virtual ~ScriptingHelp();

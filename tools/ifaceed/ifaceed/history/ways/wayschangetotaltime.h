@@ -18,20 +18,20 @@ class ChangeTotalTime: public history::ways::ChangeProperty<double>
 public:
      /*! Constructs new command for way
         \param[in] d a node
-        \param[in] oldvalue old time
-        \param[in] newvalue new time
+        \param[in] old_value old time
+        \param[in] new_value new time
       */
-    ChangeTotalTime(sad::p2d::app::Way* d, double oldvalue, double newvalue);
+    ChangeTotalTime(sad::p2d::app::Way* d, double old_value, double new_value);
     /*! Erases link to a node
       */
-    virtual ~ChangeTotalTime();
+    virtual ~ChangeTotalTime() override;
 protected:
     /*!
      * Updates current text in field of total time
      * \param[in] e editor
      * \param[in] value a value
      */
-    virtual void updateUI(core::Editor* e, const double& value);
+    virtual void updateUI(core::Editor* e, const double& value) override ;
 };
 
 }

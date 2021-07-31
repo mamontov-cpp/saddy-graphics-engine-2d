@@ -38,19 +38,19 @@ void gui::table::SadPoint2DDelegate::set(const sad::db::Variant& v)
 
 void gui::table::SadPoint2DDelegate::widgetChanged(double f, double s)
 {
-    sad::Point2D oldvalue = this->currentValue<sad::Point2D>();
-    sad::Point2D newvalue(f, s);
+    sad::Point2D old_value = this->currentValue<sad::Point2D>();
+    sad::Point2D new_value(f, s);
     if (this->isLinkedToDatabase())
     {
-        m_editor->history()->add(new history::database::ChangeProperty<sad::Point2D>(oldvalue, newvalue, this));
+        m_editor->history()->add(new history::database::ChangeProperty<sad::Point2D>(old_value, new_value, this));
     }
     else
     {
         m_editor->history()->add( 
-            new history::customobject::ChangeProperty<sad::Point2D>(m_object, Q2STDSTRING(m_property_name), oldvalue, newvalue)
+            new history::customobject::ChangeProperty<sad::Point2D>(m_object, Q2STDSTRING(m_property_name), old_value, new_value)
         );
     }
-    this->setCurrentValue<sad::Point2D>(newvalue);
+    this->setCurrentValue<sad::Point2D>(new_value);
 }
 
 void gui::table::SadPoint2DDelegate::makeEditor()

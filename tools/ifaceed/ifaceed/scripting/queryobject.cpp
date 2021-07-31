@@ -7,7 +7,7 @@
 sad::db::Object* scripting::query_object(const QVariant& v)
 {
     
-    sad::db::Object* result = NULL;
+    sad::db::Object* result = nullptr;
     if (v.canConvert(QVariant::String))
     {
         sad::String name = v.value<QString>().toStdString();
@@ -23,7 +23,7 @@ sad::db::Object* scripting::query_object(const QVariant& v)
         }
     }
 
-    if (result == NULL)
+    if (result == nullptr)
     {
         if (v.canConvert(QVariant::ULongLong)) 
         {
@@ -35,7 +35,7 @@ sad::db::Object* scripting::query_object(const QVariant& v)
                 {
                     if (object->Active == false)
                     {
-                        object = NULL;
+                        object = nullptr;
                     }
                 }
                 result = object;

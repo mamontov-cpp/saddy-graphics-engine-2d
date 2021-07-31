@@ -8,16 +8,16 @@
 #include "../gui/rectwidget/rectwidget.h"
 #include "../anglewidget/anglewidget.h"
 
-gui::uiblocks::UISceneNodeBlock::UISceneNodeBlock() : btnSceneNodeDelete(NULL),
-btnSceneNodeMoveFront(NULL),
-btnSceneNodeMoveBack(NULL),
-clpSceneNodeColor(NULL),
-rwSceneNodeRect(NULL),
-awSceneNodeAngle(NULL),
-cbSceneNodeVisible(NULL),
-txtObjectName(NULL),
-btnSceneNodeSpanBetweenTwoPoints(NULL),
-btnSceneNodeCopySizeAndPosition(NULL)
+gui::uiblocks::UISceneNodeBlock::UISceneNodeBlock() : btnSceneNodeDelete(nullptr),
+btnSceneNodeMoveFront(nullptr),
+btnSceneNodeMoveBack(nullptr),
+clpSceneNodeColor(nullptr),
+rwSceneNodeRect(nullptr),
+awSceneNodeAngle(nullptr),
+cbSceneNodeVisible(nullptr),
+txtObjectName(nullptr),
+btnSceneNodeSpanBetweenTwoPoints(nullptr),
+btnSceneNodeCopySizeAndPosition(nullptr)
 {
 
 }

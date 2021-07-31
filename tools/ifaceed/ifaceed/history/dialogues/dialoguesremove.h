@@ -13,7 +13,7 @@ namespace history
 namespace dialogues
 {
 
-/*! \class history::dialogues::New
+/*! \class history::dialogues::Remove
  *   A simple command for removing a new way to list
  */
 class Remove: public history::Command
@@ -26,15 +26,15 @@ public:
     Remove(sad::dialogue::Dialogue* w, int pos);
     /*! Could be inherited
      */
-    virtual ~Remove();
+    virtual ~Remove() override;
     /*! Makes way inactive, removes it from list
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Makes way active, adds it to list
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! A removed dialogue
      */

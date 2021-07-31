@@ -25,15 +25,15 @@ public:
      NewProperty(gui::table::Delegate* d);
      /*! Erases link to a property
       */
-     virtual ~NewProperty();
+     virtual ~NewProperty() override;
      /** Applies changes, described in command
          \param[in] ob an observer for looking for command
       */
-     virtual void commit(core::Editor * ob = NULL);
+     virtual void commit(core::Editor * ob = nullptr) override;
      /** Reverts changes, described in command
          \param[in] ob an observer for looking for command
       */
-     virtual void rollback(core::Editor * ob = NULL);
+     virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! A linked property copy for database
      */

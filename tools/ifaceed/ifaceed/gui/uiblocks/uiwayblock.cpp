@@ -7,19 +7,19 @@
 #include <QCheckBox>
 #include <QPushButton>
 
-gui::uiblocks::UIWayBlock::UIWayBlock() : lstWays(NULL),
-txtWayName(NULL),
-dsbWayTotalTime(NULL),
-cbWayClosed(NULL),
-btnWayAdd(NULL),
-btnWayRemove(NULL),
-lstWayPoints(NULL),
-dsbWayPointX(NULL),
-dsbWayPointY(NULL),
-btnWayPointAdd(NULL),
-btnWayPointRemove(NULL),
-btnWayPointMoveBack(NULL),
-btnWayPointMoveFront(NULL)
+gui::uiblocks::UIWayBlock::UIWayBlock() : lstWays(nullptr),
+txtWayName(nullptr),
+dsbWayTotalTime(nullptr),
+cbWayClosed(nullptr),
+btnWayAdd(nullptr),
+btnWayRemove(nullptr),
+lstWayPoints(nullptr),
+dsbWayPointX(nullptr),
+dsbWayPointY(nullptr),
+btnWayPointAdd(nullptr),
+btnWayPointRemove(nullptr),
+btnWayPointMoveBack(nullptr),
+btnWayPointMoveFront(nullptr)
 {
 
 }

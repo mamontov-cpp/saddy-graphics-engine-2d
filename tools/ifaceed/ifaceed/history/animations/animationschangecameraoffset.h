@@ -20,10 +20,10 @@ class ChangeCameraOffset: public history::animations::ChangeProperty<sad::Point2
 public:
      /*! Constructs new command for animation
         \param[in] d an animation
-        \param[in] oldvalue old value
-        \param[in] newvalue new value
+        \param[in] old_value old value
+        \param[in] new_value new value
       */
-    ChangeCameraOffset(sad::animations::Animation* d, const sad::Point2D& oldvalue, const sad::Point2D& newvalue);
+    ChangeCameraOffset(sad::animations::Animation* d, const sad::Point2D& old_value, const sad::Point2D& new_value);
     /*! Erases link to an animation
       */
     virtual ~ChangeCameraOffset();
@@ -33,7 +33,7 @@ protected:
      * \param[in] e editor
      * \param[in] value a value
      */
-    virtual void updateUI(core::Editor* e, const sad::Point2D& value);
+    virtual void updateUI(core::Editor* e, const sad::Point2D& value) override;
 };
 
 }

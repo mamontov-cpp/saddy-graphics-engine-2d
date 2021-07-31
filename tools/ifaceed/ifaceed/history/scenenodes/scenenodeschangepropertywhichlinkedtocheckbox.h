@@ -5,6 +5,7 @@
  */
 #pragma once
 #include "scenenodeschangeproperty.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QCheckBox>
 
 namespace history
@@ -22,15 +23,15 @@ public:
         \param[in] cb a checkbox
         \param[in] d a node
         \param[in] property a property name
-        \param[in] oldvalue old value of property
-        \param[in] newvalue new value of property
+        \param[in] old_value old value of property
+        \param[in] new_value new value of property
       */
     ChangePropertyWhichLinkedToCheckbox(
         QCheckBox* cb,
         sad::SceneNode* d,
         const sad::String& property,
-        bool oldvalue,
-        bool newvalue
+        bool old_value,
+        bool new_value
     );
 
     /*! Could be inherited
@@ -45,7 +46,7 @@ protected:
      * \param e editor
      * \param value a value of property
      */
-    virtual void updateUI(core::Editor* e, const bool& value);
+    virtual void updateUI(core::Editor* e, const bool& value) override;
 };
 
 }

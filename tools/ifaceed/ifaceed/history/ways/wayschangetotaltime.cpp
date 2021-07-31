@@ -15,15 +15,15 @@
 
 history::ways::ChangeTotalTime::ChangeTotalTime(
     sad::p2d::app::Way* d,
-    double oldvalue,
-    double newvalue
+    double old_value,
+    double new_value
 
 )
 : history::ways::ChangeProperty<double>(
       d,
       "totaltime",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
 }

@@ -6,6 +6,7 @@
 #pragma once
 #include "animationschangeproperty.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../../gui/colorview/colorview.h"
 
 namespace history
@@ -20,17 +21,17 @@ class ChangeColorColor: public history::animations::ChangeProperty<sad::AColor>
 public:
      /*! Constructs new command for animation
          \param[in] d an animation
-         \param[in] propertyname a name for property
+         \param[in] property_name a name for property
          \param[in] view a view, that should be updated
-         \param[in] oldvalue old value
-         \param[in] newvalue new value
+         \param[in] old_value old value
+         \param[in] new_value new value
       */
     ChangeColorColor(
         sad::animations::Animation* d, 
-        const sad::String& propertyname,
+        const sad::String& property_name,
         gui::colorview::ColorView* view, 
-        const sad::AColor& oldvalue, 
-        const sad::AColor& newvalue
+        const sad::AColor& old_value, 
+        const sad::AColor& new_value
     );
     /*! Erases link to an animation
       */
@@ -41,7 +42,7 @@ protected:
      * \param[in] e editor
      * \param[in] value a value
      */
-    virtual void updateUI(core::Editor* e, const sad::AColor& value);
+    virtual void updateUI(core::Editor* e, const sad::AColor& value) override;
     /*! A color view, which should be updated
      */
     gui::colorview::ColorView* m_view;

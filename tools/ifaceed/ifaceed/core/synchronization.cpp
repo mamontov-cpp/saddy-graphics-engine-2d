@@ -1,66 +1,63 @@
 #include "synchronization.h"
 
 core::Synchronization::Synchronization()
-: m_waitforsaddy(false), m_waitformain(false),
-  m_waitforsaddylock(QReadWriteLock::Recursive),
-  m_waitformainlock(QReadWriteLock::Recursive)
+: m_wait_for_saddy(false), m_wait_for_main(false),
+  m_wait_for_saddy_lock(QReadWriteLock::Recursive),
+  m_wait_for_main_lock(QReadWriteLock::Recursive)
 {
 
 }
 
-core::Synchronization::~Synchronization()
-{
-
-}
+core::Synchronization::~Synchronization() = default;
 
 void core::Synchronization::startSynchronizationWithMainThread()
 {
-    m_waitformainlock.lockForWrite();
-    m_waitformain = true;
-    m_waitformainlock.unlock();
+    m_wait_for_main_lock.lockForWrite();
+    m_wait_for_main = true;
+    m_wait_for_main_lock.unlock();
 }
 
 void core::Synchronization::startSynchronizationWithSaddyThread()
 {
-    m_waitforsaddylock.lockForWrite();
-    m_waitforsaddy = true;
-    m_waitforsaddylock.unlock();
+    m_wait_for_saddy_lock.lockForWrite();
+    m_wait_for_saddy = true;
+    m_wait_for_saddy_lock.unlock();
 }
 
 void core::Synchronization::waitForSaddyThread()
 {
-    bool shouldwait = true;
-    while(shouldwait)
+    bool should_wait = true;
+    while (should_wait)
     {
-        m_waitforsaddylock.lockForRead();
-        shouldwait = m_waitforsaddy;
-        m_waitforsaddylock.unlock();
+        m_wait_for_saddy_lock.lockForRead();
+        should_wait = m_wait_for_saddy;
+        m_wait_for_saddy_lock.unlock();
     }
 }
 
 void core::Synchronization::waitForMainThread()
 {
-    bool shouldwait = true;
-    while(shouldwait)
+    bool should_wait = true;
+    while (should_wait)
     {
-        m_waitformainlock.lockForRead();
-        shouldwait = m_waitformain;
-        m_waitformainlock.unlock();
+        m_wait_for_main_lock.lockForRead();
+        should_wait = m_wait_for_main;
+        m_wait_for_main_lock.unlock();
     }
 }
 
 void core::Synchronization::awakeMainThread()
 {
-    m_waitforsaddylock.lockForWrite();
-    m_waitforsaddy = false;
-    m_waitforsaddylock.unlock();
+    m_wait_for_saddy_lock.lockForWrite();
+    m_wait_for_saddy = false;
+    m_wait_for_saddy_lock.unlock();
 }
 
 void core::Synchronization::awakeSaddyThread()
 {
-    m_waitformainlock.lockForWrite();
-    m_waitformain = false;
-    m_waitformainlock.unlock();
+    m_wait_for_main_lock.lockForWrite();
+    m_wait_for_main = false;
+    m_wait_for_main_lock.unlock();
 }
 
 

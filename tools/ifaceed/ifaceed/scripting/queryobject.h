@@ -15,7 +15,7 @@ namespace scripting
 {
 /*! Queries object by name or by major id, depending from name
     \param[in] v value
-    \return NULL if not found
+    \return nullptr if not found
  */
 sad::db::Object* query_object(const QVariant& v);
 

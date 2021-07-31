@@ -22,15 +22,15 @@
 history::groups::ChangeName::ChangeName(
     sad::animations::Group* d,
     int position, 
-    const sad::String& oldvalue,
-    const sad::String& newvalue
+    const sad::String& old_value,
+    const sad::String& new_value
 
 )
 : history::groups::ChangeProperty<sad::String>(
       d,
       "name",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 ), m_position(position), m_should_update_ui(true)
 {
 }

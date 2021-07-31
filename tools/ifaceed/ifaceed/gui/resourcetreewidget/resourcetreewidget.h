@@ -4,6 +4,7 @@
     Describes a widget, which displays a resource tree from a renderer, by it's value
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QWidget>
 #include <QTreeWidget>
 #include <QTableWidget>
@@ -29,7 +30,7 @@ signals:
 public: 
     /*! Constructs new resource tree widget 
      */
-    ResourceTreeWidget(QWidget * parent = NULL);
+    ResourceTreeWidget(QWidget * parent = nullptr);
     /*! Destroys data from a widget
      */
     ~ResourceTreeWidget();
@@ -37,22 +38,22 @@ public:
         \return a resource cache for a widget
      */
     gui::resourcetreewidget::ResourceCache * cache();
-    /*! Returns padding between two subwidgets
-        \return padding between two subwidgets
+    /*! Returns padding between two sub-widgets
+        \return padding between two sub-widgets
      */
     double padding() const;
-    /*! Sets padding between two subwidgets
-        \return padding between two subwidgets
+    /*! Sets padding between two sub-widgets
+        \return padding between two sub-widgets
      */
     void setPadding(double padding);
     /*! Sets tree, which is being displayed in widget
      */
     void setTree(const QString & name);
-    /*! Returns a tree, which is beign displayed in widget
+    /*! Returns a tree, which is being displayed in widget
      */
     const QString & tree() const;
     /*! Sets filter for a resource tree widget
-        \param[in] filter a flter for a tree
+        \param[in] filter a filter for a tree
      */
     void setFilter(const QString & filter);
     /*! Returns a filter for a widget
@@ -92,25 +93,25 @@ protected slots:
     void  elementItemChanged(QTableWidgetItem * current, QTableWidgetItem * previous);
 protected:
     /*! Populates tree with an items
-        \param[in, out] parentitem a parent item for widget
-        \param[in] parentfolder a folder
+        \param[in, out] parent_item a parent item for widget
+        \param[in] parent_folder a folder
         \param[in] suitability a suitability map
      */
     void populateTree(
-        QTreeWidgetItem* parentitem, 
-        sad::resource::Folder* parentfolder,
+        QTreeWidgetItem* parent_item, 
+        sad::resource::Folder* parent_folder,
         const  QHash<sad::resource::Folder*, bool>& suitability
     );
     /*! Seeks suitable folders, which has resources of specified types
-        \param[in] currentfolder a folder to be scanned
+        \param[in] current_folder a folder to be scanned
         \param[in] suitability a suitability map
         \return whether folder has suitable assets
      */ 
     bool findSuitableFolders(
-        sad::resource::Folder* currentfolder,
+        sad::resource::Folder* current_folder,
         QHash<sad::resource::Folder*, bool>& suitability
     );
-    /*! Returns seletected folder for item
+    /*! Returns selected folder for item
         \param[in] item item to be selected
         \return value
      */
@@ -120,20 +121,20 @@ protected:
     sad::Maybe<sad::String> selectedLocalPathToResource() const;
     /*! Tries to restore selection in resource tree widget
         \param[in] folder a folder to restore
-        \param[in] resourcelocal a local resource name
+        \param[in] resource_local a local resource name
      */
     void tryRestoreSelection(
         const sad::Maybe<sad::String> & folder,
-        const sad::Maybe<sad::String> & resourcelocal
+        const sad::Maybe<sad::String> & resource_local
     );
     /*! Handles resize, resizing elements
         \param[in] e event
      */
-    virtual void resizeEvent( QResizeEvent * e );
+    virtual void resizeEvent( QResizeEvent * e ) override;
     /*! Handles movement, moving elements
         \param[in] e event
      */
-    virtual void moveEvent( QMoveEvent * e );
+    virtual void moveEvent( QMoveEvent * e ) override;
     /*! Resizes widgets, making them fit to tree
         \param[in] r a rectangle
      */

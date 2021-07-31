@@ -15,15 +15,15 @@
 
 history::animations::ChangeBlinkingFrequency::ChangeBlinkingFrequency(
     sad::animations::Animation* d,
-    unsigned int oldvalue,
-    unsigned int newvalue
+    unsigned int old_value,
+    unsigned int new_value
 
 )
 : history::animations::ChangeProperty<unsigned int>(
       d,
       "frequency",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
 }

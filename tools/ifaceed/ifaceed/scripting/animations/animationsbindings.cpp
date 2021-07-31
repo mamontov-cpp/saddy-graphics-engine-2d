@@ -524,10 +524,10 @@ dukpp03::qt::JSObject* scripting::animations::init(scripting::Scripting* s, dukp
         "TextureCoordinatesContinuous",
         "Typing",
         "WayMoving",
-        NULL
+        nullptr
     };
     int i = 0;
-    while (names[i] != NULL)
+    while (names[i] != nullptr)
     {
         QString kadd = templateanimationadd;
         kadd.replace("{CLASSNAME}", names[i]);

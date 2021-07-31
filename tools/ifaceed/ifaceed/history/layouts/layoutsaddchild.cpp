@@ -20,8 +20,8 @@ history::layouts::AddChild::AddChild(
     size_t row,
     size_t column,
     sad::SceneNode* node,
-    const sad::Rect2D& oldarea
-) : m_grid(d), m_row(row), m_column(column), m_node(node), m_oldarea(oldarea)
+    const sad::Rect2D& old_area
+) : m_grid(d), m_row(row), m_column(column), m_node(node), m_old_area(old_area)
 {
     m_grid->addRef();;
     m_node->addRef();
@@ -78,7 +78,7 @@ void history::layouts::AddChild::_rollback(core::Editor* ob)
     sad::layouts::Cell* cell = m_grid->cell(m_row, m_column);
     size_t last_child_pos = cell->childrenCount() - 1;
     cell->removeChild(last_child_pos);
-    m_node->setProperty("area", m_oldarea);
+    m_node->setProperty("area", m_old_area);
     if (ob->shared()->selectedObject() == m_node)
     {
         ob->actions()->sceneNodeActions()->updateRegionForNode();

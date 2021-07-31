@@ -9,7 +9,7 @@
 
 class Game;
 
-/*! Descibes a rain of objects in start screen
+/*! Describes a rain of objects in start screen
  */ 
 class StartScreenRain: public sad::PeriodicalEvent
 {
@@ -18,14 +18,14 @@ class StartScreenRain: public sad::PeriodicalEvent
 
      /*! Adds a new objects
       */
-     virtual void perform();
+     virtual void perform() override;
  public:
      /*! Creates new rain, linked to specified game
       */
      StartScreenRain(Game * g);
      /*! Must be implemented to prevent memory leak
       */ 
-     virtual ~StartScreenRain();
+     virtual ~StartScreenRain() override;
 };
 
 

@@ -19,7 +19,7 @@ public:
     /*! Makes new children provider with specified proxy
         \param proxy a linked proxy
      */
-    ChildrenProvider(MainPanelProxy* proxy = NULL);
+    ChildrenProvider(MainPanelProxy* proxy = nullptr);
     /*! Sets proxy for provider
         \param[in] p proxy
      */
@@ -31,11 +31,11 @@ public:
         \param[in] node a node
         \return name
      */
-    virtual QString name(sad::SceneNode* node);
+    virtual QString name(sad::SceneNode* node) override;
     /*! Returns a list of possible children
         \return list of children
      */
-    virtual QVector<QPair<QString, unsigned long long> > possibleChildren();
+    virtual QVector<QPair<QString, unsigned long long> > possibleChildren() override;
     /*! Same as possible children - just a list of nodes
         \return list of nodes
      */

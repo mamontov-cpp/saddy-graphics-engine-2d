@@ -27,7 +27,7 @@ public:
     /*! Creates new dialogue actions
         \param[in] parent a parent object
      */
-    DialogueActions(QObject* parent = NULL);
+    DialogueActions(QObject* parent = nullptr);
     /*! This class could be inherited
      */
     virtual ~DialogueActions();
@@ -41,71 +41,71 @@ public:
     /*! Adds a command if needed, that phrase text is changed
         \param[in] d dialogue
         \param[in] pos position of phrase
-        \param[in] newvalue new value
-        \param[in] fromeditor whether it's done from editor
+        \param[in] new_value new value
+        \param[in] from_editor whether it's done from editor
      */
     void changePhraseText(
         sad::dialogue::Dialogue* d, 
         int pos, 
-        const sad::String& newvalue, 
-        bool fromeditor
+        const sad::String& new_value, 
+        bool from_editor
     );
     /*! Adds a command if needed, that phrase duration is changed
         \param[in] d dialogue
         \param[in] pos position of phrase
-        \param[in] newvalue new value
-        \param[in] fromeditor whether it's done from editor
+        \param[in] new_value new value
+        \param[in] from_editor whether it's done from editor
      */
     void changePhraseDuration(
         sad::dialogue::Dialogue* d, 
         int pos, 
-        double newvalue, 
-        bool fromeditor
+        double new_value, 
+        bool from_editor
     );
     /*! Adds a command if needed, that phrase actor name is changed
         \param[in] d dialogue
         \param[in] pos position of phrase
-        \param[in] newvalue new value
-        \param[in] fromeditor whether it's done from editor
+        \param[in] new_value new value
+        \param[in] from_editor whether it's done from editor
      */
     void changePhraseActorName(
         sad::dialogue::Dialogue* d, 
         int pos, 
-        const sad::String& newvalue, 
-        bool fromeditor
+        const sad::String& new_value, 
+        bool from_editor
     );
     /*! Adds a command if needed, that phrase actor portrait is changed
         \param[in] d dialogue
         \param[in] pos position of phrase
-        \param[in] newvalue new value
-        \param[in] fromeditor whether it's done from editor
+        \param[in] new_value new value
+        \param[in] from_editor whether it's done from editor
      */
     void changePhraseActorPortrait(
         sad::dialogue::Dialogue* d, 
         int pos, 
-        const sad::String& newvalue, 
-        bool fromeditor
+        const sad::String& new_value, 
+        bool from_editor
     );
     /*! Adds a command if needed, that phrase view hint is changed
         \param[in] d dialogue
         \param[in] pos position of phrase
-        \param[in] newvalue new value
-        \param[in] fromeditor whether it's done from editor
+        \param[in] new_value new value
+        \param[in] from_editor whether it's done from editor
      */
     void changePhraseViewHint(
         sad::dialogue::Dialogue* d, 
         int pos, 
-        const sad::String& newvalue, 
-        bool fromeditor
+        const sad::String& new_value, 
+        bool from_editor
     );
     /*! Removes a dialogue from database
         \param[in] d dialogue
-        \param[in] fromeditor whether it's being removed from editor
+        \param[in] from_editor whether it's being removed from editor
         \param[in] row a row, where is dialogue located (-1 for custom)
      */
     void removeDialogueFromDatabase(
         sad::dialogue::Dialogue* d,
-        bool fromeditor,
+        bool from_editor,
         int row = -1
     );
     /*! Adds last dialogue to end of items
@@ -181,21 +181,21 @@ public slots:
      */
     void phraseTextChanged();
     /*! Called, when user changes duration
-        \param[in] newvalue new value for duration
+        \param[in] new_value new value for duration
      */
-    void durationChanged(double newvalue);
+    void durationChanged(double new_value);
     /*! Called, when user changes actor name
-        \param[in] newvalue new value for actor name
+        \param[in] new_value new value for actor name
      */
-    void actorNameChanged(const QString& newvalue);
+    void actorNameChanged(const QString& new_value);
     /*! Called, when user changes actor portrait
-        \param[in] newvalue new value for actor portrait
+        \param[in] new_value new value for actor portrait
      */
-    void actorPortraitChanged(const QString& newvalue);
+    void actorPortraitChanged(const QString& new_value);
     /*! Called, when user changes view hint
-        \param[in] newvalue new value for view hint
+        \param[in] new_value new value for view hint
      */
-    void viewHintChanged(const QString& newvalue);
+    void viewHintChanged(const QString& new_value);
 };
 
 }

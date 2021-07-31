@@ -22,7 +22,7 @@ namespace gui
 
 /*!
  * \class EventFilter
- * An eventfilter used to react
+ * An event filter used to react
  * to global hot keys in application, like
  * pressing Ctrl+Z, Ctrl+R, Ctrl+1,2,3,4,5,6 and
  * Ctrl+F1 and Ctrl+F2 in future
@@ -34,7 +34,7 @@ public:
     /*! Creates new event filter
         \param[in] parent a parent object
      */
-    explicit EventFilter(QObject *parent = 0);
+    explicit EventFilter(QObject *parent = nullptr);
     /*!
      * Sets editor for event filter
      * \param e editor
@@ -46,7 +46,7 @@ public:
      * \param[in] e an event
      * \return whether event is handled
      */
-    virtual bool eventFilter(QObject *o, QEvent *e);
+    virtual bool eventFilter(QObject *o, QEvent *e) override;
 protected:
     /*!
      * A linked editor

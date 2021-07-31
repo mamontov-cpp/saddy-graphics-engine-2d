@@ -76,10 +76,10 @@ unsigned long long scripting::scenenodes::_addLabel(
     scripting::Scripting* scripting,
     sad::Scene* scene,
     sad::String resource,
-    unsigned int fontsize,
+    unsigned int font_size,
     sad::String text,
     sad::String name,
-    sad::Point2D topleftpoint,
+    sad::Point2D top_left_point,
     sad::AColor clr
 )
 {
@@ -104,10 +104,10 @@ unsigned long long scripting::scenenodes::_addLabel(
 
     sad::Renderer::ref()->lockRendering();
 
-    sad::Label* label = new sad::Label(resource, topleftpoint, text, "");
+    sad::Label* label = new sad::Label(resource, top_left_point, text, "");
     label->setObjectName(name);
     label->setColor(clr);
-    label->setSize(fontsize);
+    label->setSize(font_size);
 
     scene->add(label);
     sad::Renderer::ref()->database("")->table("scenenodes")->add(label);
@@ -186,7 +186,7 @@ unsigned long long scripting::scenenodes::_addCustomObject(
     sad::Scene* scene,
     sad::String resource,
     sad::String name,
-    unsigned int fontsize,
+    unsigned int font_size,
     sad::String text,
     sad::Rect2D rect,
     sad::AColor clr
@@ -227,7 +227,7 @@ unsigned long long scripting::scenenodes::_addCustomObject(
 
     obj->setSchemaName(resource);
     obj->setObjectName(name);
-    obj->setFontSize(fontsize);
+    obj->setFontSize(font_size);
     obj->setString(text);
     obj->setArea(rect);
     obj->setColor(clr);

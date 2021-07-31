@@ -14,15 +14,15 @@
 
 history::animations::ChangeTime::ChangeTime(
     sad::animations::Animation* d,
-    double oldvalue,
-    double newvalue
+    double old_value,
+    double new_value
 
 )
 : history::animations::ChangeProperty<double>(
       d,
       "time",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
 }

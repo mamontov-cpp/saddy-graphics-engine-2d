@@ -11,9 +11,9 @@
 
 history::animations::ChangeEasingPeriod::ChangeEasingPeriod(
     sad::animations::Animation* d,
-    double oldvalue,
-    double newvalue
-) : history::animations::ChangeEasingProperty<double>(d, &sad::animations::easing::Function::setPeriod, oldvalue, newvalue)
+    double old_value,
+    double new_value
+) : history::animations::ChangeEasingProperty<double>(d, &sad::animations::easing::Function::setPeriod, old_value, new_value)
 {
 
 }

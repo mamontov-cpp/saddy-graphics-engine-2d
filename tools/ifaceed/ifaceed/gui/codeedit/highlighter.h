@@ -4,6 +4,7 @@
     Describes a highlighter, based on QScriptSyntaxHighlighter, but with
     custom functions and words highlighting
  */
+#pragma once
 #include <QtCore/qglobal.h>
 
 #include <QtGui/qsyntaxhighlighter.h>
@@ -22,10 +23,10 @@ class Highlighter : public QSyntaxHighlighter
 public:
     /*! Constructs new highlighter 
      */
-    Highlighter(QTextDocument *document = 0);
+    Highlighter(QTextDocument *document = nullptr);
     /*! Could be inherited
      */
-    virtual ~Highlighter();
+    virtual ~Highlighter() override;
     /*! Sets predefined constants
         \param[in] list a list
      */
@@ -40,9 +41,9 @@ public:
     );
 protected:
     /*! Highlights block
-        \param[in] text
+        \param[in] text a text to highlight
      */
-    void highlightBlock(const QString &text);
+    void highlightBlock(const QString &text) override;
 private:
     /*! Highlights specific word
         \param[in] currentPos current position
@@ -50,7 +51,7 @@ private:
      */
     void highlightWord(int currentPos, const QString &buffer);
 
-    enum ScriptFormats {
+    enum ScriptFormats  {
         ScriptTextFormat, ScriptNumberFormat,
         ScriptStringFormat, ScriptTypeFormat,
         ScriptKeywordFormat, ScriptPreprocessorFormat,

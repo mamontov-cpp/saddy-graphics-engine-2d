@@ -14,15 +14,15 @@
 
 history::animations::ChangeShakingFrequency::ChangeShakingFrequency(
     sad::animations::Animation* d,
-    int oldvalue,
-    int newvalue
+    int old_value,
+    int new_value
 
 )
 : history::animations::ChangeProperty<int>(
       d,
       "frequency",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
 }

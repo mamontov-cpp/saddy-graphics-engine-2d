@@ -15,15 +15,15 @@
 
 history::animations::ChangeCameraPivot::ChangeCameraPivot(
     sad::animations::Animation* d,
-    const sad::Point3D& oldvalue,
-    const sad::Point3D& newvalue
+    const sad::Point3D& old_value,
+    const sad::Point3D& new_value
 
 )
 : history::animations::ChangeProperty<sad::Point3D>(
       d,
       "pivot",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
 }

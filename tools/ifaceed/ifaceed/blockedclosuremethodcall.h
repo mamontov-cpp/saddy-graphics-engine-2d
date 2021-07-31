@@ -29,14 +29,14 @@ public:
     /*!
      * Can be inherited
      */
-    virtual ~BlockedClosureMethodCall0()
+    virtual ~BlockedClosureMethodCall0() override
     {
 
     }
     /*!
      * Invokes method
      */
-    virtual void run()
+    virtual void run() override
     {
         bool b = m_o->blockSignals(true);
         (m_o->*m_f)();
@@ -78,14 +78,14 @@ public:
     /*!
      * Can be inherited
      */
-    virtual ~BlockedClosureMethodCall1()
+    virtual ~BlockedClosureMethodCall1() override
     {
 
     }
     /*!
      * Invokes method
      */
-    virtual void run()
+    virtual void run() override
     {
         bool b = m_o->blockSignals(true);
         (m_o->*m_f)(m_a);

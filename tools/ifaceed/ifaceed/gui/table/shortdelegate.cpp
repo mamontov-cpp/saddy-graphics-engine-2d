@@ -38,15 +38,15 @@ void gui::table::ShortDelegate::set(const sad::db::Variant& v)
 
 void gui::table::ShortDelegate::widgetChanged(int i)
 {
-    short oldvalue = this->currentValue<short>();
+    short old_value = this->currentValue<short>();
     if (this->isLinkedToDatabase())
     {
-        m_editor->history()->add(new history::database::ChangeProperty<short>(oldvalue, i, this));
+        m_editor->history()->add(new history::database::ChangeProperty<short>(old_value, i, this));
     }
     else
     {
         m_editor->history()->add( 
-            new history::customobject::ChangeProperty<short>(m_object, Q2STDSTRING(m_property_name), oldvalue, i)
+            new history::customobject::ChangeProperty<short>(m_object, Q2STDSTRING(m_property_name), old_value, i)
         );
     }
     this->setCurrentValue<short>(i);

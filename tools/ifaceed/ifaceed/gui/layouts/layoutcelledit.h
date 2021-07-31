@@ -55,10 +55,10 @@ public:
     /*! Constructs new editor
         \param[in] parent a parent widget
      */
-    LayoutCellEdit(QWidget* parent = 0);
+    LayoutCellEdit(QWidget* parent = nullptr);
     /*! This class could be inherited
      */
-    virtual ~LayoutCellEdit();
+    virtual ~LayoutCellEdit() override;
     /*! A row for a cell editor in source grid
      */
     size_t Row;
@@ -73,7 +73,7 @@ public:
     /*! Returns size hint
         \return size hint
      */
-    virtual QSize sizeHint() const;
+    virtual QSize sizeHint() const override;
     /*! Whether cell is checked for split/merge
         \return whether it's checked
      */
@@ -166,64 +166,64 @@ signals:
     /*! Emitted, when width is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value for width
+        \param[in] new_value a new value for width
      */
-    void widthChanged(size_t row, size_t col, sad::layouts::LengthValue newvalue);
+    void widthChanged(size_t row, size_t col, sad::layouts::LengthValue new_value);
     /*! Emitted, when width is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value for width
+        \param[in] new_value a new value for width
      */
-    void heightChanged(size_t row, size_t col, sad::layouts::LengthValue newvalue);
+    void heightChanged(size_t row, size_t col, sad::layouts::LengthValue new_value);
     /*! Emitted, when horizontal alignment is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value for horizontal alignment
+        \param[in] new_value a new value for horizontal alignment
      */
-    void horizontalAlignmentChanged(size_t row, size_t col, sad::layouts::HorizontalAlignment newvalue);
+    void horizontalAlignmentChanged(size_t row, size_t col, sad::layouts::HorizontalAlignment new_value);
     /*! Emitted, when vertical alignment is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value for vertical alignment
+        \param[in] new_value a new value for vertical alignment
      */
-    void verticalAlignmentChanged(size_t row, size_t col, sad::layouts::VerticalAlignment newvalue);
+    void verticalAlignmentChanged(size_t row, size_t col, sad::layouts::VerticalAlignment new_value);
     /*! Emitted, when stacking type is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value for stacking type
+        \param[in] new_value a new value for stacking type
      */
-    void stackingTypeChanged(size_t row, size_t col, sad::layouts::StackingType newvalue);
+    void stackingTypeChanged(size_t row, size_t col, sad::layouts::StackingType new_value);
     /*! Emitted, when top padding is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void topPaddingChanged(size_t row, size_t col, double newvalue);
+    void topPaddingChanged(size_t row, size_t col, double new_value);
     /*! Emitted, when bottom padding is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void bottomPaddingChanged(size_t row, size_t col, double newvalue);
+    void bottomPaddingChanged(size_t row, size_t col, double new_value);
     /*! Emitted, when left padding is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void leftPaddingChanged(size_t row, size_t col, double newvalue);
+    void leftPaddingChanged(size_t row, size_t col, double new_value);
     /*! Emitted, when right padding is changed
         \param[in] row a row
         \param[in] col a column
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void rightPaddingChanged(size_t row, size_t col, double newvalue);
+    void rightPaddingChanged(size_t row, size_t col, double new_value);
     /*! Emitted, when child is added
         \param[in] row a row
         \param[in] col a column
         \param[in] majorid a major id 
-        \param[in] nodename a name for a node
+        \param[in] node_name a name for a node
      */
-    void childAdded(size_t row, size_t col, unsigned long long majorid, QString nodename);
+    void childAdded(size_t row, size_t col, unsigned long long majorid, QString node_name);
     /*! Emitted, when child is removed
         \param[in] row a row
         \param[in] col a column
@@ -244,17 +244,17 @@ signals:
     void childrenSwapped(size_t row, size_t col, size_t pos1, size_t pos2);
 public slots:
     /*! Called, when width value changed
-        \param[in] newvalue a new value for cell
+        \param[in] new_value a new value for cell
      */
-    void widthValueChanged(double newvalue);
+    void widthValueChanged(double new_value);
     /*! Called, when width unit changed
         \param[in] unit a new unit for cell
      */
     void widthUnitChanged(int unit);
     /*! Called, when height value changed
-        \param[in] newvalue a new height value for cell
+        \param[in] new_value a new height value for cell
      */
-    void heightValueChanged(double newvalue);
+    void heightValueChanged(double new_value);
     /*! Called, when height unit changed
         \param[in] unit a new unit for cell
      */
@@ -272,21 +272,21 @@ public slots:
      */
     void stackingTypeValueChanged(int v);
     /*! Called, when top padding value changed
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void topPaddingValueChanged(double newvalue);
+    void topPaddingValueChanged(double new_value);
     /*! Called, when bottom padding value changed
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void bottomPaddingValueChanged(double newvalue);
+    void bottomPaddingValueChanged(double new_value);
     /*! Called, when left padding value changed
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void leftPaddingValueChanged(double newvalue);
+    void leftPaddingValueChanged(double new_value);
     /*! Called, when right padding value changed
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void rightPaddingValueChanged(double newvalue);
+    void rightPaddingValueChanged(double new_value);
     /*! Called, when "Add" button is clicked
      */
     void addChildClicked();
@@ -318,10 +318,10 @@ protected:
     /*! A widget for height unit
      */
     QComboBox* m_height_unit;
-    /*! A widget for vertical alignmet
+    /*! A widget for vertical alignment
      */
     QComboBox* m_vertical_alignment;
-    /*! A widget for horizontal alignmet
+    /*! A widget for horizontal alignment
      */
     QComboBox* m_horizontal_alignment;
     /*! A widget for stacking type

@@ -13,17 +13,17 @@
 
 history::animations::ChangeRect::ChangeRect(
     sad::animations::Animation* d,
-    const sad::String& propertyname,
+    const sad::String& property_name,
     gui::rectwidget::RectWidget* view,
-    const sad::Rect2D& oldvalue,
-    const sad::Rect2D& newvalue
+    const sad::Rect2D& old_value,
+    const sad::Rect2D& new_value
 
 )
 : history::animations::ChangeProperty<sad::Rect2D>(
       d,
-      propertyname,
-      oldvalue,
-      newvalue
+      property_name,
+      old_value,
+      new_value
 ), m_view(view)
 {
 }

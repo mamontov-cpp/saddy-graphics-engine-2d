@@ -69,7 +69,7 @@ Q_DECLARE_METATYPE(sad::animations::Group*) //-V566
 //====================  PUBLIC METHODS HERE ====================
 
 MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
-    : QMainWindow(parent, flags), m_selfchanged(false)
+    : QMainWindow(parent, flags), m_is_self_changed(false)
 {
     ui.setupUi(this);
 
@@ -100,7 +100,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
         ui.cmbLabelTextEllipsis,
         ui.cmbLabelOverflowStrategyForLines,
         ui.cmbLabelTextEllipsisForLines,
-        NULL
+        nullptr
     };
     size_t i = 0; 
     while(list[i] != 0)
@@ -168,7 +168,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
         "InBounce",
         "OutBounce",
         "InOutBounce",
-        NULL
+        nullptr
     };
     i = 0;
     while(easing_function_types[i]) {        
@@ -176,7 +176,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
         ++i;
     }
 
-    m_offsets_window = new GridAndOffsets(NULL);
+    m_offsets_window = new GridAndOffsets(nullptr);
 
     scripting::database::initializeInvisiblePropertiesList();
 }
@@ -341,38 +341,38 @@ void MainPanel::setEditor(core::Editor* editor)
 
     // A bindings for idle state
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & (m * i),
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc & (m * i),
         m_editor->selection(),
         &core::Selection::cancelGridSelectionOrQuit
     );
 
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MousePress & sad::MouseLeft & (m * i),
+        *sad::input::EventType::ET_MousePress & sad::MouseButton::MouseLeft & (m * i),
         m_editor->selection(),
         &core::Selection::trySelect
     );
 
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & (m * i),
+        *sad::input::EventType::ET_KeyPress & (m * i),
         this,
         &MainPanel::onKeyPressedInIdleState
     );
 
     // A bindings for changing global offset
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseLeave & (m * cgo),
+        *sad::input::EventType::ET_MouseLeave & (m * cgo),
         this,
         &MainPanel::onWindowLeaveWhenChangingGlobalOffset
     );
 
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseMove & (m * cgo),
+        *sad::input::EventType::ET_MouseMove & (m * cgo),
         this,
         &MainPanel::onMouseMoveWhenChangingGlobalOffset
     );
 
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseRelease & (m * cgo),
+        *sad::input::EventType::ET_MouseRelease & (m * cgo),
         this,
         &MainPanel::onMouseReleaseWhenChangingGlobalOffset
     );
@@ -380,73 +380,73 @@ void MainPanel::setEditor(core::Editor* editor)
 
     // A bindings for moving object
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseMove & (m * sm),
+        *sad::input::EventType::ET_MouseMove & (m * sm),
         sn_actions,
         &gui::actions::SceneNodeActions::moveObject
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseRelease & (m * sm),
+        *sad::input::EventType::ET_MouseRelease & (m * sm),
         sn_actions,
         &gui::actions::SceneNodeActions::commitObjectMoving
     );
 
     // A bindings for resizing object
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseMove & (m * sr),
+        *sad::input::EventType::ET_MouseMove & (m * sr),
         sn_actions,
         &gui::actions::SceneNodeActions::resizeObject
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseRelease & (m * sr),
+        *sad::input::EventType::ET_MouseRelease & (m * sr),
         sn_actions,
         &gui::actions::SceneNodeActions::commitObjectResizing
     );
     
     // A bindings for selected node actions
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseWheel & (m * s),
+        *sad::input::EventType::ET_MouseWheel & (m * s),
         sn_actions,
         &gui::actions::SceneNodeActions::navigateOrRotate
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & (m * s),
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc & (m * s),
         sn_actions,
         &gui::actions::SceneNodeActions::cancelSelection
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MousePress & sad::MouseLeft & (m * s),
+        *sad::input::EventType::ET_MousePress & sad::MouseButton::MouseLeft & (m * s),
         m_editor->selection(),
         &core::Selection::trySelect
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & (m * s),
+        *sad::input::EventType::ET_KeyPress & (m * s),
         sn_actions,
         &gui::actions::SceneNodeActions::tryChangeAreaViaKeyPress
     );
 
     // A bindings for adding label
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & (m * la), 
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc & (m * la), 
         l_actions, 
         &gui::actions::LabelActions::cancelAddLabel
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseMove & (m * la),
+        *sad::input::EventType::ET_MouseMove & (m * la),
         l_actions,
         &gui::actions::LabelActions::moveLabel
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MousePress & sad::MouseLeft & (m * la),
+        *sad::input::EventType::ET_MousePress & sad::MouseButton::MouseLeft & (m * la),
         l_actions,
         &gui::actions::LabelActions::commitLabelAdd
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseWheel & (m * la),
+        *sad::input::EventType::ET_MouseWheel & (m * la),
         sn_actions,
         &gui::actions::SceneNodeActions::rotate
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & (m * la),
+        *sad::input::EventType::ET_KeyPress & (m * la),
         sn_actions,
         &gui::actions::SceneNodeActions::tryChangeAreaViaKeyPress
     );
@@ -454,269 +454,269 @@ void MainPanel::setEditor(core::Editor* editor)
 
     // A binding for adding sprite actions (just placing)
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & (m * ssa), 
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc & (m * ssa), 
         sp_actions, 
         &gui::actions::Sprite2DActions::cancelAddSprite
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseMove & (m * ssa),
+        *sad::input::EventType::ET_MouseMove & (m * ssa),
         sp_actions,
         &gui::actions::Sprite2DActions::moveCenterOfSprite
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MousePress & sad::MouseLeft & (m * ssa),
+        *sad::input::EventType::ET_MousePress & sad::MouseButton::MouseLeft & (m * ssa),
         sp_actions,
         &gui::actions::Sprite2DActions::commitAdd
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseWheel & (m * ssa),
+        *sad::input::EventType::ET_MouseWheel & (m * ssa),
         sn_actions,
         &gui::actions::SceneNodeActions::rotate
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & (m * ssa),
+        *sad::input::EventType::ET_KeyPress & (m * ssa),
         sn_actions,
         &gui::actions::SceneNodeActions::tryChangeAreaViaKeyPress
     );
 
     // A binding for adding sprite (after first click)
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & (m * sdap), 
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc & (m * sdap), 
         sp_actions, 
         &gui::actions::Sprite2DActions::cancelAddSprite
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MousePress & sad::MouseLeft & (m * sdap),
+        *sad::input::EventType::ET_MousePress & sad::MouseButton::MouseLeft & (m * sdap),
         sp_actions, 
         &gui::actions::Sprite2DActions::commitAdd
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseMove & (m * sdap),
+        *sad::input::EventType::ET_MouseMove & (m * sdap),
         sp_actions,
         &gui::actions::Sprite2DActions::moveLowerPointOfSprite
     );
 
     // A binding for adding sprite (when first click determines upper-left corner)
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & (m * sda), 
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc & (m * sda), 
         sp_actions, 
         &gui::actions::Sprite2DActions::cancelAddSprite
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MousePress & sad::MouseLeft & (m * sda),
+        *sad::input::EventType::ET_MousePress & sad::MouseButton::MouseLeft & (m * sda),
         sp_actions, 
         &gui::actions::Sprite2DActions::placeFirstPointForSprite
     );
 
     // A binding for adding custom object actions (just placing)
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & (m * coa), 
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc & (m * coa), 
         co_actions, 
         &gui::actions::CustomObjectActions::cancelAdd
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseMove & (m * coa),
+        *sad::input::EventType::ET_MouseMove & (m * coa),
         co_actions,
         &gui::actions::CustomObjectActions::moveCenterOfObject
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MousePress & sad::MouseLeft & (m * coa),
+        *sad::input::EventType::ET_MousePress & sad::MouseButton::MouseLeft & (m * coa),
         co_actions,
         &gui::actions::CustomObjectActions::commitAdd
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseWheel & (m * coa),
+        *sad::input::EventType::ET_MouseWheel & (m * coa),
         sn_actions,
         &gui::actions::SceneNodeActions::rotate
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & (m * coa),
+        *sad::input::EventType::ET_KeyPress & (m * coa),
         sn_actions,
         &gui::actions::SceneNodeActions::tryChangeAreaViaKeyPress
     );
 
     // A binding for adding sprite (after first click)
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & (m * coadp), 
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc & (m * coadp), 
         co_actions, 
         &gui::actions::CustomObjectActions::cancelAdd
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MousePress & sad::MouseLeft & (m * coadp),
+        *sad::input::EventType::ET_MousePress & sad::MouseButton::MouseLeft & (m * coadp),
         co_actions,
         &gui::actions::CustomObjectActions::commitAdd
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseMove & (m * coadp),
+        *sad::input::EventType::ET_MouseMove & (m * coadp),
         co_actions,
         &gui::actions::CustomObjectActions::moveLowerPoint
     );
 
     // A binding for adding sprite (when first click determines upper-left corner)
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & (m * coad), 
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc & (m * coad), 
         co_actions, 
         &gui::actions::CustomObjectActions::cancelAdd
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MousePress & sad::MouseLeft & (m * coad),
+        *sad::input::EventType::ET_MousePress & sad::MouseButton::MouseLeft & (m * coad),
         co_actions, 
         &gui::actions::CustomObjectActions::placeFirstPoint
     );
 
     // A binding for layouts/adding
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & (m * ladd),
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc & (m * ladd),
         ga_actions,
         &gui::actions::GridActions::cancelAddGrid
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseMove & (m * ladd),
+        *sad::input::EventType::ET_MouseMove & (m * ladd),
         ga_actions,
         &gui::actions::GridActions::moveByCenter
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MousePress & sad::MouseLeft & (m * ladd),
+        *sad::input::EventType::ET_MousePress & sad::MouseButton::MouseLeft & (m * ladd),
         ga_actions,
         &gui::actions::GridActions::commitGridAdd
     );
 
-    // A bindings for layouts/adding/secondpoint
+    // A bindings for layouts/adding/second point
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & (m * lssp),
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc & (m * lssp),
         ga_actions,
         &gui::actions::GridActions::cancelAddGrid
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseMove & (m * lssp),
+        *sad::input::EventType::ET_MouseMove & (m * lssp),
         ga_actions,
         &gui::actions::GridActions::moveByBottomRightCorner
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MousePress & sad::MouseLeft & (m * lssp),
+        *sad::input::EventType::ET_MousePress & sad::MouseButton::MouseLeft & (m * lssp),
         ga_actions,
         &gui::actions::GridActions::commitGridAdd
     );
 
-    // A bindings for layouts/adding/firstpoint
+    // A bindings for layouts/adding/first point
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & (m * lsfp),
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc & (m * lsfp),
         ga_actions,
         &gui::actions::GridActions::cancelAddGrid
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MousePress & sad::MouseLeft & (m * lsfp),
+        *sad::input::EventType::ET_MousePress & sad::MouseButton::MouseLeft & (m * lsfp),
         ga_actions,
         &gui::actions::GridActions::commitTopLeftPoint
     );
 
     // A bindings for layouts/moving
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseMove & (m * lmove),
+        *sad::input::EventType::ET_MouseMove & (m * lmove),
         ga_actions,
         &gui::actions::GridActions::moveByPivotPoint
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseRelease & (m * lmove),
+        *sad::input::EventType::ET_MouseRelease & (m * lmove),
         ga_actions,
         &gui::actions::GridActions::commitMovingGrid
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & (m * lmove),
+        *sad::input::EventType::ET_KeyPress & (m * lmove),
         ga_actions,
         &gui::actions::GridActions::tryMoveSelectedGridByKeyboard
     );
 
     // A bindings for layouts/resizing
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseMove & (m * lrp),
+        *sad::input::EventType::ET_MouseMove & (m * lrp),
         ga_actions,
         &gui::actions::GridActions::resizeGridUsingHotspot
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseRelease & (m * lrp),
+        *sad::input::EventType::ET_MouseRelease & (m * lrp),
         ga_actions,
         &gui::actions::GridActions::commitGridResizingUsingHotspot
     );
 
     // A binding for ways/selected/moving
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseMove & (m * wsm),
+        *sad::input::EventType::ET_MouseMove & (m * wsm),
         w_actions,
         &gui::actions::WayActions::moveWayPoint
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseRelease & (m * wsm),
+        *sad::input::EventType::ET_MouseRelease & (m * wsm),
         w_actions,
         &gui::actions::WayActions::commitWayPointMoving
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & (m * wsm),
+        *sad::input::EventType::ET_KeyPress & (m * wsm),
         w_actions,
         &gui::actions::WayActions::tryMoveWayByKeys
     );
 
     // A binding for ways/selected
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MousePress & sad::MouseLeft & (m * ws),
+        *sad::input::EventType::ET_MousePress & sad::MouseButton::MouseLeft & (m * ws),
         m_editor->selection(),
         &core::Selection::trySelect
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & (m * ws),
+        *sad::input::EventType::ET_KeyPress & (m * ws),
         w_actions,
         &gui::actions::WayActions::tryMoveWayByKeys
     );
 
     // A binding for ways/idle
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MousePress & sad::MouseLeft & (m * wi),
+        *sad::input::EventType::ET_MousePress & sad::MouseButton::MouseLeft & (m * wi),
         m_editor->selection(),
         &core::Selection::trySelect
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & (m * wi),
+        *sad::input::EventType::ET_KeyPress & (m * wi),
         w_actions,
         &gui::actions::WayActions::tryMoveWayByKeys
     );
 
     // A binding for picking_simple_movement_point
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MousePress & sad::MouseLeft & (m * psmp),
+        *sad::input::EventType::ET_MousePress & sad::MouseButton::MouseLeft & (m * psmp),
         a_actions,
         &gui::actions::AnimationActions::pickedPointForSimpleMovement
     );
      sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & sad::MouseLeft & (m * psmp),
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc & sad::MouseButton::MouseLeft & (m * psmp),
         a_actions,
         &gui::actions::AnimationActions::cancelPickingPointForSimpleMovement
     );
     
     // A bindings for placing second point, when user are going to span object between two points
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseRelease & (m * sssp),
+        *sad::input::EventType::ET_MouseRelease & (m * sssp),
         sn_actions,
         &gui::actions::SceneNodeActions::commitSecondPointForSpanning
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseMove & (m * sssp),
+        *sad::input::EventType::ET_MouseMove & (m * sssp),
         sn_actions,
         &gui::actions::SceneNodeActions::moveSecondPointForSpanning
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & (m * sssp) ,
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc & (m * sssp) ,
         sn_actions,
         &gui::actions::SceneNodeActions::cancelSpanningObject
     );
 
     // A bindings for placing first point, when user are going to span object between two points
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseRelease & (m * ssfp),
+        *sad::input::EventType::ET_MouseRelease & (m * ssfp),
         sn_actions,
         &gui::actions::SceneNodeActions::placeFirstPointForSpanning
     );
     sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & (m * ssfp) ,
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc & (m * ssfp) ,
         sn_actions,
         &gui::actions::SceneNodeActions::cancelSpanningObject
     );
@@ -1002,7 +1002,7 @@ void MainPanel::viewDatabase()
         QString fkey = STD2QSTRING(it.key());
         if ((invisible_properties.contains(fkey) == false) && (it.value()->pointerStarsCount() == 0))
         {
-            gui::table::Delegate* d = m_dbdelegate_factory.create(STD2QSTRING(it.value()->baseType().c_str()));
+            gui::table::Delegate* d = m_db_delegate_factory.create(STD2QSTRING(it.value()->baseType().c_str()));
             if (d)
             {
                 d->makeLinkedTo(ui.twDatabaseProperties, m_editor);
@@ -1018,7 +1018,7 @@ void MainPanel::viewDatabase()
 
     sad::db::populateScenesFromDatabase(sad::Renderer::ref(), sad::Renderer::ref()->database(""));
 
-    sad::db::Object* nullobject = NULL;
+    sad::db::Object* nullobject = nullptr;
     QVariant nullobjectvariant;
     nullobjectvariant.setValue(nullobject);
     ui.cmbAnimationInstanceObject->addItem("Not set", nullobjectvariant);
@@ -1041,7 +1041,7 @@ void MainPanel::viewDatabase()
     }
 
     // Cleanup a combo for animation way
-    sad::p2d::app::Way* nullway = NULL;
+    sad::p2d::app::Way* nullway = nullptr;
     QVariant nullwayvariant;
     nullwayvariant.setValue(nullway);
     ui.cmbWayAnimationWay->addItem("Not set", nullwayvariant);
@@ -1071,7 +1071,7 @@ void MainPanel::viewDatabase()
         }
     }
 
-    sad::animations::Animation* nullanimation = NULL;
+    sad::animations::Animation* nullanimation = nullptr;
     QVariant nullanimationvariant;
     nullanimationvariant.setValue(nullanimation);
     ui.cmbAnimationInstanceAnimationFromDatabase->addItem("Not set", nullanimationvariant);
@@ -1326,10 +1326,10 @@ void MainPanel::toggleAnimationPropertiesEditable(bool flag)
 
         ui.btnClearObjectSelection,
 
-        NULL
+        nullptr
     };
     size_t i = 0;
-    while(widgets[i] != NULL)
+    while(widgets[i] != nullptr)
     {
         widgets[i]->setEnabled(flag);
         ++i;
@@ -1344,7 +1344,7 @@ void MainPanel::clearObjectSelection()
    if (m_editor->shared()->isAnyKindOfAnimationIsRunning() == false
        && m_editor->isInEditingState() == false
       ) {
-        m_editor->shared()->setSelectedObject(NULL); 
+        m_editor->shared()->setSelectedObject(nullptr); 
         if (m_editor->machine()->isInState("selected"))
         {
             m_editor->machine()->enterState("idle");
@@ -1478,48 +1478,48 @@ void MainPanel::fixDatabase()
 {
     sad::db::Database* db = sad::Renderer::ref()->database("");
     // Contains sad::Scene
-    if (db->table("scenes") == NULL)
+    if (db->table("scenes") == nullptr)
     {
         db->addTable("scenes", new sad::db::Table());
     }
     // Contains sad::SceneNode
-    if (db->table("scenenodes") == NULL)
+    if (db->table("scenenodes") == nullptr)
     {
         db->addTable("scenenodes", new sad::db::Table());
     }
     // Contains sad::p2d::app::Way
-    if (db->table("ways") == NULL)
+    if (db->table("ways") == nullptr)
     {
         db->addTable("ways", new sad::db::Table());
     }
     // Contains sad::dialogue::Dialogue
-    if (db->table("dialogues") == NULL)
+    if (db->table("dialogues") == nullptr)
     {
         db->addTable("dialogues", new sad::db::Table());
     }    
     // Contains sad::animations::Animation
-    if (db->table("animations") == NULL)
+    if (db->table("animations") == nullptr)
     {
         db->addTable("animations", new sad::db::Table());
     }
     // Contains sad::animations::Instance
-    if (db->table("animationinstances") == NULL)
+    if (db->table("animationinstances") == nullptr)
     {
         db->addTable("animationinstances", new sad::db::Table());
     }
     // Contains sad::animations::Group
-    if (db->table("animationgroups") == NULL)
+    if (db->table("animationgroups") == nullptr)
     {
         db->addTable("animationgroups", new sad::db::Table());
     }
     // Contains sad::layouts::Grid
-    if (db->table("layouts") == NULL)
+    if (db->table("layouts") == nullptr)
     {
         db->addTable("layouts", new sad::db::Table());        
     }
 
     bool needtosetpalette = false;
-    if (db->propertyByName("palette") != NULL)
+    if (db->propertyByName("palette") != nullptr)
     {
         if (db->propertyByName("palette")->baseType() != "sad::Vector<sad::Vector<sad::AColor> >"
             || db->propertyByName("palette")->pointerStarsCount() != 0)
@@ -1541,7 +1541,7 @@ void MainPanel::fixDatabase()
         );
     }
     // Set global renderer offset
-    if (db->propertyByName("global_renderer_offset") != NULL)
+    if (db->propertyByName("global_renderer_offset") != nullptr)
     {
         if (db->propertyByName("global_renderer_offset")->baseType() != "sad::Point3D"
             || db->propertyByName("global_renderer_offset")->pointerStarsCount() != 0)
@@ -1561,7 +1561,7 @@ void MainPanel::fixDatabase()
         );
     }
     // Set whether grid is enabled
-    if (db->propertyByName("global_renderer_grid_enabled") != NULL)
+    if (db->propertyByName("global_renderer_grid_enabled") != nullptr)
     {
         if (db->propertyByName("global_renderer_grid_enabled")->baseType() != "bool"
             || db->propertyByName("global_renderer_grid_enabled")->pointerStarsCount() != 0)
@@ -1581,7 +1581,7 @@ void MainPanel::fixDatabase()
         );
     }
     // Set grid settings
-    if (db->propertyByName("global_renderer_grid_settings") != NULL)
+    if (db->propertyByName("global_renderer_grid_settings") != nullptr)
     {
         if (db->propertyByName("global_renderer_grid_settings")->baseType() != "sad::Point2I"
             || db->propertyByName("global_renderer_grid_settings")->pointerStarsCount() != 0)
@@ -1601,7 +1601,7 @@ void MainPanel::fixDatabase()
         );
     }
     // Set grid color
-    if (db->propertyByName("global_renderer_grid_color") != NULL)
+    if (db->propertyByName("global_renderer_grid_color") != nullptr)
     {
         if (db->propertyByName("global_renderer_grid_color")->baseType() != "sad::AColor"
             || db->propertyByName("global_renderer_grid_color")->pointerStarsCount() != 0)
@@ -1901,28 +1901,28 @@ QStringList MainPanel::resourcesByFilter(
     return result;
 }
 
-bool MainPanel::scriptableAddProperty(const sad::String& propertytype, const sad::String& propertyname, bool fromeditor)
+bool MainPanel::scriptableAddProperty(const sad::String& property_type, const sad::String& property_name, bool from_editor)
 {
     sad::db::Database* db = sad::Renderer::ref()->database("");
     bool result = false;
-    if (db->propertyByName(propertyname) == NULL && propertyname.size()!= 0)
+    if (db->propertyByName(property_name) == nullptr && property_name.size()!= 0)
     {
-        gui::table::Delegate* d  = m_dbdelegate_factory.create(propertytype.c_str());
-        sad::db::Property* prop = m_property_factory.create(propertytype);
+        gui::table::Delegate* d  = m_db_delegate_factory.create(property_type.c_str());
+        sad::db::Property* prop = m_property_factory.create(property_type);
         if (d && prop)
         {
             result = true;
 
-            sad::Renderer::ref()->database("")->addProperty(propertyname, prop);
-            d->setPropertyName(STD2QSTRING(propertyname.c_str()));
+            sad::Renderer::ref()->database("")->addProperty(property_name, prop);
+            d->setPropertyName(STD2QSTRING(property_name.c_str()));
             d->linkToDatabase();
             d->makeLinkedTo(ui.twDatabaseProperties, m_editor);
             d->add();
 
-            m_delegates_by_names.insert(propertyname, d);
+            m_delegates_by_names.insert(property_name, d);
             
             history::database::NewProperty* p = new history::database::NewProperty(d);
-            if (fromeditor)
+            if (from_editor)
             {
                 m_editor->history()->add(p);
             }
@@ -1942,7 +1942,7 @@ bool MainPanel::scriptableAddProperty(const sad::String& propertytype, const sad
 
 gui::table::DelegateFactory* MainPanel::delegateFactory() const
 {
-    return &(const_cast<MainPanel*>(this)->m_dbdelegate_factory);
+    return &(const_cast<MainPanel*>(this)->m_db_delegate_factory);
 }
 
 GridAndOffsets* MainPanel::gridAndOffset() const
@@ -2007,7 +2007,7 @@ void MainPanel::onKeyPressedInIdleState(const sad::input::KeyPressEvent& ev) con
     bool shouldchangegrid = false;
     if (m_editor->isInGridEditingState())
     {
-        shouldchangegrid = m_editor->shared()->selectedGrid() != NULL;
+        shouldchangegrid = m_editor->shared()->selectedGrid() != nullptr;
     }
     if (shouldchangegrid)
     {
@@ -2024,10 +2024,10 @@ void MainPanel::handleGlobalOffsetChange(const sad::input::KeyPressEvent& ev) co
     sad::Point3D p(0, 0, 0);
     switch (ev.Key)
     {
-        case sad::KeyLeft:  {p.setX(-1); break;}
-        case sad::KeyRight:  {p.setX(1); break;}
-        case sad::KeyUp:  {p.setY(1); break;}
-        case sad::KeyDown:  {p.setY(-1); break;}
+        case sad::KeyboardKey::KeyLeft:  {p.setX(-1); break;}
+        case sad::KeyboardKey::KeyRight:  {p.setX(1); break;}
+        case sad::KeyboardKey::KeyUp:  {p.setY(1); break;}
+        case sad::KeyboardKey::KeyDown:  {p.setY(-1); break;}
         default: break;
     };
     if (sad::non_fuzzy_zero(p.x()) || sad::non_fuzzy_zero(p.y()))
@@ -2100,7 +2100,7 @@ void MainPanel::load()
         else
         {
             delete tmp;
-            QMessageBox::critical(NULL, "Failed to load database", "Failed to load database");
+            QMessageBox::critical(nullptr, "Failed to load database", "Failed to load database");
         }
     }
 }
@@ -2122,7 +2122,7 @@ void MainPanel::loadResources()
         message_box_needed = (this->editor()->isDatabaseEmpty() == false);
     }
     if (message_box_needed) {
-        QMessageBox::StandardButton btn = QMessageBox::warning(NULL, "Database will be erased", "Database will be erased. Proceed loading?", QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Ok);
+        QMessageBox::StandardButton btn = QMessageBox::warning(nullptr, "Database will be erased", "Database will be erased. Proceed loading?", QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Ok);
         proceed = (btn == QMessageBox::Ok);    
     }
     if (proceed)
@@ -2181,10 +2181,10 @@ void MainPanel::reloadResources()
         return;
     }
     ReloadFileList list(this);
-    if (list.exec() == QDialog::Accepted && list.selectedFile() != NULL)
+    if (list.exec() == QDialog::Accepted && list.selectedFile() != nullptr)
     {
-        m_editor->shared()->setActiveObject(NULL);
-        m_editor->shared()->setSelectedObject(NULL);
+        m_editor->shared()->setActiveObject(nullptr);
+        m_editor->shared()->setSelectedObject(nullptr);
         m_editor->machine()->enterState("idle");
 
         sad::resource::ResourceFile* file = list.selectedFile();

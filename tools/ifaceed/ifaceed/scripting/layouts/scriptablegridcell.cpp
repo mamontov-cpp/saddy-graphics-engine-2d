@@ -41,7 +41,7 @@ scripting::layouts::ScriptableGridCell::~ScriptableGridCell()
 
 }
 
-sad::layouts::Cell* scripting::layouts::ScriptableGridCell::cell(bool throwexc, const QString& name) const
+sad::layouts::Cell* scripting::layouts::ScriptableGridCell::cell(bool throw_exception, const QString& name) const
 {
     sad::db::Database* db = sad::Renderer::ref()->database("");
     if (db)
@@ -59,18 +59,18 @@ sad::layouts::Cell* scripting::layouts::ScriptableGridCell::cell(bool throwexc, 
             }
         }
     }
-    if (throwexc)
+    if (throw_exception)
     {
         m_scripting->context()->throwError(std::string("ScriptableGridCell.") + name.toStdString()  + ": Reference to a grid cell is not a valid instance");
         throw new dukpp03::ArgumentException();
     }
-    return NULL;
+    return nullptr;
 }
 
-bool scripting::layouts::ScriptableGridCell::swapChildrenWithCallName(const QString& callname, int pos1, int pos2) const
+bool scripting::layouts::ScriptableGridCell::swapChildrenWithCallName(const QString& call_name, int pos1, int pos2) const
 {
     bool result = false;
-    sad::layouts::Cell* cell = this->cell(true, callname);
+    sad::layouts::Cell* cell = this->cell(true, call_name);
     if (cell)
     {
         if (pos1 >= 0 && pos2 >= 0 && pos1 < cell->children().size() && pos2 < cell->children().size())
@@ -129,7 +129,7 @@ bool scripting::layouts::ScriptableGridCell::addChild(sad::SceneNode* node) cons
     {
         core::Editor* editor = m_scripting->editor();
         gui::actions::GridActions* actions = editor->actions()->gridActions();
-        if (actions->parentGridFor(node) == NULL)
+        if (actions->parentGridFor(node) == nullptr)
         {
             sad::Maybe<sad::Rect2D> oldarea = node->getProperty<sad::Rect2D>("area");
             if (oldarea.exists())
@@ -161,7 +161,7 @@ QString scripting::layouts::ScriptableGridCell::toString() const
 
 bool scripting::layouts::ScriptableGridCell::valid() const
 {
-    return cell(false) != NULL;
+    return cell(false) != nullptr;
 }
 
 sad::Rect2D  scripting::layouts::ScriptableGridCell::area() const
@@ -186,8 +186,8 @@ void scripting::layouts::ScriptableGridCell::setWidth(scripting::layouts::Script
     sad::layouts::Cell* c = this->cell(true, "setWidth");
     if (c)
     {
-        history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_Width, sad::layouts::LengthValue>* cmd =
-            new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_Width, sad::layouts::LengthValue>(c->grid(), m_row, m_column, "width");
+        history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_Width, sad::layouts::LengthValue>* cmd =
+            new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_Width, sad::layouts::LengthValue>(c->grid(), m_row, m_column, "width");
         cmd->setOldValue(c->width());
         cmd->setNewValue(value->toValue());
         cmd->markAsCouldChangeRegion();
@@ -204,7 +204,7 @@ scripting::layouts::ScriptableLengthValue* scripting::layouts::ScriptableGridCel
     {
         return  new scripting::layouts::ScriptableLengthValue(c->width(), m_scripting);
     }
-    return new scripting::layouts::ScriptableLengthValue(sad::layouts::LU_Auto, 0, m_scripting);
+    return new scripting::layouts::ScriptableLengthValue(sad::layouts::Unit::LU_Auto, 0, m_scripting);
 }
 
 void scripting::layouts::ScriptableGridCell::setHeight(scripting::layouts::ScriptableLengthValue* value) const
@@ -212,8 +212,8 @@ void scripting::layouts::ScriptableGridCell::setHeight(scripting::layouts::Scrip
     sad::layouts::Cell* c = this->cell(true, "setHeight");
     if (c)
     {
-        history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_Height, sad::layouts::LengthValue>* cmd =
-            new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_Height, sad::layouts::LengthValue>(c->grid(), m_row, m_column, "height");
+        history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_Height, sad::layouts::LengthValue>* cmd =
+            new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_Height, sad::layouts::LengthValue>(c->grid(), m_row, m_column, "height");
         cmd->setOldValue(c->height());
         cmd->setNewValue(value->toValue());
         cmd->markAsCouldChangeRegion();
@@ -230,14 +230,16 @@ scripting::layouts::ScriptableLengthValue*  scripting::layouts::ScriptableGridCe
     {
         return new scripting::layouts::ScriptableLengthValue(c->height(), m_scripting);
     }
-    return new scripting::layouts::ScriptableLengthValue(sad::layouts::LU_Auto, 0, m_scripting);
+    return new scripting::layouts::ScriptableLengthValue(sad::layouts::Unit::LU_Auto, 0, m_scripting);
 }
 
 void scripting::layouts::ScriptableGridCell::setHorizontalAlignment(unsigned int v) const
 {
     sad::layouts::Cell* c = this->cell(true, "setHorizontalAlignment");
     sad::Maybe<sad::layouts::HorizontalAlignment> ha_maybe;
-    if ((v == sad::layouts::LHA_Left) || (v == sad::layouts::LHA_Middle) || (v == sad::layouts::LHA_Right))
+    if ((v == static_cast<unsigned int>(sad::layouts::HorizontalAlignment::LHA_Left)) 
+        || (v == static_cast<unsigned int>(sad::layouts::HorizontalAlignment::LHA_Middle)) 
+        || (v == static_cast<unsigned int>(sad::layouts::HorizontalAlignment::LHA_Right)))
     {
         ha_maybe.setValue(static_cast<sad::layouts::HorizontalAlignment>(v));
     }
@@ -248,8 +250,8 @@ void scripting::layouts::ScriptableGridCell::setHorizontalAlignment(unsigned int
     }
     if (c && ha_maybe.exists())
     {
-        history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_HorizontalAlignment, sad::layouts::HorizontalAlignment>* cmd =
-            new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_HorizontalAlignment, sad::layouts::HorizontalAlignment>(c->grid(), m_row, m_column, "halign");
+        history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_HorizontalAlignment, sad::layouts::HorizontalAlignment>* cmd =
+            new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_HorizontalAlignment, sad::layouts::HorizontalAlignment>(c->grid(), m_row, m_column, "halign");
         cmd->setOldValue(c->horizontalAlignment());
         cmd->setNewValue(ha_maybe.value());
         core::Editor* e = m_scripting->editor();
@@ -267,14 +269,16 @@ unsigned int scripting::layouts::ScriptableGridCell::horizontalAlignment() const
         m_scripting->context()->throwError("ScriptableGridCell.horizontalAlignment: attempt to get alignment for invalid cell");
         throw dukpp03::ArgumentException();
     }
-    return c->horizontalAlignment();
+    return static_cast<unsigned int>(c->horizontalAlignment());
 }
 
 void scripting::layouts::ScriptableGridCell::setVerticalAlignment(unsigned int v) const
 {
     sad::layouts::Cell* c = this->cell(true, "setVerticalAlignment");
     sad::Maybe<sad::layouts::VerticalAlignment> va_maybe;
-    if ((v == sad::layouts::LVA_Bottom) || (v == sad::layouts::LVA_Top) || (v == sad::layouts::LVA_Middle))
+    if ((v == static_cast<unsigned int>(sad::layouts::VerticalAlignment::LVA_Bottom)) 
+        || (v == static_cast<unsigned int>(sad::layouts::VerticalAlignment::LVA_Top)) 
+        || (v == static_cast<unsigned int>(sad::layouts::VerticalAlignment::LVA_Middle)))
     {
         va_maybe.setValue(static_cast<sad::layouts::VerticalAlignment>(v));
     }
@@ -285,8 +289,8 @@ void scripting::layouts::ScriptableGridCell::setVerticalAlignment(unsigned int v
     }
     if (c && va_maybe.exists())
     {
-        history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_VerticalAlignment, sad::layouts::VerticalAlignment>* cmd =
-            new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_VerticalAlignment, sad::layouts::VerticalAlignment>(c->grid(), m_row, m_column, "valign");
+        history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_VerticalAlignment, sad::layouts::VerticalAlignment>* cmd =
+            new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_VerticalAlignment, sad::layouts::VerticalAlignment>(c->grid(), m_row, m_column, "valign");
         cmd->setOldValue(c->verticalAlignment());
         cmd->setNewValue(va_maybe.value());
         core::Editor* e = m_scripting->editor();
@@ -303,14 +307,16 @@ unsigned int scripting::layouts::ScriptableGridCell::verticalAlignment() const
         m_scripting->context()->throwError("ScriptableGridCell.verticalAlignment: attempt to get alignment for invalid cell");
         throw dukpp03::ArgumentException();
     }
-    return c->verticalAlignment();
+    return static_cast<unsigned int>(c->verticalAlignment());
 }
 
 void scripting::layouts::ScriptableGridCell::setStackingType(unsigned int v) const
 {
     sad::layouts::Cell* c = this->cell(true, "setStackingType");
     sad::Maybe<sad::layouts::StackingType> st_maybe;
-    if ((v == sad::layouts::LST_Horizontal) || (v == sad::layouts::LST_Vertical) || (v == sad::layouts::LST_NoStacking))
+    if ((v == static_cast<unsigned int>(sad::layouts::StackingType::LST_Horizontal))
+        || (v == static_cast<unsigned int>(sad::layouts::StackingType::LST_Vertical))
+        || (v == static_cast<unsigned int>(sad::layouts::StackingType::LST_NoStacking)))
     {
         st_maybe.setValue(static_cast<sad::layouts::StackingType>(v));
     }
@@ -321,8 +327,8 @@ void scripting::layouts::ScriptableGridCell::setStackingType(unsigned int v) con
     }
     if (c && st_maybe.exists())
     {
-        history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_StackingType, sad::layouts::StackingType>* cmd =
-            new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_StackingType, sad::layouts::StackingType>(c->grid(), m_row, m_column, "stacking_type");
+        history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_StackingType, sad::layouts::StackingType>* cmd =
+            new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_StackingType, sad::layouts::StackingType>(c->grid(), m_row, m_column, "stacking_type");
         cmd->setOldValue(c->stackingType());
         cmd->setNewValue(st_maybe.value());
         cmd->markAsCouldChangeRegion();
@@ -340,7 +346,7 @@ unsigned int scripting::layouts::ScriptableGridCell::stackingType() const
         m_scripting->context()->throwError("ScriptableGridCell.stackingType: attempt to get stacking type for invalid cell");
         throw dukpp03::ArgumentException();
     }
-    return c->stackingType();
+    return static_cast<unsigned int>(c->stackingType());
 }
 
 void scripting::layouts::ScriptableGridCell::setPaddingTop(double v) const
@@ -409,11 +415,11 @@ bool  scripting::layouts::ScriptableGridCell::removeChild(int pos) const
     sad::layouts::Cell* cell = this->cell(true, "removeChild");
     if (cell)
     {
-        if (pos >=0  || pos < cell->children().size())
+        if (pos >=0  || pos < static_cast<int>(cell->children().size()))
         {
             result = true;
             core::Editor* editor = m_scripting->editor();
-            history::layouts::RemoveChild* c = new history::layouts::RemoveChild(cell->grid(), m_row, m_column, static_cast<size_t>(pos), cell->child(pos));
+            auto* c = new history::layouts::RemoveChild(cell->grid(), m_row, m_column, static_cast<size_t>(pos), cell->child(pos));
             c->commit(editor);
             editor->currentBatchCommand()->add(c);
         }
@@ -454,56 +460,56 @@ bool scripting::layouts::ScriptableGridCell::moveFront(int pos) const
 // ================================== PROTECTED METHODS ==================================
 
 history::Command* scripting::layouts::ScriptableGridCell::commandForPadding(
-    const QString& callname,
-    const QString& propname,
-    double newvalue
+    const QString& call_name,
+    const QString& prop_name,
+    double new_value
 ) const
 {
-    sad::layouts::Cell* c = this->cell(true, callname);
+    sad::layouts::Cell* c = this->cell(true, call_name);
     if (c)
     {
-        if (propname == "padding_top")
+        if (prop_name == "padding_top")
         {
-            history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_TopPadding, double>* cmd =
-                new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_TopPadding, double>(c->grid(), m_row, m_column, propname.toStdString());
+            history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_TopPadding, double>* cmd =
+                new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_TopPadding, double>(c->grid(), m_row, m_column, prop_name.toStdString());
             cmd->setOldValue(c->paddingTop());
-            cmd->setNewValue(newvalue);
+            cmd->setNewValue(new_value);
             cmd->markAsCouldChangeRegion();
             return cmd;
         }
-        if (propname == "padding_bottom")
+        if (prop_name == "padding_bottom")
         {
-            history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_BottomPadding, double>* cmd =
-                new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_BottomPadding, double>(c->grid(), m_row, m_column, propname.toStdString());
+            history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_BottomPadding, double>* cmd =
+                new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_BottomPadding, double>(c->grid(), m_row, m_column, prop_name.toStdString());
             cmd->setOldValue(c->paddingBottom());
-            cmd->setNewValue(newvalue);
+            cmd->setNewValue(new_value);
             cmd->markAsCouldChangeRegion();
             return cmd;
         }
-        if (propname == "padding_left")
+        if (prop_name == "padding_left")
         {
-            history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_LeftPadding, double>* cmd =
-                new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_LeftPadding, double>(c->grid(), m_row, m_column, propname.toStdString());
+            history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_LeftPadding, double>* cmd =
+                new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_LeftPadding, double>(c->grid(), m_row, m_column, prop_name.toStdString());
             cmd->setOldValue(c->paddingLeft());
-            cmd->setNewValue(newvalue);
+            cmd->setNewValue(new_value);
             cmd->markAsCouldChangeRegion();
             return cmd;
         }
-        if (propname == "padding_right")
+        if (prop_name == "padding_right")
         {
-            history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_RightPadding, double>* cmd =
-                new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_RightPadding, double>(c->grid(), m_row, m_column, propname.toStdString());
+            history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_RightPadding, double>* cmd =
+                new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_RightPadding, double>(c->grid(), m_row, m_column, prop_name.toStdString());
             cmd->setOldValue(c->paddingRight());
-            cmd->setNewValue(newvalue);
+            cmd->setNewValue(new_value);
             cmd->markAsCouldChangeRegion();
             return cmd;
         }
-        return NULL;
+        return nullptr;
     }
-    return NULL;
+    return nullptr;
 }
 
-void scripting::layouts::ScriptableGridCell::tryChangePadding(const QString& callname, double newvalue) const
+void scripting::layouts::ScriptableGridCell::tryChangePadding(const QString& call_name, double new_value) const
 {
     QString propname;
     QString locs[4] = {"top", "bottom" , "left", "right"};
@@ -514,7 +520,7 @@ void scripting::layouts::ScriptableGridCell::tryChangePadding(const QString& cal
 
        QString currentcallname = "setPadding";
        currentcallname.append(tloc);
-       if (callname == currentcallname)
+       if (call_name == currentcallname)
        {
            propname = "padding_";
            propname.append(locs[i]);
@@ -522,7 +528,7 @@ void scripting::layouts::ScriptableGridCell::tryChangePadding(const QString& cal
     }
     if (propname.length())
     {
-        history::Command* c = this->commandForPadding(callname, propname, newvalue);
+        history::Command* c = this->commandForPadding(call_name, propname, new_value);
         if (c)
         {
             core::Editor* e = m_scripting->editor();

@@ -622,7 +622,7 @@ on fast mode</string>
          <string>Add new label</string>
         </property>
        </widget>
-       <widget class="QTabWidget" name="tabLabelOpttions">
+       <widget class="QTabWidget" name="tabLabelOptions">
         <property name="geometry">
          <rect>
           <x>10</x>

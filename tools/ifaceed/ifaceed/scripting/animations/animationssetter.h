@@ -41,7 +41,7 @@ public:
     /*! Clones an object
         \return copy of object
      */
-    dukpp03::qt::Callable* clone()
+    dukpp03::qt::Callable* clone() override
     {
         return new scripting::animations::Setter<_AnimationType, _PropertyType, _CommandType>(*this);
     }
@@ -60,7 +60,7 @@ public:
         \param[in] old_value old value
         \param[in] new_value new value
     */
-    virtual void callActions(_AnimationType* obj, const sad::String& property_name, _PropertyType old_value, _PropertyType new_value)
+    virtual void callActions(_AnimationType* obj, const sad::String& property_name, _PropertyType old_value, _PropertyType new_value) override
     {
         this->scripting::AbstractSetter<_AnimationType*, _PropertyType>::callActions(obj, property_name, old_value, new_value);
         this->setProperty(obj, property_name, old_value, new_value);
@@ -68,15 +68,15 @@ public:
 
     /*! Performs actually setting property
         \param[in] obj an object to be set
-        \param[in] propertyname a property for object
-        \param[in] oldvalue old value 
-        \param[in] newvalue new value
+        \param[in] property_name a property for object
+        \param[in] old_value old value 
+        \param[in] new_value new value
      */
-    virtual void setProperty(_AnimationType* obj, const sad::String& propertyname, _PropertyType oldvalue,  _PropertyType newvalue)
+    virtual void setProperty(_AnimationType* obj, const sad::String& property_name, _PropertyType old_value,  _PropertyType new_value)
     {
         core::Editor* editor =  this->m_scripting->editor();
 
-        history::Command* c =  new _CommandType(obj, oldvalue, newvalue);
+        history::Command* c =  new _CommandType(obj, old_value, new_value);
         editor->currentBatchCommand()->add(c);
         c->commit(editor);
     }

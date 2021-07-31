@@ -18,15 +18,15 @@ Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
 
 history::animations::ChangeWayMovingWay::ChangeWayMovingWay(
     sad::animations::Animation* d,
-    unsigned long long oldvalue,
-    unsigned long long newvalue
+    unsigned long long old_value,
+    unsigned long long new_value
 
 )
 : history::animations::ChangeProperty<unsigned long long>(
       d,
       "way",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
 }

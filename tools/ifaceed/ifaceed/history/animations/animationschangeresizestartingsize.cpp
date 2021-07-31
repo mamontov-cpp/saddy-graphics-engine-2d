@@ -14,15 +14,15 @@
 
 history::animations::ChangeResizeStartingSize::ChangeResizeStartingSize(
     sad::animations::Animation* d,
-    const sad::Point2D& oldvalue,
-    const sad::Point2D& newvalue
+    const sad::Point2D& old_value,
+    const sad::Point2D& new_value
 
 )
 : history::animations::ChangeProperty<sad::Point2D>(
       d,
       "start_size",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
 }

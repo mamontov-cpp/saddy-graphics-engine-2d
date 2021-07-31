@@ -27,12 +27,12 @@ history::animations::Remove::~Remove()
 }
 
 void history::animations::Remove::set(
-    int position_in_animaton_list,
+    int position_in_animation_list,
     int position_in_animation_instance_list,
     const sad::Vector< sad::Pair<sad::animations::Composite*, sad::Vector<int> > >& list
 )
 {
-    m_position_in_animation_list = position_in_animaton_list;
+    m_position_in_animation_list = position_in_animation_list;
     m_position_in_animation_instance_list = position_in_animation_instance_list;
     m_composites = list;
 }

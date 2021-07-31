@@ -6,8 +6,6 @@
 #pragma once
 #include "delegate.h"
 
-#include <QObject>
-
 namespace gui
 {
     
@@ -24,11 +22,11 @@ public:
     LongDelegate();
     /*! Destroys delegate
      */
-    virtual ~LongDelegate();
+    virtual ~LongDelegate() override;
     /*! Sets a value for a delegate. Used by commands to reset
         \param[in] v a value
      */
-    virtual void set(const sad::db::Variant& v);
+    virtual void set(const sad::db::Variant& v) override;
 public slots:
     /*! When widget changed
         \param[in] i a widget value
@@ -38,10 +36,10 @@ protected:
     /*! At this point delegate must create own editor, set it to table and connect delegate slots
         to it.
      */
-    virtual void makeEditor();
+    virtual void makeEditor() override;
     /*! Disconnects slots  for own editor here
      */ 
-    virtual void disconnect();
+    virtual void disconnect() override;
 };
 
 }

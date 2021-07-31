@@ -27,7 +27,7 @@ void gui::textedit::TextEdit::setCompleter(QCompleter* completer)
 
     m_completer->setWidget(this);
     m_completer->setCompletionMode(QCompleter::PopupCompletion);
-    m_completer->setCaseSensitivity(this->caseSensivity());
+    m_completer->setCaseSensitivity(this->caseSensitivity());
     QObject::connect(
         m_completer, 
         SIGNAL(activated(QString)),
@@ -41,7 +41,7 @@ QCompleter* gui::textedit::TextEdit::completer() const
     return m_completer;
 }
 
-Qt::CaseSensitivity gui::textedit::TextEdit::caseSensivity() const
+Qt::CaseSensitivity gui::textedit::TextEdit::caseSensitivity() const
 {
     return Qt::CaseInsensitive;
 }

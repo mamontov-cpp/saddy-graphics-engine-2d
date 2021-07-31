@@ -31,7 +31,7 @@ public:
     Border(core::Shared* data);
     /*! This class could be inherited
      */
-    virtual ~Border();
+    virtual ~Border() override;
 protected:
     /*! A linked data for a border, where selected or active object is stored
      */

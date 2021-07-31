@@ -5,6 +5,7 @@
  */
 #pragma once
 #include "../command.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "layouts/grid.h"
 
 #include "../gui/actions/gridactions.h"
@@ -31,15 +32,15 @@ public:
      );
      /*! Erases link to a node
       */
-     virtual ~Remove();
+     virtual ~Remove() override;
      /*! Applies changes, described in command
          \param[in] ob editor
       */
-     virtual void commit(core::Editor * ob = NULL);
+     virtual void commit(core::Editor * ob = nullptr) override;
      /*! Reverts changes, described in command
          \param[in] ob editor
       */
-     virtual void rollback(core::Editor * ob = NULL);
+     virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! Actually commits a command
         \param[in] ob editor

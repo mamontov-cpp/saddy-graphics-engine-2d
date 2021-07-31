@@ -79,7 +79,8 @@ public:
         \param[in] parent a parent widget
         \param[in] flags a panel flags
      */
-    MainPanel(QWidget *parent = 0, Qt::WFlags flags = 0);
+    // ReSharper disable once CppZeroConstantCanBeReplacedWithNullptr
+    MainPanel(QWidget *parent = nullptr, Qt::WFlags flags = 0);
     /*! Frees all inner data
      */
     virtual ~MainPanel();
@@ -125,7 +126,7 @@ public:
         \param[in] e event objects
      */
     void updateMousePosition(const sad::input::MouseMoveEvent & e);
-    /*! Makes all resource tree views view item to currrent tree. Must be called
+    /*! Makes all resource tree views view item to current tree. Must be called
         after database is updated
      */
     void updateResourceViews();
@@ -168,9 +169,9 @@ public:
         \param[in] lock whether it should be looked
      */
     void lockTypesTab(bool lock);
-    /*! Tries to update combo boox with animations from tree with list of actual animations
+    /*! Tries to update combo box with animations from tree with list of actual animations
      */
-    void updateAnimationsListFromTree();    
+    void updateAnimationsListFromTree();
     /*! Returns list of resources by filter
         \param[in] root a root folder
         \param[in] prefix a prefix
@@ -182,11 +183,11 @@ public:
         const QString& filter
     );
     /*! Adds new scriptable property to a database
-        \param[in] propertytype a type of property
-        \param[in] propertyname a name of property
-        \param[in] fromeditor a from editor
+        \param[in] property_type a type of property
+        \param[in] property_name a name of property
+        \param[in] from_editor a from editor
      */
-    bool scriptableAddProperty(const sad::String& propertytype, const sad::String& propertyname, bool fromeditor);
+    bool scriptableAddProperty(const sad::String& property_type, const sad::String& property_name, bool from_editor);
     /*! Returns a delegate factory for a panel
         \return delegate factory
      */
@@ -237,11 +238,11 @@ protected:
     sad::Hash<sad::String, gui::table::Delegate*> m_delegates_by_names;
     /*! A delegate factory for creating rows in db
      */
-    gui::table::DelegateFactory m_dbdelegate_factory;  
+    gui::table::DelegateFactory m_db_delegate_factory;  
     /*! A main scripting capabilities and bindings
      */
     scripting::Scripting* m_scripting;
-    /*! A factory for creating propertis in database
+    /*! A factory for creating properties in database
      */
     sad::db::StoredPropertyFactory m_property_factory;
     /*! A point, which coordinates must be assigned to labels, when called
@@ -254,7 +255,7 @@ protected:
     /*! An utility flags, which could be used to prevent recursive calls of slots, due to
         widget value changes
      */
-    bool m_selfchanged;
+    bool m_is_self_changed;
     /*! A grid and offsets window
      */ 
     GridAndOffsets* m_offsets_window;
@@ -265,11 +266,11 @@ protected:
     /*!
      * Whether panel is closed it must close a dialogs if present
      */
-    void closeEvent(QCloseEvent*);
+    void closeEvent(QCloseEvent*) override;
     /*! Fixes database scenes and scene nodes tables and palette if need to
      */
     void fixDatabase();
-    /*! Inits autocompletion items for console text area
+    /*! Initializes autocompletion items for console text area
      */
     void initConsoleAutocompletion();
 public slots:

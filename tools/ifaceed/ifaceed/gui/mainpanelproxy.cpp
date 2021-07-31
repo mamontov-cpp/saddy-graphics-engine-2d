@@ -7,7 +7,7 @@
 #include "../blockedclosuremethodcall.h"
 
 
-gui::MainPanelProxy::MainPanelProxy() : m_editor(NULL)
+gui::MainPanelProxy::MainPanelProxy() : m_editor(nullptr)
 {
     
 }
@@ -92,9 +92,9 @@ sad::Hash<sad::String, gui::table::Delegate*>& gui::MainPanelProxy::delegatesByN
 }	
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-bool gui::MainPanelProxy::scriptableAddProperty(const sad::String& propertytype, const sad::String& propertyname, bool fromeditor)
+bool gui::MainPanelProxy::scriptableAddProperty(const sad::String& property_type, const sad::String& property_name, bool from_editor)
 {
-    return m_editor->panel()->scriptableAddProperty(propertytype, propertyname, fromeditor);
+    return m_editor->panel()->scriptableAddProperty(property_type, property_name, from_editor);
 }
 
 bool gui::MainPanelProxy::isFastModeEnabled() const

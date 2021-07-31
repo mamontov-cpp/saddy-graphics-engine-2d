@@ -26,8 +26,8 @@ public:
         \param[in] update whether we should update list on commit/rollback
         \param[in] dialogue dialogue
         \param[in] i position of phrase in dialogue
-        \param[in] oldvalue old value 
-        \param[in] newvalue new value 
+        \param[in] old_value old value 
+        \param[in] new_value new value 
      */
     PhraseChangeLineEditBasedProperty(
         QLineEdit* widget,
@@ -35,8 +35,8 @@ public:
         bool update,
         sad::dialogue::Dialogue* dialogue, 
         int i,
-        const sad::String& oldvalue, 
-        const sad::String& newvalue
+        const sad::String& old_value, 
+        const sad::String& new_value
     );
     /*! Could be inherited
      */
@@ -44,15 +44,15 @@ public:
     /*! Changes property to a new value, without updating property
         \param[in] ob editor
      */
-    void commitWithoutUpdatingUI(core::Editor * ob = NULL);
+    void commitWithoutUpdatingUI(core::Editor * ob = nullptr) override;
     /*! Changes property to a new value
         \param[in] ob editor
      */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Changed property to an old value
         \param[in] ob editor
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! A widget to be updated
      */
@@ -71,10 +71,10 @@ protected:
     int m_position;
     /*! Old value for name
      */
-    sad::String m_oldvalue;
+    sad::String m_old_value;
     /*! New value for name
      */
-    sad::String m_newvalue;
+    sad::String m_new_value;
     /*! Tries to update UI with new value
         \param[in] e editor
         \param[in] v value

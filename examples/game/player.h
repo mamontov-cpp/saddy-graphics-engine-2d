@@ -23,16 +23,13 @@ class Player: public GameObject
          /*! A pivot key, which is pressed last, when player is moving
              A moment, when player stops is the moment when this key is released
           */
-         sad::KeyboardKey   m_stopkeys[2];   
+         sad::KeyboardKey   m_stop_keys[2];   
  public:
          Player();
          /*! Makes player look to position
              \param[in] p point
           */
          void tryLookAt(const sad::input::MouseMoveEvent & p);
-         /*! Shoots or not, depending on shooting frequency and current game state
-          */
-         void tryShoot();
          /*! Returns a score for data
              \return score of players
           */

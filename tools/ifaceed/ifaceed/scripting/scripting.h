@@ -22,9 +22,9 @@ class Scripting: public QObject
 {
 Q_OBJECT
 public:
-/*! An enum for copying objects
+/*! An enum class for copying objects: int
  */
-enum CopyPropertiesDirection
+enum class CopyPropertiesDirection: int
 {
     SSC_CPD_FROM_HEAP_TO_GLOBAL = 0, // From stashed heap to global object
     SSC_CPD_FROM_GLOBAL_TO_HEAP = 1  // From global object to heap
@@ -32,7 +32,7 @@ enum CopyPropertiesDirection
     /*! Creates new label actions
         \param[in] parent a parent object
      */
-    Scripting(QObject* parent = NULL);
+    Scripting(QObject* parent = nullptr);
     /*! This class could be inherited
      */
     virtual ~Scripting();
@@ -92,7 +92,7 @@ public slots:
      */
     void loadScript();
 protected:
-    /*! Inits inner script with constructors for common types
+    /*! Initializes inner script with constructors for common types
      */
     void initSadTypeConstructors();
     /*! Copies properties from source object to destination object

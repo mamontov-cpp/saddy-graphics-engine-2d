@@ -20,20 +20,20 @@ class ChangeColor: public history::scenenodes::ChangeProperty<sad::AColor>
 public:
      /*! Constructs new command for node
         \param[in] d a node
-        \param[in] oldvalue old text
-        \param[in] newvalue new text
+        \param[in] old_value old text
+        \param[in] new_value new text
       */
-    ChangeColor(sad::SceneNode* d, const sad::AColor& oldvalue, const sad::AColor& newvalue);
+    ChangeColor(sad::SceneNode* d, const sad::AColor& old_value, const sad::AColor& new_value);
     /*! Erases link to a node
       */
-    virtual ~ChangeColor();
+    virtual ~ChangeColor() override;
 protected:
     /*!
      * Updates current text in field of object name
      * \param[in] e editor
      * \param[in] value a value
      */
-    virtual void updateUI(core::Editor* e, const sad::AColor& value);
+    virtual void updateUI(core::Editor* e, const sad::AColor& value) override;
 };
 
 }

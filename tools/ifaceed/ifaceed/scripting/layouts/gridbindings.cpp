@@ -116,36 +116,36 @@ dukpp03::qt::JSObject* scripting::layouts::init(scripting::Scripting* s, dukpp03
     e->setProperty("layouts", layouts);
 
     dukpp03::qt::JSObject* unit = new dukpp03::qt::JSObject();
-    unit->setProperty("LU_Auto", static_cast<unsigned int>(sad::layouts::LU_Auto));
-    unit->setProperty("LU_Pixels", static_cast<unsigned int>(sad::layouts::LU_Pixels));
-    unit->setProperty("LU_Percents", static_cast<unsigned int>(sad::layouts::LU_Percents));
+    unit->setProperty("LU_Auto", static_cast<unsigned int>(sad::layouts::Unit::LU_Auto));
+    unit->setProperty("LU_Pixels", static_cast<unsigned int>(sad::layouts::Unit::LU_Pixels));
+    unit->setProperty("LU_Percents", static_cast<unsigned int>(sad::layouts::Unit::LU_Percents));
     layouts->setProperty("Unit", unit); // E.layouts.Unit
     layouts->setEvaluatedProperty("LU_Auto", "E.layouts.Unit.LU_Auto");
     layouts->setEvaluatedProperty("LU_Pixels", "E.layouts.Unit.LU_Pixels");
     layouts->setEvaluatedProperty("LU_Percents", "E.layouts.Unit.LU_Percents");
 
     dukpp03::qt::JSObject* horizontal_alignment = new dukpp03::qt::JSObject();
-    horizontal_alignment->setProperty("LHA_Left", static_cast<unsigned int>(sad::layouts::LHA_Left));
-    horizontal_alignment->setProperty("LHA_Middle", static_cast<unsigned int>(sad::layouts::LHA_Middle));
-    horizontal_alignment->setProperty("LHA_Right", static_cast<unsigned int>(sad::layouts::LHA_Right));
+    horizontal_alignment->setProperty("LHA_Left", static_cast<unsigned int>(sad::layouts::HorizontalAlignment::LHA_Left));
+    horizontal_alignment->setProperty("LHA_Middle", static_cast<unsigned int>(sad::layouts::HorizontalAlignment::LHA_Middle));
+    horizontal_alignment->setProperty("LHA_Right", static_cast<unsigned int>(sad::layouts::HorizontalAlignment::LHA_Right));
     layouts->setProperty("HorizontalAlignment", horizontal_alignment); // E.layouts.HorizontalAlignment
     layouts->setEvaluatedProperty("LHA_Left", "E.layouts.HorizontalAlignment.LHA_Left");
     layouts->setEvaluatedProperty("LHA_Middle", "E.layouts.HorizontalAlignment.LHA_Middle");
     layouts->setEvaluatedProperty("LHA_Right", "E.layouts.HorizontalAlignment.LHA_Right");
 
     dukpp03::qt::JSObject* vertical_alignment = new dukpp03::qt::JSObject();
-    vertical_alignment->setProperty("LVA_Top", static_cast<unsigned int>(sad::layouts::LVA_Top));
-    vertical_alignment->setProperty("LVA_Middle", static_cast<unsigned int>(sad::layouts::LVA_Middle));
-    vertical_alignment->setProperty("LVA_Bottom", static_cast<unsigned int>(sad::layouts::LVA_Bottom));
+    vertical_alignment->setProperty("LVA_Top", static_cast<unsigned int>(sad::layouts::VerticalAlignment::LVA_Top));
+    vertical_alignment->setProperty("LVA_Middle", static_cast<unsigned int>(sad::layouts::VerticalAlignment::LVA_Middle));
+    vertical_alignment->setProperty("LVA_Bottom", static_cast<unsigned int>(sad::layouts::VerticalAlignment::LVA_Bottom));
     layouts->setProperty("VerticalAlignment", vertical_alignment); // E.layouts.VerticalAlignment
     layouts->setEvaluatedProperty("LVA_Top", "E.layouts.VerticalAlignment.LVA_Top");
     layouts->setEvaluatedProperty("LVA_Middle", "E.layouts.VerticalAlignment.LVA_Middle");
     layouts->setEvaluatedProperty("LVA_Bottom", "E.layouts.VerticalAlignment.LVA_Bottom");
 
     dukpp03::qt::JSObject* stacking_type = new dukpp03::qt::JSObject();
-    stacking_type->setProperty("LST_Horizontal", static_cast<unsigned int>(sad::layouts::LST_Horizontal));
-    stacking_type->setProperty("LST_Vertical", static_cast<unsigned int>(sad::layouts::LST_Vertical));
-    stacking_type->setProperty("LST_NoStacking", static_cast<unsigned int>(sad::layouts::LST_NoStacking));
+    stacking_type->setProperty("LST_Horizontal", static_cast<unsigned int>(sad::layouts::StackingType::LST_Horizontal));
+    stacking_type->setProperty("LST_Vertical", static_cast<unsigned int>(sad::layouts::StackingType::LST_Vertical));
+    stacking_type->setProperty("LST_NoStacking", static_cast<unsigned int>(sad::layouts::StackingType::LST_NoStacking));
     layouts->setProperty("StackingType", stacking_type); // E.layouts.StackingType
     layouts->setEvaluatedProperty("LST_Horizontal", "E.layouts.StackingType.LST_Horizontal");
     layouts->setEvaluatedProperty("LST_Vertical", "E.layouts.StackingType.LST_Vertical");
@@ -154,10 +154,12 @@ dukpp03::qt::JSObject* scripting::layouts::init(scripting::Scripting* s, dukpp03
     scripting::Scripting* scriptable_me = s;
     std::function<scripting::layouts::ScriptableLengthValue*(unsigned int, double)> length_value = [scriptable_me](unsigned int unit, double value)
     {
-        if ((unit != sad::layouts::LU_Auto) && (unit != sad::layouts::LU_Percents) && (unit != sad::layouts::LU_Pixels))
+        if ((unit != static_cast<unsigned int>(sad::layouts::Unit::LU_Auto)) 
+            && (unit != static_cast<unsigned int>(sad::layouts::Unit::LU_Percents)) 
+            && (unit != static_cast<unsigned int>(sad::layouts::Unit::LU_Pixels)))
         {
             scriptable_me->context()->throwError("Argument 1 must have sad::layouts::Unit type");
-            throw new dukpp03::ArgumentException();
+            throw dukpp03::ArgumentException();
         }
         return new scripting::layouts::ScriptableLengthValue(static_cast<sad::layouts::Unit>(unit), value, scriptable_me);
     };

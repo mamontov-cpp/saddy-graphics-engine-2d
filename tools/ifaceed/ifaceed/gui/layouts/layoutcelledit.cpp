@@ -17,7 +17,7 @@
 #endif
 
 gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
-: QTableWidget(parent), Row(0), Col(0), m_children_provider(NULL)
+: QTableWidget(parent), Row(0), Col(0), m_children_provider(nullptr)
 {
     this->horizontalHeader()->hide();
     this->verticalHeader()->hide();
@@ -321,14 +321,14 @@ void gui::layouts::LayoutCellEdit::setWidth(const sad::layouts::LengthValue& v) 
 {
     invoke_blocked(m_width_value, &QDoubleSpinBox::setValue, v.Value);
     invoke_blocked(m_width_unit,  &QComboBox::setCurrentIndex, static_cast<int>(v.Unit));
-    m_width_value->setEnabled(v.Unit != sad::layouts::LU_Auto);
+    m_width_value->setEnabled(v.Unit != sad::layouts::Unit::LU_Auto);
 }
 
 void gui::layouts::LayoutCellEdit::setHeight(const sad::layouts::LengthValue& v) const
 {
     invoke_blocked(m_height_value, &QDoubleSpinBox::setValue, v.Value);
     invoke_blocked(m_height_unit,  &QComboBox::setCurrentIndex, static_cast<int>(v.Unit));   
-    m_height_value->setEnabled(v.Unit != sad::layouts::LU_Auto);
+    m_height_value->setEnabled(v.Unit != sad::layouts::Unit::LU_Auto);
 }
 
 void gui::layouts::LayoutCellEdit::setHorizontalAlignment(sad::layouts::HorizontalAlignment v) const
@@ -458,10 +458,10 @@ void gui::layouts::LayoutCellEdit::setChildEditingEnabled(bool enabled)
     m_move_front->setEnabled(enabled);
 }
 
-void gui::layouts::LayoutCellEdit::widthValueChanged(double newvalue)
+void gui::layouts::LayoutCellEdit::widthValueChanged(double new_value)
 {
     sad::layouts::LengthValue value;
-    value.Value  = newvalue;
+    value.Value  = new_value;
     value.Unit = static_cast<sad::layouts::Unit>(m_width_unit->currentIndex());
 
     emit widthChanged(Row, Col, value);
@@ -474,12 +474,12 @@ void gui::layouts::LayoutCellEdit::widthUnitChanged(int unit)
         sad::layouts::LengthValue value;
         value.Value  = m_width_value->value();
         value.Unit = static_cast<sad::layouts::Unit>(unit);
-        if (value.Unit != sad::layouts::LU_Auto) {
+        if (value.Unit != sad::layouts::Unit::LU_Auto) {
             m_width_value->setEnabled(true);
         } else {
             m_width_value->setEnabled(false);
         }
-        if (value.Unit == sad::layouts::LU_Percents) {
+        if (value.Unit == sad::layouts::Unit::LU_Percents) {
             if (value.Value > 100) {
                 value.Value = 100;
             }
@@ -489,10 +489,10 @@ void gui::layouts::LayoutCellEdit::widthUnitChanged(int unit)
     }
 }
 
-void gui::layouts::LayoutCellEdit::heightValueChanged(double newvalue)
+void gui::layouts::LayoutCellEdit::heightValueChanged(double new_value)
 {
     sad::layouts::LengthValue value;
-    value.Value  = newvalue;
+    value.Value  = new_value;
     value.Unit = static_cast<sad::layouts::Unit>(m_height_unit->currentIndex());
 
     emit heightChanged(Row, Col, value);	
@@ -505,12 +505,12 @@ void gui::layouts::LayoutCellEdit::heightUnitChanged(int unit)
         sad::layouts::LengthValue value;
         value.Value  = m_height_value->value();
         value.Unit = static_cast<sad::layouts::Unit>(unit);
-        if (value.Unit != sad::layouts::LU_Auto) {
+        if (value.Unit != sad::layouts::Unit::LU_Auto) {
             m_height_value->setEnabled(true);
         } else {
             m_height_value->setEnabled(false);
         }
-        if (value.Unit == sad::layouts::LU_Percents) {
+        if (value.Unit == sad::layouts::Unit::LU_Percents) {
             if (value.Value > 100) {
                 value.Value = 100;
             }
@@ -545,24 +545,24 @@ void gui::layouts::LayoutCellEdit::stackingTypeValueChanged(int v)
 }
 
 
-void gui::layouts::LayoutCellEdit::topPaddingValueChanged(double newvalue)
+void gui::layouts::LayoutCellEdit::topPaddingValueChanged(double new_value)
 {
-    emit topPaddingChanged(Row, Col, newvalue);
+    emit topPaddingChanged(Row, Col, new_value);
 }
 
-void gui::layouts::LayoutCellEdit::bottomPaddingValueChanged(double newvalue)
+void gui::layouts::LayoutCellEdit::bottomPaddingValueChanged(double new_value)
 {
-    emit bottomPaddingChanged(Row, Col, newvalue);
+    emit bottomPaddingChanged(Row, Col, new_value);
 }
 
-void gui::layouts::LayoutCellEdit::leftPaddingValueChanged(double newvalue)
+void gui::layouts::LayoutCellEdit::leftPaddingValueChanged(double new_value)
 {
-    emit leftPaddingChanged(Row, Col, newvalue);
+    emit leftPaddingChanged(Row, Col, new_value);
 }
 
-void gui::layouts::LayoutCellEdit::rightPaddingValueChanged(double newvalue)
+void gui::layouts::LayoutCellEdit::rightPaddingValueChanged(double new_value)
 {
-    emit rightPaddingChanged(Row, Col, newvalue);
+    emit rightPaddingChanged(Row, Col, new_value);
 }
 
 

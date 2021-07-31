@@ -6,13 +6,13 @@
 #include <QCheckBox>
 #include "../resourcetreewidget/resourcetreewidget.h"
 
-gui::uiblocks::UISpriteBlock::UISpriteBlock() : rtwSpriteSprite(NULL),
-btnSpriteMakeBackground(NULL),
-btnSpriteAdd(NULL),
-rbPlaceAndRotate(NULL),
-rbTwoClicksPlaces(NULL),
-cbFlipX(NULL),
-cbFlipY(NULL)
+gui::uiblocks::UISpriteBlock::UISpriteBlock() : rtwSpriteSprite(nullptr),
+btnSpriteMakeBackground(nullptr),
+btnSpriteAdd(nullptr),
+rbPlaceAndRotate(nullptr),
+rbTwoClicksPlaces(nullptr),
+cbFlipX(nullptr),
+cbFlipY(nullptr)
 {
 
 }

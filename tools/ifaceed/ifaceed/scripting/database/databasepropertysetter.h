@@ -30,7 +30,8 @@ namespace database
 /*! Returns list of invisible properties
     \return reference for invisible properties
  */
-const QSet<QString>& getInvisibleProperties();
+// ReSharper disable once CppInconsistentNaming
+const QSet<QString>& getInvisibleProperties();  // NOLINT(readability-redundant-declaration)
 
 /*! Defines a set method overload for setting database property of specified type
  */
@@ -51,22 +52,19 @@ public:
     /*! Returns amount of required arguments
         \return amount of required arguments
      */
-    virtual int requiredArguments()
+    virtual int requiredArguments() override
     {
         return 2;
     }
 
     /*! Destroys a setter
      */
-    virtual ~PropertySetter()
-    {
-
-    }
+	virtual ~PropertySetter() override = default;
 
     /*! Clones an object
         \return copy of object
      */
-    dukpp03::qt::Callable* clone()
+    dukpp03::qt::Callable* clone() override
     {
         return new scripting::database::PropertySetter<T>(m_scripting);
     }
@@ -75,26 +73,26 @@ public:
         \param[in] ctx context
         \return result of check
      */
-    virtual std::pair<int, bool> canBeCalled(dukpp03::qt::BasicContext* ctx)
+    virtual std::pair<int, bool> canBeCalled(dukpp03::qt::BasicContext* ctx) override
     {
-        int required_args = this->requiredArguments();
+        const int required_args = this->requiredArguments();
         if (ctx->getTop() != required_args)
         {
             return std::make_pair(-1, false);
         }
         int a = 0;
-        dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 0);
+        const dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 0);
         if (maybe_prop_name.exists())
         {
             a += 1;
             sad::db::TypeName<T>::init();
-            sad::String prop_name = maybe_prop_name.value();
+            const sad::String& prop_name = maybe_prop_name.value();
             sad::db::Database* me = sad::Renderer::ref()->database("");
             sad::db::Property* prop = me->propertyByName(prop_name);
             const QSet<QString>&  invisible_properties = scripting::database::getInvisibleProperties();
             if (invisible_properties.contains(STD2QSTRING(prop_name)))
             {
-                prop = NULL;
+                prop = nullptr;
             }
             if (prop)
             {
@@ -112,48 +110,50 @@ public:
         }
         return std::make_pair(a, a == 4);
     }
-    /*! Calls an actual function, performong data
+    /*! Calls an actual function, performing action
         \param[in] ctx context
         \return amount of values on stack
      */
-    virtual int call(dukpp03::qt::BasicContext* ctx)
+    virtual int call(dukpp03::qt::BasicContext* ctx) override
     {
-        int required_args = this->requiredArguments();
+        const int required_args = this->requiredArguments();
         if (ctx->getTop() != required_args)
         {
             ctx->throwInvalidArgumentCountError(ctx->getTop(), 2);
-            throw new dukpp03::ArgumentException();
+            throw dukpp03::ArgumentException();
+            // ReSharper disable once CppUnreachableCode
             return 0;
         }
-        dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 0);
+        const dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 0);
         if (maybe_prop_name.exists())
         {
             sad::db::TypeName<T>::init();
-            sad::String prop_name = maybe_prop_name.value();
+            const sad::String& prop_name = maybe_prop_name.value();
             sad::db::Database* me = sad::Renderer::ref()->database("");
             sad::db::Property* prop = me->propertyByName(prop_name);
             if (prop)
             {
                 if (prop->baseType() == sad::db::TypeName<T>::baseName() && prop->pointerStarsCount() == 0)
                 {
-                    dukpp03::Maybe<T> newvalue = dukpp03::GetValue< T, dukpp03::qt::BasicContext >::perform(ctx, 1);
-                    if (newvalue.exists())
+                    dukpp03::Maybe<T> new_value = dukpp03::GetValue< T, dukpp03::qt::BasicContext >::perform(ctx, 1);
+                    if (new_value.exists())
                     {
-                        sad::db::Database* me = sad::Renderer::ref()->database("");
-                        sad::Maybe<T> oldvalue = me->getProperty<T>(prop_name);
+                        sad::db::Database* db = sad::Renderer::ref()->database("");
+                        sad::Maybe<T> old_value = db->getProperty<T>(prop_name);
                         std::equal_to<T> comparator;
-                        if (comparator(newvalue.value(), oldvalue.value()) == false)
+                        if (comparator(new_value.value(), old_value.value()) == false)
                         {
                             core::Editor* p = m_scripting->editor();
                             gui::table::Delegate* d = p->panelProxy()->delegatesByName()[prop_name];
-                            history::Command* c = new history::database::ChangeProperty<T>(oldvalue.value(), newvalue.value(), d);
+                            history::Command* c = new history::database::ChangeProperty<T>(old_value.value(), new_value.value(), d);
                             c->commit(p);
                             p->currentBatchCommand()->add(c);
                         }
                     }
                     else
                     {
-                        std::string name = dukpp03::qt::BasicContext::template typeName< T >();
+                        // ReSharper disable once CppRedundantTemplateKeyword
+                        const std::string name = dukpp03::qt::BasicContext::template typeName< T >();
                         ctx->throwInvalidTypeError(2, name);
                         throw dukpp03::ArgumentException();
                     }
@@ -162,23 +162,27 @@ public:
                 else
                 {
                     ctx->throwError("Invalid property value");
-                    throw new dukpp03::ArgumentException();
+                    throw dukpp03::ArgumentException();
+                    // ReSharper disable once CppUnreachableCode
                     return 0;
                 }
             }
             else
             {
-                ctx->throwError(std::string("Property \"") + prop_name + std::string("\" is not writeable"));
-                throw new dukpp03::ArgumentException();
+                ctx->throwError(std::string("Property \"") + prop_name + std::string("\" is not write-able"));
+                throw dukpp03::ArgumentException();
+                // ReSharper disable once CppUnreachableCode
                 return 0;
             }
         }
         else
         {
             ctx->throwInvalidTypeError(1, "sad::String");
-            throw new dukpp03::ArgumentException();
+            throw dukpp03::ArgumentException();
+            // ReSharper disable once CppUnreachableCode
             return 0;
         }
+        // ReSharper disable once CppUnreachableCode
         return 1;
     }
 protected:

@@ -35,14 +35,14 @@ public:
     /*! Returns amount of required arguments
         \return amount of required arguments
      */
-    virtual int requiredArguments()
+    virtual int requiredArguments() override
     {
         return 1;
     }
 
     /*! Destroys a getter
      */
-    virtual ~PropertyGetter()
+    virtual ~PropertyGetter() override
     {
 
     }
@@ -50,7 +50,7 @@ public:
     /*! Clones an object
         \return copy of object
      */
-    dukpp03::qt::Callable* clone()
+    dukpp03::qt::Callable* clone() override
     {
         return new scripting::database::PropertyGetter<T>();
     }
@@ -58,20 +58,20 @@ public:
     /*! Determines, whether it can be called with this context
         \param[in] ctx context
      */
-    virtual std::pair<int, bool> canBeCalled(dukpp03::qt::BasicContext* ctx)
+    virtual std::pair<int, bool> canBeCalled(dukpp03::qt::BasicContext* ctx) override
     {
-        int required_args = this->requiredArguments();
+        const int required_args = this->requiredArguments();
         if (ctx->getTop() != required_args)
         {
             return std::make_pair(-1, false);
         }
         int a = 0;
-        dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 0);
+        const dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 0);
         if (maybe_prop_name.exists())
         {
             a += 1;
             sad::db::TypeName<T>::init();
-            sad::String prop_name = maybe_prop_name.value();
+            const sad::String prop_name = maybe_prop_name.value();
             sad::db::Database* me = sad::Renderer::ref()->database("");
             sad::db::Property* prop = me->propertyByName(prop_name);
             if (prop)
@@ -85,24 +85,25 @@ public:
         }
         return std::make_pair(a, a == 3);
     }
-    /*! Calls an actual function, performong data
+    /*! Calls an actual function, performing action
         \param[in] ctx context
         \return amount of values on stack
      */
-    virtual int call(dukpp03::qt::BasicContext* ctx)
+    virtual int call(dukpp03::qt::BasicContext* ctx) override
     {
-        int required_args = this->requiredArguments();
+        const int required_args = this->requiredArguments();
         if (ctx->getTop() != required_args)
         {
             ctx->throwInvalidArgumentCountError(ctx->getTop(), 1);
             throw new dukpp03::ArgumentException();
+            // ReSharper disable once CppUnreachableCode
             return 0;
         }
-        dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 0);
+        const dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 0);
         if (maybe_prop_name.exists())
         {
             sad::db::TypeName<T>::init();
-            sad::String prop_name = maybe_prop_name.value();
+            const sad::String prop_name = maybe_prop_name.value();
             sad::db::Database* me = sad::Renderer::ref()->database("");
             sad::db::Property* prop = me->propertyByName(prop_name);
             if (prop)
@@ -116,6 +117,7 @@ public:
                 {
                     ctx->throwError("Invalid property value");
                     throw new dukpp03::ArgumentException();
+                    // ReSharper disable once CppUnreachableCode
                     return 0;
                 }
             }
@@ -123,6 +125,7 @@ public:
             {
                 ctx->throwError(std::string("Property \"") + prop_name + std::string("\" is not readable"));
                 throw new dukpp03::ArgumentException();
+                // ReSharper disable once CppUnreachableCode
                 return 0;
             }
         }
@@ -130,8 +133,10 @@ public:
         {
             ctx->throwInvalidTypeError(1, "sad::String");
             throw new dukpp03::ArgumentException();
+            // ReSharper disable once CppUnreachableCode
             return 0;
         }
+        // ReSharper disable once CppUnreachableCode
         return 1;
     }
 };

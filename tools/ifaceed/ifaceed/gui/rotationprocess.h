@@ -33,10 +33,10 @@ public:
     virtual ~RotationProcess();
     /*! Starts new rotation process
         \param[in] node a node
-        \param[in] oldvalue an old value for process
-        \param[in] newvalue a new value for process
+        \param[in] old_value an old value for process
+        \param[in] new_value a new value for process
      */
-    void start(sad::SceneNode* node, float oldvalue, float newvalue);
+    void start(sad::SceneNode* node, float old_value, float new_value);
     /*! Sets a editor for rotation process
         \param[in] e editor
      */
@@ -64,10 +64,10 @@ protected:
     sad::SceneNode* m_node;
     /*! An old value for angle
      */
-    float m_oldvalue;
+    float m_old_value;
     /*! A new value for angle
      */
-    float m_newvalue;
+    float m_new_value;
 
     /*!
      * Restarts timer

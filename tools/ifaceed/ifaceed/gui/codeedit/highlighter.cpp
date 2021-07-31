@@ -4,7 +4,7 @@
     #define HAVE_QT5 (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 #endif
 
-enum ScriptIds {
+enum ScriptIds{
     Comment = 1,
     Number,
     String,

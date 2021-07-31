@@ -18,19 +18,19 @@ class ChangeHasFormatting : public history::scenenodes::ChangeProperty<bool>
 public:
     /*! Constructs new command for node
         \param[in] d a node
-        \param[in] oldvalue old value of font size
-        \param[in] newvalue new value of font size
+        \param[in] old_value old value of font size
+        \param[in] new_value new value of font size
      */
-    ChangeHasFormatting(sad::SceneNode* d, bool oldvalue, bool newvalue);
+    ChangeHasFormatting(sad::SceneNode* d, bool old_value, bool new_value);
     /*! Erases link to a node
      */
-    virtual ~ChangeHasFormatting();
+    virtual ~ChangeHasFormatting() override;
 protected:
     /*! Tries to update UI in case if node is selected
         \param[in] e editor
         \param[in] value a value
     */
-    virtual void updateUI(core::Editor* e, const bool& value);
+    virtual void updateUI(core::Editor* e, const bool& value) override;
 };
 
 }

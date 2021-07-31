@@ -5,6 +5,7 @@
  */
 #pragma once
 #include "dukqtcontext.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include <functional>
 
 #include "maybe.h"
@@ -12,7 +13,9 @@
 
 #include "../qstdstring.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <db/dbproperty.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <db/dbobject.h>
 
 namespace scripting
@@ -55,7 +58,7 @@ public:
     /*! Clones an object
         \return copy of object
      */
-    dukpp03::qt::Callable* clone()
+    dukpp03::qt::Callable* clone() override
     {
         return new scripting::AbstractGetter<_ObjectType, _PropertyType>(*this);
     }
@@ -63,7 +66,7 @@ public:
     /*! Returns amount of required arguments
         \return amount of required arguments
      */
-    virtual int requiredArguments()
+    virtual int requiredArguments() override
     {
         return 2; // object, name of property
     }
@@ -109,16 +112,16 @@ public:
         \param[in] ctx context
         \return result of check
      */
-    virtual std::pair<int, bool>  canBeCalled(dukpp03::qt::BasicContext* ctx)
+    virtual std::pair<int, bool>  canBeCalled(dukpp03::qt::BasicContext* ctx) override
     {
-        int required_args = this->requiredArguments();
+	    const int required_args = this->requiredArguments();
         if (ctx->getTop() != required_args)
         {
             return std::make_pair(-1, false);
         }
         int a = 0;
         dukpp03::Maybe<_ObjectType> maybe_object = dukpp03::GetValue< _ObjectType, dukpp03::qt::BasicContext >::perform(ctx, 0);
-        dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 1);
+	    const dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 1);
         if (maybe_object.exists())
         {
             a += 1;
@@ -142,17 +145,18 @@ public:
         \param[in] ctx context
         \return amount of values in context
      */
-    virtual int call(dukpp03::qt::BasicContext* ctx)
+    virtual int call(dukpp03::qt::BasicContext* ctx) override
     {
-        int required_args = this->requiredArguments();
+        const int required_args = this->requiredArguments();
         if (ctx->getTop() != required_args)
         {
             ctx->throwInvalidArgumentCountError(ctx->getTop(), 3);
             throw new dukpp03::ArgumentException();
+            // ReSharper disable once CppUnreachableCode
             return 0;
         }
         dukpp03::Maybe<_ObjectType> maybe_object = dukpp03::GetValue< _ObjectType, dukpp03::qt::BasicContext >::perform(ctx, 0);
-        dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 1);
+        const dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 1);
         if (maybe_object.exists())
         {
             if (maybe_prop_name.exists())
@@ -179,17 +183,20 @@ public:
             }
             else
             {
-                std::string name = dukpp03::qt::BasicContext::template typeName< sad::String >();
+               // ReSharper disable once CppRedundantTemplateKeyword
+                const std::string name = dukpp03::qt::BasicContext::template typeName< sad::String >();
                 ctx->throwInvalidTypeError(2, name);
                 throw dukpp03::ArgumentException();
             }
         }
         else
         {
-            std::string name = dukpp03::qt::BasicContext::template typeName< _ObjectType >();
+           // ReSharper disable once CppRedundantTemplateKeyword
+            const std::string name = dukpp03::qt::BasicContext::template typeName< _ObjectType >();
             ctx->throwInvalidTypeError(1, name);
             throw dukpp03::ArgumentException();
         }
+        // ReSharper disable once CppUnreachableCode
         return 0;
     }
 protected:

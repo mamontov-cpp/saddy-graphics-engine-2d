@@ -73,13 +73,13 @@ void gui::actions::LabelActions::cancelAddLabel()
     core::Shared* s = this->m_editor->shared();
     sad::SceneNode* label = s->activeObject();
     sad::Renderer::ref()->lockRendering();
-    s->setActiveObject(NULL);
+    s->setActiveObject(nullptr);
     label->scene()->remove(label);
     sad::Renderer::ref()->unlockRendering();
     
     sad::hfsm::Machine* m = m_editor->machine();
     m->enterState(m->previousState());
-    if (m->isInState("adding") || (m->isInState("selected") && s->selectedObject() == NULL))
+    if (m->isInState("adding") || (m->isInState("selected") && s->selectedObject() == nullptr))
     {
         m->enterState("idle");
     }
@@ -118,7 +118,7 @@ void gui::actions::LabelActions::commitLabelAdd(const sad::input::MousePressEven
     sad::SceneNode* node = s->activeObject();
     sad::Renderer::ref()->database("")->table("scenenodes")->add(node);
     history::Command* c = new history::scenenodes::New(node);
-    s->setActiveObject(NULL);
+    s->setActiveObject(nullptr);
     s->setSelectedObject(node);
     m_editor->history()->add(c);
     c->commit(m_editor);
@@ -152,7 +152,7 @@ void gui::actions::LabelActions::addLabel()
 
     gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
 
-    valid = valid && s_actions->currentScene() != NULL;
+    valid = valid && s_actions->currentScene() != nullptr;
     valid = valid && lblk->txtLabelText->toPlainText().length() != 0;
     valid = valid && lblk->rtwLabelFont->selectedResourceName().exists();
     valid = valid && m_editor->machine()->isInState("adding") == false;
@@ -224,7 +224,7 @@ void gui::actions::LabelActions::addLabel()
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::LabelActions::labelFontChanged(sad::String s)
 {
-    if (m_editor->shared()->activeObject() != NULL)
+    if (m_editor->shared()->activeObject() != nullptr)
     {
         sad::Renderer::ref()->lockRendering();
         m_editor->shared()->activeObject()->setProperty("font", s);
@@ -235,16 +235,16 @@ void gui::actions::LabelActions::labelFontChanged(sad::String s)
         sad::SceneNode* node = m_editor->shared()->selectedObject();
         if (node)
         {
-            sad::Maybe<sad::String> oldvalue = node->getProperty<sad::String>("font");
-            if (oldvalue.exists())
+            sad::Maybe<sad::String> old_value = node->getProperty<sad::String>("font");
+            if (old_value.exists())
             {
-                if (oldvalue.value() != s)
+                if (old_value.value() != s)
                 {
                     sad::Renderer::ref()->lockRendering();
                     node->setProperty("font", s);
                     m_editor->actions()->sceneNodeActions()->tryUpdateParentGridForNode(node);
                     sad::Renderer::ref()->unlockRendering();
-                    m_editor->history()->add(new history::label::ChangeFontName(node, oldvalue.value(), s));
+                    m_editor->history()->add(new history::label::ChangeFontName(node, old_value.value(), s));
                 }
             }
         }
@@ -256,7 +256,7 @@ void gui::actions::LabelActions::labelSizeChanged(unsigned int s)
 {
     gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
 
-    if (m_editor->shared()->activeObject() != NULL)
+    if (m_editor->shared()->activeObject() != nullptr)
     {
         sad::Renderer::ref()->lockRendering();
         m_editor->shared()->activeObject()->setProperty("fontsize", s);
@@ -269,17 +269,17 @@ void gui::actions::LabelActions::labelSizeChanged(unsigned int s)
         sad::SceneNode* node = m_editor->shared()->selectedObject();
         if (node)
         {
-            sad::Maybe<unsigned int> oldvalue = node->getProperty<unsigned int>("fontsize");
-            if (oldvalue.exists())
+            sad::Maybe<unsigned int> old_value = node->getProperty<unsigned int>("fontsize");
+            if (old_value.exists())
             {
-                if (oldvalue.value() != s)
+                if (old_value.value() != s)
                 {
                     sad::Renderer::ref()->lockRendering();
                     node->setProperty("fontsize", s);
                     m_editor->actions()->sceneNodeActions()->tryUpdateParentGridForNode(node);
                     sad::Renderer::ref()->unlockRendering();
                     sn_actions->updateRegionForNode();
-                    m_editor->history()->add(new history::label::ChangeFontSize(node, oldvalue.value(), s));
+                    m_editor->history()->add(new history::label::ChangeFontSize(node, old_value.value(), s));
                 }
             }
         }
@@ -294,10 +294,10 @@ void gui::actions::LabelActions::labelTextChanged()
     
     gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
 
-    sad::String newvalue = Q2STDSTRING(lblk->txtLabelText->toPlainText());
-    if (m_editor->shared()->activeObject() != NULL)
+    sad::String new_value = Q2STDSTRING(lblk->txtLabelText->toPlainText());
+    if (m_editor->shared()->activeObject() != nullptr)
     {
-        m_editor->shared()->activeObject()->setProperty("text", newvalue);
+        m_editor->shared()->activeObject()->setProperty("text", new_value);
         sn_actions->updateRegionForNode();
     }
     else
@@ -305,15 +305,15 @@ void gui::actions::LabelActions::labelTextChanged()
         sad::SceneNode* node = m_editor->shared()->selectedObject();
         if (node)
         {
-            sad::Maybe<sad::String> oldvalue = node->getProperty<sad::String>("text");
-            if (oldvalue.exists())
+            sad::Maybe<sad::String> old_value = node->getProperty<sad::String>("text");
+            if (old_value.exists())
             {
-                if (oldvalue.value() != newvalue)
+                if (old_value.value() != new_value)
                 {
-                    node->setProperty("text", newvalue);
+                    node->setProperty("text", new_value);
                     sn_actions->updateRegionForNode();
                     m_editor->actions()->sceneNodeActions()->tryUpdateParentGridForNode(node);
-                    m_editor->history()->add(new history::label::ChangeText(node, oldvalue.value(), newvalue));
+                    m_editor->history()->add(new history::label::ChangeText(node, old_value.value(), new_value));
                 }
             }
         }
@@ -321,13 +321,13 @@ void gui::actions::LabelActions::labelTextChanged()
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void gui::actions::LabelActions::labelLineSpacingChanged(double newvalue)
+void gui::actions::LabelActions::labelLineSpacingChanged(double new_value)
 {
     gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
  
-    if (m_editor->shared()->activeObject() != NULL)
+    if (m_editor->shared()->activeObject() != nullptr)
     {
-        m_editor->shared()->activeObject()->setProperty("linespacing", newvalue);
+        m_editor->shared()->activeObject()->setProperty("linespacing", new_value);
         sn_actions->updateRegionForNode();
     }
     else
@@ -335,79 +335,79 @@ void gui::actions::LabelActions::labelLineSpacingChanged(double newvalue)
         sad::SceneNode* node = m_editor->shared()->selectedObject();
         if (node)
         {
-            sad::Maybe<float> oldvalue = node->getProperty<float>("linespacing");
-            if (oldvalue.exists())
+            sad::Maybe<float> old_value = node->getProperty<float>("linespacing");
+            if (old_value.exists())
             {
-                if (sad::is_fuzzy_equal(oldvalue.value(), newvalue, 0.0001) == false)
+                if (sad::is_fuzzy_equal(old_value.value(), new_value, 0.0001) == false)
                 {
-                    node->setProperty("linespacing", newvalue);
+                    node->setProperty("linespacing", new_value);
                     sn_actions->updateRegionForNode();
                     m_editor->actions()->sceneNodeActions()->tryUpdateParentGridForNode(node);
-                    m_editor->history()->add(new history::label::ChangeLineSpacing(node, oldvalue.value(), newvalue));
+                    m_editor->history()->add(new history::label::ChangeLineSpacing(node, old_value.value(), new_value));
                 }
             }
         }
     }
 }
 
-void gui::actions::LabelActions::labelMaximalLineWidthChanged(int newvalue)
+void gui::actions::LabelActions::labelMaximalLineWidthChanged(int new_value)
 {
     unsignedIntPropertyChanged(
-        newvalue, 
+        new_value, 
         "maximallinewidth", 
         &gui::actions::LabelActions::command<history::label::ChangeMaximalLineWidth>
     );    
 }
 
-void gui::actions::LabelActions::labelBreakTextChanged(int newvalue)
+void gui::actions::LabelActions::labelBreakTextChanged(int new_value)
 {
     unsignedIntPropertyChanged(
-        newvalue, 
+        new_value, 
         "breaktext", 
         &gui::actions::LabelActions::command<history::label::ChangeBreakText>
     );    
 }
 
-void gui::actions::LabelActions::labelOverflowStrategyChanged(int newvalue)
+void gui::actions::LabelActions::labelOverflowStrategyChanged(int new_value)
 {
     unsignedIntPropertyChanged(
-        newvalue, 
+        new_value, 
         "overflowstrategy", 
         &gui::actions::LabelActions::command<history::label::ChangeOverflowStrategy>
     );  
 }
 
-void gui::actions::LabelActions::labelTextEllipsisChanged(int newvalue)
+void gui::actions::LabelActions::labelTextEllipsisChanged(int new_value)
 {
     unsignedIntPropertyChanged(
-        newvalue, 
+        new_value, 
         "textellipsisposition", 
         &gui::actions::LabelActions::command<history::label::ChangeTextEllipsis>
     );  
 }
 
-void gui::actions::LabelActions::labelMaximalLinesCountChanged(int newvalue)
+void gui::actions::LabelActions::labelMaximalLinesCountChanged(int new_value)
 {
     unsignedIntPropertyChanged(
-        newvalue, 
+        new_value, 
         "maximallinescount", 
         &gui::actions::LabelActions::command<history::label::ChangeMaximalLinesCount>
     );    
 }
 
-void gui::actions::LabelActions::labelOverflowStrategyForLinesChanged(int newvalue)
+void gui::actions::LabelActions::labelOverflowStrategyForLinesChanged(int new_value)
 {
     unsignedIntPropertyChanged(
-        newvalue, 
+        new_value, 
         "overflowstrategyforlines", 
         &gui::actions::LabelActions::command<history::label::ChangeOverflowStrategyForLines>
     ); 
 }
 
-void gui::actions::LabelActions::labelTextEllipsisForLinesChanged(int newvalue)
+void gui::actions::LabelActions::labelTextEllipsisForLinesChanged(int new_value)
 {
     unsignedIntPropertyChanged(
-        newvalue, 
+        new_value, 
         "textellipsispositionforlines", 
         &gui::actions::LabelActions::command<history::label::ChangeTextEllipsisForLines>
     ); 
@@ -417,28 +417,28 @@ void gui::actions::LabelActions::labelHasFormattingChanged(bool state)
 {
     gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
 
-    bool newvalue = state;
-    if (m_editor->shared()->activeObject() != NULL)
+    bool new_value = state;
+    if (m_editor->shared()->activeObject() != nullptr)
     {
-        m_editor->shared()->activeObject()->setProperty("hasformatting", newvalue);
+        m_editor->shared()->activeObject()->setProperty("hasformatting", new_value);
     }
     else
     {
         sad::SceneNode* node = m_editor->shared()->selectedObject();
         if (node)
         {
-            sad::Maybe<bool> oldvalue = node->getProperty<bool>("hasformatting");
-            if (oldvalue.exists())
+            sad::Maybe<bool> old_value = node->getProperty<bool>("hasformatting");
+            if (old_value.exists())
             {
-                if (newvalue != oldvalue.value())
+                if (new_value != old_value.value())
                 {
-                    node->setProperty("hasformatting", newvalue);
+                    node->setProperty("hasformatting", new_value);
                     sn_actions->updateRegionForNode();
                     m_editor->actions()->sceneNodeActions()->tryUpdateParentGridForNode(node);
                     m_editor->history()->add(new history::label::ChangeHasFormatting(
                         node,
-                        oldvalue.value(),
-                        newvalue
+                        old_value.value(),
+                        new_value
                     ));
                 }
             }
@@ -449,15 +449,15 @@ void gui::actions::LabelActions::labelHasFormattingChanged(bool state)
 
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::LabelActions::unsignedIntPropertyChanged(
-    int newvalue,
+    int new_value,
     const sad::String& prop,
     gui::actions::LabelActions::CommandMaker maker
 )
 {
     gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
 
-    unsigned int nv = static_cast<unsigned int>(newvalue);
-    if (m_editor->shared()->activeObject() != NULL)
+    unsigned int nv = static_cast<unsigned int>(new_value);
+    if (m_editor->shared()->activeObject() != nullptr)
     {
         m_editor->shared()->activeObject()->setProperty(prop, nv);
         sn_actions->updateRegionForNode();
@@ -467,15 +467,15 @@ void gui::actions::LabelActions::unsignedIntPropertyChanged(
         sad::SceneNode* node = m_editor->shared()->selectedObject();
         if (node)
         {
-            sad::Maybe<unsigned int> oldvalue = node->getProperty<unsigned int>(prop);
-            if (oldvalue.exists())
+            sad::Maybe<unsigned int> old_value = node->getProperty<unsigned int>(prop);
+            if (old_value.exists())
             {
-                if (oldvalue.value() != nv)
+                if (old_value.value() != nv)
                 {
-                    node->setProperty(prop, newvalue);
+                    node->setProperty(prop, new_value);
                     sn_actions->updateRegionForNode();
                     m_editor->actions()->sceneNodeActions()->tryUpdateParentGridForNode(node);
-                    history::Command* p = (this->*maker)(node, oldvalue.value(), newvalue);
+                    history::Command* p = (this->*maker)(node, old_value.value(), new_value);
                     m_editor->history()->add(p);
                 }
             }

@@ -38,108 +38,108 @@ public:
     /*! Constructs new UIBlocks
      */
     UIBlocks();
-    /*! Inits blocks with children of main widget
+    /*! Initializes blocks with children of main widget
         \param[in] w widget
      */
-    void init(QWidget* w);
+    void init(QWidget* w) const;
     /*! Destroys object
      */
     ~UIBlocks();
     /*! Returns UI group for Scene group of widgets
         \return UI group for Scene objects
     */
-    inline gui::uiblocks::UISceneBlock* uiSceneBlock()
+    inline gui::uiblocks::UISceneBlock* uiSceneBlock() const
     {
         return m_ui_scene_block;
     }
     /*! Returns UI group for SceneNode group of widgets
         \return UI group for SceneNode objects
     */
-    inline gui::uiblocks::UISceneNodeBlock* uiSceneNodeBlock()
+    inline gui::uiblocks::UISceneNodeBlock* uiSceneNodeBlock() const
     {
-        return m_ui_scenenode_block;
+        return m_ui_scene_node_block;
     }
     /*! Returns UI group for Label group of widgets
         \return UI group for Label objects
     */
-    inline gui::uiblocks::UILabelBlock* uiLabelBlock()
+    inline gui::uiblocks::UILabelBlock* uiLabelBlock() const
     {
         return m_ui_label_block;
     }
     /*! Returns UI group for Sprite group of widgets
         \return UI group for Sprite objects
     */
-    inline gui::uiblocks::UISpriteBlock* uiSpriteBlock()
+    inline gui::uiblocks::UISpriteBlock* uiSpriteBlock() const
     {
         return m_ui_sprite_block;
     }
     /*! Returns UI group for CustomObject group of widgets
         \return UI group for CustomObject objects
     */
-    inline gui::uiblocks::UICustomObjectBlock* uiCustomObjectBlock()
+    inline gui::uiblocks::UICustomObjectBlock* uiCustomObjectBlock() const
     {
         return m_ui_customobject_block;
     }
     /*! Returns UI group for Way group of widgets
         \return UI group for Way objects
     */
-    inline gui::uiblocks::UIWayBlock* uiWayBlock()
+    inline gui::uiblocks::UIWayBlock* uiWayBlock() const
     {
         return m_ui_way_block;
     }
     /*! Returns UI group for Dialogue group of widgets
         \return UI group for Dialogue objects
     */
-    inline gui::uiblocks::UIDialogueBlock* uiDialogueBlock()
+    inline gui::uiblocks::UIDialogueBlock* uiDialogueBlock() const
     {
         return m_ui_dialogue_block;
     }
     /*! Returns UI group for Phrase group of widgets
         \return UI group for Phrase objects
     */
-    inline gui::uiblocks::UIPhraseBlock* uiPhraseBlock()
+    inline gui::uiblocks::UIPhraseBlock* uiPhraseBlock() const
     {
         return m_ui_phrase_block;
     }
     /*! Returns UI group for Animation group of widgets
         \return UI group for Animation objects
     */
-    inline gui::uiblocks::UIAnimationBlock* uiAnimationBlock()
+    inline gui::uiblocks::UIAnimationBlock* uiAnimationBlock() const
     {
         return m_ui_animation_block;
     }
     /*! Returns UI group for AnimationInstance group of widgets
         \return UI group for AnimationInstance objects
     */
-    inline gui::uiblocks::UIAnimationInstanceBlock* uiAnimationInstanceBlock()
+    inline gui::uiblocks::UIAnimationInstanceBlock* uiAnimationInstanceBlock() const
     {
-        return m_ui_animationinstance_block;
+        return m_ui_animation_instance_block;
     }
     /*! Returns UI group for AnimationsGroup group of widgets
         \return UI group for AnimationsGroup objects
     */
-    inline gui::uiblocks::UIAnimationsGroupBlock* uiAnimationsGroupBlock()
+    inline gui::uiblocks::UIAnimationsGroupBlock* uiAnimationsGroupBlock() const
     {
-        return m_ui_animationsgroup_block;
+        return m_ui_animations_group_block;
     }
     /*! Returns UI group for Common group of widgets
         \return UI group for Common objects
     */
-    inline gui::uiblocks::UICommonBlock* uiCommonBlock()
+    inline gui::uiblocks::UICommonBlock* uiCommonBlock() const
     {
         return m_ui_common_block;
     }
     /*! Returns UI group for Console group of widgets
         \return UI group for Console objects
     */
-    inline gui::uiblocks::UIConsoleBlock* uiConsoleBlock()
+    inline gui::uiblocks::UIConsoleBlock* uiConsoleBlock() const
     {
         return m_ui_console_block;
     }
     /*! Returns UI group for Layout group of widgets
         \return UI group for Layout objects
     */
-    inline gui::uiblocks::UILayoutBlock* uiLayoutBlock()
+    inline gui::uiblocks::UILayoutBlock* uiLayoutBlock() const
     {
         return m_ui_layout_block;
     }
@@ -149,7 +149,7 @@ protected:
     gui::uiblocks::UISceneBlock* m_ui_scene_block;
     /*! An UI group for SceneNode group of widgets
     */
-    gui::uiblocks::UISceneNodeBlock* m_ui_scenenode_block;
+    gui::uiblocks::UISceneNodeBlock* m_ui_scene_node_block;
     /*! An UI group for Label group of widgets
     */
     gui::uiblocks::UILabelBlock* m_ui_label_block;
@@ -173,10 +173,10 @@ protected:
     gui::uiblocks::UIAnimationBlock* m_ui_animation_block;
     /*! An UI group for AnimationInstance group of widgets
     */
-    gui::uiblocks::UIAnimationInstanceBlock* m_ui_animationinstance_block;
+    gui::uiblocks::UIAnimationInstanceBlock* m_ui_animation_instance_block;
     /*! An UI group for AnimationsGroup group of widgets
     */
-    gui::uiblocks::UIAnimationsGroupBlock* m_ui_animationsgroup_block;
+    gui::uiblocks::UIAnimationsGroupBlock* m_ui_animations_group_block;
     /*! An UI group for Common group of widgets
     */
     gui::uiblocks::UICommonBlock* m_ui_common_block;

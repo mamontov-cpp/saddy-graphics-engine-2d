@@ -14,17 +14,17 @@
 
 history::animations::ChangeFontSizeSize::ChangeFontSizeSize(
     sad::animations::Animation* d,
-    const sad::String& propertyname,
+    const sad::String& property_name,
     QSpinBox* view,
-    unsigned int oldvalue,
-    unsigned int newvalue
+    unsigned int old_value,
+    unsigned int new_value
 
 )
 : history::animations::ChangeProperty<unsigned int>(
       d,
-      propertyname,
-      oldvalue,
-      newvalue
+      property_name,
+      old_value,
+      new_value
 ), m_view(view)
 {
 }

@@ -18,14 +18,14 @@ class ChangeName: public history::animations::ChangeProperty<sad::String>
 public:
      /*! Constructs new command for animation
         \param[in] d a node
-        \param[in] oldvalue old text
-        \param[in] newvalue new text
+        \param[in] old_value old text
+        \param[in] new_value new text
       */
-    ChangeName(sad::animations::Animation* d, const sad::String& oldvalue, const sad::String& newvalue);
+    ChangeName(sad::animations::Animation* d, const sad::String& old_value, const sad::String& new_value);
     /*! Commits command without updating a text field
         \param[in] ob editor
      */
-    void commitWithoutUpdatingUI(core::Editor* ob);
+    void commitWithoutUpdatingUI(core::Editor* ob) override;
     /*! Erases link to an animation
       */
     virtual ~ChangeName();
@@ -34,13 +34,13 @@ protected:
         \param[in] e editor
         \param[in] value a value
      */
-    virtual void tryUpdateUI(core::Editor* e, const sad::String& value);
+    virtual void tryUpdateUI(core::Editor* e, const sad::String& value) override;
     /*!
      * Updates current text in field with object name
      * \param[in] e editor
      * \param[in] value a value
      */
-    virtual void updateUI(core::Editor* e, const sad::String& value);
+    virtual void updateUI(core::Editor* e, const sad::String& value) override;
     /*! Whether we should update local text field
      */
     bool m_should_update_text_field;

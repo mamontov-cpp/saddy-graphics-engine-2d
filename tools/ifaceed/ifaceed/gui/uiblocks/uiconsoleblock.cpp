@@ -5,12 +5,12 @@
 #include <QTextEdit>
 #include "../gui/codeedit/codeedit.h"
 
-gui::uiblocks::UIConsoleBlock::UIConsoleBlock() : txtConsoleCode(NULL),
-btnConsoleRun(NULL),
-txtConsoleResults(NULL),
-btnConsoleHelp(NULL),
-btnConsoleSave(NULL),
-btnConsoleLoad(NULL)
+gui::uiblocks::UIConsoleBlock::UIConsoleBlock() : txtConsoleCode(nullptr),
+btnConsoleRun(nullptr),
+txtConsoleResults(nullptr),
+btnConsoleHelp(nullptr),
+btnConsoleSave(nullptr),
+btnConsoleLoad(nullptr)
 {
 
 }

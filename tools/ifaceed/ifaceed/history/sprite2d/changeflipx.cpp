@@ -10,15 +10,15 @@
 history::Command* history::sprite2d::changeFlipX(
     core::Editor* e, 
     sad::SceneNode* d, 
-    bool oldvalue, 
-    bool newvalue
+    bool old_value, 
+    bool new_value
 )
 {
     return new history::scenenodes::ChangePropertyWhichLinkedToCheckbox(
         e->uiBlocks()->uiSpriteBlock()->cbFlipX,
         d,
         "flipx",
-        oldvalue,
-        newvalue
+        old_value,
+        new_value
     );	
 }

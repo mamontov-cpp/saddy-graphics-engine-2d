@@ -224,7 +224,7 @@ sad::Maybe<sad::String> gui::resourcetreewidget::ResourceTreeWidget::selectedRes
 sad::resource::Resource* gui::resourcetreewidget::ResourceTreeWidget::selectedResource() const
 {
     sad::Maybe<sad::String> path = this->selectedResourceName();
-    sad::resource::Resource * result = NULL;
+    sad::resource::Resource * result = nullptr;
 
     sad::resource::Tree * tree = sad::Renderer::ref()->tree(Q2STDSTRING(m_tree_name));
     sad::resource::Folder * folder = tree->root();
@@ -392,14 +392,14 @@ sad::Maybe<sad::String> gui::resourcetreewidget::ResourceTreeWidget::selectedLoc
 
 void gui::resourcetreewidget::ResourceTreeWidget::tryRestoreSelection(
     const sad::Maybe<sad::String> & folder,
-    const sad::Maybe<sad::String> & resourcelocal
+    const sad::Maybe<sad::String> & resource_local
 )
 {
     if (folder.exists())
     {
         sad::String pathvalue = folder.value();
         bool found = false;
-        QTreeWidgetItem * current = NULL;
+        QTreeWidgetItem * current = nullptr;
         if (pathvalue.length() == 0)
         {
             current = m_tree_view->topLevelItem(0);
@@ -410,7 +410,7 @@ void gui::resourcetreewidget::ResourceTreeWidget::tryRestoreSelection(
         {
             sad::StringList list = pathvalue.split("/");
             current = m_tree_view->topLevelItem(0);
-            for(int i = 0; i < list.count() && current != NULL; i++)
+            for(int i = 0; i < list.count() && current != nullptr; i++)
             {
                 bool hasspecifieditem = false;
                 for(int j = 0; j < current->childCount() && !hasspecifieditem; j++)
@@ -423,7 +423,7 @@ void gui::resourcetreewidget::ResourceTreeWidget::tryRestoreSelection(
                 }
                 if (!hasspecifieditem)
                 {
-                    current = NULL;
+                    current = nullptr;
                 }
             }
             if (current)
@@ -435,11 +435,11 @@ void gui::resourcetreewidget::ResourceTreeWidget::tryRestoreSelection(
 
         if (found)
         {
-            this->treeItemChanged(current, NULL);
-            if (resourcelocal.exists())
+            this->treeItemChanged(current, nullptr);
+            if (resource_local.exists())
             {
                 // Try set selection for local
-                QList<QTableWidgetItem *> items = m_element_view->findItems(STD2QSTRING(resourcelocal.value()), Qt::MatchFixedString | Qt::MatchCaseSensitive);
+                QList<QTableWidgetItem *> items = m_element_view->findItems(STD2QSTRING(resource_local.value()), Qt::MatchFixedString | Qt::MatchCaseSensitive);
                 if (items.count())
                 {
                     QTableWidgetItem* item = items[0];
@@ -454,20 +454,20 @@ void gui::resourcetreewidget::ResourceTreeWidget::tryRestoreSelection(
 }
 
 void gui::resourcetreewidget::ResourceTreeWidget::populateTree(
-        QTreeWidgetItem * parentitem, 
-        sad::resource::Folder * parentfolder,
+        QTreeWidgetItem * parent_item, 
+        sad::resource::Folder * parent_folder,
         const  QHash<sad::resource::Folder*, bool>& suitability
 )
 {
-    sad::resource::FolderIterator it = parentfolder->folderListBegin();
-    while(it != parentfolder->folderListEnd())
+    sad::resource::FolderIterator it = parent_folder->folderListBegin();
+    while(it != parent_folder->folderListEnd())
     {
         if (suitability.contains(it.value()))
         {
             if (suitability[it.value()])
             {
                 QTreeWidgetItem * item = new QTreeWidgetItem(QStringList(STD2QSTRING(it.key())));
-                parentitem->addChild(item);
+                parent_item->addChild(item);
                 populateTree(item, it.value(), suitability);
             }
         }
@@ -476,23 +476,23 @@ void gui::resourcetreewidget::ResourceTreeWidget::populateTree(
 }
 
  bool gui::resourcetreewidget::ResourceTreeWidget::findSuitableFolders(
-        sad::resource::Folder* currentfolder,
+        sad::resource::Folder* current_folder,
         QHash<sad::resource::Folder*, bool>& suitability
 )
 {
     bool result = false;
-    sad::resource::FolderIterator it = currentfolder->folderListBegin();
-    while(it != currentfolder->folderListEnd())
+    sad::resource::FolderIterator it = current_folder->folderListBegin();
+    while(it != current_folder->folderListEnd())
     {
         bool suitabilityValue = findSuitableFolders(it.value(), suitability);
         result = result || suitabilityValue;
         ++it;
     }
 
-    sad::resource::ResourceIterator cur = currentfolder->resourceListBegin();
+    sad::resource::ResourceIterator cur = current_folder->resourceListBegin();
             
     QStringList list = m_filter.split("|");
-    for(; cur != currentfolder->resourceListEnd(); ++cur)
+    for(; cur != current_folder->resourceListEnd(); ++cur)
     {
         if (list.count())
         {
@@ -502,7 +502,7 @@ void gui::resourcetreewidget::ResourceTreeWidget::populateTree(
         }		
     }
 
-    suitability.insert(currentfolder, result);
+    suitability.insert(current_folder, result);
     return result;
 }
 

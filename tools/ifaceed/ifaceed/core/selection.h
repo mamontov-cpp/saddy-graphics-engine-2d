@@ -30,7 +30,7 @@ class Selection: public QObject
 {
 Q_OBJECT
 public:
-    /*! Creates new unlinked delection
+    /*! Creates new unlinked selection
      */
     Selection();
     /*! Can be inherited
@@ -122,16 +122,16 @@ protected:
     /*! A timer for handling some navigation on nodes. Triggering this timer should disable
         navigation on them.
      */
-    QTimer m_scenenode_nav_timer;
+    QTimer m_scene_node_nav_timer;
     /*! Whether we should change selected node on mouse wheel.
      */
-    bool m_scenenode_selection_change;
+    bool m_scene_node_selection_change;
     /*! A selection chain for editing items
      */
-    sad::Vector<sad::SceneNode*> m_scenenode_selection_chain;
+    sad::Vector<sad::SceneNode*> m_scene_node_selection_chain;
     /*! A current position of element in navigation chain
      */
-    int m_scenenode_current_position;
+    int m_scene_node_current_position;
     /*! A timer for handling some navigation on grids. Triggering this timer should disable
         navigation on them.
      */

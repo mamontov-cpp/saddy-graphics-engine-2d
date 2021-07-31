@@ -7,7 +7,7 @@
 #include <new>
 
 
-gui::actions::AbstractActions::AbstractActions() : m_editor(NULL)
+gui::actions::AbstractActions::AbstractActions() : m_editor(nullptr)
 {
     
 }

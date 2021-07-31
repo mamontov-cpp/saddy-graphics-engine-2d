@@ -44,7 +44,7 @@ unsigned long long scripting::instances::_addWayInstance(
     sad::String name,
     const QVariant& way,
     const QVariant& object,
-    double starttime
+    double start_time
 )
 {
 
@@ -128,7 +128,7 @@ unsigned long long scripting::instances::_addWayInstance(
     }
 
 
-    instance->setProperty("starttime", starttime);
+    instance->setProperty("starttime", start_time);
     instance->setObjectName(name);
 
     sad::Renderer::ref()->database("")->table("animationinstances")->add(instance);
@@ -278,7 +278,7 @@ dukpp03::qt::JSObject* scripting::instances::init(scripting::Scripting* s, dukpp
                 {
                     if (r->isInstanceOf("sad::animations::Animation") == false)
                     {
-                        r = NULL;
+                        r = nullptr;
                     }
                 }
                 if (!r)
@@ -305,7 +305,7 @@ dukpp03::qt::JSObject* scripting::instances::init(scripting::Scripting* s, dukpp
                 {
                     if (r->isInstanceOf("sad::animations::Animation") == false)
                     {
-                        r = NULL;
+                        r = nullptr;
                     }
                 }
                 if (!r)
@@ -331,7 +331,7 @@ dukpp03::qt::JSObject* scripting::instances::init(scripting::Scripting* s, dukpp
                 {
                     if (r->isInstanceOf("sad::animations::Animation") == false)
                     {
-                        r = NULL;
+                        r = nullptr;
                     }
                 }
                 if (!r)
@@ -369,7 +369,7 @@ dukpp03::qt::JSObject* scripting::instances::init(scripting::Scripting* s, dukpp
         scripting::AbstractSetter<sad::animations::Instance*, sad::String>* name_setter = scripting::setterForProperty<sad::animations::Instance*, sad::String>(s, "name");
         std::function<
             void(scripting::Scripting*, sad::animations::Instance*, const sad::String&, sad::String, sad::String)
-        > name_change_action = [](scripting::Scripting* sc, sad::animations::Instance* obj, const sad::String& propertyname, sad::String oldvalue, sad::String newvalue) {
+        > name_change_action = [](scripting::Scripting* sc, sad::animations::Instance* obj, const sad::String& propertyname, sad::String old_value, sad::String new_value) {
             core::Editor* editor = sc->editor();
 
             gui::actions::AnimationInstanceActions* ai_actions = editor->actions()->instanceActions();
@@ -380,7 +380,7 @@ dukpp03::qt::JSObject* scripting::instances::init(scripting::Scripting* s, dukpp
 
             if (row > -1)
             {
-                history::Command* c = new history::instances::ChangeName(obj, row, oldvalue, newvalue);
+                history::Command* c = new history::instances::ChangeName(obj, row, old_value, new_value);
                 editor->currentBatchCommand()->add(c);
                 c->commit(editor);
             }
@@ -408,7 +408,7 @@ dukpp03::qt::JSObject* scripting::instances::init(scripting::Scripting* s, dukpp
         };
         std::function<
             void(scripting::Scripting*, sad::animations::Instance*, const sad::String&, sad::String, sad::String)
-        > animation_change_action = [](scripting::Scripting* sc, sad::animations::Instance* obj, const sad::String& propertyname, sad::String oldvalue, sad::String newvalue) {
+        > animation_change_action = [](scripting::Scripting* sc, sad::animations::Instance* obj, const sad::String& propertyname, sad::String old_value, sad::String new_value) {
             core::Editor* editor = sc->editor();
 
             gui::actions::AnimationInstanceActions* ai_actions = editor->actions()->instanceActions();
@@ -418,18 +418,18 @@ dukpp03::qt::JSObject* scripting::instances::init(scripting::Scripting* s, dukpp
             unsigned long long majorid = obj->getProperty<unsigned long long>("animationmajorid").value();
             if (row > -1)
             {
-                history::Command* c = NULL;
+                history::Command* c = nullptr;
                 QRadioButton* treebutton = ai_blk->rbAnimationInstanceFromTree;
                 QRadioButton* dbbutton = ai_blk->rbAnimationInstanceFromDatabase;
-                if (newvalue.length() == 0)
+                if (new_value.length() == 0)
                 {
                     c = new history::instances::ChangeAnimation(
                         obj,
                         dbbutton,
                         treebutton,
-                        oldvalue,
+                        old_value,
                         majorid,
-                        newvalue,
+                        new_value,
                         majorid
                     );
 
@@ -442,9 +442,9 @@ dukpp03::qt::JSObject* scripting::instances::init(scripting::Scripting* s, dukpp
                             obj,
                             treebutton,
                             dbbutton,
-                            oldvalue,
+                            old_value,
                             majorid,
-                            newvalue,
+                            new_value,
                             majorid
                         );
                     }
@@ -452,8 +452,8 @@ dukpp03::qt::JSObject* scripting::instances::init(scripting::Scripting* s, dukpp
                     {
                         c = new history::instances::ChangeAnimation(
                             obj,
-                            oldvalue,
-                            newvalue
+                            old_value,
+                            new_value
                         );
                     }
                 }
@@ -516,7 +516,7 @@ dukpp03::qt::JSObject* scripting::instances::init(scripting::Scripting* s, dukpp
             sad::String name = obj->getProperty<sad::String>("animation").value();
             if (row > -1)
             {
-                history::Command* c = NULL;
+                history::Command* c = nullptr;
                 QRadioButton* treebutton = ai_blk->rbAnimationInstanceFromTree;
                 QRadioButton* dbbutton = ai_blk->rbAnimationInstanceFromDatabase;
                 if (newid > 0)

@@ -24,18 +24,15 @@ class QStringToSadString: public sad::db::AbstractTypeConverter
 public:
     /*! Creates new converter
      */
-    inline QStringToSadString()
-    {
-        
-    }
+	inline QStringToSadString() = default;
     /*! Converts source value from another and to another type
         \param[in] source a pointer to sad::String value
         \param[in] dest a pointer to QString value
      */
-    virtual void convert(void * source, void * dest);
+    virtual void convert(void * source, void * dest) override;
     /*! Can be inherited
      */
-    virtual ~QStringToSadString();
+    virtual ~QStringToSadString() override;
 };
 
 }

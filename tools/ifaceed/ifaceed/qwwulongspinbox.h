@@ -5,7 +5,7 @@
 //
 //
 // Author: Witold Wysota <wysota@wysota.eu.org>, (C) 2007
-// Remade by Hidden Seeker for unsigned long long
+// Remade by mamontov-cpp for unsigned long long
 //
 // Copyright: See COPYING file that comes with this distribution
 //

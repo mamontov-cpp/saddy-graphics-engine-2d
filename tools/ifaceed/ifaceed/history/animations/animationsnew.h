@@ -25,15 +25,15 @@ public:
     New(sad::animations::Animation* a);
     /*! Could be inherited
      */
-    virtual ~New();
+    virtual ~New() override;
     /*! Makes animation active, adds it to list
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Makes animation inactive, removes it from list
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! A current selected animation
      */

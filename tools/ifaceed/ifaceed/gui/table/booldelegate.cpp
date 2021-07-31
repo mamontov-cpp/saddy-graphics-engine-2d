@@ -40,16 +40,16 @@ void gui::table::BoolDelegate::set(const sad::db::Variant& v)
 
 void gui::table::BoolDelegate::widgetChanged(int i)
 {
-    bool oldvalue = this->currentValue<bool>();
-    bool newvalue = (i == Qt::Checked);
+    bool old_value = this->currentValue<bool>();
+    bool new_value = (i == Qt::Checked);
     if (this->isLinkedToDatabase())
     {
-        m_editor->history()->add(new history::database::ChangeProperty<bool>(oldvalue, newvalue, this));
+        m_editor->history()->add(new history::database::ChangeProperty<bool>(old_value, new_value, this));
     }
     else
     {
         m_editor->history()->add( 
-            new history::customobject::ChangeProperty<bool>(m_object, Q2STDSTRING(m_property_name), oldvalue, newvalue)
+            new history::customobject::ChangeProperty<bool>(m_object, Q2STDSTRING(m_property_name), old_value, new_value)
         );
     }
     this->setCurrentValue<bool>(i);

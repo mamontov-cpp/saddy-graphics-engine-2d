@@ -27,7 +27,7 @@ void history::dialogues::Remove::commit(core::Editor* ob)
         ob->emitClosure( bind(ob->actions()->dialogueActions(), f, m_position) );
         if (ob->shared()->selectedDialogue() == m_d)
         {
-            ob->shared()->setSelectedDialogue(NULL);
+            ob->shared()->setSelectedDialogue(nullptr);
         }
     }
 }

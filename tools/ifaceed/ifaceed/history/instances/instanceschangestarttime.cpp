@@ -15,15 +15,15 @@
 
 history::instances::ChangeStartTime::ChangeStartTime(
     sad::animations::Instance* d,
-    double oldvalue,
-    double newvalue
+    double old_value,
+    double new_value
 
 )
 : history::instances::ChangeProperty<double>(
       d,
       "starttime",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
 }

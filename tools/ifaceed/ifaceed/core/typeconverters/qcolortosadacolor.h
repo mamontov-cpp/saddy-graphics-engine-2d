@@ -4,8 +4,9 @@
     Defines a converter from QColor to sad::AColor, used in conversion table
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QColor>
-
+// ReSharper disable once CppUnusedIncludeDirective
 #include <sadcolor.h>
 
 #include <db/dbconversiontable.h>
@@ -40,10 +41,10 @@ public:
         \param[in] source a pointer to QColor value
         \param[in] dest a pointer to sad::AColor value
      */
-    virtual void convert(void * source, void * dest);
+    virtual void convert(void * source, void * dest) override;
     /*! Can be inherited
      */
-    virtual ~QColorToSadAColor();
+    virtual ~QColorToSadAColor() override;
 };
 
 }

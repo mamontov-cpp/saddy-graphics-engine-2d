@@ -37,7 +37,7 @@ public:
 protected:
     /*! Renders editor grid if enabled
      */ 
-    virtual void _process();
+    virtual void _process() override;
     /*! An inner scene for grid
      */
     sad::Scene m_scene;

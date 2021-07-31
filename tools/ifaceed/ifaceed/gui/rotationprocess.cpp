@@ -14,7 +14,7 @@
 // ============================ PUBLIC METHODS ============================
 
 gui::RotationProcess::RotationProcess()
-: m_pending(false), m_editor(NULL), m_node(NULL)
+: m_pending(false), m_editor(nullptr), m_node(nullptr)
 {
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerExpired()));
 }
@@ -26,15 +26,15 @@ gui::RotationProcess::~RotationProcess()
 
 void gui::RotationProcess::start(
     sad::SceneNode* node,
-    float oldvalue,
-    float newvalue
+    float old_value,
+    float new_value
 )
 {
     if (m_pending == false)
     {
         m_node = node;
-        m_oldvalue = oldvalue;
-        m_newvalue = newvalue;
+        m_old_value = old_value;
+        m_new_value = new_value;
 
         m_editor->emitClosure(bind(this, &gui::RotationProcess::setTimeoutAndStart));
     }
@@ -45,12 +45,12 @@ void gui::RotationProcess::start(
             // Commit old changes
             this->timerExpired();
             // Restart process
-            this->start(node, oldvalue, newvalue);
+            this->start(node, old_value, new_value);
         }
         else
         {
             // Update new value
-            m_newvalue = newvalue;
+            m_new_value = new_value;
 
             // Restart timer
              m_editor->emitClosure(bind(this, &gui::RotationProcess::restart));
@@ -71,7 +71,7 @@ void gui::RotationProcess::timerExpired()
 {
     if (m_editor)
     {
-        m_editor->history()->add(new history::scenenodes::ChangeAngle(m_node, m_oldvalue, m_newvalue));
+        m_editor->history()->add(new history::scenenodes::ChangeAngle(m_node, m_old_value, m_new_value));
         stopLocalTimer();
         m_pending = false;
     }

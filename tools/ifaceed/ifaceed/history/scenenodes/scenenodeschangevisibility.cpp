@@ -8,15 +8,15 @@
 history::Command* history::scenenodes::changeVisibility(
     core::Editor* blk, 
     sad::SceneNode* d, 
-    bool oldvalue, 
-    bool newvalue
+    bool old_value, 
+    bool new_value
 )
 {
     return new history::scenenodes::ChangePropertyWhichLinkedToCheckbox(
         blk->uiBlocks()->uiSceneNodeBlock()->cbSceneNodeVisible,
         d,
         "visible",
-        oldvalue,
-        newvalue
+        old_value,
+        new_value
     );	
 }

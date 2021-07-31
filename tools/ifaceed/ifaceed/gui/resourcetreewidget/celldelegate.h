@@ -6,6 +6,7 @@
 
 #include <QtCore>
 #include <QtGui>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QFontMetrics>
 
 #ifndef HAVE_QT5
@@ -25,12 +26,12 @@ namespace resourcetreewidget
 
 class ResourceTreeWidget;
 
-/*! A delegate for rendering items in resource treewidget
+/*! A delegate for rendering items in resource tree widget
  */
 class CellDelegate: public QItemDelegate
 {
 public:
-    inline CellDelegate() : QItemDelegate(), m_widget(NULL)
+    inline CellDelegate() : QItemDelegate(), m_widget(nullptr)
     {
 
     }
@@ -46,13 +47,13 @@ public:
         \param[in] option  options for rendering
         \param[in] index   data to draw
      */
-    void paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
+    void paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const override;
     /*! Returns a hints for size
         \param[in] option  options for drawing
         \param[in] index   index of model
         \return size hint
      */
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 protected:
     /*! A widget, where delegate is belong
      */

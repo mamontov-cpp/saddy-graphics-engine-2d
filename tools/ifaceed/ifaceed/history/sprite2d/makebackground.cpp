@@ -20,19 +20,19 @@
 
 history::sprite2d::MakeBackground::MakeBackground(
         sad::SceneNode* d, 
-        const sad::Rect2D& oldarea,
-        float oldangle,
-        unsigned int oldlayer,
-        const sad::Rect2D& newarea,
-        float newangle,
-        unsigned int newlayer
+        const sad::Rect2D& old_area,
+        float old_angle,
+        unsigned int old_layer,
+        const sad::Rect2D& new_area,
+        float new_angle,
+        unsigned int new_layer
 ) : m_node(d),
-m_oldarea(oldarea),
-m_oldangle(oldangle),
-m_oldlayer(oldlayer),
-m_newarea(newarea),
-m_newangle(newangle),
-m_newlayer(newlayer)
+m_old_area(old_area),
+m_old_angle(old_angle),
+m_old_layer(old_layer),
+m_new_area(new_area),
+m_new_angle(new_angle),
+m_new_layer(new_layer)
 {
     m_node->addRef();
 }
@@ -44,12 +44,12 @@ history::sprite2d::MakeBackground::~MakeBackground()
 
 void history::sprite2d::MakeBackground::commit(core::Editor* e)
 {
-    this->update(e, m_newarea, m_newangle, m_newlayer);
+    this->update(e, m_new_area, m_new_angle, m_new_layer);
 }
 
 void history::sprite2d::MakeBackground::rollback(core::Editor* e)
 {
-    this->update(e, m_oldarea, m_oldangle, m_oldlayer);
+    this->update(e, m_old_area, m_old_angle, m_old_layer);
 }
 
 void history::sprite2d::MakeBackground::update(

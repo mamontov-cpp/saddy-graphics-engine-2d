@@ -5,6 +5,7 @@
  */
 #pragma once
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QVector>
 #include <QColor>
 
@@ -26,10 +27,7 @@ class SadVectorSadVectorToAColorToQListQListQColor: public sad::db::AbstractType
 public:
     /*! Creates new converter
      */
-    inline SadVectorSadVectorToAColorToQListQListQColor()
-    {
-        
-    }
+	inline SadVectorSadVectorToAColorToQListQListQColor() = default;
     /*! Converts source value to dest value
         \param[in] src source value
         \param[in] dest destination value
@@ -42,10 +40,10 @@ public:
         \param[in] source a pointer to sad::Vector<sad::Vector<sad::AColor> > value
         \param[in] dest a pointer to QList<QList<QColor> > value
      */
-    virtual void convert(void * source, void * dest);
+    virtual void convert(void * source, void * dest) override;
     /*! Can be inherited
      */
-    virtual ~SadVectorSadVectorToAColorToQListQListQColor();
+    virtual ~SadVectorSadVectorToAColorToQListQListQColor() override;
 };
 
 }

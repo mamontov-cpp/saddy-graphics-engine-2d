@@ -10,6 +10,7 @@
 
 #include "../animationgroupprocess.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <animations/animationsgroup.h>
 
 
@@ -30,22 +31,22 @@ public:
     /*! Creates new label actions
         \param[in] parent a parent object
      */
-    AnimationGroupActions(QObject* parent = NULL);
+    AnimationGroupActions(QObject* parent = nullptr);
     /*! Sets inner editor link of process
         \param[in] e editor
      */
-    virtual void setEditor(core::Editor* e);
+    virtual void setEditor(core::Editor* e) override;
     /*! This class could be inherited
      */
     virtual ~AnimationGroupActions();
     /*! Removes group from database
         \param[in] g group
-        \param[in] fromeditor whether group is being editor
+        \param[in] from_editor whether group is being editor
         \param[in] row a row (-1 if function should determine it)
      */
     void removeFromDatabase(
         sad::animations::Group* g,
-        bool fromeditor,
+        bool from_editor,
         int row = -1
     );
     /*! Adds group to group list
@@ -78,9 +79,9 @@ public slots:
      */
     void addGroup();
     /*! Current changed group
-        \param[in] newrow new row
+        \param[in] new_row new row
      */ 
-    void currentGroupChanged(int newrow);
+    void currentGroupChanged(int new_row);
     /*! Tries to remove animation group
      */
     void removeGroup();
@@ -89,9 +90,9 @@ public slots:
      */
     void nameChanged(const QString& name);
     /*! Called, when user changes "Whether animation group is looped" flag
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void loopedChanged(bool newvalue);
+    void loopedChanged(bool new_value);
     /*! Tries to add instance to an animation group
      */
     void addInstance();

@@ -5,6 +5,7 @@
 #pragma once
 #pragma once
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QVariant>
 #include "../dukqtcontext.h"
 #include "scriptablegrid.h"

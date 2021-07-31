@@ -17,7 +17,7 @@ namespace history
 namespace ways
 {
 
-/*! \class history::ways::New
+/*! \class history::ways::Remove
  *   A simple command for adding a new way to list
  */
 class Remove: public history::Command
@@ -30,7 +30,7 @@ public:
     Remove(sad::p2d::app::Way* w, int pos);
     /*! Could be inherited
      */
-    virtual ~Remove();
+    virtual ~Remove() override;
     /*! Sets dependencies for command
         \param[in] dependent_animations list of dependent animations
         \param[in] position_in_animation_combo a position in combo for way moving animation
@@ -46,11 +46,11 @@ public:
     /*! Makes way inactive, removes it from list
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Makes way active, adds it to list
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! A current selected way
      */

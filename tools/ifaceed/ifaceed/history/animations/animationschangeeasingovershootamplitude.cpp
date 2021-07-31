@@ -11,9 +11,9 @@
 
 history::animations::ChangeEasingOvershootAmplitude::ChangeEasingOvershootAmplitude(
     sad::animations::Animation* d,
-    double oldvalue,
-    double newvalue
-) : history::animations::ChangeEasingProperty<double>(d, &sad::animations::easing::Function::setOvershootAmplitude, oldvalue, newvalue)
+    double old_value,
+    double new_value
+) : history::animations::ChangeEasingProperty<double>(d, &sad::animations::easing::Function::setOvershootAmplitude, old_value, new_value)
 {
 
 }

@@ -48,7 +48,7 @@ dukpp03::qt::Callable* custom_getter()
         "overflowstrategyforlines",
         "textellipsispositionforlines",
         "hasformatting",
-        NULL
+        nullptr
     };
     result->addExcludedPropertyNames(excluded);
     result->matchAllProperties();

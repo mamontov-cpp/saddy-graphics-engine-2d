@@ -28,16 +28,16 @@ public:
     /*! Creates new way actions
         \param[in] parent a parent object
      */
-    WayActions(QObject* parent = NULL);
+    WayActions(QObject* parent = nullptr);
     /*! This class could be inherited
      */
     virtual ~WayActions();  
-    /*! Moves way point, according to pivot point (used in moving substate)
+    /*! Moves way point, according to pivot point (used in moving sub-state)
         \param[in] e event object
      */
     void moveWayPoint(const sad::input::MouseMoveEvent& e);
     /*! Commits moving of way point,
-        according to pivot point (used in moving substate)
+        according to pivot point (used in moving sub-state)
         \param[in] e event object
      */
     void commitWayPointMoving(const sad::input::MouseReleaseEvent& e);
@@ -48,10 +48,10 @@ public:
     void updateWayPoint(int row, const sad::Point2D& p);
     /*! Removes way from database, adding new command
         \param[in] w a way to be removed 
-        \param[in] fromeditor whether it's being removed from editor
+        \param[in] from_editor whether it's being removed from editor
         \param[in] row a row to be found in editor
      */
-    void removeWayFromDatabase(sad::p2d::app::Way* w, bool fromeditor, int row = -1);
+    void removeWayFromDatabase(sad::p2d::app::Way* w, bool from_editor, int row = -1);
     /*! Adds last way to end of items
         \param[in] way a selected way
      */

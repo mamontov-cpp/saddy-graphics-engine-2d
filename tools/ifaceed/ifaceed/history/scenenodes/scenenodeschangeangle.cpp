@@ -17,9 +17,9 @@
 
 history::scenenodes::ChangeAngle::ChangeAngle(
     sad::SceneNode* d,
-    float oldvalue,
-    float newvalue
-) : history::scenenodes::ChangeProperty<float>(d, "angle", oldvalue, newvalue)
+    float old_value,
+    float new_value
+) : history::scenenodes::ChangeProperty<float>(d, "angle", old_value, new_value)
 {
     m_affects_parent_grid = true;
 }

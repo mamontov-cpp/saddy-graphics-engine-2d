@@ -18,13 +18,13 @@ class ChangeWayMovingWay: public history::animations::ChangeProperty<unsigned lo
 public:
      /*! Constructs new command for animation
         \param[in] d an animation
-        \param[in] oldvalue old value
-        \param[in] newvalue new value
+        \param[in] old_value old value
+        \param[in] new_value new value
       */
-    ChangeWayMovingWay(sad::animations::Animation* d, unsigned long long oldvalue, unsigned long long newvalue);
+    ChangeWayMovingWay(sad::animations::Animation* d, unsigned long long old_value, unsigned long long new_value);
     /*! Erases link to an animation
       */
-    virtual ~ChangeWayMovingWay();
+    virtual ~ChangeWayMovingWay() override;
 protected:
     /*!
      * Updates current text in field with object name
@@ -37,7 +37,7 @@ protected:
      * \param[in] e editor
      * \param[in] value a value
      */
-    virtual void updateUI(core::Editor* e, const unsigned long long& value);
+    virtual void updateUI(core::Editor* e, const unsigned long long& value) override;
 };
 
 }

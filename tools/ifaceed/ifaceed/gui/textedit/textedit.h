@@ -27,22 +27,22 @@ public:
     /*! Constructs a text edit widget
         \param[in] parent a parent widget
      */ 
-    TextEdit(QWidget* parent = 0);
+    TextEdit(QWidget* parent = nullptr);
      /*! Destructor for widget
       */
-    virtual ~TextEdit();
+    virtual ~TextEdit() override;
     /*! Sets a completer for text edit
         \param[in] c a completer
      */
     void setCompleter(QCompleter* c);
-    /*! Returns a competer for edit
+    /*! Returns a completer for edit
         \return a completer
      */
     QCompleter* completer() const;
-    /*! Returns case sensivity for completer
-        \return sensivity
+    /*! Returns case sensitivity for completer
+        \return sensitivity
      */
-    virtual Qt::CaseSensitivity caseSensivity() const;
+    virtual Qt::CaseSensitivity caseSensitivity() const;
 signals:
     /*! Emitted, when text editing is finished
      */
@@ -51,11 +51,11 @@ protected:
     /*! A handler for key press event
         \param[in] e event
      */
-    void keyPressEvent(QKeyEvent* e);
+    void keyPressEvent(QKeyEvent* e) override;
     /*! A handler for focus in event
         \param[in] e event
      */
-    void focusInEvent(QFocusEvent* e);
+    void focusInEvent(QFocusEvent* e) override;
 private slots:
     /*! Inserts completion into text area
         \param[in] completion a completion part

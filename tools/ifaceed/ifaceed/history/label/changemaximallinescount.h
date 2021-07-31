@@ -18,19 +18,19 @@ class ChangeMaximalLinesCount: public history::scenenodes::ChangeProperty<unsign
 public:
      /*! Constructs new command for node
         \param[in] d a node
-        \param[in] oldvalue old value of property
-        \param[in] newvalue new value of property
+        \param[in] old_value old value of property
+        \param[in] new_value new value of property
       */
-    ChangeMaximalLinesCount(sad::SceneNode* d, unsigned int oldvalue, unsigned int newvalue);
+    ChangeMaximalLinesCount(sad::SceneNode* d, unsigned int old_value, unsigned int new_value);
     /*! Erases link to a node
       */
-    virtual ~ChangeMaximalLinesCount();
+    virtual ~ChangeMaximalLinesCount() override;
 protected:
     /*! Tries to update UI in case if node is selected
         \param[in] e editor
         \param[in] value a value
      */
-    virtual void updateUI(core::Editor* e, const unsigned int& value);
+    virtual void updateUI(core::Editor* e, const unsigned int& value) override;
 };
 
 }

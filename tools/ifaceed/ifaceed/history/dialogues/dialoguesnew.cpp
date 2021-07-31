@@ -35,7 +35,7 @@ void history::dialogues::New::rollback(core::Editor* ob)
         ob->emitClosure( bind(ob->actions()->dialogueActions(), &gui::actions::DialogueActions::removeLastDialogueFromDialogueList) );
         if (ob->shared()->selectedDialogue() == m_dialogue)
         {
-            ob->shared()->setSelectedDialogue(NULL);
+            ob->shared()->setSelectedDialogue(nullptr);
         }
     }
 }

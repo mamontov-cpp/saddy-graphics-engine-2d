@@ -24,10 +24,7 @@ class QRectFToSadRect2D: public sad::db::AbstractTypeConverter
 public:
     /*! Creates new converter
      */
-    inline QRectFToSadRect2D()
-    {
-
-    }
+	inline QRectFToSadRect2D() = default;
     /*!
      * Converts source value to another type
      * \param source a source rect
@@ -41,10 +38,10 @@ public:
         \param[in] source a pointer to sad::String value
         \param[in] dest a pointer to QString value
      */
-    virtual void convert(void * source, void * dest);
+    virtual void convert(void * source, void * dest) override;
     /*! Can be inherited
      */
-    virtual ~QRectFToSadRect2D();
+    virtual ~QRectFToSadRect2D() override;
 };
 
 }

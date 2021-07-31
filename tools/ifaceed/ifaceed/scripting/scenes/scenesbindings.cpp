@@ -93,11 +93,11 @@ dukpp03::qt::JSObject* scripting::scenes::init(scripting::Scripting* s, dukpp03:
     {
         scripting::AbstractSetter<sad::Scene*, sad::String>* name_setter = scripting::setterForProperty<sad::Scene*, sad::String>(s, "name");
         std::function<
-            void(scripting::Scripting*, sad::Scene*, const sad::String&, sad::String oldvalue, sad::String newvalue)
-        > set_name_action = [](scripting::Scripting* s, sad::Scene* obj, const sad::String& propertyname, sad::String oldvalue, sad::String newvalue) {
+            void(scripting::Scripting*, sad::Scene*, const sad::String&, sad::String old_value, sad::String new_value)
+        > set_name_action = [](scripting::Scripting* s, sad::Scene* obj, const sad::String& propertyname, sad::String old_value, sad::String new_value) {
             core::Editor* editor = s->editor();
 
-            history::Command* c = new history::scenes::ChangeName(obj, oldvalue, newvalue);
+            history::Command* c = new history::scenes::ChangeName(obj, old_value, new_value);
             editor->currentBatchCommand()->add(c);
             c->commit(editor);
         };

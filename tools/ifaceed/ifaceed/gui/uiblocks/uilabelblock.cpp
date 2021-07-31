@@ -11,20 +11,20 @@
 #include "../gui/fontsizewidget/fontsizewidget.h"
 #include "../resourcetreewidget/resourcetreewidget.h"
 
-gui::uiblocks::UILabelBlock::UILabelBlock() : btnLabelAdd(NULL),
-tabLabelOpttions(NULL),
-fswLabelFontSize(NULL),
-txtLabelText(NULL),
-rtwLabelFont(NULL),
-cmbLabelBreakText(NULL),
-cmbLabelTextEllipsis(NULL),
-cmbLabelOverflowStrategyForLines(NULL),
-cmbLabelOverflowStrategy(NULL),
-cmbLabelTextEllipsisForLines(NULL),
-spbMaximalLineWidth(NULL),
-dsbLineSpacingRatio(NULL),
-spbMaximalLinesCount(NULL),
-cbLabelHasFormatting(NULL)
+gui::uiblocks::UILabelBlock::UILabelBlock() : btnLabelAdd(nullptr),
+tabLabelOptions(nullptr),
+fswLabelFontSize(nullptr),
+txtLabelText(nullptr),
+rtwLabelFont(nullptr),
+cmbLabelBreakText(nullptr),
+cmbLabelTextEllipsis(nullptr),
+cmbLabelOverflowStrategyForLines(nullptr),
+cmbLabelOverflowStrategy(nullptr),
+cmbLabelTextEllipsisForLines(nullptr),
+spbMaximalLineWidth(nullptr),
+dsbLineSpacingRatio(nullptr),
+spbMaximalLinesCount(nullptr),
+cbLabelHasFormatting(nullptr)
 {
 
 }
@@ -34,8 +34,8 @@ void gui::uiblocks::UILabelBlock::init(QWidget* w)
     assert(w);
     this->btnLabelAdd = w->findChild<QPushButton*>("btnLabelAdd");
     assert(this->btnLabelAdd);
-    this->tabLabelOpttions = w->findChild<QTabWidget*>("tabLabelOpttions");
-    assert(this->tabLabelOpttions);
+    this->tabLabelOptions = w->findChild<QTabWidget*>("tabLabelOptions");
+    assert(this->tabLabelOptions);
     this->fswLabelFontSize = w->findChild<gui::fontsizewidget::FontSizeWidget*>("fswLabelFontSize");
     assert(this->fswLabelFontSize);
     this->txtLabelText = w->findChild<QPlainTextEdit*>("txtLabelText");

@@ -123,7 +123,7 @@ void gui::actions::WayActions::addWay()
 }
 
 
-void gui::actions::WayActions::removeWayFromDatabase(sad::p2d::app::Way* w, bool fromeditor, int row)
+void gui::actions::WayActions::removeWayFromDatabase(sad::p2d::app::Way* w, bool from_editor, int row)
 {
     sad::Vector<sad::db::Object*> animationlist;
     sad::Renderer::ref()->database("")->table("animations")->objects(animationlist);
@@ -173,7 +173,7 @@ void gui::actions::WayActions::removeWayFromDatabase(sad::p2d::app::Way* w, bool
     c->setDependencies(dependentanimations, waymovingcombopos, wayinstancecombopos, dependentinstances);
     c->commit(m_editor);
     core::Editor* editor = m_editor;
-    if (fromeditor)
+    if (from_editor)
     {
         editor->history()->add(c);
     } 
@@ -216,7 +216,7 @@ void gui::actions::WayActions::removeLastWayFromWayList()
         sad::p2d::app::Way* w  = v.value<sad::p2d::app::Way*>();
         if (w == m_editor->shared()->selectedWay())
         {
-            m_editor->shared()->setSelectedWay(NULL);
+            m_editor->shared()->setSelectedWay(nullptr);
             m_editor->machine()->enterState("ways/idle");
         }
         delete blk->lstWays->takeItem(blk->lstWays->count() - 1);
@@ -254,7 +254,7 @@ void gui::actions::WayActions::removeWayFromWayList(int position)
     sad::p2d::app::Way* w  = v.value<sad::p2d::app::Way*>();
     if (w == m_editor->shared()->selectedWay())
     {
-        m_editor->shared()->setSelectedWay(NULL);
+        m_editor->shared()->setSelectedWay(nullptr);
         m_editor->machine()->enterState("ways/idle");
     }
     delete blk->lstWays->takeItem(position);
@@ -267,7 +267,7 @@ void gui::actions::WayActions::removeWayFromWayList(sad::p2d::app::Way* s)
     int pos = this->findWayInList(s);
     if (s == m_editor->shared()->selectedWay())
     {
-        m_editor->shared()->setSelectedWay(NULL);
+        m_editor->shared()->setSelectedWay(nullptr);
         m_editor->machine()->enterState("ways/idle");
     }
     if (pos >= 0)
@@ -339,10 +339,10 @@ void gui::actions::WayActions::tryMoveWayByVector(const sad::input::KeyPressEven
             int row = blk->lstWayPoints->currentRow();
             if (row >= 0 && row < blk->lstWayPoints->count())
             {
-                sad::Point2D oldvalue = w->wayPoints()[row];
-                sad::Point2D newvalue = oldvalue;
-                newvalue += p;
-                history::Command* c = new history::ways::WayPointChange(w, row, oldvalue, newvalue);
+                sad::Point2D old_value = w->wayPoints()[row];
+                sad::Point2D new_value = old_value;
+                new_value += p;
+                history::Command* c = new history::ways::WayPointChange(w, row, old_value, new_value);
                 c->commit(m_editor);
                 if (m_editor->machine()->isInState("ways/selected/moving"))
                 {
@@ -361,7 +361,7 @@ void gui::actions::WayActions::tryMoveWayByKeys(const sad::input::KeyPressEvent&
 {
     if (m_editor->machine()->isInState("ways/idle"))
     {
-        if (m_editor->isInGridEditingState() && (m_editor->shared()->selectedGrid() != NULL))
+        if (m_editor->isInGridEditingState() && (m_editor->shared()->selectedGrid() != nullptr))
         {
             m_editor->actions()->gridActions()->tryMoveSelectedGridByKeyboard(ev);
         }
@@ -372,7 +372,7 @@ void gui::actions::WayActions::tryMoveWayByKeys(const sad::input::KeyPressEvent&
     }
     else
     {
-        if (m_editor->isInGridEditingState() && (m_editor->shared()->selectedGrid() != NULL))
+        if (m_editor->isInGridEditingState() && (m_editor->shared()->selectedGrid() != nullptr))
         {
             m_editor->actions()->gridActions()->tryMoveSelectedGridByKeyboard(ev);
         }
@@ -414,22 +414,22 @@ void gui::actions::WayActions::wayChanged(int i)
     else
     {
         m_editor->machine()->enterState("ways/idle");
-        m_editor->shared()->setSelectedWay(NULL);
+        m_editor->shared()->setSelectedWay(nullptr);
     }
 }
 
 void gui::actions::WayActions::nameEdited(const QString& name)
 {
-    sad::String newvalue = Q2STDSTRING(name);
+    sad::String new_value = Q2STDSTRING(name);
     sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
     if (w)
     {
-        sad::String oldvalue =  w->objectName();
-        if (newvalue != oldvalue)
+        sad::String old_value =  w->objectName();
+        if (new_value != old_value)
         {
-            w->setObjectName(newvalue);
+            w->setObjectName(new_value);
             this->updateWayName(w);
-            m_editor->history()->add(new history::ways::ChangeName(w, oldvalue, newvalue));
+            m_editor->history()->add(new history::ways::ChangeName(w, old_value, new_value));
         }
     }
 }
@@ -440,11 +440,11 @@ void gui::actions::WayActions::closednessChanged(bool state)
     sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
     if (w)
     {
-        bool oldvalue =  w->closed();
-        if (state != oldvalue)
+        bool old_value =  w->closed();
+        if (state != old_value)
         {
             w->setClosed(state);
-            m_editor->history()->add(new history::ways::ChangeClosed(w, oldvalue, state));
+            m_editor->history()->add(new history::ways::ChangeClosed(w, old_value, state));
         }
     }
 }
@@ -455,11 +455,11 @@ void gui::actions::WayActions::totalTimeChanged(double value)
     sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
     if (w)
     {
-        double oldvalue =  w->totalTime();
-        if (fabs(value - oldvalue) > 0.0001)
+        double old_value =  w->totalTime();
+        if (fabs(value - old_value) > 0.0001)
         {
             w->setTotalTime(value);
-            m_editor->history()->add(new history::ways::ChangeTotalTime(w, oldvalue, value));
+            m_editor->history()->add(new history::ways::ChangeTotalTime(w, old_value, value));
         }
     }
 }
@@ -524,11 +524,11 @@ void gui::actions::WayActions::wayPointXChanged(double value)
         int row = blk->lstWayPoints->currentRow();
         if (row >= 0 && row < blk->lstWayPoints->count())
         {
-            sad::Point2D oldvalue = w->wayPoints()[row];
-            sad::Point2D newvalue(value, blk->dsbWayPointY->value());
-            if (sad::is_fuzzy_equal(newvalue.x(), oldvalue.x()) == false)
+            sad::Point2D old_value = w->wayPoints()[row];
+            sad::Point2D new_value(value, blk->dsbWayPointY->value());
+            if (sad::is_fuzzy_equal(new_value.x(), old_value.x()) == false)
             {
-                history::Command* c = new history::ways::WayPointChange(w, row, oldvalue, newvalue);
+                history::Command* c = new history::ways::WayPointChange(w, row, old_value, new_value);
                 c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
             }
@@ -546,11 +546,11 @@ void gui::actions::WayActions::wayPointYChanged(double value)
         int row = blk->lstWayPoints->currentRow();
         if (row >= 0 && row < blk->lstWayPoints->count())
         {
-            sad::Point2D oldvalue = w->wayPoints()[row];
-            sad::Point2D newvalue(blk->dsbWayPointX->value(), value);
-            if (sad::is_fuzzy_equal(newvalue.y(), oldvalue.y()) == false)
+            sad::Point2D old_value = w->wayPoints()[row];
+            sad::Point2D new_value(blk->dsbWayPointX->value(), value);
+            if (sad::is_fuzzy_equal(new_value.y(), old_value.y()) == false)
             {
-                history::Command* c = new history::ways::WayPointChange(w, row, oldvalue, newvalue);
+                history::Command* c = new history::ways::WayPointChange(w, row, old_value, new_value);
                 c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
             }

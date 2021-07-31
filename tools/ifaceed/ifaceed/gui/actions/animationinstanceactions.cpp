@@ -32,7 +32,7 @@ Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
 // ===============================  PUBLIC METHODS ===============================
 
-gui::actions::AnimationInstanceActions::AnimationInstanceActions(QObject* parent) : QObject(parent), m_blk(NULL)
+gui::actions::AnimationInstanceActions::AnimationInstanceActions(QObject* parent) : QObject(parent), m_blk(nullptr)
 {
     m_animation = new gui::AnimationInstanceProcess();
 }
@@ -180,7 +180,7 @@ void gui::actions::AnimationInstanceActions::updateCurrentInstanceAnimation(sad:
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationInstanceActions::removeInstanceFromDatabase(
     sad::animations::Instance* a,
-    bool fromeditor,
+    bool from_editor,
     int row
 )
 {
@@ -212,7 +212,7 @@ void gui::actions::AnimationInstanceActions::removeInstanceFromDatabase(
         history::instances::Remove* c  = new history::instances::Remove(a, row, dependentgroups);
         c->commit(m_editor);
 
-        if (fromeditor)
+        if (from_editor)
         {
             m_editor->history()->add(c);
         }
@@ -243,7 +243,7 @@ void gui::actions::AnimationInstanceActions::addInstance()
     if (m_blk->rbAnimationInstanceFromDatabase->isChecked()
         || m_blk->rbAnimationInstanceFromTree->isChecked())
     {
-        sad::animations::Instance* instance = NULL;
+        sad::animations::Instance* instance = nullptr;
         // An default instance
         if (m_blk->cmbAddedAnimationInstanceType->currentIndex() == 0)
         {
@@ -387,7 +387,7 @@ void gui::actions::AnimationInstanceActions::currentInstanceChanged(int row)
     {
         if (e)
         {
-            e->shared()->setSelectedInstance(NULL);
+            e->shared()->setSelectedInstance(nullptr);
         }
     }
 }
@@ -401,12 +401,12 @@ void gui::actions::AnimationInstanceActions::nameChanged(const QString& name)
         QVariant v = m_blk->lstAnimationInstances->item(row)->data(Qt::UserRole);
         sad::animations::Instance* a = v.value<sad::animations::Instance*>();
 
-        sad::String oldvalue = a->objectName();
-        sad::String newvalue = Q2STDSTRING(name);
+        sad::String old_value = a->objectName();
+        sad::String new_value = Q2STDSTRING(name);
         
-        if (oldvalue != newvalue)
+        if (old_value != new_value)
         {
-            history::instances::ChangeName* c = new history::instances::ChangeName(a, row, oldvalue, newvalue);
+            history::instances::ChangeName* c = new history::instances::ChangeName(a, row, old_value, new_value);
             c->commitWithoutUpdatingUI(m_editor);
             m_editor->history()->add(c);
         }
@@ -427,10 +427,10 @@ void gui::actions::AnimationInstanceActions::treeLinkStateChanged(bool state)
 
             if (a->isInstanceOf("sad::animations::Instance"))
             {
-                unsigned long long oldvalue = a->animationMajorId();
+                unsigned long long old_value = a->animationMajorId();
                 sad::String oldname  = a->animationName();
 
-                unsigned long long newvalue = 0;
+                unsigned long long new_value = 0;
                 sad::String newname = m_blk->cmbAnimationInstanceAnimationFromTree->currentText().toStdString();
                 if (m_blk->cmbAnimationInstanceAnimationFromTree->currentIndex() <= 0)
                 {
@@ -445,9 +445,9 @@ void gui::actions::AnimationInstanceActions::treeLinkStateChanged(bool state)
                     button,
                     oldbutton,
                     oldname,
-                    oldvalue,
+                    old_value,
                     newname,
-                    newvalue
+                    new_value
                 );
                 c->commitWithoutUpdatingUI(e);
                 m_editor->history()->add(c);
@@ -470,16 +470,16 @@ void gui::actions::AnimationInstanceActions::databaseLinkStateChanged(bool state
 
             if (a->isInstanceOf("sad::animations::Instance"))
             {
-                unsigned long long oldvalue = a->animationMajorId();
+                unsigned long long old_value = a->animationMajorId();
                 sad::String oldname  = a->animationName();
 
-                unsigned long long newvalue = 0;
+                unsigned long long new_value = 0;
                 QComboBox* combo = m_blk->cmbAnimationInstanceAnimationFromDatabase;
                 if (combo->currentIndex() > 0)
                 {
                     int krow = combo->currentIndex();
                     sad::animations::Animation* kv = combo->itemData(krow, Qt::UserRole).value<sad::animations::Animation*>();
-                    newvalue = kv->MajorId;
+                    new_value = kv->MajorId;
                 }				
                 sad::String newname = "";
 
@@ -491,9 +491,9 @@ void gui::actions::AnimationInstanceActions::databaseLinkStateChanged(bool state
                     button,
                     oldbutton,
                     oldname,
-                    oldvalue,
+                    old_value,
                     newname,
-                    newvalue
+                    new_value
                 );
                 c->commitWithoutUpdatingUI(e);
                 m_editor->history()->add(c);
@@ -503,7 +503,7 @@ void gui::actions::AnimationInstanceActions::databaseLinkStateChanged(bool state
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void  gui::actions::AnimationInstanceActions::treeElementChanged(int newrow)
+void  gui::actions::AnimationInstanceActions::treeElementChanged(int new_row)
 {
     if (m_blk->rbAnimationInstanceFromTree->isChecked())
     {
@@ -518,9 +518,9 @@ void  gui::actions::AnimationInstanceActions::treeElementChanged(int newrow)
             {
                 sad::String oldname  = a->animationName();
                 sad::String newname = "";
-                if (newrow > 0)
+                if (new_row > 0)
                 {
-                    newname = Q2STDSTRING(m_blk->cmbAnimationInstanceAnimationFromTree->itemText(newrow));
+                    newname = Q2STDSTRING(m_blk->cmbAnimationInstanceAnimationFromTree->itemText(new_row));
                 }
 
                 history::Command* c = new history::instances::ChangeAnimation(
@@ -536,7 +536,7 @@ void  gui::actions::AnimationInstanceActions::treeElementChanged(int newrow)
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void gui::actions::AnimationInstanceActions::databaseElementChanged(int newrow)
+void gui::actions::AnimationInstanceActions::databaseElementChanged(int new_row)
 {
     if (m_blk->rbAnimationInstanceFromDatabase->isChecked())
     {
@@ -551,9 +551,9 @@ void gui::actions::AnimationInstanceActions::databaseElementChanged(int newrow)
             {
                 unsigned long long oldid  = a->animationMajorId();
                 unsigned long long newid = 0;
-                if (newrow > 0)
+                if (new_row > 0)
                 {
-                    newid = m_blk->cmbAnimationInstanceAnimationFromDatabase->itemData(newrow, Qt::UserRole).value<sad::animations::Animation*>()->MajorId;
+                    newid = m_blk->cmbAnimationInstanceAnimationFromDatabase->itemData(new_row, Qt::UserRole).value<sad::animations::Animation*>()->MajorId;
                 }
 
                 history::Command* c = new history::instances::ChangeAnimation(
@@ -569,7 +569,7 @@ void gui::actions::AnimationInstanceActions::databaseElementChanged(int newrow)
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void  gui::actions::AnimationInstanceActions::objectChanged(int newrow)
+void  gui::actions::AnimationInstanceActions::objectChanged(int new_row)
 {
     core::Editor* e = m_editor;
     int row = m_blk->lstAnimationInstances->currentRow();
@@ -578,20 +578,20 @@ void  gui::actions::AnimationInstanceActions::objectChanged(int newrow)
         QVariant v = m_blk->lstAnimationInstances->item(row)->data(Qt::UserRole);
         sad::animations::Instance* a = v.value<sad::animations::Instance*>();
 
-        sad::db::Object* obj = m_blk->cmbAnimationInstanceObject->itemData(newrow, Qt::UserRole).value<sad::db::Object*>();
-        unsigned long long newvalue = 0;
+        sad::db::Object* obj = m_blk->cmbAnimationInstanceObject->itemData(new_row, Qt::UserRole).value<sad::db::Object*>();
+        unsigned long long new_value = 0;
         if (obj)
         {
-            newvalue = obj->MajorId;
+            new_value = obj->MajorId;
         }
 
-        unsigned long long oldvalue = a->objectId();
-        if (oldvalue != newvalue)
+        unsigned long long old_value = a->objectId();
+        if (old_value != new_value)
         {
             history::Command* c = new history::instances::ChangeObject(
                     a,
-                    oldvalue,
-                    newvalue
+                    old_value,
+                    new_value
             );
             c->commitWithoutUpdatingUI(e);
             m_editor->history()->add(c);
@@ -600,7 +600,7 @@ void  gui::actions::AnimationInstanceActions::objectChanged(int newrow)
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void  gui::actions::AnimationInstanceActions::startTimeChanged(double newvalue)
+void  gui::actions::AnimationInstanceActions::startTimeChanged(double new_value)
 {
     core::Editor* e = m_editor;
     int row = m_blk->lstAnimationInstances->currentRow();
@@ -609,13 +609,13 @@ void  gui::actions::AnimationInstanceActions::startTimeChanged(double newvalue)
         QVariant v = m_blk->lstAnimationInstances->item(row)->data(Qt::UserRole);
         sad::animations::Instance* a = v.value<sad::animations::Instance*>();
 
-        double oldvalue = a->startTime();
-        if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
+        double old_value = a->startTime();
+        if (sad::is_fuzzy_equal(old_value, new_value) == false)
         {
             history::Command* c = new history::instances::ChangeStartTime(
                     a,
-                    oldvalue,
-                    newvalue
+                    old_value,
+                    new_value
             );
             c->commitWithoutUpdatingUI(e);
             m_editor->history()->add(c);
@@ -624,7 +624,7 @@ void  gui::actions::AnimationInstanceActions::startTimeChanged(double newvalue)
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void  gui::actions::AnimationInstanceActions::wayChanged(int newrow)
+void  gui::actions::AnimationInstanceActions::wayChanged(int new_row)
 {
     core::Editor* e = m_editor;
     int row = m_blk->lstAnimationInstances->currentRow();
@@ -635,20 +635,20 @@ void  gui::actions::AnimationInstanceActions::wayChanged(int newrow)
 
         if (a->isInstanceOf("sad::animations::WayInstance"))
         {
-            sad::p2d::app::Way* obj = m_blk->cmbWayAnimationInstanceWay->itemData(newrow, Qt::UserRole).value<sad::p2d::app::Way*>();
-            unsigned long long newvalue = 0;
+            sad::p2d::app::Way* obj = m_blk->cmbWayAnimationInstanceWay->itemData(new_row, Qt::UserRole).value<sad::p2d::app::Way*>();
+            unsigned long long new_value = 0;
             if (obj)
             {
-                newvalue = obj->MajorId;
+                new_value = obj->MajorId;
             }
 
-            unsigned long long oldvalue = static_cast<sad::animations::WayInstance*>(a)->wayMajorId();
-            if (oldvalue != newvalue)
+            unsigned long long old_value = static_cast<sad::animations::WayInstance*>(a)->wayMajorId();
+            if (old_value != new_value)
             {
                 history::Command* c = new history::instances::ChangeWay(
                         a,
-                        oldvalue,
-                        newvalue
+                        old_value,
+                        new_value
                 );
                 c->commitWithoutUpdatingUI(e);
                 m_editor->history()->add(c);
@@ -662,7 +662,7 @@ void gui::actions::AnimationInstanceActions::start()
 {
     core::Shared* s = m_editor->shared();
     if (s->isAnyKindOfAnimationIsRunning() == false 
-        && s->selectedInstance() != NULL)
+        && s->selectedInstance() != nullptr)
     {
         s->selectedInstance()->restart(sad::Renderer::ref()->animations());
         m_animation->setEditor(m_editor);

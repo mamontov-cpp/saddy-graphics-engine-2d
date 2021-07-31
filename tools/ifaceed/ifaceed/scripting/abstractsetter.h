@@ -7,14 +7,18 @@
 #include "dukqtcontext.h"
 #include <functional>
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include "maybe.h"
 #include "callable.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../qstdstring.h"
 
 #include <equalto.h>
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <db/dbproperty.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <db/dbobject.h>
 
 namespace scripting
@@ -51,7 +55,7 @@ public:
     /*! A change of property action, that should be invoked on success
      */
     typedef std::function<
-                void(scripting::Scripting* s, _ObjectType obj, const sad::String& propertyname, _PropertyType oldvalue,  _PropertyType newvalue)
+                void(scripting::Scripting* s, _ObjectType obj, const sad::String& property_name, _PropertyType old_value,  _PropertyType new_value)
             >  Action;
 
     /*! Constructs new setter
@@ -65,7 +69,7 @@ public:
     /*! Clones an object
         \return copy of object
      */
-    dukpp03::qt::Callable* clone()
+    dukpp03::qt::Callable* clone() override
     {
         return new scripting::AbstractSetter<_ObjectType, _PropertyType>(*this);
     }
@@ -73,7 +77,7 @@ public:
     /*! Returns amount of required arguments
         \return amount of required arguments
      */
-    virtual int requiredArguments()
+    virtual int requiredArguments() override
     {
         return 3; // object, name of property, value
     }
@@ -146,16 +150,16 @@ public:
         \param[in] ctx context
         \return result of check
      */
-    virtual std::pair<int, bool>  canBeCalled(dukpp03::qt::BasicContext* ctx)
+    virtual std::pair<int, bool>  canBeCalled(dukpp03::qt::BasicContext* ctx) override
     {
-        int required_args = this->requiredArguments();
+        const int required_args = this->requiredArguments();
         if (ctx->getTop() != required_args)
         {
             return std::make_pair(-1, false);
         }
         int a = 0;
         dukpp03::Maybe<_ObjectType> maybe_object = this->tryGetObjectFromStack(ctx, 0, false);
-        dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 1);
+        const dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 1);
         if (maybe_object.exists())
         {
             a += 1;
@@ -187,17 +191,18 @@ public:
         \param[in] ctx context
         \return amount of values in context
      */
-    virtual int call(dukpp03::qt::BasicContext* ctx)
+    virtual int call(dukpp03::qt::BasicContext* ctx) override
     {
-        int required_args = this->requiredArguments();
+        const int required_args = this->requiredArguments();
         if (ctx->getTop() != required_args)
         {
             ctx->throwInvalidArgumentCountError(ctx->getTop(), 3);
             throw new dukpp03::ArgumentException();
+            // ReSharper disable once CppUnreachableCode
             return 0;
         }
-        dukpp03::Maybe<_ObjectType> maybe_object = this->tryGetObjectFromStack(ctx, 0, true);
-        dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 1);
+        const dukpp03::Maybe<_ObjectType> maybe_object = this->tryGetObjectFromStack(ctx, 0, true);
+        const dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 1);
         if (maybe_object.exists())
         {
             if (maybe_prop_name.exists())
@@ -207,26 +212,26 @@ public:
                     dukpp03::Maybe<_PropertyType> maybe_value = this->tryGetPropertyValueFromStack(ctx, 2);
                     if (maybe_value.exists())
                     {
-                        dukpp03::Maybe<sad::String> property_error = this->tryGetPropertyError(maybe_value.value());
+                        const dukpp03::Maybe<sad::String> property_error = this->tryGetPropertyError(maybe_value.value());
                         if (property_error.exists() == false)
                         {
                             if (this->hasProperty(maybe_object.value(), maybe_prop_name.value()))
                             {
-                                _PropertyType oldvalue = this->getOldPropertyValue(maybe_object.value(), maybe_prop_name.value());
+                                _PropertyType old_value = this->getOldPropertyValue(maybe_object.value(), maybe_prop_name.value());
                                 std::equal_to<_PropertyType> comparator;
-                                if (comparator(oldvalue, maybe_value.value()) == false)
+                                if (comparator(old_value, maybe_value.value()) == false)
                                 {
                                     callActions(
                                         maybe_object.value(),
                                         maybe_prop_name.value(),
-                                        oldvalue,
+                                        old_value,
                                         maybe_value.value()
                                     );
                                 }
                             }
                             else
                             {
-                                ctx->throwError(std::string("Property \"") + maybe_prop_name.value() + std::string("\" is not writeable"));
+                                ctx->throwError(std::string("Property \"") + maybe_prop_name.value() + std::string("\" is not write-able"));
                                 throw new dukpp03::ArgumentException();
                             }
                         }
@@ -238,27 +243,30 @@ public:
                     }
                     else
                     {
-                        std::string name = dukpp03::qt::BasicContext::template typeName< _PropertyType >();
+                        // ReSharper disable once CppRedundantTemplateKeyword
+                        const std::string name = dukpp03::qt::BasicContext::template typeName< _PropertyType >();
                         ctx->throwInvalidTypeError(3, name);
                         throw dukpp03::ArgumentException();
                     }
                 }
                 else
                 {
-                    ctx->throwError(std::string("Property \"") + maybe_prop_name.value() + std::string("\" is not writeable"));
+                    ctx->throwError(std::string("Property \"") + maybe_prop_name.value() + std::string("\" is not write-able"));
                     throw new dukpp03::ArgumentException();
                 }
             }
             else
             {
-                std::string name = dukpp03::qt::BasicContext::template typeName< sad::String >();
+               // ReSharper disable once CppRedundantTemplateKeyword
+                const std::string name = dukpp03::qt::BasicContext::template typeName< sad::String >();
                 ctx->throwInvalidTypeError(2, name);
                 throw dukpp03::ArgumentException();
             }
         }
         else
         {
-            std::string name = dukpp03::qt::BasicContext::template typeName< _ObjectType >();
+            // ReSharper disable once CppRedundantTemplateKeyword
+            const std::string name = dukpp03::qt::BasicContext::template typeName< _ObjectType >();
             ctx->throwInvalidTypeError(1, name);
             throw dukpp03::ArgumentException();
         }

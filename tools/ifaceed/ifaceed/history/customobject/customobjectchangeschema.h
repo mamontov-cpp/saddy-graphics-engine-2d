@@ -27,34 +27,34 @@ class ChangeSchema: public history::scenenodes::ChangeProperty<sad::String>
 public:
       /*! Constructs new command for node
         \param[in] d a node
-        \param[in] oldvalue old value of property
-        \param[in] newvalue new value of property
+        \param[in] old_value old value of property
+        \param[in] new_value new value of property
       */
     ChangeSchema(
         sad::db::custom::Object* d,
-        const sad::String& oldvalue,
-        const sad::String& newvalue
+        const sad::String& old_value,
+        const sad::String& new_value
     );
     /*! Erases link to a node
       */
     virtual ~ChangeSchema();
-    /*! Restores old values of properties for scene  npde
+    /*! Restores old values of properties for scene  node
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! Old area for scene node
      */
-    sad::Rect2D m_oldarea;
+    sad::Rect2D m_old_area;
     /*! Old values for properties of object
      */
-    sad::PtrHash<sad::String, sad::db::Variant> m_oldvalues;
+    sad::PtrHash<sad::String, sad::db::Variant> m_old_values;
     /*!
      * Update screen properties and values, according to new schema
      * \param e editor
      * \param value a value of property
      */
-    virtual void updateUI(core::Editor* e, const sad::String& value);
+    virtual void updateUI(core::Editor* e, const sad::String& value) override;
 };
 
 }

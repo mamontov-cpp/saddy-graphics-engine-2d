@@ -16,7 +16,7 @@ void gui::resourcetreewidget::CellDelegate::paint(
 ) const
 {
     gui::resourcetreewidget::ResourceTreeWidget * const parent = m_widget;
-    if (parent == NULL)
+    if (parent == nullptr)
     {
         return;
     }

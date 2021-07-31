@@ -15,9 +15,9 @@
 scripting::scenenodes::SchemaSetter::SchemaSetter(scripting::Scripting* scripting)
     : scripting::scenenodes::AbstractSetter<sad::String>(scripting, "schema")
 {
-    std::function<
-        void(scripting::Scripting*, sad::SceneNode*, const sad::String&, sad::String oldvalue, sad::String newvalue)
-    > check_if_custom_object = [](scripting::Scripting* s, sad::SceneNode* obj, const sad::String& propertyname, sad::String oldvalue, sad::String newvalue) {
+    const std::function<
+        void(scripting::Scripting*, sad::SceneNode*, const sad::String&, sad::String old_value, sad::String new_value)
+    > check_if_custom_object = [](scripting::Scripting* s, sad::SceneNode* obj, const sad::String& propertyname, sad::String old_value, sad::String new_value) {
         if (obj->metaData()->canBeCastedTo("sad::db::custom::Object") == false)
         {
           s->context()->throwError("First argument is not a custom object");
@@ -59,13 +59,13 @@ scripting::scenenodes::SchemaSetter::~SchemaSetter()
 history::Command* scripting::scenenodes::SchemaSetter::command(
     sad::SceneNode* obj,
     const sad::String&,
-    sad::String oldvalue,
-    sad::String newvalue
+    sad::String old_value,
+    sad::String new_value
 )
 {
     return new history::customobject::ChangeSchema(
         static_cast<sad::db::custom::Object*>(obj),
-        oldvalue,
-        newvalue
+        old_value,
+        new_value
     );
 }

@@ -23,14 +23,14 @@ public:
         \param[in] row a row for node
         \param[in] column a column for node
         \param[in] node a node to be added
-        \param[in] oldarea an old area for layout
+        \param[in] old_area an old area for layout
     */
     AddChild(
         sad::layouts::Grid* d,
         size_t row,
         size_t column,
         sad::SceneNode* node,
-        const sad::Rect2D& oldarea
+        const sad::Rect2D& old_area
     );
     /*! Erases link to a node
      */
@@ -38,17 +38,17 @@ public:
     /*! Applies changes, described in command
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Reverts changes, described in command
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
     /*! Commits a change without updating UI. In that case,
         it changes rows of cell, without actually removing elements
 
         \param[in] e editor
      */
-    virtual void commitWithoutUpdatingUI(core::Editor * e);
+    virtual void commitWithoutUpdatingUI(core::Editor * e) override;
 protected:
     /*! Really performs commit
         \param[in] ob object of editor
@@ -76,7 +76,7 @@ protected:
     sad::SceneNode* m_node;
     /*! A new value of property
      */
-    sad::Rect2D m_oldarea;
+    sad::Rect2D m_old_area;
 };
 
 }

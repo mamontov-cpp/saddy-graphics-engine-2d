@@ -5,6 +5,7 @@
  */
 #pragma once
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QString>
 
 #include <scene.h>

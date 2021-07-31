@@ -8,20 +8,20 @@
 #include <QDoubleSpinBox>
 #include <QPushButton>
 
-gui::uiblocks::UIAnimationInstanceBlock::UIAnimationInstanceBlock() : lstAnimationInstances(NULL),
-txtAnimationInstanceName(NULL),
-cmbAnimationInstanceAnimationFromTree(NULL),
-rbAnimationInstanceFromTree(NULL),
-cmbAnimationInstanceAnimationFromDatabase(NULL),
-rbAnimationInstanceFromDatabase(NULL),
-cmbAnimationInstanceObject(NULL),
-dsbAnimationInstanceStartTime(NULL),
-cmbWayAnimationInstanceWay(NULL),
-btnAnimationsInstanceStart(NULL),
-btnAnimationsInstanceCancel(NULL),
-cmbAddedAnimationInstanceType(NULL),
-btnAnimationsInstanceAdd(NULL),
-btnAnimationsInstanceRemove(NULL)
+gui::uiblocks::UIAnimationInstanceBlock::UIAnimationInstanceBlock() : lstAnimationInstances(nullptr),
+txtAnimationInstanceName(nullptr),
+cmbAnimationInstanceAnimationFromTree(nullptr),
+rbAnimationInstanceFromTree(nullptr),
+cmbAnimationInstanceAnimationFromDatabase(nullptr),
+rbAnimationInstanceFromDatabase(nullptr),
+cmbAnimationInstanceObject(nullptr),
+dsbAnimationInstanceStartTime(nullptr),
+cmbWayAnimationInstanceWay(nullptr),
+btnAnimationsInstanceStart(nullptr),
+btnAnimationsInstanceCancel(nullptr),
+cmbAddedAnimationInstanceType(nullptr),
+btnAnimationsInstanceAdd(nullptr),
+btnAnimationsInstanceRemove(nullptr)
 {
 
 }

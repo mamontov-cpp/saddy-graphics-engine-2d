@@ -91,7 +91,7 @@ unsigned long long scripting::groups::entry(
 bool scripting::groups::addInstance(
     scripting::Scripting* scripting,
     sad::animations::Group* group,	
-    sad::animations::Instance* minstance
+    sad::animations::Instance* my_instance
 )
 {
     
@@ -110,7 +110,7 @@ bool scripting::groups::addInstance(
         sad::Vector<unsigned long long> ids = group->instances();
         QListWidget* list = ai_blk->lstAnimationInstances;
         
-        if (std::find(ids.begin(), ids.end(), minstance->MajorId) != ids.end())
+        if (std::find(ids.begin(), ids.end(), my_instance->MajorId) != ids.end())
         {
             alreadyinlist = true;
         }
@@ -126,7 +126,7 @@ bool scripting::groups::addInstance(
                     ++instanceposition;
                 }
 
-                if (instance == minstance)
+                if (instance == my_instance)
                 {
                     positionfound = true;
                 }
@@ -136,7 +136,7 @@ bool scripting::groups::addInstance(
             {
                 result = true;
 
-                history::groups::AddInstance* c = new history::groups::AddInstance(group, minstance, instanceposition);
+                history::groups::AddInstance* c = new history::groups::AddInstance(group, my_instance, instanceposition);
                 c->commit(e);
 
                 e->currentBatchCommand()->add(c);
@@ -212,7 +212,7 @@ dukpp03::qt::JSObject* scripting::groups::init(scripting::Scripting* s, dukpp03:
         scripting::AbstractSetter<sad::animations::Group*, sad::String>* name_setter = scripting::setterForProperty<sad::animations::Group*, sad::String>(s, "name");
         std::function<
             void(scripting::Scripting*, sad::animations::Group*, const sad::String&, sad::String, sad::String)
-        > name_change_action = [](scripting::Scripting* sc, sad::animations::Group* obj, const sad::String& propertyname, sad::String oldvalue, sad::String newvalue) {
+        > name_change_action = [](scripting::Scripting* sc, sad::animations::Group* obj, const sad::String& propertyname, sad::String old_value, sad::String new_value) {
             core::Editor* editor = sc->editor();
 
             gui::actions::AnimationGroupActions* ag_actions = editor->actions()->groupActions();
@@ -222,7 +222,7 @@ dukpp03::qt::JSObject* scripting::groups::init(scripting::Scripting* s, dukpp03:
 
             if (row > -1)
             {
-                history::Command* c = new history::groups::ChangeName(obj, row, oldvalue, newvalue);
+                history::Command* c = new history::groups::ChangeName(obj, row, old_value, new_value);
                 editor->currentBatchCommand()->add(c);
                 c->commit(editor);
             }
@@ -233,10 +233,10 @@ dukpp03::qt::JSObject* scripting::groups::init(scripting::Scripting* s, dukpp03:
         scripting::AbstractSetter<sad::animations::Group*, bool>* looped_setter = scripting::setterForProperty<sad::animations::Group*, bool>(s, "looped");
         std::function<
             void(scripting::Scripting*, sad::animations::Group*, const sad::String&, bool, bool)
-        > looped_change_action = [](scripting::Scripting* sc, sad::animations::Group* obj, const sad::String& propertyname, bool oldvalue, bool newvalue) {
+        > looped_change_action = [](scripting::Scripting* sc, sad::animations::Group* obj, const sad::String& propertyname, bool old_value, bool new_value) {
             core::Editor* editor = sc->editor();
 
-            history::Command* c = new history::groups::ChangeLooped(obj, oldvalue, newvalue);
+            history::Command* c = new history::groups::ChangeLooped(obj, old_value, new_value);
             editor->currentBatchCommand()->add(c);
             c->commit(editor);
         };
@@ -246,10 +246,10 @@ dukpp03::qt::JSObject* scripting::groups::init(scripting::Scripting* s, dukpp03:
         scripting::AbstractSetter<sad::animations::Group*, bool>* sequential_setter = scripting::setterForProperty<sad::animations::Group*, bool>(s, "sequential");
         std::function<
             void(scripting::Scripting*, sad::animations::Group*, const sad::String&, bool, bool)
-        > sequential_change_action = [](scripting::Scripting* sc, sad::animations::Group* obj, const sad::String& propertyname, bool oldvalue, bool newvalue) {
+        > sequential_change_action = [](scripting::Scripting* sc, sad::animations::Group* obj, const sad::String& propertyname, bool old_value, bool new_value) {
             core::Editor* editor = sc->editor();
 
-            history::Command* c = new history::groups::ChangeSequential(obj, oldvalue, newvalue);
+            history::Command* c = new history::groups::ChangeSequential(obj, old_value, new_value);
             editor->currentBatchCommand()->add(c);
             c->commit(editor);
         };

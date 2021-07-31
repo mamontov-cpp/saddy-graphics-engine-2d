@@ -5,6 +5,7 @@
  */
 #pragma once
 #include <QObject>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QWidget>
 #include <QTableWidget>
 #include <QString>
@@ -44,8 +45,8 @@ public:
     Delegate();
     /*! Could be inherited
      */
-    virtual ~Delegate();
-    /*! Maked delegate linked to widget
+    virtual ~Delegate() override;
+    /*! Makes delegate to be linked to widget
         \param[in] widget a widget, linked to Delegate
         \param[in] editor a linked editor
      */
@@ -141,6 +142,7 @@ protected:
         {
             return m_object->getProperty<T>(Q2STDSTRING(this->propertyName())).value();
         }
+        // ReSharper disable once CppUnreachableCode
         return T();
     }
     /*! Sets current value for property

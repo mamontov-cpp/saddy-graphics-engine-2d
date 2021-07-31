@@ -4,10 +4,12 @@
     Describes an abstract command for history
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include <stdlib.h>
 #include <QLineEdit>
 #include <QPlainTextEdit>
 #include <QTextEdit>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QString>
 
 namespace core
@@ -29,11 +31,11 @@ public:
     /*! Applies changes, described in command
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL)=0;
+    virtual void commit(core::Editor * ob = nullptr)=0;
     /*! Reverts changes, described in command
          \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL)=0;
+    virtual void rollback(core::Editor * ob = nullptr)=0;
     /*! Must be inherited
      */
     virtual ~Command();

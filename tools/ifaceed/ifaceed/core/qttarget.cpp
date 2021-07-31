@@ -14,11 +14,11 @@ void core::QtTarget::receive(const sad::log::Message & message)
 {
     if (m_enabled)
     {
-        if (message.priority() == sad::log::FATAL)
+        if (message.priority() == sad::log::Priority::FATAL)
         {
             this->critical(message.message());
         }
-        if (message.priority() == sad::log::WARNING)
+        if (message.priority() == sad::log::Priority::WARNING)
         {
             this->warning(message.message());
         }

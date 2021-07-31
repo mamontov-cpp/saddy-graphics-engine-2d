@@ -20,12 +20,12 @@
 
 history::sprite2d::ChangeOptions::ChangeOptions(
         sad::SceneNode* d, 
-        const sad::Rect2D& oldarea,
-        const sad::String& oldvalue, 
-        const sad::String& newvalue
+        const sad::Rect2D& old_area,
+        const sad::String& old_value, 
+        const sad::String& new_value
 ) 
-: history::scenenodes::ChangeProperty<sad::String>(d, "options", oldvalue, newvalue),
-  m_oldarea(oldarea)
+: history::scenenodes::ChangeProperty<sad::String>(d, "options", old_value, new_value),
+  m_old_area(old_area)
 {
     m_affects_parent_grid = true;    
 }
@@ -38,7 +38,7 @@ history::sprite2d::ChangeOptions::~ChangeOptions()
 void history::sprite2d::ChangeOptions::rollback(core::Editor* e)
 {
     this->history::scenenodes::ChangeProperty<sad::String>::rollback(e);
-    m_node->setProperty("area", m_oldarea);
+    m_node->setProperty("area", m_old_area);
     e->tryUpdateParentGridForNode(m_node);
     if (e)
     {

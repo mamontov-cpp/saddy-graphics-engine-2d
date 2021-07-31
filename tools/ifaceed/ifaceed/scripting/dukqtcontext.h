@@ -5,6 +5,7 @@
 #pragma once
 #include <dukqt.h>
 #include <curry1.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <object.h>
 #include <thislambda.h>
 #include <lambda.h>

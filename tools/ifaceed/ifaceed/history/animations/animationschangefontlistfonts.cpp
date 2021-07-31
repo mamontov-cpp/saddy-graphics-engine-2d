@@ -16,16 +16,16 @@
 
 history::animations::ChangeFontListFonts::ChangeFontListFonts(
     sad::animations::Animation* d,
-    const sad::Vector<sad::String>& oldvalue,
-    const sad::Vector<sad::String>& newvalue
+    const sad::Vector<sad::String>& old_value,
+    const sad::Vector<sad::String>& new_value
 
 )
 : history::animations::ChangeList(
       d,
       "fonts",
-      NULL,
-      oldvalue,
-      newvalue
+      nullptr,
+      old_value,
+      new_value
 )
 {
 }

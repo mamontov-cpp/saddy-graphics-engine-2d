@@ -6,6 +6,7 @@
 #pragma once
 #include <QColor>
 #include <QString>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QVector>
 
 #include <db/save.h>
@@ -32,7 +33,7 @@ public:
  */
 static picojson::value perform(void * ptr)
 {
-    QColor * src = reinterpret_cast<QColor *>(ptr);
+    QColor * src = static_cast<QColor *>(ptr);
     sad::AColor dest(src->red(), src->green(), src->blue(), src->alpha());
     return sad::db::Save<sad::AColor>::perform(&dest);
 }
@@ -50,7 +51,7 @@ public:
  */
 static picojson::value perform(void * ptr)
 {
-    QString * src = reinterpret_cast<QString *>(ptr);
+    QString * src = static_cast<QString *>(ptr);
     sad::String dest(Q2STDSTRING(*src));
     return sad::db::Save<sad::String>::perform(&dest);
 }
@@ -68,7 +69,7 @@ public:
  */
 static picojson::value perform(void * ptr)
 {
-    QList<QList<QColor> >  * src = reinterpret_cast<QList<QList<QColor> > *>(ptr);
+    QList<QList<QColor> >  * src = static_cast<QList<QList<QColor> > *>(ptr);
     sad::Vector<sad::Vector<sad::AColor> > result;
 
     core
@@ -92,7 +93,7 @@ public:
  */
 static picojson::value perform(void * ptr)
 {
-    QRectF  * src = reinterpret_cast<QRectF *>(ptr);
+    QRectF* src = static_cast<QRectF *>(ptr);
     sad::Rect2D result;
 
     core

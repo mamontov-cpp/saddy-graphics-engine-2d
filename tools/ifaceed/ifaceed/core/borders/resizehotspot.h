@@ -27,7 +27,7 @@ public:
     /*! Creates default hotspot
         \param[in] pivot1 a first pivot point index for adjacent elements
         \param[in] pivot2 a second pivot point index for adjacent elements
-        \param[in] adjacent an adjancent point index to first point
+        \param[in] adjacent an adjacent point index to first point
         \param[in] p point
      */
     ResizeHotspot(int pivot1, int pivot2, int adjacent, const sad::p2d::Vector& p);

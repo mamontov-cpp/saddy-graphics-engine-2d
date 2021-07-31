@@ -6,6 +6,7 @@
 #include <layouts/grid.h>
 
 #include <QObject>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QMetaType>
 
 namespace scripting
@@ -24,7 +25,7 @@ class ScriptableLengthValue: public QObject
 public:
     /*! A helper constructor for metatype
      */
-    inline ScriptableLengthValue() : m_scripting(NULL)
+    inline ScriptableLengthValue() : m_scripting(nullptr)
     {
 
     }
@@ -72,7 +73,7 @@ public slots:
      */
     double value() const;
     /*! Returns underlying length value size
-        \return v new value
+        \param[in] v new value
      */
     void setValue(double v);
     /*! Returns unit value

@@ -12,17 +12,17 @@
 
 history::animations::ChangeRotateAngle::ChangeRotateAngle(
     sad::animations::Animation* d,
-    const sad::String& propertyname,
+    const sad::String& property_name,
     QDoubleSpinBox* view,
-    double oldvalue,
-    double newvalue
+    double old_value,
+    double new_value
 
 )
 : history::animations::ChangeProperty<double>(
       d,
-      propertyname,
-      oldvalue,
-      newvalue
+      property_name,
+      old_value,
+      new_value
 ), m_view(view)
 {
 }

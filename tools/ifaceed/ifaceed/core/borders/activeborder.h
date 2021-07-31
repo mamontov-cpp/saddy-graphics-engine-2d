@@ -23,11 +23,11 @@ public:
     ActiveBorder(core::Shared* data);
     /*! Can be inherited
      */
-    virtual ~ActiveBorder();	
+    virtual ~ActiveBorder();
 protected:
      /*! Renders a selected object border as render border
       */
-     void _process();
+     void _process() override;
 };
 
 }

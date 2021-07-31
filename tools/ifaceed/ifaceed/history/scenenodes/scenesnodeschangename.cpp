@@ -27,15 +27,15 @@ Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
 history::scenenodes::ChangeName::ChangeName(
     sad::SceneNode* d,
-    const sad::String& oldvalue,
-    const sad::String& newvalue
+    const sad::String& old_value,
+    const sad::String& new_value
 
 )
 : history::scenenodes::ChangeProperty<sad::String>(
       d,
       "name",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
 }

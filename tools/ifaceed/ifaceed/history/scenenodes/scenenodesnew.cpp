@@ -65,7 +65,7 @@ void history::scenenodes::New::rollback(core::Editor * ob)
     }
     if (ob->shared()->selectedObject() == m_node)
     {
-        ob->shared()->setSelectedObject(NULL);
+        ob->shared()->setSelectedObject(nullptr);
         if (ob->machine()->isInState("selected"))
         {
             ob->machine()->enterState("idle");

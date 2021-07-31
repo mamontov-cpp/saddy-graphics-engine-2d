@@ -29,14 +29,14 @@ public:
     /*!
      * Can be inherited
      */
-    virtual ~ClosureMethodCall0()
+    virtual ~ClosureMethodCall0() override
     {
 
     }
     /*!
      * Invokes method
      */
-    virtual void run()
+    virtual void run() override
     {
         (m_o->*m_f)();
     }
@@ -76,14 +76,14 @@ public:
     /*!
      * Can be inherited
      */
-    virtual ~ClosureMethodCall1()
+    virtual ~ClosureMethodCall1() override
     {
 
     }
     /*!
      * Invokes method
      */
-    virtual void run()
+    virtual void run() override
     {
         (m_o->*m_f)(m_a);
     }
@@ -129,14 +129,14 @@ public:
     /*!
      * Can be inherited
      */
-    virtual ~ClosureMethodCall2()
+    virtual ~ClosureMethodCall2() override
     {
 
     }
     /*!
      * Invokes method
      */
-    virtual void run()
+    virtual void run() override
     {
         (m_o->*m_f)(m_a1, m_a2);
     }
@@ -194,14 +194,14 @@ public:
     /*!
      * Can be inherited
      */
-    virtual ~ClosureMethodCall3()
+    virtual ~ClosureMethodCall3() override
     {
 
     }
     /*!
      * Invokes method
      */
-    virtual void run()
+    virtual void run() override
     {
         (m_o->*m_f)(m_a1, m_a2, m_a3);
     }
@@ -266,14 +266,14 @@ public:
     /*!
      * Can be inherited
      */
-    virtual ~ClosureMethodCall4()
+    virtual ~ClosureMethodCall4() override
     {
 
     }
     /*!
      * Invokes method
      */
-    virtual void run()
+    virtual void run() override
     {
         (m_o->*m_f)(m_a1, m_a2, m_a3, m_a4);
     }
@@ -345,14 +345,14 @@ public:
     /*!
      * Can be inherited
      */
-    virtual ~ClosureMethodCall5()
+    virtual ~ClosureMethodCall5() override
     {
 
     }
     /*!
      * Invokes method
      */
-    virtual void run()
+    virtual void run() override
     {
         (m_o->*m_f)(m_a1, m_a2, m_a3, m_a4, m_a5);
     }

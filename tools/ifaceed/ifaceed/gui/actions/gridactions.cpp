@@ -49,7 +49,7 @@ Q_DECLARE_METATYPE(sad::layouts::Grid*)
 Q_DECLARE_METATYPE(gui::actions::GridActions::GridUpdateOptions)
 
 gui::actions::GridActions::GridActions(QObject* parent)
-: QObject(parent), m_provider(NULL), m_is_stretching(false)
+: QObject(parent), m_provider(nullptr), m_is_stretching(false)
 {
 
 }
@@ -68,7 +68,7 @@ gui::actions::GridActions::~GridActions()
 
 sad::layouts::Grid* gui::actions::GridActions::selectedGrid() const
 {
-    sad::layouts::Grid* result = NULL;
+    sad::layouts::Grid* result = nullptr;
     if (m_editor)
     {
         core::Shared* shared = m_editor->shared(); 
@@ -420,35 +420,35 @@ void gui::actions::GridActions::updateOnlyGridPropertiesInUI(
             states[i] = widgets[i]->blockSignals(size);
         }
 
-        if (group == gui::actions::GridActions::GGAUO_Rows)
+        if (group == gui::actions::GridActions::GridUpdateOptions::GGAUO_Rows)
         {
             layout_blk->spnLayoutGridRows->setValue(grid->rows());
         }
-        if (group == gui::actions::GridActions::GGAUO_Cols)
+        if (group == gui::actions::GridActions::GridUpdateOptions::GGAUO_Cols)
         {
             layout_blk->spnLayoutGridCols->setValue(grid->columns());
         }
-        if (group == gui::actions::GridActions::GGAUO_FixedWidth)
+        if (group == gui::actions::GridActions::GridUpdateOptions::GGAUO_FixedWidth)
         {
             layout_blk->cbLayoutFixedWidth->setCheckState((grid->fixedWidth()) ? Qt::Checked : Qt::Unchecked);
         }
-        if (group == gui::actions::GridActions::GGAUO_FixedHeight)
+        if (group == gui::actions::GridActions::GridUpdateOptions::GGAUO_FixedHeight)
         {
             layout_blk->cbLayoutFixedHeight->setCheckState((grid->fixedHeight()) ? Qt::Checked : Qt::Unchecked);
         }
-        if (group == gui::actions::GridActions::GGAUO_LeftPadding)
+        if (group == gui::actions::GridActions::GridUpdateOptions::GGAUO_LeftPadding)
         {
             layout_blk->dsbLayoutPaddingLeft->setValue(grid->paddingLeft());
         }
-        if (group == gui::actions::GridActions::GGAUO_RightPadding)
+        if (group == gui::actions::GridActions::GridUpdateOptions::GGAUO_RightPadding)
         {
             layout_blk->dsbLayoutPaddingRight->setValue(grid->paddingRight());
         }
-        if (group == gui::actions::GridActions::GGAUO_TopPadding)
+        if (group == gui::actions::GridActions::GridUpdateOptions::GGAUO_TopPadding)
         {
             layout_blk->dsbLayoutPaddingTop->setValue(grid->paddingTop());
         }
-        if (group == gui::actions::GridActions::GGAUO_BottomPadding)
+        if (group == gui::actions::GridActions::GridUpdateOptions::GGAUO_BottomPadding)
         {
             layout_blk->dsbLayoutPaddingBottom->setValue(grid->paddingBottom());
         }
@@ -459,12 +459,12 @@ void gui::actions::GridActions::updateOnlyGridPropertiesInUI(
         }
     }
 
-    if (group == gui::actions::GridActions::GGAUO_Cells)
+    if (group == gui::actions::GridActions::GridUpdateOptions::GGAUO_Cells)
     {
         updateCellBrowser(true);
     }
 
-    if (group == gui::actions::GridActions::GGAUO_Area)
+    if (group == gui::actions::GridActions::GridUpdateOptions::GGAUO_Area)
     {
         updateRegion(true);
     }    
@@ -503,35 +503,35 @@ void gui::actions::GridActions::updateGridPropertiesInUIExcept(
             states[i] = widgets[i]->blockSignals(size);
         }
 
-        if (group != gui::actions::GridActions::GGAUO_Rows)
+        if (group != gui::actions::GridActions::GridUpdateOptions::GGAUO_Rows)
         {
             layout_blk->spnLayoutGridRows->setValue(grid->rows());
         }
-        if (group != gui::actions::GridActions::GGAUO_Cols)
+        if (group != gui::actions::GridActions::GridUpdateOptions::GGAUO_Cols)
         {
             layout_blk->spnLayoutGridCols->setValue(grid->columns());
         }
-        if (group != gui::actions::GridActions::GGAUO_FixedWidth)
+        if (group != gui::actions::GridActions::GridUpdateOptions::GGAUO_FixedWidth)
         {
             layout_blk->cbLayoutFixedWidth->setCheckState((grid->fixedWidth()) ? Qt::Checked : Qt::Unchecked);
         }
-        if (group != gui::actions::GridActions::GGAUO_FixedHeight)
+        if (group != gui::actions::GridActions::GridUpdateOptions::GGAUO_FixedHeight)
         {
             layout_blk->cbLayoutFixedHeight->setCheckState((grid->fixedHeight()) ? Qt::Checked : Qt::Unchecked);
         }
-        if (group != gui::actions::GridActions::GGAUO_LeftPadding)
+        if (group != gui::actions::GridActions::GridUpdateOptions::GGAUO_LeftPadding)
         {
             layout_blk->dsbLayoutPaddingLeft->setValue(grid->paddingLeft());
         }
-        if (group != gui::actions::GridActions::GGAUO_RightPadding)
+        if (group != gui::actions::GridActions::GridUpdateOptions::GGAUO_RightPadding)
         {
             layout_blk->dsbLayoutPaddingRight->setValue(grid->paddingRight());
         }
-        if (group != gui::actions::GridActions::GGAUO_TopPadding)
+        if (group != gui::actions::GridActions::GridUpdateOptions::GGAUO_TopPadding)
         {
             layout_blk->dsbLayoutPaddingTop->setValue(grid->paddingTop());
         }
-        if (group != gui::actions::GridActions::GGAUO_BottomPadding)
+        if (group != gui::actions::GridActions::GridUpdateOptions::GGAUO_BottomPadding)
         {
             layout_blk->dsbLayoutPaddingBottom->setValue(grid->paddingBottom());
         }
@@ -542,12 +542,12 @@ void gui::actions::GridActions::updateGridPropertiesInUIExcept(
         }
     }
 
-    if (group != gui::actions::GridActions::GGAUO_Cells)
+    if (group != gui::actions::GridActions::GridUpdateOptions::GGAUO_Cells)
     {
         updateCellBrowser(true);
     }
 
-    if (group != gui::actions::GridActions::GGAUO_Area)
+    if (group != gui::actions::GridActions::GridUpdateOptions::GGAUO_Area)
     {
         updateRegion(true);
     }
@@ -555,12 +555,12 @@ void gui::actions::GridActions::updateGridPropertiesInUIExcept(
 
 void gui::actions::GridActions::updateGridPropertiesInUI(bool immediate)
 {    
-    this->updateGridPropertiesInUIExcept(gui::actions::GridActions::GGAUO_None, immediate);    
+    this->updateGridPropertiesInUIExcept(gui::actions::GridActions::GridUpdateOptions::GGAUO_None, immediate);    
 }
 
 gui::layouts::LayoutCellEdit* gui::actions::GridActions::cellEditor(size_t row,  size_t col)
 {
-    gui::layouts::LayoutCellEdit* edit = NULL;
+    gui::layouts::LayoutCellEdit* edit = nullptr;
     if (m_cell_editors.contains(row))
     {
         if (m_cell_editors[row].contains(col))
@@ -614,7 +614,7 @@ void gui::actions::GridActions::clearGridCellsBrowser()
     m_cell_editors.clear();
 }
 
-void gui::actions::GridActions::higlightAddingState() const
+void gui::actions::GridActions::highlightAddingState() const
 {
     m_editor->panelProxy()->highlightState("Click where you want layout to be placed");
 }
@@ -629,7 +629,7 @@ void gui::actions::GridActions::highlightPlaceSecondPointState() const
     m_editor->panelProxy()->highlightState("Click where you want bottom-right corner of layout to be placed");
 }
 
-void gui::actions::GridActions::higlightMovingState() const
+void gui::actions::GridActions::highlightMovingState() const
 {
     m_editor->panelProxy()->highlightState("Click where you want layout to be placed");	
 }
@@ -653,7 +653,7 @@ void gui::actions::GridActions::cancelAddGrid()
             &gui::actions::GridActions::enableEditingAreaControls
         ));
         m_editor->renderGrids()->remove(grid);
-        m_editor->shared()->setActiveGrid(NULL);
+        m_editor->shared()->setActiveGrid(nullptr);
 
         m_editor->machine()->enterState(m_previous_machine_state);
     }
@@ -702,7 +702,7 @@ void gui::actions::GridActions::commitMovingGrid(const sad::input::MouseReleaseE
         moveByPivotPoint(ev);
         picojson::value value(picojson::object_type, false);
         grid->save(value);
-        history::layouts::Change<gui::actions::GridActions::GGAUO_Area>* change = new history::layouts::Change<gui::actions::GridActions::GGAUO_Area>(grid);
+        history::layouts::Change<gui::actions::GridActions::GridUpdateOptions::GGAUO_Area>* change = new history::layouts::Change<gui::actions::GridActions::GridUpdateOptions::GGAUO_Area>(grid);
         change->saveOldState(m_editor->shared()->oldState());
         change->saveNewState(value);
         change->addAffectedNodes(grid->children());
@@ -749,7 +749,7 @@ void gui::actions::GridActions::commitGridResizingUsingHotspot(const sad::input:
         resizeGridUsingHotspot(ev);
         picojson::value value(picojson::object_type, false);
         grid->save(value);
-        history::layouts::Change<gui::actions::GridActions::GGAUO_Area>* change = new history::layouts::Change<gui::actions::GridActions::GGAUO_Area>(grid);
+        history::layouts::Change<gui::actions::GridActions::GridUpdateOptions::GGAUO_Area>* change = new history::layouts::Change<gui::actions::GridActions::GridUpdateOptions::GGAUO_Area>(grid);
         change->saveOldState(m_editor->shared()->oldState());
         change->saveNewState(value);
         change->addAffectedNodes(grid->children());
@@ -792,7 +792,7 @@ void gui::actions::GridActions::removeGridFromGridList(sad::layouts::Grid* g)
     }
     if (m_editor->shared()->selectedGrid() == g)
     {
-        m_editor->shared()->setSelectedGrid(NULL);
+        m_editor->shared()->setSelectedGrid(nullptr);
         this->clearGridCellsBrowser();;
     }
 }
@@ -821,7 +821,7 @@ void gui::actions::GridActions::commitGridAdd(const sad::input::MousePressEvent&
     m_editor->emitClosure(::bind(this, &gui::actions::GridActions::enableEditingAreaControls));
 
     sad::Renderer::ref()->database("")->table("layouts")->add(g);
-    m_editor->shared()->setActiveGrid(NULL);
+    m_editor->shared()->setActiveGrid(nullptr);
     m_editor->shared()->setSelectedGrid(g);
 
     m_editor->machine()->enterState(m_previous_machine_state);
@@ -873,7 +873,7 @@ void gui::actions::GridActions::enableEditingAreaControls()
 
 void gui::actions::GridActions::cancelSelection()
 {
-    m_editor->shared()->setSelectedGrid(NULL);
+    m_editor->shared()->setSelectedGrid(nullptr);
     gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
     layout_blk->lstLayoutGridList->setCurrentRow(-1);
     this->clearGridCellsBrowser();
@@ -881,7 +881,7 @@ void gui::actions::GridActions::cancelSelection()
 
 bool gui::actions::GridActions::isInGrid(sad::SceneNode* node)
 {
-    return this->parentGridFor(node) != NULL;
+    return this->parentGridFor(node) != nullptr;
 }
 
 sad::layouts::Grid* gui::actions::GridActions::parentGridFor(sad::SceneNode* node)
@@ -891,7 +891,7 @@ sad::layouts::Grid* gui::actions::GridActions::parentGridFor(sad::SceneNode* nod
         sad::Vector<gui::GridPosition> poses = this->findRelatedGrids(node);
         if (poses.size() == 0)
         {
-            m_grid_to_parent.insert(node, NULL);
+            m_grid_to_parent.insert(node, nullptr);
         }
         else
         {
@@ -1096,15 +1096,15 @@ void gui::actions::GridActions::updateCellPartInUI(
         if (edit)
         {
 #define M(X) &gui::layouts::LayoutCellEdit:: X
-            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_Width, sad::layouts::LengthValue>(opts, edit, M(setWidth), v);
-            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_Height, sad::layouts::LengthValue>(opts, edit, M(setHeight), v);
-            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_HorizontalAlignment, sad::layouts::HorizontalAlignment>(opts, edit, M(setHorizontalAlignment), v);
-            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_VerticalAlignment, sad::layouts::VerticalAlignment>(opts, edit, M(setVerticalAlignment), v);
-            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_StackingType, sad::layouts::StackingType>(opts, edit, M(setStackingType), v);
-            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_TopPadding, double>(opts, edit, M(setPaddingTop), v);
-            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_BottomPadding, double>(opts, edit, M(setPaddingBottom), v);
-            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_LeftPadding, double>(opts, edit, M(setPaddingLeft), v);
-            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_RightPadding, double>(opts, edit, M(setPaddingRight), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::CellUpdateOptions::GCAUO_Width, sad::layouts::LengthValue>(opts, edit, M(setWidth), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::CellUpdateOptions::GCAUO_Height, sad::layouts::LengthValue>(opts, edit, M(setHeight), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::CellUpdateOptions::GCAUO_HorizontalAlignment, sad::layouts::HorizontalAlignment>(opts, edit, M(setHorizontalAlignment), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::CellUpdateOptions::GCAUO_VerticalAlignment, sad::layouts::VerticalAlignment>(opts, edit, M(setVerticalAlignment), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::CellUpdateOptions::GCAUO_StackingType, sad::layouts::StackingType>(opts, edit, M(setStackingType), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::CellUpdateOptions::GCAUO_TopPadding, double>(opts, edit, M(setPaddingTop), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::CellUpdateOptions::GCAUO_BottomPadding, double>(opts, edit, M(setPaddingBottom), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::CellUpdateOptions::GCAUO_LeftPadding, double>(opts, edit, M(setPaddingLeft), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::CellUpdateOptions::GCAUO_RightPadding, double>(opts, edit, M(setPaddingRight), v);
 #undef M             
         }
     }
@@ -1144,7 +1144,7 @@ void gui::actions::GridActions::tryChangeAreaForGrid(
             }
         }
 
-        history::layouts::Change<gui::actions::GridActions::GGAUO_Area>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_Area>(grid);
+        history::layouts::Change<gui::actions::GridActions::GridUpdateOptions::GGAUO_Area>* c = new history::layouts::Change<gui::actions::GridActions::GridUpdateOptions::GGAUO_Area>(grid);
         c->saveOldState(oldstate);
         c->saveNewState(newstate);
         c->addAffectedNodes(nodes);
@@ -1209,11 +1209,11 @@ void gui::actions::GridActions::tryChangeFixedWidthForGrid(
             if (m_editor->shared()->selectedGrid() == grid)
             {
                 this->updateRegion();
-                this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GGAUO_FixedWidth);
+                this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GridUpdateOptions::GGAUO_FixedWidth);
             }
         }
     
-        history::layouts::Change<gui::actions::GridActions::GGAUO_FixedWidth>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_FixedWidth>(grid);
+        history::layouts::Change<gui::actions::GridActions::GridUpdateOptions::GGAUO_FixedWidth>* c = new history::layouts::Change<gui::actions::GridActions::GridUpdateOptions::GGAUO_FixedWidth>(grid);
         c->saveOldState(oldstate);
         c->saveNewState(newstate);
         c->addAffectedNodes(children);
@@ -1256,11 +1256,11 @@ void gui::actions::GridActions::tryChangeFixedHeightForGrid(
             if (m_editor->shared()->selectedGrid() == grid)
             {
                 this->updateRegion();
-                this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GGAUO_FixedHeight);
+                this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GridUpdateOptions::GGAUO_FixedHeight);
             }
         }
 
-        history::layouts::Change<gui::actions::GridActions::GGAUO_FixedHeight>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_FixedHeight>(grid);
+        history::layouts::Change<gui::actions::GridActions::GridUpdateOptions::GGAUO_FixedHeight>* c = new history::layouts::Change<gui::actions::GridActions::GridUpdateOptions::GGAUO_FixedHeight>(grid);
         c->saveOldState(oldstate);
         c->saveNewState(newstate);
         c->addAffectedNodes(children);
@@ -1294,7 +1294,7 @@ void gui::actions::GridActions::tryChangeRowCountForGrid(
         {
             if (m_editor->shared()->selectedGrid() == grid)
             {
-                this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GGAUO_Rows);
+                this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GridUpdateOptions::GGAUO_Rows);
             }
         }
 
@@ -1317,7 +1317,7 @@ void gui::actions::GridActions::tryChangeRowCountForGrid(
             }
         }
 
-        history::layouts::Change<gui::actions::GridActions::GGAUO_Rows>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_Rows>(grid);
+        history::layouts::Change<gui::actions::GridActions::GridUpdateOptions::GGAUO_Rows>* c = new history::layouts::Change<gui::actions::GridActions::GridUpdateOptions::GGAUO_Rows>(grid);
         c->saveOldState(oldstate);
         c->saveNewState(newstate);
         c->addAffectedNodes(children);
@@ -1353,7 +1353,7 @@ void gui::actions::GridActions::tryChangeColumnCountForGrid(
         {
             if (m_editor->shared()->selectedGrid() == grid)
             {
-                this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GGAUO_Cols);
+                this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GridUpdateOptions::GGAUO_Cols);
             }
         }
 
@@ -1376,7 +1376,7 @@ void gui::actions::GridActions::tryChangeColumnCountForGrid(
             }
         }
 
-        history::layouts::Change<gui::actions::GridActions::GGAUO_Cols>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_Cols>(g);
+        history::layouts::Change<gui::actions::GridActions::GridUpdateOptions::GGAUO_Cols>* c = new history::layouts::Change<gui::actions::GridActions::GridUpdateOptions::GGAUO_Cols>(g);
         c->saveOldState(oldstate);
         c->saveNewState(newstate);
         c->addAffectedNodes(children);
@@ -1397,28 +1397,28 @@ void gui::actions::GridActions::tryChangeColumnCountForGrid(
 QCheckBox* gui::actions::GridActions::propagateCheckboxForPadding(gui::actions::GridActions::GridUpdateOptions opts)
 {
     assert(
-        opts == gui::actions::GridActions::GGAUO_TopPadding
-    ||  opts == gui::actions::GridActions::GGAUO_BottomPadding
-    ||  opts == gui::actions::GridActions::GGAUO_LeftPadding
-    ||  opts == gui::actions::GridActions::GGAUO_RightPadding
+        opts == gui::actions::GridActions::GridUpdateOptions::GGAUO_TopPadding
+    ||  opts == gui::actions::GridActions::GridUpdateOptions::GGAUO_BottomPadding
+    ||  opts == gui::actions::GridActions::GridUpdateOptions::GGAUO_LeftPadding
+    ||  opts == gui::actions::GridActions::GridUpdateOptions::GGAUO_RightPadding
     );
 
-    QCheckBox* c = NULL;
+    QCheckBox* c = nullptr;
 
     gui::uiblocks::UILayoutBlock* blk = m_editor->uiBlocks()->uiLayoutBlock();
     // ReSharper disable once CppIncompleteSwitchStatement
     switch(opts)
     {
-        case gui::actions::GridActions::GGAUO_TopPadding:
+        case gui::actions::GridActions::GridUpdateOptions::GGAUO_TopPadding:
             c = blk->cbLayoutPaddingTopPropagate;
             break;
-        case gui::actions::GridActions::GGAUO_BottomPadding:
+        case gui::actions::GridActions::GridUpdateOptions::GGAUO_BottomPadding:
             c = blk->cbLayoutPaddingBottomPropagate;
             break;
-        case gui::actions::GridActions::GGAUO_LeftPadding:
+        case gui::actions::GridActions::GridUpdateOptions::GGAUO_LeftPadding:
             c = blk->cbLayoutPaddingLeftPropagate;
             break;
-        case gui::actions::GridActions::GGAUO_RightPadding:
+        case gui::actions::GridActions::GridUpdateOptions::GGAUO_RightPadding:
             c = blk->cbLayoutPaddingRightPropagate;
             break;
     }
@@ -1430,30 +1430,30 @@ QCheckBox* gui::actions::GridActions::propagateCheckboxForPadding(gui::actions::
 void gui::actions::GridActions::applyPaddingChangeToGrid(
     gui::actions::GridActions::GridUpdateOptions opts,
     sad::layouts::Grid* grid,
-    double newvalue,
+    double new_value,
     bool propagate
 )
 {
     assert(
-        opts == gui::actions::GridActions::GGAUO_TopPadding
-    ||  opts == gui::actions::GridActions::GGAUO_BottomPadding
-    ||  opts == gui::actions::GridActions::GGAUO_LeftPadding
-    ||  opts == gui::actions::GridActions::GGAUO_RightPadding
+        opts == gui::actions::GridActions::GridUpdateOptions::GGAUO_TopPadding
+    ||  opts == gui::actions::GridActions::GridUpdateOptions::GGAUO_BottomPadding
+    ||  opts == gui::actions::GridActions::GridUpdateOptions::GGAUO_LeftPadding
+    ||  opts == gui::actions::GridActions::GridUpdateOptions::GGAUO_RightPadding
     );
     // ReSharper disable once CppIncompleteSwitchStatement
     switch(opts)
     {
-        case gui::actions::GridActions::GGAUO_TopPadding:
-            grid->setPaddingTop(newvalue, propagate);
+        case gui::actions::GridActions::GridUpdateOptions::GGAUO_TopPadding:
+            grid->setPaddingTop(new_value, propagate);
             break;
-        case gui::actions::GridActions::GGAUO_BottomPadding:
-            grid->setPaddingBottom(newvalue, propagate);
+        case gui::actions::GridActions::GridUpdateOptions::GGAUO_BottomPadding:
+            grid->setPaddingBottom(new_value, propagate);
             break;
-        case gui::actions::GridActions::GGAUO_LeftPadding:
-            grid->setPaddingLeft(newvalue, propagate);
+        case gui::actions::GridActions::GridUpdateOptions::GGAUO_LeftPadding:
+            grid->setPaddingLeft(new_value, propagate);
             break;
-        case gui::actions::GridActions::GGAUO_RightPadding:
-            grid->setPaddingRight(newvalue, propagate);
+        case gui::actions::GridActions::GridUpdateOptions::GGAUO_RightPadding:
+            grid->setPaddingRight(new_value, propagate);
             break;
     }
 }
@@ -1467,29 +1467,29 @@ void gui::actions::GridActions::tryChangePaddingForGrid(
 )
 {
     assert(
-        opts == gui::actions::GridActions::GGAUO_TopPadding
-    ||  opts == gui::actions::GridActions::GGAUO_BottomPadding
-    ||  opts == gui::actions::GridActions::GGAUO_LeftPadding
-    ||  opts == gui::actions::GridActions::GGAUO_RightPadding
+        opts == gui::actions::GridActions::GridUpdateOptions::GGAUO_TopPadding
+    ||  opts == gui::actions::GridActions::GridUpdateOptions::GGAUO_BottomPadding
+    ||  opts == gui::actions::GridActions::GridUpdateOptions::GGAUO_LeftPadding
+    ||  opts == gui::actions::GridActions::GridUpdateOptions::GGAUO_RightPadding
     );
-    double oldvalue = 0;
+    double old_value = 0;
     // ReSharper disable once CppIncompleteSwitchStatement
     switch(opts)
     {
-        case gui::actions::GridActions::GGAUO_TopPadding:
-            oldvalue = grid->paddingTop();
+        case gui::actions::GridActions::GridUpdateOptions::GGAUO_TopPadding:
+            old_value = grid->paddingTop();
             break;
-        case gui::actions::GridActions::GGAUO_BottomPadding:
-            oldvalue = grid->paddingBottom();
+        case gui::actions::GridActions::GridUpdateOptions::GGAUO_BottomPadding:
+            old_value = grid->paddingBottom();
             break;
-        case gui::actions::GridActions::GGAUO_LeftPadding:
-            oldvalue = grid->paddingLeft();
+        case gui::actions::GridActions::GridUpdateOptions::GGAUO_LeftPadding:
+            old_value = grid->paddingLeft();
             break;
-        case gui::actions::GridActions::GGAUO_RightPadding:
-            oldvalue = grid->paddingRight();
+        case gui::actions::GridActions::GridUpdateOptions::GGAUO_RightPadding:
+            old_value = grid->paddingRight();
             break;
     }
-    if (value != oldvalue)
+    if (value != old_value)
     {
         sad::layouts::Grid* g = grid;
         sad::Vector<sad::SceneNode*> children = g->children();
@@ -1536,7 +1536,7 @@ void gui::actions::GridActions::tryChangePaddingForGrid(
 
 void gui::actions::GridActions::paddingChanged(
     gui::actions::GridActions::GridUpdateOptions opts,
-    double newvalue
+    double new_value
 )
 {
     sad::layouts::Grid* g = m_editor->shared()->activeGrid();
@@ -1544,7 +1544,7 @@ void gui::actions::GridActions::paddingChanged(
     bool propagate = cb->checkState() == Qt::Checked;
     if (g)
     {
-        this->applyPaddingChangeToGrid(opts, g, newvalue, propagate);
+        this->applyPaddingChangeToGrid(opts, g, new_value, propagate);
         if (propagate)
         {
             this->updateCellBrowser();
@@ -1559,7 +1559,7 @@ void gui::actions::GridActions::paddingChanged(
             this->tryChangePaddingForGrid(
                 opts,
                 g,
-                newvalue,
+                new_value,
                 propagate,
                 true
             );
@@ -1567,27 +1567,27 @@ void gui::actions::GridActions::paddingChanged(
     }
 }
 
-bool gui::actions::GridActions::tryPeformMergeOrSplit(
+bool gui::actions::GridActions::tryPerformMergeOrSplit(
     bool merge,
     sad::layouts::Grid* grid,
     int row,
     int col,
-    int rowspan,
-    int colspan,
+    int row_span,
+    int col_span,
     bool from_editor
 )
 {
-    if (row < 0 || col < 0 || rowspan <= 0 || colspan <= 0)
+    if (row < 0 || col < 0 || row_span <= 0 || col_span <= 0)
     {
         return false;
     }
-    if (rowspan == 1 && colspan == 1)
+    if (row_span == 1 && col_span == 1)
     {
         return false;
     }
 
 
-    history::layouts::Change<gui::actions::GridActions::GGAUO_Cells>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_Cells>(grid);
+    history::layouts::Change<gui::actions::GridActions::GridUpdateOptions::GGAUO_Cells>* c = new history::layouts::Change<gui::actions::GridActions::GridUpdateOptions::GGAUO_Cells>(grid);
     c->saveOldState();
     c->addAffectedNodes(grid->children());
 
@@ -1595,11 +1595,11 @@ bool gui::actions::GridActions::tryPeformMergeOrSplit(
     bool result = false;
     if (merge)
     {
-        result = grid->merge(row, col, rowspan, colspan);
+        result = grid->merge(row, col, row_span, col_span);
     }
     else
     {
-        result = grid->split(row, col, rowspan, colspan);
+        result = grid->split(row, col, row_span, col_span);
     }
 
     if (result)
@@ -1647,13 +1647,13 @@ void gui::actions::GridActions::tryMoveSelectedGridByKeyboard(const sad::input::
                 r[i] += p;
             }
             g->setArea(r);
-            this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GGAUO_Area);
+            this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GridUpdateOptions::GGAUO_Area);
             this->tryUpdateRegionsInChildren(g->children());
         }
         else
         {
             g = m_editor->shared()->selectedGrid();
-            if (g && (this->parentGridFor(g) == NULL))
+            if (g && (this->parentGridFor(g) == nullptr))
             {
                 sad::Rect2D r = g->area();
                 for(size_t i = 0; i < 4; i++)
@@ -1663,7 +1663,7 @@ void gui::actions::GridActions::tryMoveSelectedGridByKeyboard(const sad::input::
                 if (m_editor->machine()->isInState("layouts/moving"))
                 {
                     g->setArea(r);
-                    this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GGAUO_Area);
+                    this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GridUpdateOptions::GGAUO_Area);
                     this->tryUpdateRegionsInChildren(g->children());
                 }
                 else
@@ -1697,18 +1697,18 @@ void gui::actions::GridActions::removeGridClicked()
 {
     if (m_editor->isInEditingState())
         return;
-    this->scriptableRemoveGrid(NULL, true);
+    this->scriptableRemoveGrid(nullptr, true);
 }
 
-void gui::actions::GridActions::areaChanged(QRectF newarea)
+void gui::actions::GridActions::areaChanged(QRectF new_area)
 {
     sad::layouts::Grid* g = m_editor->shared()->activeGrid();
-    sad::Rect2D newvalue;
-    core::typeconverters::QRectFToSadRect2D::convert(newarea, newvalue);
+    sad::Rect2D new_value;
+    core::typeconverters::QRectFToSadRect2D::convert(new_area, new_value);
     if (g)
     {
-        g->setArea(newvalue);
-        if (!sad::equal(newvalue, g->area()))
+        g->setArea(new_value);
+        if (!sad::equal(new_value, g->area()))
         {
             this->updateRegion();
         }
@@ -1718,31 +1718,31 @@ void gui::actions::GridActions::areaChanged(QRectF newarea)
         g = m_editor->shared()->selectedGrid();
         if (g)
         {
-            this->tryChangeAreaForGrid(g, newvalue, true);
+            this->tryChangeAreaForGrid(g, new_value, true);
         }
     }
 }
 
-void gui::actions::GridActions::navigateCellRow(int newvalue)
+void gui::actions::GridActions::navigateCellRow(int new_value)
 {
-    int row = newvalue;
+    int row = new_value;
     int column = m_editor->uiBlocks()->uiLayoutBlock()->spnLayoutNavigateCellY->value();
     this->tryNavigateToCell(row, column);
 }
 
-void gui::actions::GridActions::navigateCellColumn(int newvalue)
+void gui::actions::GridActions::navigateCellColumn(int new_value)
 {
     int row = m_editor->uiBlocks()->uiLayoutBlock()->spnLayoutNavigateCellX->value();
-    int column = newvalue;
+    int column = new_value;
     this->tryNavigateToCell(row, column);    
 }
 
-void gui::actions::GridActions::rowCountChanged(int newvalue)
+void gui::actions::GridActions::rowCountChanged(int new_value)
 {
     sad::layouts::Grid* g = m_editor->shared()->activeGrid();
     if (g)
     {
-        g->setRows(newvalue);  
+        g->setRows(new_value);  
         this->updateCellBrowser();
     }
     else
@@ -1750,17 +1750,17 @@ void gui::actions::GridActions::rowCountChanged(int newvalue)
         g = m_editor->shared()->selectedGrid();
         if (g)
         {
-            this->tryChangeRowCountForGrid(g, static_cast<size_t>(newvalue), true);
+            this->tryChangeRowCountForGrid(g, static_cast<size_t>(new_value), true);
         }
     }
 }
 
-void gui::actions::GridActions::columnCountChanged(int newvalue)
+void gui::actions::GridActions::columnCountChanged(int new_value)
 {
     sad::layouts::Grid* g = m_editor->shared()->activeGrid();
     if (g)
     {
-        g->setColumns(newvalue); 
+        g->setColumns(new_value); 
         this->updateCellBrowser();
     }
     else
@@ -1768,17 +1768,17 @@ void gui::actions::GridActions::columnCountChanged(int newvalue)
         g = m_editor->shared()->selectedGrid();
         if (g)
         {
-            this->tryChangeColumnCountForGrid(g, newvalue, true);
+            this->tryChangeColumnCountForGrid(g, new_value, true);
         }
     }    
 }
 
-void gui::actions::GridActions::fixedWidthClicked(bool newvalue)
+void gui::actions::GridActions::fixedWidthClicked(bool new_value)
 {
     sad::layouts::Grid* g = m_editor->shared()->activeGrid();
     if (g)
     {
-        g->setFixedWidth(newvalue); 
+        g->setFixedWidth(new_value); 
         this->updateRegion();
     }
     else
@@ -1786,17 +1786,17 @@ void gui::actions::GridActions::fixedWidthClicked(bool newvalue)
         g = m_editor->shared()->selectedGrid();
         if (g)
         {
-            tryChangeFixedWidthForGrid(g, newvalue, true);            
+            tryChangeFixedWidthForGrid(g, new_value, true);            
         }
     }
 }
 
-void gui::actions::GridActions::fixedHeightClicked(bool newvalue)
+void gui::actions::GridActions::fixedHeightClicked(bool new_value)
 {
     sad::layouts::Grid* g = m_editor->shared()->activeGrid();
     if (g)
     {
-        g->setFixedHeight(newvalue); 
+        g->setFixedHeight(new_value); 
         this->updateRegion();
     }
     else
@@ -1804,29 +1804,29 @@ void gui::actions::GridActions::fixedHeightClicked(bool newvalue)
         g = m_editor->shared()->selectedGrid();
         if (g)
         {
-             tryChangeFixedHeightForGrid(g, newvalue, true);
+             tryChangeFixedHeightForGrid(g, new_value, true);
         }
     }
 }
 
-void gui::actions::GridActions::topPaddingChanged(double newvalue)
+void gui::actions::GridActions::topPaddingChanged(double new_value)
 {
-    this->paddingChanged(gui::actions::GridActions::GGAUO_TopPadding, newvalue);
+    this->paddingChanged(gui::actions::GridActions::GridUpdateOptions::GGAUO_TopPadding, new_value);
 }
 
-void gui::actions::GridActions::bottomPaddingChanged(double newvalue)
+void gui::actions::GridActions::bottomPaddingChanged(double new_value)
 {
-    this->paddingChanged(gui::actions::GridActions::GGAUO_BottomPadding, newvalue);
+    this->paddingChanged(gui::actions::GridActions::GridUpdateOptions::GGAUO_BottomPadding, new_value);
 }
 
-void gui::actions::GridActions::leftPaddingChanged(double newvalue)
+void gui::actions::GridActions::leftPaddingChanged(double new_value)
 {
-    this->paddingChanged(gui::actions::GridActions::GGAUO_LeftPadding, newvalue);
+    this->paddingChanged(gui::actions::GridActions::GridUpdateOptions::GGAUO_LeftPadding, new_value);
 }
 
-void gui::actions::GridActions::rightPaddingChanged(double newvalue)
+void gui::actions::GridActions::rightPaddingChanged(double new_value)
 {
-    this->paddingChanged(gui::actions::GridActions::GGAUO_RightPadding, newvalue);
+    this->paddingChanged(gui::actions::GridActions::GridUpdateOptions::GGAUO_RightPadding, new_value);
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -1893,7 +1893,7 @@ void gui::actions::GridActions::currentGridChanged(int row)
         }
         else
         {
-            m_editor->shared()->setSelectedGrid(NULL);
+            m_editor->shared()->setSelectedGrid(nullptr);
             this->clearGridCellsBrowser();
         }
     }
@@ -1929,24 +1929,24 @@ void  gui::actions::GridActions::nameChanged(const QString &text)
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void gui::actions::GridActions::cellWidthChanged(size_t row, size_t col, sad::layouts::LengthValue newvalue)
+void gui::actions::GridActions::cellWidthChanged(size_t row, size_t col, sad::layouts::LengthValue new_value)
 {
     if (m_editor)
     {
         sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
         if (grid)
         {
-            grid->cell(row, col)->setWidth(newvalue);
+            grid->cell(row, col)->setWidth(new_value);
         }
         else
         {
             grid = m_editor->shared()->selectedGrid();
             if (grid)
             {
-                history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_Width, sad::layouts::LengthValue>* c =
-                    new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_Width, sad::layouts::LengthValue>(grid, row, col, "width");
+                history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_Width, sad::layouts::LengthValue>* c =
+                    new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_Width, sad::layouts::LengthValue>(grid, row, col, "width");
                 c->setOldValue(grid->cell(row, col)->width());
-                c->setNewValue(newvalue);
+                c->setNewValue(new_value);
                 c->markAsCouldChangeRegion();
                 c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
@@ -1956,24 +1956,24 @@ void gui::actions::GridActions::cellWidthChanged(size_t row, size_t col, sad::la
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void gui::actions::GridActions::cellHeightChanged(size_t row, size_t col, sad::layouts::LengthValue newvalue)
+void gui::actions::GridActions::cellHeightChanged(size_t row, size_t col, sad::layouts::LengthValue new_value)
 {
     if (m_editor)
     {
         sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
         if (grid)
         {
-            grid->cell(row, col)->setHeight(newvalue);
+            grid->cell(row, col)->setHeight(new_value);
         }
         else
         {
             grid = m_editor->shared()->selectedGrid();
             if (grid)
             {
-                history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_Height, sad::layouts::LengthValue>* c =
-                    new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_Height, sad::layouts::LengthValue>(grid, row, col, "height");
+                history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_Height, sad::layouts::LengthValue>* c =
+                    new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_Height, sad::layouts::LengthValue>(grid, row, col, "height");
                 c->setOldValue(grid->cell(row, col)->height());
-                c->setNewValue(newvalue);
+                c->setNewValue(new_value);
                 c->markAsCouldChangeRegion();
                 c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
@@ -1983,24 +1983,24 @@ void gui::actions::GridActions::cellHeightChanged(size_t row, size_t col, sad::l
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void gui::actions::GridActions::cellHorizontalAlignmentChanged(size_t row, size_t col, sad::layouts::HorizontalAlignment newvalue)
+void gui::actions::GridActions::cellHorizontalAlignmentChanged(size_t row, size_t col, sad::layouts::HorizontalAlignment new_value)
 {
     if (m_editor)
     {
         sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
         if (grid)
         {
-            grid->cell(row, col)->setHorizontalAlignment(newvalue);            
+            grid->cell(row, col)->setHorizontalAlignment(new_value);            
         } 
         else
         {
             grid = m_editor->shared()->selectedGrid();
             if (grid)
             {
-                history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_HorizontalAlignment, sad::layouts::HorizontalAlignment>* c = 
-                    new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_HorizontalAlignment, sad::layouts::HorizontalAlignment>(grid, row, col, "halign");
+                history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_HorizontalAlignment, sad::layouts::HorizontalAlignment>* c = 
+                    new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_HorizontalAlignment, sad::layouts::HorizontalAlignment>(grid, row, col, "halign");
                 c->setOldValue(grid->cell(row, col)->horizontalAlignment());
-                c->setNewValue(newvalue);
+                c->setNewValue(new_value);
                 c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
             }
@@ -2009,24 +2009,24 @@ void gui::actions::GridActions::cellHorizontalAlignmentChanged(size_t row, size_
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void gui::actions::GridActions::cellVerticalAlignmentChanged(size_t row, size_t col, sad::layouts::VerticalAlignment newvalue)
+void gui::actions::GridActions::cellVerticalAlignmentChanged(size_t row, size_t col, sad::layouts::VerticalAlignment new_value)
 {
     if (m_editor)
     {
         sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
         if (grid)
         {
-            grid->cell(row, col)->setVerticalAlignment(newvalue);            
+            grid->cell(row, col)->setVerticalAlignment(new_value);            
         } 
         else
         {
             grid = m_editor->shared()->selectedGrid();
             if (grid)
             {
-                history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_VerticalAlignment, sad::layouts::VerticalAlignment>* c = 
-                    new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_VerticalAlignment, sad::layouts::VerticalAlignment>(grid, row, col, "valign");
+                history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_VerticalAlignment, sad::layouts::VerticalAlignment>* c = 
+                    new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_VerticalAlignment, sad::layouts::VerticalAlignment>(grid, row, col, "valign");
                 c->setOldValue(grid->cell(row, col)->verticalAlignment());
-                c->setNewValue(newvalue);
+                c->setNewValue(new_value);
                 c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
             }
@@ -2035,24 +2035,24 @@ void gui::actions::GridActions::cellVerticalAlignmentChanged(size_t row, size_t 
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void gui::actions::GridActions::cellStackingTypeChanged(size_t row, size_t col, sad::layouts::StackingType newvalue)
+void gui::actions::GridActions::cellStackingTypeChanged(size_t row, size_t col, sad::layouts::StackingType new_value)
 {
     if (m_editor)
     {
         sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
         if (grid)
         {
-            grid->cell(row, col)->setStackingType(newvalue);            
+            grid->cell(row, col)->setStackingType(new_value);            
         } 
         else
         {
             grid = m_editor->shared()->selectedGrid();
             if (grid)
             {
-                history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_StackingType, sad::layouts::StackingType>* c = 
-                    new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_StackingType, sad::layouts::StackingType>(grid, row, col, "stacking_type");
+                history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_StackingType, sad::layouts::StackingType>* c = 
+                    new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_StackingType, sad::layouts::StackingType>(grid, row, col, "stacking_type");
                 c->setOldValue(grid->cell(row, col)->stackingType());
-                c->setNewValue(newvalue);
+                c->setNewValue(new_value);
                 c->markAsCouldChangeRegion();
                 c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
@@ -2062,24 +2062,24 @@ void gui::actions::GridActions::cellStackingTypeChanged(size_t row, size_t col, 
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void gui::actions::GridActions::cellTopPaddingChanged(size_t row, size_t col, double newvalue)
+void gui::actions::GridActions::cellTopPaddingChanged(size_t row, size_t col, double new_value)
 {
     if (m_editor)
     {
         sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
         if (grid)
         {
-            grid->cell(row, col)->setPaddingTop(newvalue);            
+            grid->cell(row, col)->setPaddingTop(new_value);            
         } 
         else
         {
             grid = m_editor->shared()->selectedGrid();
             if (grid)
             {
-                history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_TopPadding, double>* c = 
-                    new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_TopPadding, double>(grid, row, col, "padding_top");
+                history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_TopPadding, double>* c = 
+                    new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_TopPadding, double>(grid, row, col, "padding_top");
                 c->setOldValue(grid->cell(row, col)->paddingTop());
-                c->setNewValue(newvalue);
+                c->setNewValue(new_value);
                 c->markAsCouldChangeRegion();
                 c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
@@ -2089,24 +2089,24 @@ void gui::actions::GridActions::cellTopPaddingChanged(size_t row, size_t col, do
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void gui::actions::GridActions::cellBottomPaddingChanged(size_t row, size_t col, double newvalue)
+void gui::actions::GridActions::cellBottomPaddingChanged(size_t row, size_t col, double new_value)
 {
     if (m_editor)
     {
         sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
         if (grid)
         {
-            grid->cell(row, col)->setPaddingTop(newvalue);            
+            grid->cell(row, col)->setPaddingTop(new_value);            
         } 
         else
         {
             grid = m_editor->shared()->selectedGrid();
             if (grid)
             {
-                history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_BottomPadding, double>* c = 
-                    new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_BottomPadding, double>(grid, row, col, "padding_bottom");
+                history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_BottomPadding, double>* c = 
+                    new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_BottomPadding, double>(grid, row, col, "padding_bottom");
                 c->setOldValue(grid->cell(row, col)->paddingBottom());
-                c->setNewValue(newvalue);
+                c->setNewValue(new_value);
                 c->markAsCouldChangeRegion();
                 c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
@@ -2116,24 +2116,24 @@ void gui::actions::GridActions::cellBottomPaddingChanged(size_t row, size_t col,
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void gui::actions::GridActions::cellLeftPaddingChanged(size_t row, size_t col, double newvalue)
+void gui::actions::GridActions::cellLeftPaddingChanged(size_t row, size_t col, double new_value)
 {
     if (m_editor)
     {
         sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
         if (grid)
         {
-            grid->cell(row, col)->setPaddingLeft(newvalue);            
+            grid->cell(row, col)->setPaddingLeft(new_value);            
         } 
         else
         {
             grid = m_editor->shared()->selectedGrid();
             if (grid)
             {
-                history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_LeftPadding, double>* c = 
-                    new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_LeftPadding, double>(grid, row, col, "padding_left");
+                history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_LeftPadding, double>* c = 
+                    new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_LeftPadding, double>(grid, row, col, "padding_left");
                 c->setOldValue(grid->cell(row, col)->paddingLeft());
-                c->setNewValue(newvalue);
+                c->setNewValue(new_value);
                 c->markAsCouldChangeRegion();
                 c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
@@ -2143,24 +2143,24 @@ void gui::actions::GridActions::cellLeftPaddingChanged(size_t row, size_t col, d
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void gui::actions::GridActions::cellRightPaddingChanged(size_t row, size_t col, double newvalue)
+void gui::actions::GridActions::cellRightPaddingChanged(size_t row, size_t col, double new_value)
 {
     if (m_editor)
     {
         sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
         if (grid)
         {
-            grid->cell(row, col)->setPaddingRight(newvalue);            
+            grid->cell(row, col)->setPaddingRight(new_value);            
         } 
         else
         {
             grid = m_editor->shared()->selectedGrid();
             if (grid)
             {
-                history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_RightPadding, double>* c = 
-                    new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_RightPadding, double>(grid, row, col, "padding_right");
+                history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_RightPadding, double>* c = 
+                    new history::layouts::ChangeCell<gui::actions::GridActions::CellUpdateOptions::GCAUO_RightPadding, double>(grid, row, col, "padding_right");
                 c->setOldValue(grid->cell(row, col)->paddingRight());
-                c->setNewValue(newvalue);
+                c->setNewValue(new_value);
                 c->markAsCouldChangeRegion();
                 c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
@@ -2170,9 +2170,9 @@ void gui::actions::GridActions::cellRightPaddingChanged(size_t row, size_t col, 
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void gui::actions::GridActions::cellChildAdded(size_t row, size_t col, unsigned long long majorid, QString nodename)
+void gui::actions::GridActions::cellChildAdded(size_t row, size_t col, unsigned long long majorid, QString node_name)
 {
-    Q_UNUSED(nodename);
+    Q_UNUSED(node_name);
     sad::layouts::Grid* g = m_editor->shared()->selectedGrid();
     if (!g)
     {
@@ -2245,7 +2245,7 @@ void gui::actions::GridActions::mergeButtonClicked()
     if (m_editor)
     {
         sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
-        bool active = (grid != NULL);
+        bool active = (grid != nullptr);
         if (!grid)
         {
             grid = m_editor->shared()->selectedGrid();
@@ -2253,11 +2253,11 @@ void gui::actions::GridActions::mergeButtonClicked()
         if (grid)
         {
             gui::CellRegion region = this->getSelectedCellRegion();
-            if (region.Flags != gui::CellRegion::GCRF_EMPTY)
+            if (region.Flags != gui::CellRegion::Flags::GCRF_EMPTY)
             {
-                if (region.Flags == gui::CellRegion::GCRF_INVALID)
+                if (region.Flags == gui::CellRegion::Flags::GCRF_INVALID)
                 {
-                    QMessageBox::critical(NULL, "Invalid selected region", "To merge cells in region, please select a valid rectangular region");
+                    QMessageBox::critical(nullptr, "Invalid selected region", "To merge cells in region, please select a valid rectangular region");
                 }
                 else
                 {
@@ -2275,7 +2275,7 @@ void gui::actions::GridActions::mergeButtonClicked()
                         }
                         else
                         {
-                            this->tryPeformMergeOrSplit(
+                            this->tryPerformMergeOrSplit(
                                 true,
                                 grid,
                                 row,
@@ -2297,7 +2297,7 @@ void gui::actions::GridActions::splitButtonClicked()
     if (m_editor)
     {
         sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
-        bool active = (grid != NULL);
+        bool active = (grid != nullptr);
         if (!grid)
         {
             grid = m_editor->shared()->selectedGrid();
@@ -2305,11 +2305,11 @@ void gui::actions::GridActions::splitButtonClicked()
         if (grid)
         {
             gui::CellRegion region = this->getSelectedCellRegion();
-            if (region.Flags != gui::CellRegion::GCRF_EMPTY)
+            if (region.Flags != gui::CellRegion::Flags::GCRF_EMPTY)
             {
-                if (region.Flags == gui::CellRegion::GCRF_INVALID)
+                if (region.Flags == gui::CellRegion::Flags::GCRF_INVALID)
                 {
-                    QMessageBox::critical(NULL, "Invalid selected region", "To merge cells in region, please select a valid rectangular region");
+                    QMessageBox::critical(nullptr, "Invalid selected region", "To merge cells in region, please select a valid rectangular region");
                 }
                 else
                 {
@@ -2327,7 +2327,7 @@ void gui::actions::GridActions::splitButtonClicked()
                         }
                         else
                         {
-                            this->tryPeformMergeOrSplit(
+                            this->tryPerformMergeOrSplit(
                                 false,
                                 grid,
                                 row,
@@ -2385,7 +2385,7 @@ void gui::actions::GridActions::tryNavigateToCell(size_t row, size_t column)
 gui::CellRegion gui::actions::GridActions::getSelectedCellRegion() const
 {
     gui::CellRegion result;
-    result.Flags = gui::CellRegion::GCRF_EMPTY;
+    result.Flags = gui::CellRegion::Flags::GCRF_EMPTY;
     sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
     if (!grid)
     {
@@ -2421,7 +2421,7 @@ gui::CellRegion gui::actions::GridActions::getSelectedCellRegion() const
         size_t curcolmin = selectedcells[0]->Col;
         size_t currowmax  = currowmin + selectedcells[0]->rowSpan() - 1;
         size_t curcolmax = curcolmin + selectedcells[0]->colSpan() - 1;
-        result.Flags = gui::CellRegion::GCRF_OK;
+        result.Flags = gui::CellRegion::Flags::GCRF_OK;
         for(size_t i = 1; i < selectedcells.size(); i++)
         {
             size_t rowmin = selectedcells[i]->Row;
@@ -2452,7 +2452,7 @@ gui::CellRegion gui::actions::GridActions::getSelectedCellRegion() const
 
         if (!valid)
         {
-            result.Flags = gui::CellRegion::GCRF_INVALID;
+            result.Flags = gui::CellRegion::Flags::GCRF_INVALID;
         }
     }
     return result;
@@ -2544,48 +2544,48 @@ void gui::actions::GridActions::makeBuckets(const sad::Vector<sad::Pair<sad::Sce
 history::Command* gui::actions::GridActions::makePaddingChangeCommand(
     gui::actions::GridActions::GridUpdateOptions opts,
     sad::layouts::Grid* g,
-    const picojson::value& oldstate,
-    const picojson::value& newstate,
+    const picojson::value& old_state,
+    const picojson::value& new_state,
     const sad::Vector<sad::SceneNode*>& children,
     bool propagate
 )
 {
-    history::Command* c = NULL;
+    history::Command* c = nullptr;
     // ReSharper disable once CppIncompleteSwitchStatement
     switch(opts)
     {
-        case gui::actions::GridActions::GGAUO_TopPadding:
-            c = this->makePaddingChangeCommand<gui::actions::GridActions::GGAUO_TopPadding>(
+        case gui::actions::GridActions::GridUpdateOptions::GGAUO_TopPadding:
+            c = this->makePaddingChangeCommand<gui::actions::GridActions::GridUpdateOptions::GGAUO_TopPadding>(
                 g,
-                oldstate,
-                newstate,
+                old_state,
+                new_state,
                 children,
                 propagate
             );
             break;
-        case gui::actions::GridActions::GGAUO_BottomPadding:
-            c = this->makePaddingChangeCommand<gui::actions::GridActions::GGAUO_BottomPadding>(
+        case gui::actions::GridActions::GridUpdateOptions::GGAUO_BottomPadding:
+            c = this->makePaddingChangeCommand<gui::actions::GridActions::GridUpdateOptions::GGAUO_BottomPadding>(
                 g,
-                oldstate,
-                newstate,
+                old_state,
+                new_state,
                 children,
                 propagate
             );
             break;
-        case gui::actions::GridActions::GGAUO_LeftPadding:
-            c = this->makePaddingChangeCommand<gui::actions::GridActions::GGAUO_LeftPadding>(
+        case gui::actions::GridActions::GridUpdateOptions::GGAUO_LeftPadding:
+            c = this->makePaddingChangeCommand<gui::actions::GridActions::GridUpdateOptions::GGAUO_LeftPadding>(
                 g,
-                oldstate,
-                newstate,
+                old_state,
+                new_state,
                 children,
                 propagate
             );
             break;
-        case gui::actions::GridActions::GGAUO_RightPadding:
-            c = this->makePaddingChangeCommand<gui::actions::GridActions::GGAUO_RightPadding>(
+        case gui::actions::GridActions::GridUpdateOptions::GGAUO_RightPadding:
+            c = this->makePaddingChangeCommand<gui::actions::GridActions::GridUpdateOptions::GGAUO_RightPadding>(
                 g,
-                oldstate,
-                newstate,
+                old_state,
+                new_state,
                 children,
                 propagate
             );
@@ -2600,15 +2600,15 @@ template<
 // ReSharper disable once CppMemberFunctionMayBeConst
 history::Command* gui::actions::GridActions::makePaddingChangeCommand(
     sad::layouts::Grid* g,
-    const picojson::value& oldstate,
-    const picojson::value& newstate,
+    const picojson::value& old_state,
+    const picojson::value& new_state,
     const sad::Vector<sad::SceneNode*>& children,
     bool propagate
 )
 {
     history::layouts::Change<_Opts>* c = new history::layouts::Change<_Opts>(g);
-    c->saveOldState(oldstate);
-    c->saveNewState(newstate);
+    c->saveOldState(old_state);
+    c->saveNewState(new_state);
     c->addAffectedNodes(children);
     c->toggleWhetherShouldUpdateCells(propagate);
     return c;

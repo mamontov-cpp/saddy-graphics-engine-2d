@@ -50,11 +50,11 @@ scripting::scenenodes::OptionsSetter::~OptionsSetter()
 history::Command* scripting::scenenodes::OptionsSetter::command(
     sad::SceneNode* obj, 
     const sad::String&, 
-    sad::String oldvalue,
-    sad::String newvalue
+    sad::String old_value,
+    sad::String new_value
 )
 {
     sad::Maybe<sad::Rect2D> area = obj->getProperty<sad::Rect2D>("area");
-    return new history::sprite2d::ChangeOptions(obj, area.value(), oldvalue, newvalue);
+    return new history::sprite2d::ChangeOptions(obj, area.value(), old_value, new_value);
 }
 

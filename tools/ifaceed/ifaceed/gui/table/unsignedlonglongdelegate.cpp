@@ -40,15 +40,15 @@ void gui::table::UnsignedLongLongDelegate::set(const sad::db::Variant& v)
 
 void gui::table::UnsignedLongLongDelegate::widgetChanged(qulonglong i)
 {
-    unsigned long long oldvalue = this->currentValue<unsigned long long>();
+    unsigned long long old_value = this->currentValue<unsigned long long>();
     if (this->isLinkedToDatabase())
     {
-        m_editor->history()->add(new history::database::ChangeProperty<unsigned long long>(oldvalue, i, this));
+        m_editor->history()->add(new history::database::ChangeProperty<unsigned long long>(old_value, i, this));
     }
     else
     {
         m_editor->history()->add( 
-            new history::customobject::ChangeProperty<unsigned long long>(m_object, Q2STDSTRING(m_property_name), oldvalue, i)
+            new history::customobject::ChangeProperty<unsigned long long>(m_object, Q2STDSTRING(m_property_name), old_value, i)
         );
     }
     this->setCurrentValue<unsigned long long>(i);

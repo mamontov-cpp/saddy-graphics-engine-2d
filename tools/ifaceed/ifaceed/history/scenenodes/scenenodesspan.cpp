@@ -43,7 +43,7 @@ void history::scenenodes::Span::rollback(core::Editor * ob)
 void history::scenenodes::Span::performUpdate(
     core::Editor* e,
     const sad::Rect2D& rect,
-    const double angle
+    double angle
 )
 {
     if (e && m_node)

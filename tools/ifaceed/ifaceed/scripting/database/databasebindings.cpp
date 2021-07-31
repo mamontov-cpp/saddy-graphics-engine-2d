@@ -46,7 +46,7 @@ bool scripting::database::removeProperty(scripting::Scripting* s, sad::String na
 {
     gui::MainPanelProxy* panel = s->editor()->panelProxy();
     bool result = false;
-    if(sad::Renderer::ref()->database("")->propertyByName(name) != NULL)
+    if(sad::Renderer::ref()->database("")->propertyByName(name) != nullptr)
     {
         if (panel->delegatesByName().contains(name))
         {

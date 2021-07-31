@@ -3,6 +3,7 @@
     Defines a simple proxy to ensure, that changing MainPanel would not affect other parts of code
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QList>
 #include <QColor>
 
@@ -102,11 +103,11 @@ public:
      */
     sad::Hash<sad::String, gui::table::Delegate*>& delegatesByName();
     /*! Adds new scriptable property to a database
-        \param[in] propertytype a type of property
-        \param[in] propertyname a name of property
-        \param[in] fromeditor a from editor
+        \param[in] property_type a type of property
+        \param[in] property_name a name of property
+        \param[in] from_editor a from editor
      */
-    bool scriptableAddProperty(const sad::String& propertytype, const sad::String& propertyname, bool fromeditor);	
+    bool scriptableAddProperty(const sad::String& property_type, const sad::String& property_name, bool from_editor);
     /*! Whether fast mode is enabled
         \return fast mode is enabled
      */

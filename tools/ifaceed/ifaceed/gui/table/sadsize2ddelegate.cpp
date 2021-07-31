@@ -39,19 +39,19 @@ void gui::table::SadSize2DDelegate::set(const sad::db::Variant& v)
 
 void gui::table::SadSize2DDelegate::widgetChanged(double f, double s)
 {
-    sad::Size2D oldvalue = this->currentValue<sad::Size2D>();
-    sad::Size2D newvalue(f, s);
+    sad::Size2D old_value = this->currentValue<sad::Size2D>();
+    sad::Size2D new_value(f, s);
     if (this->isLinkedToDatabase())
     {
-        m_editor->history()->add(new history::database::ChangeProperty<sad::Size2D>(oldvalue, newvalue, this));
+        m_editor->history()->add(new history::database::ChangeProperty<sad::Size2D>(old_value, new_value, this));
     }
     else
     {
         m_editor->history()->add( 
-            new history::customobject::ChangeProperty<sad::Size2D>(m_object, Q2STDSTRING(m_property_name), oldvalue, newvalue)
+            new history::customobject::ChangeProperty<sad::Size2D>(m_object, Q2STDSTRING(m_property_name), old_value, new_value)
         );
     }
-    this->setCurrentValue<sad::Size2D>(newvalue);
+    this->setCurrentValue<sad::Size2D>(new_value);
 }
 
 void gui::table::SadSize2DDelegate::makeEditor()

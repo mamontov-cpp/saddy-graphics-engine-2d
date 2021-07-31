@@ -5,7 +5,7 @@
 #include "mainpanelproxy.h"
 
 gui::EventFilter::EventFilter(QObject *parent) :
-    QObject(parent), m_editor(NULL)
+    QObject(parent), m_editor(nullptr)
 {
 }
 

@@ -5,7 +5,9 @@
  */
 #pragma once
 #include <QObject>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QColor>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QRectF>
 
 #include <scenenode.h>
@@ -33,23 +35,23 @@ public:
     /*! Creates new action for scene nodes
         \param[in] parent a parent object
      */
-    SceneNodeActions(QObject* parent = NULL);
+    SceneNodeActions(QObject* parent = nullptr);
     /*! This class could be inherited
      */
     virtual ~SceneNodeActions();
-    /*! Moves object, according to pivot point (used in moving substate)
+    /*! Moves object, according to pivot point (used in moving sub-state)
         \param[in] e event object
      */
     void moveObject(const sad::input::MouseMoveEvent& e);
-    /*! Commits moving of object, according to pivot point (used in moving substate)
+    /*! Commits moving of object, according to pivot point (used in moving sub-state)
         \param[in] e event object
      */
     void commitObjectMoving(const sad::input::MouseReleaseEvent& e);
-    /*! Resizes object, according to pivot point (used in resizing substate)
+    /*! Resizes object, according to pivot point (used in resizing sub-state)
         \param[in] e event object
      */
     void resizeObject(const sad::input::MouseMoveEvent& e);
-    /*! Commits resizing of object, according to pivot point (used in moving substate)
+    /*! Commits resizing of object, according to pivot point (used in moving sub-state)
         \param[in] e event object
      */
     void commitObjectResizing(const sad::input::MouseReleaseEvent& e);
@@ -75,13 +77,13 @@ public:
     /*! Selects last scene node in list
      */
     void selectLastSceneNode();
-    /*! Updates scene node name, finding it in list, settting it to current name
+    /*! Updates scene node name, finding it in list, setting it to current name
         \param[in] s scene
-        \param[in] update_field whether we should update scen node name text field
+        \param[in] update_field whether we should update scene node name text field
      */
     void updateSceneNodeName(sad::SceneNode* s, bool update_field = true);
     /*! Returns full name for a node
-        \param[in] node node, which shoulde be found
+        \param[in] node node, which should be found
         \return name for node
      */
     QString fullNameForNode(sad::SceneNode* node);
@@ -121,11 +123,11 @@ public:
         \param[in] e event object
      */
     void placeFirstPointForSpanning(const sad::input::MouseReleaseEvent& e);
-    /*! Emitted, when user moves second point for spaning object
+    /*! Emitted, when user moves second point for spanning object
         \param[in] e event object
      */
     void moveSecondPointForSpanning(const sad::input::MouseMoveEvent& e);
-    /*! Emitted, when places second point for spaning object
+    /*! Emitted, when places second point for spanning object
         \param[in] e event object
      */
     void commitSecondPointForSpanning(const sad::input::MouseReleaseEvent& e);
@@ -152,15 +154,15 @@ public:
      */
     void tryUpdateParentGridForNode(sad::SceneNode* node);
     /*! Handles changing area for current node
-        \param[in] newarea area for node
+        \param[in] new_area area for node
         \param[in] force_update whether we should force updating widget anyway
      */
-    void tryChangeAreaForActiveOrSelectedNode(const sad::Rect2D& newarea, bool force_update = false);
+    void tryChangeAreaForActiveOrSelectedNode(const sad::Rect2D& new_area, bool force_update = false);
     /*! Handles changing area for current node
-        \param[in] newarea area for node
+        \param[in] new_area area for node
         \param[in] force_update whether we should force updating widget anyway
      */
-    void tryChangeAreaForCurrentNode(QRectF newarea, bool force_update = false);
+    void tryChangeAreaForCurrentNode(QRectF new_area, bool force_update = false);
     /*! Handles attempt to change area for selected node via key press
         \param[in] ev event        
      */
@@ -179,19 +181,19 @@ public slots:
     void visibilityChanged(bool state);
     /*!
      * Called, when user changes color of node
-     * \param[in] newcolor a new color
+     * \param[in] new_color a new color
      */
-    void colorChanged(QColor newcolor);
+    void colorChanged(QColor new_color);
     /*!
      * Called, when user changes area of node
-     * \param newarea
+     * \param new_area new area
      */
-    void areaChanged(QRectF newarea);
+    void areaChanged(QRectF new_area);
     /*!
      * Called, when user changes angle of node
-     * \param newvalue a new value for angle
+     * \param new_value a new value for angle
      */
-    void angleChanged(double newvalue);
+    void angleChanged(double new_value);
     /*!
      * Called, when user removes scene node
      */

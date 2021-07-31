@@ -53,7 +53,7 @@ void gui::actions::AnimationGroupActions::setEditor(core::Editor* e)
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationGroupActions::removeFromDatabase(
     sad::animations::Group* g,
-    bool fromeditor,
+    bool from_editor,
     int row
 )
 {
@@ -67,7 +67,7 @@ void gui::actions::AnimationGroupActions::removeFromDatabase(
         history::groups::Remove* c  = new history::groups::Remove(g, row);
         c->commit(m_editor);
 
-        if (fromeditor)
+        if (from_editor)
         {
             m_editor->history()->add(c);
         }
@@ -136,12 +136,12 @@ void gui::actions::AnimationGroupActions::changedIsSequential(bool sequential)
     {
         sad::animations::Group* g = blk->lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
     
-        bool oldvalue = g->isSequential();
-        bool newvalue = sequential;
+        bool old_value = g->isSequential();
+        bool new_value = sequential;
         
-        if (oldvalue != newvalue)
+        if (old_value != new_value)
         {
-            history::groups::ChangeSequential* c = new history::groups::ChangeSequential(g, oldvalue, newvalue);
+            history::groups::ChangeSequential* c = new history::groups::ChangeSequential(g, old_value, new_value);
             c->commitWithoutUpdatingUI(m_editor);
             m_editor->history()->add(c);
         }
@@ -180,13 +180,13 @@ void gui::actions::AnimationGroupActions::addGroup()
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void gui::actions::AnimationGroupActions::currentGroupChanged(int newrow)
+void gui::actions::AnimationGroupActions::currentGroupChanged(int new_row)
 {
-    if (newrow > -1)
+    if (new_row > -1)
     {
         gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
 
-        sad::animations::Group* g = blk->lstAnimationsGroup->item(newrow)->data(Qt::UserRole).value<sad::animations::Group*>();
+        sad::animations::Group* g = blk->lstAnimationsGroup->item(new_row)->data(Qt::UserRole).value<sad::animations::Group*>();
         m_editor->shared()->setSelectedGroup(g);
 
         invoke_blocked(
@@ -215,7 +215,7 @@ void gui::actions::AnimationGroupActions::currentGroupChanged(int newrow)
     }
     else
     {
-        m_editor->shared()->setSelectedGroup(NULL);
+        m_editor->shared()->setSelectedGroup(nullptr);
     }
 
     m_editor->actions()->instanceActions()->updateGroupInstanceList();
@@ -243,12 +243,12 @@ void gui::actions::AnimationGroupActions::nameChanged(const QString& name)
     {
         sad::animations::Group* g = blk->lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
     
-        sad::String oldvalue = g->objectName();
-        sad::String newvalue = Q2STDSTRING(name);
+        sad::String old_value = g->objectName();
+        sad::String new_value = Q2STDSTRING(name);
         
-        if (oldvalue != newvalue)
+        if (old_value != new_value)
         {
-            history::groups::ChangeName* c = new history::groups::ChangeName(g, row, oldvalue, newvalue);
+            history::groups::ChangeName* c = new history::groups::ChangeName(g, row, old_value, new_value);
             c->commitWithoutUpdatingUI(m_editor);
             m_editor->history()->add(c);
         }
@@ -256,17 +256,17 @@ void gui::actions::AnimationGroupActions::nameChanged(const QString& name)
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void gui::actions::AnimationGroupActions::loopedChanged(bool newvalue)
+void gui::actions::AnimationGroupActions::loopedChanged(bool new_value)
 {
     gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
     int row = blk->lstAnimationsGroup->currentRow();
     if (row > -1)
     {
         sad::animations::Group* g = blk->lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
-        bool oldvalue =g->looped();
-        if (oldvalue != newvalue)
+        bool old_value =g->looped();
+        if (old_value != new_value)
         {
-            history::groups::ChangeLooped* c = new history::groups::ChangeLooped(g, oldvalue, newvalue);
+            history::groups::ChangeLooped* c = new history::groups::ChangeLooped(g, old_value, new_value);
             c->commitWithoutUpdatingUI(this->m_editor);
 
             this->m_editor->history()->add(c);
@@ -317,7 +317,7 @@ void gui::actions::AnimationGroupActions::start()
 {
     core::Shared* s = m_editor->shared();
     if (s->isAnyKindOfAnimationIsRunning() == false 
-        && s->selectedGroup() != NULL)
+        && s->selectedGroup() != nullptr)
     {
         s->selectedGroup()->restart(sad::Renderer::ref()->animations());
         m_animation->setEditor(m_editor);

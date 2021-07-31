@@ -42,7 +42,7 @@ gui::RenderWays::~RenderWays()
 void gui::RenderWays::_process()
 {
     m_scene->setRenderer(sad::Renderer::ref());
-    if (m_editor->panel() == NULL || m_enabled == false)
+    if (m_editor->panel() == nullptr || m_enabled == false)
     {
         return;
     }

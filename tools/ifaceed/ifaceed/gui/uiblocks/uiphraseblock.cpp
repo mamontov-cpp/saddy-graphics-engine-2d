@@ -7,16 +7,16 @@
 #include <QPlainTextEdit>
 #include <QPushButton>
 
-gui::uiblocks::UIPhraseBlock::UIPhraseBlock() : lstPhrases(NULL),
-dsbPhraseDuration(NULL),
-txtPhraseViewHint(NULL),
-txtPhraseActorName(NULL),
-txtPhraseActorPortrait(NULL),
-txtPhrasePhrase(NULL),
-btnPhraseAdd(NULL),
-btnPhraseRemove(NULL),
-btnPhraseMoveBack(NULL),
-btnPhraseMoveFront(NULL)
+gui::uiblocks::UIPhraseBlock::UIPhraseBlock() : lstPhrases(nullptr),
+dsbPhraseDuration(nullptr),
+txtPhraseViewHint(nullptr),
+txtPhraseActorName(nullptr),
+txtPhraseActorPortrait(nullptr),
+txtPhrasePhrase(nullptr),
+btnPhraseAdd(nullptr),
+btnPhraseRemove(nullptr),
+btnPhraseMoveBack(nullptr),
+btnPhraseMoveFront(nullptr)
 {
 
 }

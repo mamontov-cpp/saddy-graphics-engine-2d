@@ -8,6 +8,7 @@
 #pragma once
 #include "../textedit/textedit.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QResizeEvent>
 #include <QSyntaxHighlighter>
 #include <QSet>
@@ -30,7 +31,7 @@ public:
     /*! Constructs a text edit widget
         \param[in] parent a parent widget
      */ 
-    CodeEdit(QWidget* parent = 0);
+    CodeEdit(QWidget* parent = nullptr);
      /*! Destructor for widget
       */
     virtual ~CodeEdit();
@@ -46,19 +47,19 @@ public:
         \return line number width
      */
     int lineNumberAreaWidth();
-    /*! Returns case sensivity for completer
-        \return sensivity
+    /*! Returns case sensitivity for completer
+        \return sensitivity
      */
-    virtual Qt::CaseSensitivity caseSensivity() const;
+    virtual Qt::CaseSensitivity caseSensitivity() const override;
 protected:
     /*! Handles resize event
         \param[in] e event
      */
-    void resizeEvent(QResizeEvent* e);
+    void resizeEvent(QResizeEvent* e) override;
     /*! Handles key press event, indenting or unindenting selection if needed
         \param[in] e event
      */
-    virtual void keyPressEvent(QKeyEvent* e);
+    virtual void keyPressEvent(QKeyEvent* e) override;
     /*! Indents selection, using cursor
         \param[in] cursor a cursor
      */
@@ -70,11 +71,11 @@ protected:
     /*! Returns text under cursor
         \return text under cursor
      */
-    virtual QString textUnderCursor() const;
+    virtual QString textUnderCursor() const override;
     /*! Returns minimal prefix length for context
         \return prefix
      */
-    virtual int minCompletionPrefixLength() const;
+    virtual int minCompletionPrefixLength() const override;
 private slots:
     /*! Updates line number width
         \param[in] newBlockCount new block count
@@ -90,8 +91,8 @@ private slots:
     void updateLineNumberArea(int  pos);
     /*! Updates line number area
      */
-    void updateLineNumberArea();  
-    /*! Highights current line
+    void updateLineNumberArea();
+    /*! Highlights current line
      */
     void highlightCurrentLine();
 private:

@@ -22,14 +22,14 @@ public:
     /*! Creates new command
         \param[in] w way
         \param[in] pos a position of point in way list
-        \param[in] oldv old value for point
-        \param[in] newv new value for point
+        \param[in] old_value old value for point
+        \param[in] new_value new value for point
      */
     WayPointChange(
         sad::p2d::app::Way* w, 
         int pos, 
-        const sad::Point2D& oldv, 
-        const sad::Point2D& newv
+        const sad::Point2D& old_value, 
+        const sad::Point2D& new_value
     );
     /*! Could be inherited
      */
@@ -37,11 +37,11 @@ public:
     /*! Sets new value for point
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Sets old value for point
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! A current selected way
      */

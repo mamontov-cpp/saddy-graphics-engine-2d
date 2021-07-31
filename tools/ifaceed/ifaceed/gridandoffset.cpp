@@ -119,29 +119,29 @@ sad::db::Database* GridAndOffsets::database()
 
 // =============================== PUBLIC SLOT METHODS ===============================
 
-void GridAndOffsets::offsetXChanged(double newvalue)
+void GridAndOffsets::offsetXChanged(double new_value)
 {
-    emit globalOffsetChanged(QPointF(newvalue, m_ui.dsbOffsetY->value()));
+    emit globalOffsetChanged(QPointF(new_value, m_ui.dsbOffsetY->value()));
 }
 
-void GridAndOffsets::offsetYChanged(double newvalue)
+void GridAndOffsets::offsetYChanged(double new_value)
 {
-    emit globalOffsetChanged(QPointF(m_ui.dsbOffsetX->value(), newvalue));
+    emit globalOffsetChanged(QPointF(m_ui.dsbOffsetX->value(), new_value));
 }
 
-void GridAndOffsets::enabledCheckboxChanged(bool newvalue)
+void GridAndOffsets::enabledCheckboxChanged(bool new_value)
 {
-    emit gridEnabledChanged(newvalue);    
+    emit gridEnabledChanged(new_value);    
 }
 
-void GridAndOffsets::gridXChanged(int newvalue)
+void GridAndOffsets::gridXChanged(int new_value)
 {
-    emit gridSettingsChanged(QPointF(newvalue, m_ui.spbGridY->value()));
+    emit gridSettingsChanged(QPointF(new_value, m_ui.spbGridY->value()));
 }
 
-void GridAndOffsets::gridYChanged(int newvalue)
+void GridAndOffsets::gridYChanged(int new_value)
 {
-    emit gridSettingsChanged(QPointF(m_ui.spbGridX->value(), newvalue));
+    emit gridSettingsChanged(QPointF(m_ui.spbGridX->value(), new_value));
 }
 
 void GridAndOffsets::changeGridColorClicked()

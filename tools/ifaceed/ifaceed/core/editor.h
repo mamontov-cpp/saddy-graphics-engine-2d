@@ -4,6 +4,7 @@
     Defines a main interface editor class
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../macro.h"
 
 #include "../history/history.h"
@@ -14,24 +15,30 @@
 
 #include "shared.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <scene.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <sadmutex.h>
 #include <renderer.h>
 #include <closure.h>
 
 #include <cli/parser.h>
-
+// ReSharper disable once CppUnusedIncludeDirective
 #include <input/controls.h>
 
 #include <hfsm/hfsmmachine.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <hfsm/hfsmstate.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <hfsm/hfsmhandler.h>
 
 #include <animations/animationsfactory.h>
 
 #include <QObject>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QTimer>
 #include <QPair>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QDialog>
 #include <QListWidget>
 #include <QThread>
@@ -98,7 +105,7 @@ public:
     /*! Frees memory from db
      */
     ~Editor();
-    /*! Inits an editor, loading default data if nothing specified
+    /*! Initializes an editor, loading default data if nothing specified
         \param[in] argc count of arguments
         \param[in] argv arguments
      */
@@ -191,7 +198,7 @@ public:
      */
     void cleanDatabase();
     /*! Reports errors to log
-        \param[in, out] errors a list of errors
+        \param[in,out] errors a list of errors
         \param[in] name a name of file, which has been loading
      */
     void reportResourceLoadingErrors(
@@ -244,9 +251,9 @@ public:
     QWidget* panelAsWidget() const;
     /*! Adds a command to history
         \param[in] c command
-        \param[in] fromeditor whether it was added from editor or from script
+        \param[in] from_editor whether it was added from editor or from script
      */
-    void addToHistory(history::Command* c, bool fromeditor);
+    void addToHistory(history::Command* c, bool from_editor);
     /*! Takes current value for fast mode counter
         \return current value for fast mode counter
      */
@@ -290,20 +297,20 @@ signals:
 protected:
     /*! Target for sending information
      */
-    core::QtTarget* m_qttarget;
+    core::QtTarget* m_qt_target;
     /*! Thread for rendering
      */
-    core::SaddyThread* m_renderthread;
+    core::SaddyThread* m_render_thread;
     /*! A synchronization primitive for
         synchronizing threads
      */
     core::Synchronization* m_synchronization;
     /*! Main window of application
      */
-    MainPanel* m_mainwindow;
+    MainPanel* m_main_window;
     /*! Application of qt, which is used
      */
-    QApplication* m_qtapp;
+    QApplication* m_qt_app;
     /*! A hierarchical state machine
      */
     sad::hfsm::Machine* m_machine;
@@ -325,18 +332,18 @@ protected:
     /*! An active border, which renders current active object
      */
     core::borders::ActiveBorder* m_active_border;
-    /*! A selection border, which is used for higlighting current item
+    /*! A selection border, which is used for highlighting current item
      */
     core::borders::SelectionBorder* m_selection_border;
     /*! A way to render ways
      */
-    gui::RenderWays* m_renderways;
+    gui::RenderWays* m_render_ways;
     /*! A way to render grids
      */ 
-    gui::RenderGrids* m_rendergrids;
+    gui::RenderGrids* m_render_grids;
     /*!  A way for render editor grids
      */
-    gui::RenderEditorGrid* m_rendereditorgrid;
+    gui::RenderEditorGrid* m_render_editor_grid;
     /*! Current selection algorithm
      */
     core::Selection* m_selection;
@@ -345,7 +352,7 @@ protected:
     sad::animations::Factory m_animation_factory;
     /*! A current batch command for scripting
      */
-    history::BatchCommand* m_current_batchcommand;
+    history::BatchCommand* m_current_batch_command;
     /*! A UI blocks for editor
      */
     gui::uiblocks::UIBlocks* m_ui_blocks;
@@ -377,7 +384,7 @@ protected slots:
         when saddy quits working
      */
     virtual void runSaddyEventLoop();
-    /*! Сalled, when user closes last Qt window. Sets reason, why editor is quit
+    /*! Called, when user closes last Qt window. Sets reason, why editor is quit
         and calls quit actions
      */
     void qtQuitSlot();

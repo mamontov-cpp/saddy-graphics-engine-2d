@@ -41,15 +41,15 @@ void gui::table::UnsignedIntDelegate::set(const sad::db::Variant& v)
 
 void gui::table::UnsignedIntDelegate::widgetChanged(qulonglong i)
 {
-    unsigned int oldvalue = this->currentValue<unsigned int>();
+    unsigned int old_value = this->currentValue<unsigned int>();
     if (this->isLinkedToDatabase())
     {
-        m_editor->history()->add(new history::database::ChangeProperty<unsigned int>(oldvalue, i, this));
+        m_editor->history()->add(new history::database::ChangeProperty<unsigned int>(old_value, i, this));
     }
     else
     {
         m_editor->history()->add( 
-            new history::customobject::ChangeProperty<unsigned int>(m_object, Q2STDSTRING(m_property_name), oldvalue, i)
+            new history::customobject::ChangeProperty<unsigned int>(m_object, Q2STDSTRING(m_property_name), old_value, i)
         );
     }
     this->setCurrentValue<unsigned int>(i);

@@ -4,9 +4,11 @@
     Describes a widget, which displays font sizes
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QWidget>
 #include <QGridLayout>
 #include <QLabel>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QDoubleSpinBox>
 
 namespace gui
@@ -25,7 +27,7 @@ public:
     /*! Constructs new widget, placing vertical layout and creating labels, button and combo box
         \param[in] parent a parent widget
      */
-    RectWidget(QWidget * parent = NULL);
+    RectWidget(QWidget * parent = nullptr);
     /*! Sets a value for a widget.
         \param[in] value a value for a widget
      */

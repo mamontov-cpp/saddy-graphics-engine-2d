@@ -16,7 +16,7 @@ namespace animations
 {
 
 /*! \class history::animations::SwapInComposite
- *   A simple command for swapp in list of composite animation
+ *   A simple command for swap in list of composite animation
  */
 class SwapInComposite: public history::Command
 {
@@ -33,11 +33,11 @@ public:
     /*! Makes animation active, adds it to list
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Makes animation inactive, removes it from list
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! Swaps items with positions with list
         \param[in] w widget

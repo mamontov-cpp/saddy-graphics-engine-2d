@@ -18,10 +18,10 @@
 
 gui::table::Delegate::Delegate() 
 : m_custom_object(false), 
-m_widget(NULL), 
-m_object(NULL),
-m_editor(NULL),
-m_my_widget(NULL),
+m_widget(nullptr), 
+m_object(nullptr),
+m_editor(nullptr),
+m_my_widget(nullptr),
 m_row(-1)
 {
     
@@ -126,7 +126,7 @@ void gui::table::Delegate::remove()
             QObject::disconnect(this, SLOT(removeWithCommand()));
         }
         m_widget->removeRow(row);
-        m_my_widget = NULL;
+        m_my_widget = nullptr;
     }
 }
 

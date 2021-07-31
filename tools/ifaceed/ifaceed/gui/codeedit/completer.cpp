@@ -21,15 +21,15 @@ gui::codeedit::Completer::~Completer()
 
 QAbstractItemModel* gui::codeedit::Completer::modelFromEngine(
     dukpp03::qt::Context* ctx,
-    const QHash<QString, QString>& firstlevelreplace,
-    const QSet<QString>& commonset
+    const QHash<QString, QString>& first_level_replace,
+    const QSet<QString>& common_set
 )
 {
     QStandardItemModel* model = new QStandardItemModel(this);
     QStandardItem* root = model->invisibleRootItem();
     {
-        for(QSet<QString>::const_iterator it = commonset.begin();
-            it != commonset.end();
+        for(QSet<QString>::const_iterator it = common_set.begin();
+            it != common_set.end();
             ++it)
         {
             QStandardItem *item = new QStandardItem();
@@ -46,10 +46,10 @@ QAbstractItemModel* gui::codeedit::Completer::modelFromEngine(
         QString name = duk_get_string(c, -2);
         if (name != "prototype" && name != "__prototype__" && name != "constructor")
         {
-            if (firstlevelreplace.contains(name))
+            if (first_level_replace.contains(name))
             {
                 QStandardItem *item = new QStandardItem();
-                item->setText(firstlevelreplace[name]);
+                item->setText(first_level_replace[name]);
                 root->appendRow(item);
             }
             else

@@ -27,7 +27,7 @@ public:
      Remove(sad::SceneNode* d, int position);
      /*! Erases link to a node
       */
-     virtual ~Remove();
+     virtual ~Remove() override;
      /*! Sets a parameters for command
          \param[in] position_in_instance_combo a position in combo for instances
          \param[in] instances a dependent instances
@@ -43,11 +43,11 @@ public:
      /*! Applies changes, described in command
          \param[in] ob an observer for looking for command
       */
-     virtual void commit(core::Editor * ob = NULL);
+     virtual void commit(core::Editor * ob = nullptr) override;
      /*! Reverts changes, described in command
          \param[in] ob an observer for looking for command
       */
-     virtual void rollback(core::Editor * ob = NULL);
+     virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! A node, which must be removed from editor
      */

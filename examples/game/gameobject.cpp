@@ -40,7 +40,7 @@ void GameObject::decrementHP(int count)
     m_hp -= count;
 
     // If hp less than zero - remove object
-    if (m_hp <= 0 && this->game() != NULL)
+    if (m_hp <= 0 && this->game() != nullptr)
     {
         this->game()->removeObject(this);
     }
@@ -48,9 +48,9 @@ void GameObject::decrementHP(int count)
 
 Game * GameObject::game()
 {
-    if (m_app == NULL)
+    if (m_app == nullptr)
     {
-        return NULL;
+        return nullptr;
     }
     return static_cast<Game *>(m_app);
 }

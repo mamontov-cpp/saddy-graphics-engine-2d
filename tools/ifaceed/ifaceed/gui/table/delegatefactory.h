@@ -49,13 +49,13 @@ public:
     /*! Creates new delegate
         \return delegate
      */
-    virtual gui::table::Delegate* create()
+    virtual gui::table::Delegate* create() override
     {
         return new T();
     }
     /*! Destroys delegate
      */
-    virtual ~Delegate()
+    virtual ~Delegate() override
     {
         
     }

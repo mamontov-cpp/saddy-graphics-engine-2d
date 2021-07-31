@@ -3,6 +3,7 @@
 
     Defines smart update for element of UI from object property
  */
+#pragma once
 #include "../blockedclosuremethodcall.h"
 
 #include <sadstring.h>
@@ -22,7 +23,7 @@ class UpdateElement
    public:
     /*! Updates  element of UI
         \param[in] o an object, which has a property
-        \param[in] propertyname a property name
+        \param[in] property_name a property name
         \param[in] w widget, which must be updated
         \param[in] f a method to update widget
      */
@@ -32,12 +33,12 @@ class UpdateElement
     >
     static void with(
        sad::SceneNode* o,
-       const sad::String& propertyname,
+       const sad::String& property_name,
        _WidgetType* w,
        _Method f
     )
     {
-        sad::Maybe<_PropertyType> val = o->getProperty<_PropertyType>(propertyname);
+        sad::Maybe<_PropertyType> val = o->getProperty<_PropertyType>(property_name);
         if (val.exists())
         {
             invoke_blocked(w, f, val.value());

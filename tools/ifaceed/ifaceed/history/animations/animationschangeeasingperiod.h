@@ -18,13 +18,13 @@ class ChangeEasingPeriod: public history::animations::ChangeEasingProperty<doubl
 public:
     /*! Constructs new command for animation
         \param[in] d an animation
-        \param[in] oldvalue old value of property
-        \param[in] newvalue new value of property
+        \param[in] old_value old value of property
+        \param[in] new_value new value of property
      */
     ChangeEasingPeriod(
         sad::animations::Animation* d,
-        double oldvalue,
-        double newvalue
+        double old_value,
+        double new_value
     );
     /*! Could be inherited
      */
@@ -34,7 +34,7 @@ protected:
      * \param e editor
      * \param value a value of property
      */
-    virtual void updateUI(core::Editor* e, const double& value);
+    virtual void updateUI(core::Editor* e, const double& value) override ;
 };
 
 }

@@ -132,11 +132,11 @@ dukpp03::qt::JSObject* scripting::dialogues::init(scripting::Scripting* s, dukpp
     {
         scripting::AbstractSetter<sad::dialogue::Dialogue*, sad::String>* name_setter = scripting::setterForProperty<sad::dialogue::Dialogue*, sad::String>(s, "name");
         std::function<
-            void(scripting::Scripting*, sad::dialogue::Dialogue*, const sad::String&, sad::String oldvalue, sad::String newvalue)
-        > set_name_action = [](scripting::Scripting* s, sad::dialogue::Dialogue* obj, const sad::String& propertyname, sad::String oldvalue, sad::String newvalue) {
+            void(scripting::Scripting*, sad::dialogue::Dialogue*, const sad::String&, sad::String old_value, sad::String new_value)
+        > set_name_action = [](scripting::Scripting* s, sad::dialogue::Dialogue* obj, const sad::String& propertyname, sad::String old_value, sad::String new_value) {
             core::Editor* editor = s->editor();
 
-            history::Command* c = new history::dialogues::ChangeName(obj, oldvalue, newvalue);
+            history::Command* c = new history::dialogues::ChangeName(obj, old_value, new_value);
             editor->currentBatchCommand()->add(c);
             c->commit(editor);
         };

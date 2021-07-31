@@ -22,49 +22,49 @@ class ChangeProperty: public history::Command
 {
 public:
     /*! Constructs new object, if property value is changed in database
-        \param[in] oldvalue old value of property
-        \param[in] newvalue new value of property
+        \param[in] old_value old value of property
+        \param[in] new_value new value of property
         \param[in] d a delegate for objects
      */
     ChangeProperty(
-        const T& oldvalue,
-        const T& newvalue,
+        const T& old_value,
+        const T& new_value,
         gui::table::Delegate* d
     ) 
     : 
-    m_oldvalue(oldvalue), 
-    m_newvalue(newvalue),
+    m_old_value(old_value), 
+    m_new_value(new_value),
     m_delegate(d)
     {
             
     }
     /*! This command can be inherited
      */
-    virtual ~ChangeProperty()
+    virtual ~ChangeProperty() override
     {
         
     }
     /*! Applies changes, described in command
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL)
+    virtual void commit(core::Editor * ob = nullptr) override
     {
-        m_delegate->set(sad::db::Variant(m_newvalue));
+        m_delegate->set(sad::db::Variant(m_new_value));
     }
     /*! Reverts changes, described in command
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL)
+    virtual void rollback(core::Editor * ob = nullptr) override
     {
-        m_delegate->set(sad::db::Variant(m_oldvalue));		
+        m_delegate->set(sad::db::Variant(m_old_value));
     }
 protected:
     /*! Old value for property 
      */
-    T m_oldvalue;
+    T m_old_value;
     /*! New value for property
      */
-    T m_newvalue;
+    T m_new_value;
     /*! A delegate a property 
      */
     gui::table::Delegate* m_delegate;

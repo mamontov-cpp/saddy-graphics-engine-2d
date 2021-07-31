@@ -6,8 +6,8 @@
 
 #include <QMessageBox>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), m_game(NULL)
+MainWindow::MainWindow(QWidget *parent)  // NOLINT(cppcoreguidelines-pro-type-member-init)
+    : QMainWindow(parent), m_game(nullptr)
 {
     ui.setupUi(this);
 
@@ -21,10 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui.btnKillAllEnemies, SIGNAL(clicked()), this, SLOT(killEnemies()));
 }
 
-MainWindow::~MainWindow()
-{
-
-}
+MainWindow::~MainWindow() = default;
 
 
 void MainWindow::startGame()
@@ -33,7 +30,7 @@ void MainWindow::startGame()
     m_game = new Game(ui.glWidget->renderer());
     if (!m_game->trySetup())
     {
-        QMessageBox::critical(NULL, "Unable to start game", "Failed to launch the game");
+        QMessageBox::critical(nullptr, "Unable to start game", "Failed to launch the game");
         m_call_protector.unlock();
         quitGame();
     }
@@ -50,7 +47,7 @@ void MainWindow::quitGame()
     m_call_protector.lock();
     ui.glWidget->setRenderer(new sad::qt::Renderer());
     Game* local_game = m_game;
-    m_game = NULL;
+    m_game = nullptr;
     QTimer::singleShot(100, [=]() {
         delete local_game;
     });

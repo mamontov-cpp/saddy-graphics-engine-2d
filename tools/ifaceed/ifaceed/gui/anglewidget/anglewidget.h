@@ -4,6 +4,7 @@
     Describes a widget, which displays angle for an item
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -24,7 +25,7 @@ public:
     /*! Constructs new widget, placing horizontal layout, creating label and combo box
         \param[in] parent a parent widget
      */
-    AngleWidget(QWidget * parent = NULL);
+    AngleWidget(QWidget * parent = nullptr);
     /*! Sets new value for a widget, in radians. 
         \param[in] value a value for a widget
      */
@@ -45,9 +46,9 @@ signals:
     void valueChanged(double a);
 protected slots:
     /*! Emitted, when value in spin box is changed
-        \param[in] v value
+        \param[in] a value
      */
-    void angleChanged(int v);
+    void angleChanged(int a);
 protected:	
     /*! Converts degrees to radians
         \param[in] v value

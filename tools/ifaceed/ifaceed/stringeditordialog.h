@@ -4,6 +4,7 @@
  */
 #pragma once
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QDialog>
 #include "ui_stringeditordialog.h"
 
@@ -17,7 +18,7 @@ public:
     /*! Creates new editor for values
         \param[in] parent a parent widget
      */
-    StringEditorDialog(QWidget* parent = NULL);
+    StringEditorDialog(QWidget* parent = nullptr);
     /*! Sets value for editing
         \param[in] value a value
      */

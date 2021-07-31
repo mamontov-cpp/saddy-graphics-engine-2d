@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow* w = new MainWindow();
     w->show();
-    int result = a.exec();
+    const int result = a.exec();
     Game* game = w->game();
     delete w;
     // Kill game, when everything is done

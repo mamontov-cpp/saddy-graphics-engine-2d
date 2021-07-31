@@ -5,6 +5,7 @@
  */
 #pragma once
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <texture.h>
 
 namespace gui

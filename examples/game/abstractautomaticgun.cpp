@@ -3,7 +3,7 @@
 
 AbstractAutomaticGun::AbstractAutomaticGun()
 {
-    m_object = NULL;
+    m_object = nullptr;
     m_dangle = 0;
     setInterval(200); // Fairly random number, as a default
 

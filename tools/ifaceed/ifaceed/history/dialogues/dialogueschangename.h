@@ -21,25 +21,25 @@ class ChangeName: public history::Command
 public:
     /*! Creates new command
         \param[in] dialogue dialogue
-        \param[in] oldvalue old value for dialogue
-        \param[in] newvalue new value for dialogue
+        \param[in] old_value old value for dialogue
+        \param[in] new_value new value for dialogue
      */
     ChangeName(
         sad::dialogue::Dialogue* dialogue, 
-        const sad::String& oldvalue, 
-        const sad::String& newvalue
+        const sad::String& old_value, 
+        const sad::String& new_value
     );
     /*! Could be inherited
      */
-    virtual ~ChangeName();
+    virtual ~ChangeName() override;
     /*! Makes way active, adds it to list
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Makes way inactive, removes it from list
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! Updates UI elements for command
         \param[in] e editor
@@ -51,10 +51,10 @@ protected:
     sad::dialogue::Dialogue* m_dialogue;
     /*! Old value for name
      */
-    sad::String m_oldvalue;
+    sad::String m_old_value;
     /*! New value for name
      */
-    sad::String m_newvalue;
+    sad::String m_new_value;
 };
 
 }

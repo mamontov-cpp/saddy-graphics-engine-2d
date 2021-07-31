@@ -10,7 +10,7 @@
 #include "../../history/ways/wayswaypointswap.h"
 
 
-scripting::ways::PointRef::PointRef() : m_way(NULL), m_pos(0)
+scripting::ways::PointRef::PointRef() : m_way(nullptr), m_pos(0)
 {
     
 }

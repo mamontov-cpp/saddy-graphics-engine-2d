@@ -39,15 +39,15 @@ void gui::table::IntDelegate::set(const sad::db::Variant& v)
 
 void gui::table::IntDelegate::widgetChanged(int i)
 {
-    int oldvalue = this->currentValue<int>();
+    int old_value = this->currentValue<int>();
     if (this->isLinkedToDatabase())
     {
-        m_editor->history()->add(new history::database::ChangeProperty<int>(oldvalue, i, this));
+        m_editor->history()->add(new history::database::ChangeProperty<int>(old_value, i, this));
     }
     else
     {
         m_editor->history()->add( 
-            new history::customobject::ChangeProperty<int>(m_object, Q2STDSTRING(m_property_name), oldvalue, i)
+            new history::customobject::ChangeProperty<int>(m_object, Q2STDSTRING(m_property_name), old_value, i)
         );
     }
     this->setCurrentValue<int>(i);

@@ -120,7 +120,7 @@ m_gl_sprite_geometry_storages(nullptr)
 }
 
 template<typename T>
-inline void del_ref_if_not_null(T*& obj)
+inline void del_ref_if_not_nullptr(T*& obj)
 {
     if (obj != nullptr)
     {
@@ -129,7 +129,7 @@ inline void del_ref_if_not_null(T*& obj)
     }
 }
 
-inline void destroy_shader_if_not_null(sad::Shader* shader)
+inline void destroy_shader_if_not_nullptr(sad::Shader* shader)
 {
     if (shader != nullptr)
     {
@@ -161,21 +161,21 @@ sad::Renderer::~Renderer(void)
     m_resource_trees.clear();
 
 
-    del_ref_if_not_null(m_default_texture_shader_function_3d);
-    del_ref_if_not_null(m_default_no_textures_shader_function_3d);
-    del_ref_if_not_null(m_default_textures_shader_3d);
-    del_ref_if_not_null(m_default_no_textures_shader_3d);
+    del_ref_if_not_nullptr(m_default_texture_shader_function_3d);
+    del_ref_if_not_nullptr(m_default_no_textures_shader_function_3d);
+    del_ref_if_not_nullptr(m_default_textures_shader_3d);
+    del_ref_if_not_nullptr(m_default_no_textures_shader_3d);
 
-    del_ref_if_not_null(m_default_texture_shader_function_2d);
-    del_ref_if_not_null(m_default_no_textures_shader_function_2d);
-    del_ref_if_not_null(m_default_textures_shader_2d);
-    del_ref_if_not_null(m_default_no_textures_shader_2d);
+    del_ref_if_not_nullptr(m_default_texture_shader_function_2d);
+    del_ref_if_not_nullptr(m_default_no_textures_shader_function_2d);
+    del_ref_if_not_nullptr(m_default_textures_shader_2d);
+    del_ref_if_not_nullptr(m_default_no_textures_shader_2d);
 
-    del_ref_if_not_null(m_default_font_shader_function);
-    del_ref_if_not_null(m_default_font_shader);
+    del_ref_if_not_nullptr(m_default_font_shader_function);
+    del_ref_if_not_nullptr(m_default_font_shader);
 
-    del_ref_if_not_null(m_default_font_line_shader);
-    del_ref_if_not_null(m_default_font_line_shader_function);
+    del_ref_if_not_nullptr(m_default_font_line_shader);
+    del_ref_if_not_nullptr(m_default_font_line_shader_function);
 
 
     delete m_pipeline;
@@ -451,12 +451,12 @@ void sad::Renderer::emergencyShutdown()
     unload_resources_from_hash(m_sizes_to_untextured_geometry_2d);
     m_gl_sprite_geometry_storages->unloadFromGPU();
 
-    destroy_shader_if_not_null(m_default_textures_shader_3d);
-    destroy_shader_if_not_null(m_default_no_textures_shader_3d);
-    destroy_shader_if_not_null(m_default_textures_shader_2d);
-    destroy_shader_if_not_null(m_default_no_textures_shader_2d);
-    destroy_shader_if_not_null(m_default_font_shader);
-    destroy_shader_if_not_null(m_default_font_line_shader);
+    destroy_shader_if_not_nullptr(m_default_textures_shader_3d);
+    destroy_shader_if_not_nullptr(m_default_no_textures_shader_3d);
+    destroy_shader_if_not_nullptr(m_default_textures_shader_2d);
+    destroy_shader_if_not_nullptr(m_default_no_textures_shader_2d);
+    destroy_shader_if_not_nullptr(m_default_font_shader);
+    destroy_shader_if_not_nullptr(m_default_font_line_shader);
 
     for (size_t i = 0; i < m_gl_font_geometries.size(); i++)
     {
@@ -1136,12 +1136,12 @@ void sad::Renderer::deinitRendererAfterLoop()
     unload_resources_from_hash(m_sizes_to_untextured_geometry_3d);
     unload_resources_from_hash(m_sizes_to_untextured_geometry_2d);
 
-    destroy_shader_if_not_null(m_default_textures_shader_3d);
-    destroy_shader_if_not_null(m_default_no_textures_shader_3d);
-    destroy_shader_if_not_null(m_default_textures_shader_2d);
-    destroy_shader_if_not_null(m_default_no_textures_shader_2d);
-    destroy_shader_if_not_null(m_default_font_shader);
-    destroy_shader_if_not_null(m_default_font_line_shader);
+    destroy_shader_if_not_nullptr(m_default_textures_shader_3d);
+    destroy_shader_if_not_nullptr(m_default_no_textures_shader_3d);
+    destroy_shader_if_not_nullptr(m_default_textures_shader_2d);
+    destroy_shader_if_not_nullptr(m_default_no_textures_shader_2d);
+    destroy_shader_if_not_nullptr(m_default_font_shader);
+    destroy_shader_if_not_nullptr(m_default_font_line_shader);
     m_camera_buffer->tryUnload();
 
     for (size_t i = 0; i < m_gl_font_geometries.size(); i++)

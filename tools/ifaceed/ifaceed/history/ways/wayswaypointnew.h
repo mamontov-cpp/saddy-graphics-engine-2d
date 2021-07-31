@@ -1,7 +1,7 @@
 /*! \file wayswaypointnew.h
  *  
  *
- * Describes a simple command for adding a waypoint to way
+ * Describes a simple command for adding a way point to way
  */
 #pragma once
 #include "../command.h"
@@ -14,7 +14,7 @@ namespace ways
 {
 
 /*! \class history::ways::WayPointNew
- *   A simple command for adding a new waypoint to way
+ *   A simple command for adding a new way point to way
  */
 class WayPointNew: public history::Command
 {
@@ -25,15 +25,15 @@ public:
     WayPointNew(sad::p2d::app::Way* w);
     /*! Could be inherited
      */
-    virtual ~WayPointNew();
+    virtual ~WayPointNew() override;
     /*! Adds a way point
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Removes way point
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
     /*! Sets point for new point
         \param[in] point a point
      */

@@ -24,10 +24,7 @@ class QColorToSadColor: public sad::db::AbstractTypeConverter
 public:
     /*! Creates new converter
      */
-    inline QColorToSadColor()
-    {
-        
-    }
+	inline QColorToSadColor() = default;
     /*! Converts source color to another color type
         \param[in] source a source color
         \param[out] dest a destination color
@@ -40,10 +37,10 @@ public:
         \param[in] source a pointer to QColor value
         \param[in] dest a pointer to sad::Color value
      */
-    virtual void convert(void * source, void * dest);
+    virtual void convert(void * source, void * dest) override;
     /*! Can be inherited
      */
-    virtual ~QColorToSadColor();
+    virtual ~QColorToSadColor() override;
 };
 
 }

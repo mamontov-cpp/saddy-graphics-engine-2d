@@ -29,16 +29,16 @@ public:
      */
     virtual ~Remove();
     /*! Sets data for command
-        \param[in] position_in_animaton_list a position
+        \param[in] position_in_animation_list a position
         \param[in] position_in_animation_instance_list a position in instance list
         \param[in] list a list of dependent animations
      */
     void set(
-        int position_in_animaton_list,
+        int position_in_animation_list,
         int position_in_animation_instance_list,
         const sad::Vector< sad::Pair<sad::animations::Composite*, sad::Vector<int> > >& list
     );
-    /*! Sets data for commad
+    /*! Sets data for command
         \param[in] list a list of instances
      */
     void set(
@@ -47,11 +47,11 @@ public:
     /*! Makes animation active, adds it to list
         \param[in] ob an observer for looking for command
      */
-    virtual void commit(core::Editor * ob = NULL);
+    virtual void commit(core::Editor * ob = nullptr) override;
     /*! Makes animation inactive, removes it from list
         \param[in] ob an observer for looking for command
      */
-    virtual void rollback(core::Editor * ob = NULL);
+    virtual void rollback(core::Editor * ob = nullptr) override;
 protected:
     /*! Inserts item
         \param[in] editor an editor

@@ -69,7 +69,7 @@ gui::table::DelegateFactory::~DelegateFactory()
 
 gui::table::Delegate* gui::table::DelegateFactory::create(const QString & s)
 {
-    gui::table::Delegate* result = NULL;
+    gui::table::Delegate* result = nullptr;
     std::string standartname = Q2STDSTRING(s);
     if (m_delegates.contains(standartname))
     {

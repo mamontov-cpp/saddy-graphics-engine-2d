@@ -35,7 +35,7 @@ int main(int argc, char** argv)
         }
     });
     // Initialize example with cyrillic fonts
-    ImGui::GetIO().Fonts->AddFontFromFileTTF("./PTM55F.ttf", 14.0f, NULL, ImGui::GetIO().Fonts->GetGlyphRangesCyrillic());
+    ImGui::GetIO().Fonts->AddFontFromFileTTF("./PTM55F.ttf", 14.0f, nullptr, ImGui::GetIO().Fonts->GetGlyphRangesCyrillic());
 
     game->run();
     delete game;

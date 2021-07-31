@@ -60,13 +60,13 @@ void gui::actions::Sprite2DActions::cancelAddSprite()
     core::Shared* s = this->m_editor->shared();
     sad::SceneNode* node = s->activeObject();
     sad::Renderer::ref()->lockRendering();
-    s->setActiveObject(NULL);
+    s->setActiveObject(nullptr);
     node->scene()->remove(node);
     sad::Renderer::ref()->unlockRendering();
     
     sad::hfsm::Machine* m = m_editor->machine();
     m->enterState(m->previousState());
-    if (m->isInState("adding") || (m->isInState("selected") && s->selectedObject() == NULL))
+    if (m->isInState("adding") || (m->isInState("selected") && s->selectedObject() == nullptr))
     {
         m->enterState("idle");
     }
@@ -100,7 +100,7 @@ void gui::actions::Sprite2DActions::commitAdd(const sad::input::MousePressEvent&
     sad::SceneNode* node = s->activeObject();
     sad::Renderer::ref()->database("")->table("scenenodes")->add(node);
     history::Command* c = new history::scenenodes::New(node);
-    s->setActiveObject(NULL);
+    s->setActiveObject(nullptr);
     s->setSelectedObject(node);
     m_editor->history()->add(c);
     c->commit(m_editor);
@@ -170,7 +170,7 @@ void gui::actions::Sprite2DActions::setSceneNodeAsBackground(sad::SceneNode* nod
     {
         if (from_editor)
         {
-            QMessageBox::critical(NULL, "Node canot be set as background", "This node could not be set as background, because it\'s within grid.");
+            QMessageBox::critical(nullptr, "Node canot be set as background", "This node could not be set as background, because it\'s within grid.");
         }
         return;
     }
@@ -219,7 +219,7 @@ void gui::actions::Sprite2DActions::add()
     gui::uiblocks::UISceneNodeBlock* snblk = m_editor->uiBlocks()->uiSceneNodeBlock();
 
 
-    valid = valid && s_actions->currentScene() != NULL;
+    valid = valid && s_actions->currentScene() != nullptr;
     valid = valid && sblk->rtwSpriteSprite->selectedResourceName().exists();
     valid = valid && m_editor->machine()->isInState("adding") == false;
     if (valid)
@@ -369,7 +369,7 @@ void gui::actions::Sprite2DActions::addByDiagonalPlacing()
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::Sprite2DActions::spriteOptionsChanged(sad::String s)
 {
-    if (m_editor->shared()->activeObject() != NULL)
+    if (m_editor->shared()->activeObject() != nullptr)
     {
         sad::Renderer::ref()->lockRendering();
         m_editor->shared()->activeObject()->setProperty("options", s);
@@ -382,11 +382,11 @@ void gui::actions::Sprite2DActions::spriteOptionsChanged(sad::String s)
         sad::SceneNode* node = m_editor->shared()->selectedObject();
         if (node)
         {
-            sad::Maybe<sad::String> oldvalue = node->getProperty<sad::String>("options");
+            sad::Maybe<sad::String> old_value = node->getProperty<sad::String>("options");
             sad::Maybe<sad::Rect2D> oldrect = node->getProperty<sad::Rect2D>("area");
-            if (oldvalue.exists() && oldrect.exists())
+            if (old_value.exists() && oldrect.exists())
             {
-                if (oldvalue.value() != s)
+                if (old_value.value() != s)
                 {
                     sad::Renderer::ref()->lockRendering();
                     node->setProperty("options", s);
@@ -398,7 +398,7 @@ void gui::actions::Sprite2DActions::spriteOptionsChanged(sad::String s)
                         new history::sprite2d::ChangeOptions(
                             node, 
                             oldrect.value(), 
-                            oldvalue.value(),
+                            old_value.value(),
                             s
                         )
                     );
@@ -412,7 +412,7 @@ void gui::actions::Sprite2DActions::makeBackground()
 {
     
     sad::SceneNode* node = m_editor->shared()->selectedObject();
-    if (m_editor->shared()->activeObject() == NULL && node)
+    if (m_editor->shared()->activeObject() == nullptr && node)
     {
         setSceneNodeAsBackground(node, true);
     }
@@ -421,27 +421,27 @@ void gui::actions::Sprite2DActions::makeBackground()
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::Sprite2DActions::flipXChanged(bool state)
 {
-    bool newvalue = state;
-    if (m_editor->shared()->activeObject() != NULL)
+    bool new_value = state;
+    if (m_editor->shared()->activeObject() != nullptr)
     {
-        m_editor->shared()->activeObject()->setProperty("flipx", newvalue);
+        m_editor->shared()->activeObject()->setProperty("flipx", new_value);
     }
     else
     {
         sad::SceneNode* node = m_editor->shared()->selectedObject();
         if (node)
         {
-            sad::Maybe<bool> oldvalue = node->getProperty<bool>("flipx");
-            if (oldvalue.exists())
+            sad::Maybe<bool> old_value = node->getProperty<bool>("flipx");
+            if (old_value.exists())
             {
-                if (newvalue != oldvalue.value())
+                if (new_value != old_value.value())
                 {
-                    node->setProperty("flipx", newvalue);
+                    node->setProperty("flipx", new_value);
                     m_editor->history()->add(history::sprite2d::changeFlipX(
                         m_editor,
                         node, 
-                        oldvalue.value(), 
-                        newvalue
+                        old_value.value(), 
+                        new_value
                     ));
                 }
             }
@@ -452,27 +452,27 @@ void gui::actions::Sprite2DActions::flipXChanged(bool state)
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::Sprite2DActions::flipYChanged(bool state)
 {
-    bool newvalue = state;
-    if (m_editor->shared()->activeObject() != NULL)
+    bool new_value = state;
+    if (m_editor->shared()->activeObject() != nullptr)
     {
-        m_editor->shared()->activeObject()->setProperty("flipy", newvalue);
+        m_editor->shared()->activeObject()->setProperty("flipy", new_value);
     }
     else
     {
         sad::SceneNode* node = m_editor->shared()->selectedObject();
         if (node)
         {
-            sad::Maybe<bool> oldvalue = node->getProperty<bool>("flipy");
-            if (oldvalue.exists())
+            sad::Maybe<bool> old_value = node->getProperty<bool>("flipy");
+            if (old_value.exists())
             {
-                if (newvalue != oldvalue.value())
+                if (new_value != old_value.value())
                 {
-                    node->setProperty("flipy", newvalue);
+                    node->setProperty("flipy", new_value);
                     m_editor->history()->add(history::sprite2d::changeFlipY(
                         m_editor,
                         node, 
-                        oldvalue.value(), 
-                        newvalue
+                        old_value.value(), 
+                        new_value
                     ));
                 }
             }

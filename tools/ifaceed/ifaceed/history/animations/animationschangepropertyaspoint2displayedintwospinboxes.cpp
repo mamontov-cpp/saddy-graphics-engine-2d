@@ -10,13 +10,13 @@ history::animations
 ::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes(
         sad::animations::Animation* d,
         const sad::String& property,
-        const sad::Point2D& oldvalue,
-        const sad::Point2D& newvalue,
-        QDoubleSpinBox* xwidget,
-        QDoubleSpinBox* ywidget
-) : history::animations::ChangeProperty<sad::Point2D>(d, property, oldvalue, newvalue),
-m_xwidget(xwidget),
-m_ywidget(ywidget)
+        const sad::Point2D& old_value,
+        const sad::Point2D& new_value,
+        QDoubleSpinBox* x_widget,
+        QDoubleSpinBox* y_widget
+) : history::animations::ChangeProperty<sad::Point2D>(d, property, old_value, new_value),
+m_x_widget(x_widget),
+m_y_widget(y_widget)
 {
     
 }
@@ -34,13 +34,13 @@ history::animations
 ::updateUI(core::Editor* e, const sad::Point2D& value)
 {
     e->emitClosure( blocked_bind(
-            m_xwidget,
+            m_x_widget,
             &QDoubleSpinBox::setValue,
             value.x()
         )
     );
      e->emitClosure( blocked_bind(
-            m_ywidget,
+            m_y_widget,
             &QDoubleSpinBox::setValue,
             value.y()
         )

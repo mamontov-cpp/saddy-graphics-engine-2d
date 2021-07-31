@@ -22,46 +22,46 @@ Q_DECLARE_METATYPE(sad::animations::Animation*) //-V566
 history::instances::ChangeAnimation::ChangeAnimation(
     sad::animations::Instance* d,
     QRadioButton* button,
-    QRadioButton* oldbutton,
-    const sad::String& oldname,
-    unsigned long long oldid,
-    const sad::String& newname,
-    unsigned long long newid
-) : m_node(d), m_button(button), m_oldbutton(oldbutton)
+    QRadioButton* old_button,
+    const sad::String& old_name,
+    unsigned long long old_id,
+    const sad::String& new_name,
+    unsigned long long new_id
+) : m_node(d), m_button(button), m_old_button(old_button)
 {
     m_node->addRef();
 
-    m_maybe_old_name.setValue(oldname);
-    m_maybe_old_id.setValue(oldid);
+    m_maybe_old_name.setValue(old_name);
+    m_maybe_old_id.setValue(old_id);
 
-    m_maybe_new_name.setValue(newname);
-    m_maybe_new_id.setValue(newid);
+    m_maybe_new_name.setValue(new_name);
+    m_maybe_new_id.setValue(new_id);
 }
 
 history::instances::ChangeAnimation::ChangeAnimation(
     sad::animations::Instance* d,
-    const sad::String& oldname,
-    const sad::String& newname
-) : m_node(d), m_button(NULL), m_oldbutton(NULL)
+    const sad::String& old_name,
+    const sad::String& new_name
+) : m_node(d), m_button(nullptr), m_old_button(nullptr)
 {
     m_node->addRef();
 
-    m_maybe_old_name.setValue(oldname);
+    m_maybe_old_name.setValue(old_name);
 
-    m_maybe_new_name.setValue(newname);
+    m_maybe_new_name.setValue(new_name);
 }
 
 history::instances::ChangeAnimation::ChangeAnimation(
     sad::animations::Instance* d,
-    unsigned long long oldid,
-    unsigned long long newid
-): m_node(d), m_button(NULL), m_oldbutton(NULL)
+    unsigned long long old_id,
+    unsigned long long new_id
+): m_node(d), m_button(nullptr), m_old_button(nullptr)
 {
     m_node->addRef();
 
-    m_maybe_old_id.setValue(oldid);
+    m_maybe_old_id.setValue(old_id);
 
-    m_maybe_new_id.setValue(newid);
+    m_maybe_new_id.setValue(new_id);
 }
 
 history::instances::ChangeAnimation::~ChangeAnimation()
@@ -103,7 +103,7 @@ void history::instances::ChangeAnimation::commit(core::Editor * ob)
                     m_maybe_new_name.value()
                 ));
 
-                if (m_button == NULL && m_maybe_new_name.value().length() > 0)
+                if (m_button == nullptr && m_maybe_new_name.value().length() > 0)
                 {
                     ob->emitClosure(blocked_bind(
                         ob->uiBlocks()->uiAnimationInstanceBlock()->rbAnimationInstanceFromTree,
@@ -122,7 +122,7 @@ void history::instances::ChangeAnimation::commit(core::Editor * ob)
                     m_maybe_new_id.value()
                 ));
 
-                if (m_button == NULL && m_maybe_new_id.value() > 0)
+                if (m_button == nullptr && m_maybe_new_id.value() > 0)
                 {
                     ob->emitClosure(blocked_bind(
                         ob->uiBlocks()->uiAnimationInstanceBlock()->rbAnimationInstanceFromDatabase,
@@ -151,10 +151,10 @@ void history::instances::ChangeAnimation::rollback(core::Editor * ob)
     {
         if (m_node == ob->shared()->selectedInstance())
         {
-            if (m_oldbutton)
+            if (m_old_button)
             {
                 ob->emitClosure(blocked_bind(
-                    m_oldbutton,
+                    m_old_button,
                     &QRadioButton::setChecked,
                     true
                 ));
@@ -169,7 +169,7 @@ void history::instances::ChangeAnimation::rollback(core::Editor * ob)
                     m_maybe_old_name.value()
                 ));
 
-                if (m_button == NULL && m_maybe_old_name.value().length() > 0)
+                if (m_button == nullptr && m_maybe_old_name.value().length() > 0)
                 {
                     ob->emitClosure(blocked_bind(
                         ob->uiBlocks()->uiAnimationInstanceBlock()->rbAnimationInstanceFromTree,
@@ -188,7 +188,7 @@ void history::instances::ChangeAnimation::rollback(core::Editor * ob)
                     m_maybe_old_id.value()
                 ));
 
-                if (m_button == NULL && m_maybe_old_id.value() > 0)
+                if (m_button == nullptr && m_maybe_old_id.value() > 0)
                 {
                     ob->emitClosure(blocked_bind(
                         ob->uiBlocks()->uiAnimationInstanceBlock()->rbAnimationInstanceFromDatabase,

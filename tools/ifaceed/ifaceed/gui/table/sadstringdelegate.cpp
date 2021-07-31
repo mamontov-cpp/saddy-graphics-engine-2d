@@ -55,18 +55,18 @@ void gui::table::SadStringDelegate::set(const sad::db::Variant& v)
 
 void gui::table::SadStringDelegate::widgetChanged()
 {
-    QString oldvalue = this->currentValue<QString>();
+    QString old_value = this->currentValue<QString>();
     QString i = static_cast<QPlainTextEdit*>(static_cast<QTableWidget*>(m_my_widget)->cellWidget(0, 0))->toPlainText();
-    if (oldvalue != i)
+    if (old_value != i)
     {
         if (this->isLinkedToDatabase())
         {
-            m_editor->history()->add(new history::database::ChangeProperty<QString>(oldvalue, i, this));
+            m_editor->history()->add(new history::database::ChangeProperty<QString>(old_value, i, this));
         }
         else
         {
             m_editor->history()->add(
-                new history::customobject::ChangeProperty<sad::String>(m_object, Q2STDSTRING(m_property_name), Q2STDSTRING(oldvalue), Q2STDSTRING(i))
+                new history::customobject::ChangeProperty<sad::String>(m_object, Q2STDSTRING(m_property_name), Q2STDSTRING(old_value), Q2STDSTRING(i))
             );
         }
     }
@@ -75,14 +75,14 @@ void gui::table::SadStringDelegate::widgetChanged()
 
 void gui::table::SadStringDelegate::moreClicked()
 {
-    QString oldvalue = this->currentValue<QString>();
+    QString old_value = this->currentValue<QString>();
     StringEditorDialog dlg(m_my_widget);
-    dlg.setValue(oldvalue);
+    dlg.setValue(old_value);
     if (dlg.exec() == QDialog::Accepted)
     {
-        QString newvalue = dlg.value();
+        QString new_value = dlg.value();
         QPlainTextEdit* edit = static_cast<QPlainTextEdit*>(static_cast<QTableWidget*>(m_my_widget)->cellWidget(0, 0));
-        edit->setPlainText(newvalue);
+        edit->setPlainText(new_value);
     }
 }
 

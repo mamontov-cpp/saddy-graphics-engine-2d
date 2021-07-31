@@ -5,6 +5,7 @@
  */
 #pragma once
 #include <QObject>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QRectF>
 
 #include <sadhash.h>
@@ -32,14 +33,14 @@ public:
     /*! Creates new label actions
         \param[in] parent a parent object
      */
-    AnimationActions(QObject* parent = NULL);
+    AnimationActions(QObject* parent = nullptr);
     /*! Sets inner editor link of process
         \param[in] e editor
      */
-    virtual void setEditor(core::Editor* e);
+    virtual void setEditor(core::Editor* e) override;
     /*! This class could be inherited
      */
-    virtual ~AnimationActions();
+    virtual ~AnimationActions() override;
     /*! Returns true if adding second animation into children of first produces loop
         \param[in] first first loop
         \param[in] second second loop
@@ -47,7 +48,7 @@ public:
     bool producesLoop(sad::animations::Animation* first, sad::animations::Animation* second) const;
     /*! Returns true if adding second animation into children of first produces loop
         \param[in] current current visited animation
-        \param[in] visited set of visited noded
+        \param[in] visited set of visited nodes
         \param[in] first a first visited part
         \param[in] second a second visited part
      */
@@ -59,32 +60,32 @@ public:
     );
     /*! Removes an animation from database
         \param[in] a animation
-        \param[in] fromeditor whether it's being removed from editor
+        \param[in] from_editor whether it's being removed from editor
      */
     void removeAnimationFromDatabase(
         sad::animations::Animation* a,
-        bool fromeditor
+        bool from_editor
     ) const;
     /*! Adds animation to composite list
         \param[in] a composite list
-        \param[in] addedanimation an added animation
-        \param[in] fromeditor whether it's being added to a list
+        \param[in] added_animation an added animation
+        \param[in] from_editor whether it's being added to a list
      */
     bool addAnimationToCompositeList(
         sad::animations::Composite* a,
-        sad::animations::Animation* addedanimation,
-        bool fromeditor
+        sad::animations::Animation* added_animation,
+        bool from_editor
     ) const;
     /*! Removes animation from composite list
         \param[in] a composite list
-        \param[in] addedanimation an added animation
-        \param[in] fromeditor whether it's being added to a list
+        \param[in] added_animation an added animation
+        \param[in] from_editor whether it's being added to a list
         \param[in] row a row (-1 if undefined)
      */
     bool removeAnimationFromCompositeList(
         sad::animations::Composite* a,
-        sad::animations::Animation* addedanimation,
-        bool fromeditor,
+        sad::animations::Animation* added_animation,
+        bool from_editor,
         int row = -1
     ) const;
     /*! Returns name for animation
@@ -108,7 +109,7 @@ public slots:
     /*! Tries to add new animation to a list
      */
     void addAnimation() const;
-    /*! Triews to remove animation from all related list
+    /*! Tries to remove animation from all related list
      */
     void removeAnimation() const;
     /*! Called, when user changes animation in list
@@ -124,13 +125,13 @@ public slots:
      */
     void timeChanged(double time) const;
     /*! Called, when user changes "Whether animation is looped" flag
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void loopedChanged(bool newvalue) const;
+    void loopedChanged(bool new_value) const;
     /*! Called, when user changes frequency of blinking of animation
-        \param[in] nvalue a value
+        \param[in] new_value a value
      */
-    void blinkingFrequencyChanged(int nvalue) const;
+    void blinkingFrequencyChanged(int new_value) const;
     /*! Starts a selected animation as instance on selected object
      */
     void startOnObject() const;
@@ -145,32 +146,32 @@ public slots:
     void colorChangeEndingColor() const;
     /*! Called, when user changes x coordinate of starting size for Resize type of animation
         for X coordinate
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void resizeChangeStartingSizeX(double newvalue) const;
+    void resizeChangeStartingSizeX(double new_value) const;
     /*! Called, when user changes y coordinate of starting size for Resize type of animation
         for Y coordinate
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void resizeChangeStartingSizeY(double newvalue) const;
+    void resizeChangeStartingSizeY(double new_value) const;
     /*! Called, when user changes x coordinate of ending size for Resize type of animation
         for X coordinate
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void resizeChangeEndingSizeX(double newvalue) const;
+    void resizeChangeEndingSizeX(double new_value) const;
     /*! Called, when user changes y coordinate of ending size for Resize type of animation
         for Y coordinate
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void resizeChangeEndingSizeY(double newvalue) const;
+    void resizeChangeEndingSizeY(double new_value) const;
     /*! Called, when user changes starting angle for rotation angle
-        \param[in] newvalue new value for angle
+        \param[in] new_value new value for angle
      */ 
-    void rotateChangeStartingAngle(double newvalue) const;
+    void rotateChangeStartingAngle(double new_value) const;
     /*! Called, when user changes ending angle for rotation angle
-        \param[in] newvalue new value for angle
+        \param[in] new_value new value for angle
      */ 
-    void rotateChangeEndingAngle(double newvalue) const;
+    void rotateChangeEndingAngle(double new_value) const;
     /*! Called, when user changes way for way moving animation
         \param[in] row a row
      */
@@ -180,13 +181,13 @@ public slots:
      */
     void fontListEditingFinished() const;
     /*! Called, when font size starting size changed
-        \param[in] newvalue new value
+        \param[in] new_value new value
      */
-    void fontSizeChangeStartingSize(int newvalue) const;
+    void fontSizeChangeStartingSize(int new_value) const;
     /*! Called, when font size ending size changed
-        \param[in] newvalue new value
+        \param[in] new_value new value
      */
-    void fontSizeChangeEndingSize(int newvalue) const;
+    void fontSizeChangeEndingSize(int new_value) const;
     /*! Called, when option list editing  finished (timed event, see implementation of
         gui::textedit::TextEdit for detail)
      */
@@ -204,33 +205,33 @@ public slots:
      */
     void textureCoordinatesChangeEndRect(QRectF value) const;
     /*! Called, when user changes x coordinate of camera rotation pivot 
-        \param[in] newx new value
+        \param[in] new_x new value
      */
-    void cameraRotationChangePivotX(double newx) const;
+    void cameraRotationChangePivotX(double new_x) const;
     /*! Called, when user changes y coordinate of camera rotation pivot 
-        \param[in] newy new value
+        \param[in] new_y new value
      */
-    void cameraRotationChangePivotY(double newy) const;
+    void cameraRotationChangePivotY(double new_y) const;
     /*! Called, when user changes starting angle of camera rotation animation
-        \param[in] newvalue a new value for animation
+        \param[in] new_value a new value for animation
      */
-    void cameraRotationChangeStartingAngle(double newvalue) const;
+    void cameraRotationChangeStartingAngle(double new_value) const;
     /*! Called, when user changes ending angle of camera rotation animation
-        \param[in] newvalue a new value for animation
+        \param[in] new_value a new value for animation
      */
-    void cameraRotationChangeEndingAngle(double newvalue) const;
+    void cameraRotationChangeEndingAngle(double new_value) const;
     /*! Called, when user changes x coordinate of camera shaking offset 
-        \param[in] newx new value
+        \param[in] new_x new value
      */
-    void cameraShakingChangeOffsetX(double newx) const;
+    void cameraShakingChangeOffsetX(double new_x) const;
     /*! Called, when user changes y coordinate of camera shaking offset
-        \param[in] newy new value
+        \param[in] new_y new value
      */
-    void cameraShakingChangeOffsetY(double newy) const;
+    void cameraShakingChangeOffsetY(double new_y) const;
     /*! Called, when user changes frequency of camera shaking
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void cameraShakingChangeFrequency(int newvalue) const;
+    void cameraShakingChangeFrequency(int new_value) const;
     /*! Update composite elements list
      */
     void updateCompositeList() const;
@@ -248,24 +249,24 @@ public slots:
     void moveFrontInCompositeList() const;
     /*! Called, when user changes x coordinates of starting point for simple
         movement animation type
-       \param[in] newvalue a new value
+       \param[in] new_x a new value
      */
-    void simpleMovementChangeStartingPointX(double newvalue) const;
+    void simpleMovementChangeStartingPointX(double new_x) const;
     /*! Called, when user changes y coordinates of starting point for simple
         movement animation type
-       \param[in] newvalue a new value
+       \param[in] new_y a new value
      */
-    void simpleMovementChangeStartingPointY(double newvalue) const;
+    void simpleMovementChangeStartingPointY(double new_y) const;
     /*! Called, when user changes x coordinates of ending point for simple
         movement animation type
-       \param[in] newvalue a new value
+       \param[in] new_x a new value
      */
-    void simpleMovementChangeEndingPointX(double newvalue) const;
+    void simpleMovementChangeEndingPointX(double new_x) const;
     /*! Called, when user changes y coordinates of ending point for simple
         movement animation type
-       \param[in] newvalue a new value
+       \param[in] new_y a new value
      */
-    void simpleMovementChangeEndingPointY(double newvalue) const;
+    void simpleMovementChangeEndingPointY(double new_y) const;
     /*! Starts picking starting point for simple movement
      */
     void startPickingStartingPointForSimpleMovement() const;
@@ -280,17 +281,17 @@ public slots:
      */
     void pickedPointForSimpleMovement(const sad::input::MousePressEvent& e) const;
     /*! Called, when user changes overshoot amplitude of animation
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void easingOvershootAmplitudeChanged(double newvalue) const;
+    void easingOvershootAmplitudeChanged(double new_value) const;
     /*! Called, when user changes period of animation
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void easingPeriodChanged(double newvalue) const;
+    void easingPeriodChanged(double new_value) const;
     /*! Called, when user changes function type
-        \param[in] newvalue a new value
+        \param[in] new_value a new value
      */
-    void easingFunctionTypeChanged(int newvalue) const;
+    void easingFunctionTypeChanged(int new_value) const;
 private:
     /*! A running animation process 
      */

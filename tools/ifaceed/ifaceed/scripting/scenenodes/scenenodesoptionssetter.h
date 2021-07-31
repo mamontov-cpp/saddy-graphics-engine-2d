@@ -23,18 +23,18 @@ public:
     /*! Clones an object
         \return copy of object
      */
-    dukpp03::qt::Callable* clone();
+    dukpp03::qt::Callable* clone() override;
     /*! Could be inherited
      */
     virtual ~OptionsSetter();
     /*! Returns command for editing a property
         \param[in] obj an object to be set
         \param[in] prop property name
-        \param[in] oldvalue old value 
-        \param[in] newvalue new value
+        \param[in] old_value old value 
+        \param[in] new_value new value
         \return a command to be used
      */
-    virtual history::Command* command(sad::SceneNode* obj, const sad::String& prop, sad::String oldvalue, sad::String newvalue);
+    virtual history::Command* command(sad::SceneNode* obj, const sad::String& prop, sad::String old_value, sad::String new_value) override;
 };
 
 }

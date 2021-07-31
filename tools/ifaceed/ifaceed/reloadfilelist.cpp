@@ -27,7 +27,7 @@ ReloadFileList::ReloadFileList(QWidget* parent) : QDialog(parent)
 sad::resource::ResourceFile* ReloadFileList::selectedFile()
 {
     QListWidgetItem* item = m_ui.lstFiles->currentItem();
-    sad::resource::ResourceFile* result = NULL;
+    sad::resource::ResourceFile* result = nullptr;
     if (item)
     {
         result =  item->data(Qt::UserRole).value<sad::resource::ResourceFile*>();

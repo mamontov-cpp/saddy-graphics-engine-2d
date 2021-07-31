@@ -28,10 +28,10 @@ public:
     RenderWays(core::Editor* editor);
     /*! Enables rendering of ways
      */
-    void enable();
+    void enable() override;
     /*! Can be inherited
      */
-    virtual ~RenderWays();
+    virtual ~RenderWays() override;
 protected:
     /*! A scene
      */
@@ -56,7 +56,7 @@ protected:
     sad::AColor m_red;
     /*! Invokes a delegate inside of process
      */ 
-    virtual void _process();
+    virtual void _process() override;
     /*! Renders arrow from begin to end
         \param[in] scene a scene to be used
         \param[in] begin a beginning of arrow

@@ -9,7 +9,7 @@
 
 namespace core
 {
-class Editor;    
+class Editor;
 }
 
 namespace history
@@ -21,14 +21,14 @@ namespace scenenodes
 /*! Creates command for visibility change of node
     \param[in] blk editor
     \param[in] d a node
-    \param[in] oldvalue an oldvalue for visibility of node
-    \param[in] newvalue a newvalue for visibility of ode
+    \param[in] old_value an old_value for visibility of node
+    \param[in] new_value a new_value for visibility of ode
  */
 history::Command* changeVisibility(
     core::Editor* blk, 
     sad::SceneNode* d, 
-    bool oldvalue, 
-    bool newvalue
+    bool old_value, 
+    bool new_value
 );
 
 }

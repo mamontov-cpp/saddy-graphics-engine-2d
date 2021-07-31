@@ -20,10 +20,10 @@ class ChangeCameraPivot: public history::animations::ChangeProperty<sad::Point3D
 public:
      /*! Constructs new command for animation
         \param[in] d an animation
-        \param[in] oldvalue old value
-        \param[in] newvalue new value
+        \param[in] old_value old value
+        \param[in] new_value new value
       */
-    ChangeCameraPivot(sad::animations::Animation* d, const sad::Point3D& oldvalue, const sad::Point3D& newvalue);
+    ChangeCameraPivot(sad::animations::Animation* d, const sad::Point3D& old_value, const sad::Point3D& new_value);
     /*! Erases link to an animation
       */
     virtual ~ChangeCameraPivot();
@@ -33,7 +33,7 @@ protected:
      * \param[in] e editor
      * \param[in] value a value
      */
-    virtual void updateUI(core::Editor* e, const sad::Point3D& value);
+    virtual void updateUI(core::Editor* e, const sad::Point3D& value) override;
 };
 
 }

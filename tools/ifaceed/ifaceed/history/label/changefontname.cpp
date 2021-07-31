@@ -14,15 +14,15 @@
 
 history::label::ChangeFontName::ChangeFontName(
     sad::SceneNode* d,
-    const sad::String& oldvalue,
-    const sad::String& newvalue
+    const sad::String& old_value,
+    const sad::String& new_value
     
 )
 : history::scenenodes::ChangeProperty<sad::String>(
       d,
       "font",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
     m_affects_parent_grid = true;

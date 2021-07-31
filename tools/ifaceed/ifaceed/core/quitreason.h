@@ -11,7 +11,7 @@ namespace core
 /*! Describes a reason, why editor must be quit. For example it will be quit by closing saddy's rendering
     window or closing main panel of editor. 
  */
-enum QuitReason
+enum class QuitReason: int
 {
     /*! A reason is not specified
      */

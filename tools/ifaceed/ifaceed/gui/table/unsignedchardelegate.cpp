@@ -39,15 +39,15 @@ void gui::table::UnsignedCharDelegate::set(const sad::db::Variant& v)
 
 void gui::table::UnsignedCharDelegate::widgetChanged(int i)
 {
-    unsigned char oldvalue = this->currentValue<unsigned char>();
+    unsigned char old_value = this->currentValue<unsigned char>();
     if (this->isLinkedToDatabase())
     {
-        m_editor->history()->add(new history::database::ChangeProperty<unsigned char>(oldvalue, i, this));
+        m_editor->history()->add(new history::database::ChangeProperty<unsigned char>(old_value, i, this));
     }
     else
     {
         m_editor->history()->add( 
-            new history::customobject::ChangeProperty<unsigned char>(m_object, Q2STDSTRING(m_property_name), oldvalue, i)
+            new history::customobject::ChangeProperty<unsigned char>(m_object, Q2STDSTRING(m_property_name), old_value, i)
         );
     }
     this->setCurrentValue<unsigned char>(i);

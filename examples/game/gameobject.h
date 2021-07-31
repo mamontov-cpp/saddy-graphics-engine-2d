@@ -30,9 +30,9 @@ class GameObject: public sad::p2d::app::Object
      /*! Creates an empty game object
       */
      GameObject();
-     /*! The object does not own anything, if game is not null
+     /*! The object does not own anything, if game is not nullptr
       */
-     ~GameObject();
+     virtual ~GameObject() override;
      /*! Returns remaining hit points
       */
      int hitPoints() const;
@@ -45,10 +45,10 @@ class GameObject: public sad::p2d::app::Object
          \param[in] count how much
       */ 
      void decrementHP(int count);
-     /*! Called, when object is rendered. Object can easily reimplement
+     /*! Called, when object is rendered. Object can easily re-implement
          it to work with AI, or do something other (like shoot). 
       */
-     virtual void render();
+     virtual void render() override;
      /*! Returns a game from game object
          \return game
       */

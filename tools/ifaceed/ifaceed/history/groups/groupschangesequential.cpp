@@ -15,14 +15,14 @@
 
 history::groups::ChangeSequential::ChangeSequential(
     sad::animations::Group* d,
-    bool oldvalue,
-    bool newvalue
+    bool old_value,
+    bool new_value
 )
 : history::groups::ChangeProperty<bool>(
       d,
       "sequential",
-      oldvalue,
-      newvalue
+      old_value,
+      new_value
 )
 {
 }

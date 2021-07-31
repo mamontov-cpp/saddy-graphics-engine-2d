@@ -24,16 +24,16 @@ public:
      /*! Constructs new command for node
         \param[in] d a node
         \param[in] property a property name
-        \param[in] oldvalue old value of property
-        \param[in] newvalue new value of property
+        \param[in] old_value old value of property
+        \param[in] new_value new value of property
       */
     ChangeProperty(
         sad::SceneNode* d,
         const sad::String& property,
-        const T& oldvalue,
-        const T& newvalue
+        const T& old_value,
+        const T& new_value
     )
-    :  history::scenenodes::ChangeProperty<T>(d, property, oldvalue, newvalue)
+    :  history::scenenodes::ChangeProperty<T>(d, property, old_value, new_value)
     {
         
     }
@@ -48,7 +48,7 @@ protected:
          \param[in] e editor
          \param[in] value a value for element
       */
-     void updateUI(core::Editor* e, const T& value)
+     void updateUI(core::Editor* e, const T& value) override
      {
          e->actions()->customObjectActions()->updateCustomObjectPropertyValue(
              this->history::scenenodes::ChangeProperty<T>::m_node,

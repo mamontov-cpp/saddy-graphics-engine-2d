@@ -28,13 +28,13 @@ Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
 // =========================================== PUBLIC METHODS =========================================== 
 
 core::Selection::Selection() 
-: m_editor(NULL),
-  m_scenenode_selection_change(false), 
-  m_scenenode_current_position(0),
+: m_editor(nullptr),
+  m_scene_node_selection_change(false), 
+  m_scene_node_current_position(0),
   m_grid_selection_change(false), 
   m_current_grid_chain_position(0)
 {
-     connect(&m_scenenode_nav_timer, SIGNAL(timeout()), this, SLOT(disableSceneNodeSelectionNavigation()));
+     connect(&m_scene_node_nav_timer, SIGNAL(timeout()), this, SLOT(disableSceneNodeSelectionNavigation()));
      connect(&m_grid_nav_timer, SIGNAL(timeout()), this, SLOT(disableGridSelectionNavigation()));
 }
 
@@ -92,7 +92,7 @@ void core::Selection::navigateSelection(const sad::input::MouseWheelEvent& e)
     }
     else
     {
-        if (m_scenenode_selection_change) 
+        if (m_scene_node_selection_change) 
         {
             this->navigateSceneNodeSelection(e);
         }
@@ -101,35 +101,35 @@ void core::Selection::navigateSelection(const sad::input::MouseWheelEvent& e)
 
 void core::Selection::navigateSceneNodeSelection(const sad::input::MouseWheelEvent& e)
 {
-    int last_position = m_scenenode_current_position;
+    int last_position = m_scene_node_current_position;
     if (e.Delta > 0)
     {
-        if (m_scenenode_current_position == m_scenenode_selection_chain.size() - 1)
+        if (m_scene_node_current_position == m_scene_node_selection_chain.size() - 1)
         {
-            m_scenenode_current_position = 0;
+            m_scene_node_current_position = 0;
         }
         else
         {
-            m_scenenode_current_position++;
+            m_scene_node_current_position++;
         }
     }
     else
     {
-        if (m_scenenode_current_position == 0)
+        if (m_scene_node_current_position == 0)
         {
-            m_scenenode_current_position = m_scenenode_selection_chain.size() - 1;
+            m_scene_node_current_position = m_scene_node_selection_chain.size() - 1;
         }
         else
         {
-            m_scenenode_current_position--;
+            m_scene_node_current_position--;
         }
     }
 
-    if (last_position != m_scenenode_current_position && m_scenenode_selection_chain.size())
+    if (last_position != m_scene_node_current_position && m_scene_node_selection_chain.size())
     {
-        if (m_scenenode_current_position > -1 && m_scenenode_current_position < m_scenenode_selection_chain.size())
+        if (m_scene_node_current_position > -1 && m_scene_node_current_position < m_scene_node_selection_chain.size())
         {
-            m_editor->shared()->setSelectedObject(m_scenenode_selection_chain[m_scenenode_current_position]);
+            m_editor->shared()->setSelectedObject(m_scene_node_selection_chain[m_scene_node_current_position]);
             m_editor->machine()->enterState("selected");
             m_editor->actions()->sceneNodeActions()->updateUIForSelectedSceneNode();
             m_editor->emitClosure( bind(this, &core::Selection::startSceneNodeNavigationTimer));
@@ -176,7 +176,7 @@ void core::Selection::navigateGridSelection(const sad::input::MouseWheelEvent& e
 
 bool core::Selection::isSelectionPending() const
 {
-    return m_scenenode_selection_change || m_grid_selection_change;
+    return m_scene_node_selection_change || m_grid_selection_change;
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -203,7 +203,7 @@ void core::Selection::cancelGridSelectionOrQuit()
 
 void core::Selection::disableSceneNodeSelectionNavigation()
 {
-    m_scenenode_selection_change = false;
+    m_scene_node_selection_change = false;
 }
 
 void core::Selection::disableGridSelectionNavigation()
@@ -213,14 +213,14 @@ void core::Selection::disableGridSelectionNavigation()
 
 void core::Selection::startSceneNodeNavigationTimer()
 {
-    if (m_scenenode_selection_change)
+    if (m_scene_node_selection_change)
     {
-        m_scenenode_nav_timer.stop();
+        m_scene_node_nav_timer.stop();
     }
-    m_scenenode_nav_timer.setSingleShot(true);
-    m_scenenode_nav_timer.setInterval(core::Selection::TIMEOUT);
-    m_scenenode_nav_timer.start();
-    m_scenenode_selection_change = true;
+    m_scene_node_nav_timer.setSingleShot(true);
+    m_scene_node_nav_timer.setInterval(core::Selection::TIMEOUT);
+    m_scene_node_nav_timer.start();
+    m_scene_node_selection_change = true;
 }
 
 void core::Selection::startGridNavigationTimer()
@@ -351,7 +351,7 @@ void core::Selection::removeItem()
 
 void core::Selection::trySelectGrid(const sad::input::MousePressEvent& e)
 {
-    m_scenenode_selection_change = false;
+    m_scene_node_selection_change = false;
     m_editor->emitClosure( bind(&m_grid_nav_timer, &QTimer::stop) );
     sad::layouts::Grid* grid = m_editor->shared()->selectedGrid();
     if (grid)
@@ -377,7 +377,7 @@ void core::Selection::trySelectGrid(const sad::input::MousePressEvent& e)
     }
 
     // Fill grid navigation chain 
-    m_scenenode_selection_chain.clear();
+    m_scene_node_selection_chain.clear();
     m_grid_selection_chain.clear();
     sad::Vector<sad::layouts::Grid*> grids;
     m_editor->actions()->gridActions()->activeGrids(grids);
@@ -396,7 +396,7 @@ void core::Selection::trySelectGrid(const sad::input::MousePressEvent& e)
 
     if (m_grid_selection_chain.count() == 0)
     {
-        m_editor->shared()->setSelectedGrid(NULL);
+        m_editor->shared()->setSelectedGrid(nullptr);
         m_editor->emitClosure(::bind(m_editor->panelProxy(), &gui::MainPanelProxy::enterGlobalOffsetEditingState, e.pos2D()));
     }
     else
@@ -412,8 +412,8 @@ void core::Selection::trySelectGrid(const sad::input::MousePressEvent& e)
 void core::Selection::trySelectObject(const sad::input::MousePressEvent& e)
 {
     // Stop selection
-    m_scenenode_selection_change = false;
-    m_editor->emitClosure( bind(&m_scenenode_nav_timer, &QTimer::stop) );
+    m_scene_node_selection_change = false;
+    m_editor->emitClosure( bind(&m_scene_node_nav_timer, &QTimer::stop) );
 
     if (m_editor->shared()->selectedObject())
     {
@@ -449,7 +449,7 @@ void core::Selection::trySelectObject(const sad::input::MousePressEvent& e)
     sad::Scene* current_scene = m_editor->actions()->sceneActions()->currentScene();
     if (current_scene)
     {
-        m_scenenode_selection_chain.clear();
+        m_scene_node_selection_chain.clear();
         const sad::Vector<sad::SceneNode*>& objects = current_scene->objects();
         for(int i = objects.size() - 1; i > -1; i--)
         {
@@ -459,23 +459,23 @@ void core::Selection::trySelectObject(const sad::input::MousePressEvent& e)
                 objects[i]->regions(regions);
                 if (sad::isWithin(e.pos2D(), regions))
                 {
-                    m_scenenode_selection_chain << objects[i];
+                    m_scene_node_selection_chain << objects[i];
                 }
             }
         }
 
-        if (m_scenenode_selection_chain.count() == 0)
+        if (m_scene_node_selection_chain.count() == 0)
         {
             m_editor->machine()->enterState("idle");
-            m_editor->shared()->setSelectedObject(NULL);
+            m_editor->shared()->setSelectedObject(nullptr);
             m_editor->emitClosure(::bind(m_editor->panelProxy(), &gui::MainPanelProxy::enterGlobalOffsetEditingState, e.pos2D()));
         }
         else
         {
-            m_editor->shared()->setSelectedObject(m_scenenode_selection_chain[0]);
+            m_editor->shared()->setSelectedObject(m_scene_node_selection_chain[0]);
             m_editor->machine()->enterState("selected");
             m_editor->actions()->sceneNodeActions()->updateUIForSelectedSceneNode();
-            m_scenenode_current_position = 0;
+            m_scene_node_current_position = 0;
             m_editor->emitClosure( bind(this, &core::Selection::startSceneNodeNavigationTimer));
             m_editor->emitClosure( bind(this, &core::Selection::forceEditorEnterMovingState, e));
         }
@@ -487,7 +487,7 @@ void core::Selection::trySelectWay(const sad::input::MousePressEvent& e)
     const double radius = 11.0; // Radius of active area for a point
     sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
     gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
-    if (w != NULL)
+    if (w != nullptr)
     {
         int row = ui_way_block->lstWayPoints->currentRow();
         if (row >= 0 && row < ui_way_block->lstWayPoints->count())
@@ -529,7 +529,7 @@ void core::Selection::trySelectWay(const sad::input::MousePressEvent& e)
     }
 
     m_editor->machine()->enterState("ways/idle");
-    m_editor->shared()->setSelectedWay(NULL);
+    m_editor->shared()->setSelectedWay(nullptr);
     m_editor->emitClosure(bind(this, &core::Selection::commitIdleWaySelection));
 
     m_editor->emitClosure(::bind(m_editor->panelProxy(), &gui::MainPanelProxy::enterGlobalOffsetEditingState, e.pos2D()));
@@ -540,7 +540,7 @@ void core::Selection::tryEnterToMovingStateWithWayObject(const sad::input::Mouse
 {
     gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
     sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
-    if (w != NULL)
+    if (w != nullptr)
     {
         int row = ui_way_block->lstWayPoints->currentRow();
         if (row >= 0 && row < ui_way_block->lstWayPoints->count())

@@ -7,14 +7,14 @@
 #include <QPushButton>
 #include <QCheckBox>
 
-gui::uiblocks::UICommonBlock::UICommonBlock() : txtMousePosX(NULL),
-txtMousePosY(NULL),
-tabTypes(NULL),
-tabObjects(NULL),
-twDatabaseProperties(NULL),
-btnFixTextureCoordinates(NULL),
-btnClearObjectSelection(NULL),
-cbFastMode(NULL)
+gui::uiblocks::UICommonBlock::UICommonBlock() : txtMousePosX(nullptr),
+txtMousePosY(nullptr),
+tabTypes(nullptr),
+tabObjects(nullptr),
+twDatabaseProperties(nullptr),
+btnFixTextureCoordinates(nullptr),
+btnClearObjectSelection(nullptr),
+cbFastMode(nullptr)
 {
 
 }

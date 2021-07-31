@@ -82,9 +82,9 @@ public:
      */ 
     void setDuration(double duration);
     /*! Sets view hint for a phrase
-        \param[in] viewhint a hint for viewing phrase
+        \param[in] view_hint a hint for viewing phrase
      */
-    void setViewHint(QString viewhint);
+    void setViewHint(QString view_hint);
     /*! Returns actor name
         \return actor name
      */

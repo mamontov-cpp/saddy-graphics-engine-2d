@@ -7,19 +7,19 @@
 #include <QCheckBox>
 #include <QRadioButton>
 
-gui::uiblocks::UIAnimationsGroupBlock::UIAnimationsGroupBlock() : lstAnimationsGroupInGroup(NULL),
-lstAnimationsGroupAllAnimations(NULL),
-btnAnimationsGroupRemoveFromList(NULL),
-btnAnimationsGroupAddToList(NULL),
-lstAnimationsGroup(NULL),
-txtAnimationsGroupName(NULL),
-cbAnimationsGroupLooped(NULL),
-btnAnimationsGroupAdd(NULL),
-btnAnimationsGroupRemove(NULL),
-btnAnimationsGroupStart(NULL),
-btnAnimationsGroupCancel(NULL),
-rbAnimationsGroupParallel(NULL),
-rbAnimationsGroupSequential(NULL)
+gui::uiblocks::UIAnimationsGroupBlock::UIAnimationsGroupBlock() : lstAnimationsGroupInGroup(nullptr),
+lstAnimationsGroupAllAnimations(nullptr),
+btnAnimationsGroupRemoveFromList(nullptr),
+btnAnimationsGroupAddToList(nullptr),
+lstAnimationsGroup(nullptr),
+txtAnimationsGroupName(nullptr),
+cbAnimationsGroupLooped(nullptr),
+btnAnimationsGroupAdd(nullptr),
+btnAnimationsGroupRemove(nullptr),
+btnAnimationsGroupStart(nullptr),
+btnAnimationsGroupCancel(nullptr),
+rbAnimationsGroupParallel(nullptr),
+rbAnimationsGroupSequential(nullptr)
 {
 
 }

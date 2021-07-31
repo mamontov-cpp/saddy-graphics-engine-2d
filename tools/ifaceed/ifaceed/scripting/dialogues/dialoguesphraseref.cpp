@@ -12,7 +12,7 @@
 #include "../../history/dialogues/dialoguesphraseswap.h"
 
 
-scripting::dialogues::PhraseRef::PhraseRef() : m_scripting(NULL), m_d(NULL), m_pos(0)
+scripting::dialogues::PhraseRef::PhraseRef() : m_scripting(nullptr), m_d(nullptr), m_pos(0)
 {
     
 }
@@ -101,13 +101,13 @@ void scripting::dialogues::PhraseRef::setDuration(double duration)
     this->actions()->changePhraseDuration(m_d, m_pos, duration, false);
 }
 
-void scripting::dialogues::PhraseRef::setViewHint(QString viewhint)
+void scripting::dialogues::PhraseRef::setViewHint(QString view_hint)
 {
     if (!valid())
     {
         return;
     }
-    this->actions()->changePhraseViewHint(m_d, m_pos, Q2STDSTRING(viewhint), false);
+    this->actions()->changePhraseViewHint(m_d, m_pos, Q2STDSTRING(view_hint), false);
 }
 
 QString scripting::dialogues::PhraseRef::actorName() const

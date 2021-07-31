@@ -45,19 +45,19 @@ public:
     /*! A destructor for grid cell
      */
     virtual ~ScriptableGridCell();
-    /*! Returns referenced cell, if reference is valid or returns NULL and throws exception otherwise
-        \param[in] throwexc whether we should throw exception or not
+    /*! Returns referenced cell, if reference is valid or returns nullptr and throws exception otherwise
+        \param[in] throw_exception whether we should throw exception or not
         \param[in] name a name for a called method, which can be used in exception
         \return cell
      */
-    sad::layouts::Cell* cell(bool throwexc = true, const QString& name = "") const;
+    sad::layouts::Cell* cell(bool throw_exception = true, const QString& name = "") const;
     /*! Swaps children, providing specified name of called function as own
-        \param[in] callname a called name 
+        \param[in] call_name a called name 
         \param[in] pos1 position of first child
         \param[in] pos2 position of second child
         \return false on invalid positions
      */
-    bool swapChildrenWithCallName(const QString& callname, int pos1, int pos2) const;
+    bool swapChildrenWithCallName(const QString& call_name, int pos1, int pos2) const;
     /*! Returns list of children's major ids
         \return list of children's major ids
      */
@@ -65,7 +65,7 @@ public:
     QVector<unsigned long long> children() const;
     /*! Tries to find child by major id
         \param[in] o object
-        \return NULL if not found, otherwise position
+        \return nullptr if not found, otherwise position
      */
     dukpp03::Maybe<unsigned int> findChild(sad::SceneNode* o) const;
     /*! Tries to add child to a cell. If child already has parent grid, returns false
@@ -187,21 +187,21 @@ public slots:
     bool moveFront(int pos) const;
 protected:    
     /*! Returns new command for changing padding
-        \param[in] callname called function name for exception
-        \param[in] propname property name for it
-        \param[in] newvalue a new value for padding
+        \param[in] call_name called function name for exception
+        \param[in] prop_name property name for it
+        \param[in] new_value a new value for padding
         \return command
      */
     history::Command* commandForPadding(
-        const QString& callname,
-        const QString& propname,
-        double newvalue
+        const QString& call_name,
+        const QString& prop_name,
+        double new_value
     ) const;
     /*! Handles attempt for changing padding
-        \param[in] callname a called function name
-        \param[in] newvalue a new value for padding
+        \param[in] call_name a called function name
+        \param[in] new_value a new value for padding
      */
-    void tryChangePadding(const QString& callname, double newvalue) const;
+    void tryChangePadding(const QString& call_name, double new_value) const;
     /*! A major id for parent grid
      */
     unsigned long long m_majorid;

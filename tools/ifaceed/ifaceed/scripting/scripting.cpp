@@ -93,7 +93,7 @@ static QString dump_native_object(const QVariant& v)
 // ================================== PUBLIC METHODS OF scripting::Scripting ==================================
 
 
-scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NULL), m_ctx(NULL), m_evaluating(false)
+scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(nullptr), m_ctx(nullptr), m_evaluating(false)
 {
     dukpp03::qt::registerMetaType<sad::db::Object*>();
     dukpp03::qt::registerMetaType<sad::db::Object**>();
@@ -154,7 +154,7 @@ void scripting::Scripting::setEditor(core::Editor* editor)
     scripting::groups::init(this, m_animations_value);
 
     // Don't forget to call after object is initialized
-    copyProperties(scripting::Scripting::SSC_CPD_FROM_GLOBAL_TO_HEAP);
+    copyProperties(scripting::Scripting::CopyPropertiesDirection::SSC_CPD_FROM_GLOBAL_TO_HEAP);
 }
 
 core::Editor* scripting::Scripting::editor() const
@@ -191,10 +191,10 @@ QSet<QString> scripting::Scripting::commonProperties()
         "div",
         "mid",
         "movedToPoint",
-        NULL
+        nullptr
     };
     int i = 0;
-    while(firstprops[i] != NULL)
+    while(firstprops[i] != nullptr)
     {
         result.insert(firstprops[i]);
         ++i;
@@ -277,7 +277,7 @@ void scripting::Scripting::runScript()
     }
     m_evaluating = true;
     // Restore old properties, that can be destroyed by user's actions
-    copyProperties(scripting::Scripting::SSC_CPD_FROM_HEAP_TO_GLOBAL);
+    copyProperties(scripting::Scripting::CopyPropertiesDirection::SSC_CPD_FROM_HEAP_TO_GLOBAL);
     // Set maximum execution time to 30 000 seconds
     m_ctx->setMaximumExecutionTime(30000);
 
@@ -322,7 +322,7 @@ void scripting::Scripting::runScript()
         }
     }
 
-    m_editor->setCurrentBatchCommand(NULL);
+    m_editor->setCurrentBatchCommand(nullptr);
     m_evaluating = false;
 }
 
@@ -578,7 +578,7 @@ void scripting::Scripting::initSadTypeConstructors()
 void scripting::Scripting::copyProperties(scripting::Scripting::CopyPropertiesDirection direction)
 {
     duk_context* c = m_ctx->context();
-    if (direction == scripting::Scripting::SSC_CPD_FROM_GLOBAL_TO_HEAP)
+    if (direction == scripting::Scripting::CopyPropertiesDirection::SSC_CPD_FROM_GLOBAL_TO_HEAP)
     {
         duk_push_global_object(c); // Will have id -2
         duk_push_global_stash(c); // Will have id -1
@@ -601,7 +601,7 @@ void scripting::Scripting::copyObjectsOnStackRecursive(duk_idx_t source_id, duk_
     duk_enum(c, source_id, DUK_ENUM_OWN_PROPERTIES_ONLY); // -1
     while(duk_next(c, -1, 1))
     {
-        // value -1, name -2, enum -3, destination object - dest_id-3, source_id -3
+        // value -1, name -2, enum class -3, destination object - dest_id-3, source_id -3: int
         if (duk_is_object(c, -1) && !duk_is_c_function(c, -1) && !duk_is_function(c, -1))
         {
             duk_push_object(c);

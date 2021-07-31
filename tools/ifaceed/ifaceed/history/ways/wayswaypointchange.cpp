@@ -17,9 +17,9 @@
 history::ways::WayPointChange::WayPointChange(
     sad::p2d::app::Way* w, 
     int pos, 
-    const sad::Point2D& oldv, 
-    const sad::Point2D& newv
-) : m_way(w), m_position(pos), m_old_point(oldv), m_new_point(newv)
+    const sad::Point2D& old_value, 
+    const sad::Point2D& new_value
+) : m_way(w), m_position(pos), m_old_point(old_value), m_new_point(new_value)
 {
     m_way->addRef();
 }

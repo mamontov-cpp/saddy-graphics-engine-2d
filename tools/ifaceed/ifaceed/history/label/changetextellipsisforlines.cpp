@@ -15,15 +15,15 @@
 
 history::label::ChangeTextEllipsisForLines::ChangeTextEllipsisForLines(
     sad::SceneNode* d,
-    unsigned int oldvalue,
-    unsigned int newvalue
+    unsigned int old_value,
+    unsigned int new_value
 
 )
 : history::scenenodes::ChangeProperty<unsigned int>(
     d,
     "textellipsispositionforlines",
-    oldvalue,
-    newvalue
+    old_value,
+    new_value
 )
 {
     m_affects_parent_grid = true;
