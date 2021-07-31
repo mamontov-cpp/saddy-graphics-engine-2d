@@ -57,7 +57,7 @@ struct AnimationsTest : tpunit::TestFixture
         sad::Vector<sad::animations::Process*> processes = anims.queryProcessesRelatedToObject(&a);
         ASSERT_TRUE( processes.size() == 2);
 
-        processes = anims.queryProcessesRelatedToObject(NULL);
+        processes = anims.queryProcessesRelatedToObject(nullptr);
         ASSERT_TRUE( processes.size() == 0);
    }
    

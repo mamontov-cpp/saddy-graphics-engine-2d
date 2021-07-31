@@ -30,7 +30,7 @@ struct SadLayoutsLengthValueTests : tpunit::TestFixture
     void test()
     {
         sad::layouts::LengthValue v;
-        v.Unit = sad::layouts::LU_Pixels;
+        v.Unit = sad::layouts::Unit::LU_Pixels;
         v.Value = 232;
         sad::db::Variant k(v);
         
@@ -43,7 +43,7 @@ struct SadLayoutsLengthValueTests : tpunit::TestFixture
         sad::Maybe<sad::layouts::LengthValue > vk = r.get<sad::layouts::LengthValue>();
         
         ASSERT_TRUE(vk.exists());
-        ASSERT_TRUE(vk.value().Unit == sad::layouts::LU_Pixels);
+        ASSERT_TRUE(vk.value().Unit == sad::layouts::Unit::LU_Pixels);
         ASSERT_TRUE( sad::is_fuzzy_equal(vk.value().Value, 232) );		
     }
 

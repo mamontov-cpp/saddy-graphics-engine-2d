@@ -32,7 +32,7 @@ struct SadDbPropertyTest : tpunit::TestFixture
        TEST(SadDbPropertyTest::testMarkAsDefault_valid),
        TEST(SadDbPropertyTest::testMarkAsDefault_replace),
        TEST(SadDbPropertyTest::testMarkAsDefault_wrongtype),
-       TEST(SadDbPropertyTest::testMarkAsDefault_null),
+       TEST(SadDbPropertyTest::testMarkAsDefault_nullptr),
        TEST(SadDbPropertyTest::testSadStringToStdString),
        TEST(SadDbPropertyTest::testStdStringToSadString)	   
    ) {}
@@ -146,7 +146,7 @@ struct SadDbPropertyTest : tpunit::TestFixture
         sad::db::Property * p = new sad::db::Field<Mock, int>(&Mock::m_id);
         ASSERT_TRUE( p->makeNonRequiredWithDefaultValue(new sad::db::Variant(0)) );
         ASSERT_TRUE( p->hasDefaultValue() );
-        ASSERT_TRUE( p->defaultValue() != NULL );
+        ASSERT_TRUE( p->defaultValue() != nullptr );
                 
         delete p;
     }
@@ -156,7 +156,7 @@ struct SadDbPropertyTest : tpunit::TestFixture
         sad::db::Property * p = new sad::db::Field<Mock, int>(&Mock::m_id);
         ASSERT_TRUE( p->makeNonRequiredWithDefaultValue(new sad::db::Variant(0)) );
         ASSERT_TRUE( p->hasDefaultValue() );
-        ASSERT_TRUE( p->defaultValue() != NULL );
+        ASSERT_TRUE( p->defaultValue() != nullptr );
 
         ASSERT_TRUE( p->makeNonRequiredWithDefaultValue(new sad::db::Variant(3)) );
         ASSERT_TRUE( p->hasDefaultValue() );
@@ -171,17 +171,17 @@ struct SadDbPropertyTest : tpunit::TestFixture
         sad::db::Variant* v = new sad::db::Variant(sad::String("33"));
         ASSERT_TRUE( p->makeNonRequiredWithDefaultValue(v) == false);
         ASSERT_TRUE( p->hasDefaultValue() == false );
-        ASSERT_TRUE( p->defaultValue() == NULL );
+        ASSERT_TRUE( p->defaultValue() == nullptr );
         delete v;               
         delete p;
     }
     
-    void testMarkAsDefault_null()
+    void testMarkAsDefault_nullptr()
     {
         sad::db::Property * p = new sad::db::Field<Mock, int>(&Mock::m_id);
-        ASSERT_TRUE( p->makeNonRequiredWithDefaultValue(NULL) == false);
+        ASSERT_TRUE( p->makeNonRequiredWithDefaultValue(nullptr) == false);
         ASSERT_TRUE( p->hasDefaultValue() == false );
-        ASSERT_TRUE( p->defaultValue() == NULL );
+        ASSERT_TRUE( p->defaultValue() == nullptr );
         delete p;
     }
     

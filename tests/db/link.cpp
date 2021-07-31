@@ -43,20 +43,20 @@ public:
         db.table("table")->add(mock);
         
         sad::db::Link link;
-        ASSERT_TRUE( link.get() == NULL );
+        ASSERT_TRUE( link.get() == nullptr );
         
         link.setDatabase(&db);
         link.setTableName("table");
         
-        ASSERT_TRUE( link.get() == NULL );
+        ASSERT_TRUE( link.get() == nullptr );
         
         link.setMinorId(1);
-        ASSERT_TRUE( link.get() != NULL );
+        ASSERT_TRUE( link.get() != nullptr );
     
         sad::db::Link link2;
         link2.setTable(db.table("table"));
         link2.setName("test");
-        ASSERT_TRUE( link2.get() != NULL );
+        ASSERT_TRUE( link2.get() != nullptr );
     }
     
 } _sad_db_link_test;

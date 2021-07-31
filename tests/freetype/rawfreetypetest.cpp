@@ -48,7 +48,7 @@ public:
         double totalheight = ascender - descender;
 
         FT_Load_Glyph( face, FT_Get_Char_Index( face, 'A' ), FT_LOAD_DEFAULT);
-        FT_Glyph glyph = NULL;
+        FT_Glyph glyph = nullptr;
         FT_Get_Glyph(face->glyph, &glyph);
         FT_Glyph_To_Bitmap( &glyph, ft_render_mode_normal, 0, 1 );
         FT_BitmapGlyph bitmap_glyph = (FT_BitmapGlyph)glyph;

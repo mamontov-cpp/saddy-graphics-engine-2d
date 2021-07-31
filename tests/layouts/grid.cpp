@@ -57,18 +57,18 @@ struct SadGridTests : tpunit::TestFixture
        grid->setFixedHeight(false);
        grid->setRows(1);
        grid->setColumns(1);
-       ASSERT_TRUE( grid->cell(0, 0) != NULL );
-       ASSERT_TRUE( grid->cell(1, 0) == NULL );
+       ASSERT_TRUE( grid->cell(0, 0) != nullptr );
+       ASSERT_TRUE( grid->cell(1, 0) == nullptr );
 
        grid->setRows(2);
 
-       ASSERT_TRUE( grid->cell(0, 0) != NULL );
-       ASSERT_TRUE( grid->cell(1, 0) != NULL );
+       ASSERT_TRUE( grid->cell(0, 0) != nullptr );
+       ASSERT_TRUE( grid->cell(1, 0) != nullptr );
 
        grid->setRows(1);
 
-       ASSERT_TRUE( grid->cell(0, 0) != NULL );
-       ASSERT_TRUE( grid->cell(1, 0) == NULL );
+       ASSERT_TRUE( grid->cell(0, 0) != nullptr );
+       ASSERT_TRUE( grid->cell(1, 0) == nullptr );
 
        delete grid;
    }
@@ -81,18 +81,18 @@ struct SadGridTests : tpunit::TestFixture
        grid->setFixedHeight(false);
        grid->setRows(1);
        grid->setColumns(1);
-       ASSERT_TRUE( grid->cell(0, 0) != NULL );
-       ASSERT_TRUE( grid->cell(0, 1) == NULL );
+       ASSERT_TRUE( grid->cell(0, 0) != nullptr );
+       ASSERT_TRUE( grid->cell(0, 1) == nullptr );
 
        grid->setColumns(2);
 
-       ASSERT_TRUE( grid->cell(0, 0) != NULL );
-       ASSERT_TRUE( grid->cell(0, 1) != NULL );
+       ASSERT_TRUE( grid->cell(0, 0) != nullptr );
+       ASSERT_TRUE( grid->cell(0, 1) != nullptr );
 
        grid->setColumns(1);
 
-       ASSERT_TRUE( grid->cell(0, 0) != NULL );
-       ASSERT_TRUE( grid->cell(0, 1) == NULL );
+       ASSERT_TRUE( grid->cell(0, 0) != nullptr );
+       ASSERT_TRUE( grid->cell(0, 1) == nullptr );
 
 
        grid->setRows(4);
@@ -569,11 +569,11 @@ struct SadGridTests : tpunit::TestFixture
    {
         sad::Rect2D firstrect(5, 60, 105, 260);
         sad::layouts::VerticalAlignment valign = grid->cell(0, 0)->verticalAlignment();
-        if (valign == sad::layouts::LVA_Bottom)
+        if (valign == sad::layouts::VerticalAlignment::LVA_Bottom)
         {
             firstrect = sad::Rect2D(5, 10, 105, 210);
         } 
-        if (valign == sad::layouts::LVA_Top)
+        if (valign == sad::layouts::VerticalAlignment::LVA_Top)
         {
             firstrect = sad::Rect2D(5, 110, 105, 310);
         } 
@@ -630,9 +630,9 @@ struct SadGridTests : tpunit::TestFixture
         cell->addChild(sprite1->MajorId);
         cell->addChild(sprite2->MajorId);
 
-        cell->setHorizontalAlignment(sad::layouts::LHA_Middle);
-        cell->setVerticalAlignment(sad::layouts::LVA_Middle);
-        cell->setStackingType(sad::layouts::LST_Horizontal);
+        cell->setHorizontalAlignment(sad::layouts::HorizontalAlignment::LHA_Middle);
+        cell->setVerticalAlignment(sad::layouts::VerticalAlignment::LVA_Middle);
+        cell->setStackingType(sad::layouts::StackingType::LST_Horizontal);
         
         cell->setPaddingLeft(5);
         cell->setPaddingRight(10);
@@ -667,11 +667,11 @@ struct SadGridTests : tpunit::TestFixture
         // 200x300
         sad::Rect2D firstrect(55, 310, 155, 510);
         sad::layouts::HorizontalAlignment halign = grid->cell(0, 0)->horizontalAlignment();
-        if (halign == sad::layouts::LHA_Left)
+        if (halign == sad::layouts::HorizontalAlignment::LHA_Left)
         {
             firstrect = sad::Rect2D(5, 310, 105, 510);
         } 
-        if (halign == sad::layouts::LHA_Right)
+        if (halign == sad::layouts::HorizontalAlignment::LHA_Right)
         {
             firstrect = sad::Rect2D(105, 310, 205, 510);
         } 
@@ -729,9 +729,9 @@ struct SadGridTests : tpunit::TestFixture
         cell->addChild(sprite1->MajorId);
         cell->addChild(sprite2->MajorId);
 
-        cell->setHorizontalAlignment(sad::layouts::LHA_Middle);
-        cell->setVerticalAlignment(sad::layouts::LVA_Middle);
-        cell->setStackingType(sad::layouts::LST_Vertical);
+        cell->setHorizontalAlignment(sad::layouts::HorizontalAlignment::LHA_Middle);
+        cell->setVerticalAlignment(sad::layouts::VerticalAlignment::LVA_Middle);
+        cell->setStackingType(sad::layouts::StackingType::LST_Vertical);
         
         cell->setPaddingLeft(5);
         cell->setPaddingRight(10);
@@ -767,20 +767,20 @@ struct SadGridTests : tpunit::TestFixture
         double x1 = 55, x2 = 155, y1 = 60, y2 = 260;
         sad::layouts::HorizontalAlignment halign = grid->cell(0, 0)->horizontalAlignment();
         sad::layouts::VerticalAlignment valign = grid->cell(0, 0)->verticalAlignment();
-        if (halign == sad::layouts::LHA_Left)
+        if (halign == sad::layouts::HorizontalAlignment::LHA_Left)
         {
             x1 = 5; x2 = 105; 
         } 
-        if (halign == sad::layouts::LHA_Right)
+        if (halign == sad::layouts::HorizontalAlignment::LHA_Right)
         {
             x1 = 105; x2 = 205;
         } 
 
-        if (valign == sad::layouts::LVA_Top)
+        if (valign == sad::layouts::VerticalAlignment::LVA_Top)
         {
             y1 = 110; y2 = 310; 
         } 
-        if (valign == sad::layouts::LVA_Bottom)
+        if (valign == sad::layouts::VerticalAlignment::LVA_Bottom)
         {
             y1 = 10; y2 = 210;
         } 
@@ -839,9 +839,9 @@ struct SadGridTests : tpunit::TestFixture
         cell->addChild(sprite1->MajorId);
         cell->addChild(sprite2->MajorId);
 
-        cell->setHorizontalAlignment(sad::layouts::LHA_Middle);
-        cell->setVerticalAlignment(sad::layouts::LVA_Middle);
-        cell->setStackingType(sad::layouts::LST_NoStacking);
+        cell->setHorizontalAlignment(sad::layouts::HorizontalAlignment::LHA_Middle);
+        cell->setVerticalAlignment(sad::layouts::VerticalAlignment::LVA_Middle);
+        cell->setStackingType(sad::layouts::StackingType::LST_NoStacking);
         
         cell->setPaddingLeft(5);
         cell->setPaddingRight(10);

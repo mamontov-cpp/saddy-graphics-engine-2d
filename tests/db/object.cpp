@@ -42,7 +42,7 @@ struct SadDbObjectTest : tpunit::TestFixture
     {
         sad::db::Object o;
         // Actually object has own schema, which must be inherited
-        ASSERT_TRUE(o.schema() != NULL);
+        ASSERT_TRUE(o.schema() != nullptr);
     }
 
     void test_get()
@@ -139,7 +139,7 @@ struct SadDbObjectTest : tpunit::TestFixture
    {
        Mock3 m;
        picojson::value r(picojson::object_type, false);
-       r.insert("majorid", picojson::value("null2"));
+       r.insert("majorid", picojson::value("nullptr2"));
        r.insert("minorid", picojson::value(12.0));
        r.insert("name", picojson::value("mock3"));
        r.insert("prop", picojson::value(3.0));

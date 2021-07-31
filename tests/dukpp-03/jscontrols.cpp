@@ -75,22 +75,22 @@ public:
         ASSERT_TRUE( eval_result );
         ASSERT_TRUE( error.size() == 0 );
 
-        r->controls()->postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
-        r->controls()->postEvent(sad::input::ET_Activate, sad::input::ActivateEvent());
-        r->controls()->postEvent(sad::input::ET_Deactivate, sad::input::DeactivateEvent());
+        r->controls()->postEvent(sad::input::EventType::ET_Quit, sad::input::QuitEvent());
+        r->controls()->postEvent(sad::input::EventType::ET_Activate, sad::input::ActivateEvent());
+        r->controls()->postEvent(sad::input::EventType::ET_Deactivate, sad::input::DeactivateEvent());
 
-        r->controls()->postEvent(sad::input::ET_MouseEnter, sad::input::MouseEnterEvent());
-        r->controls()->postEvent(sad::input::ET_MouseLeave, sad::input::MouseLeaveEvent());
-        r->controls()->postEvent(sad::input::ET_KeyPress, sad::input::KeyPressEvent());
+        r->controls()->postEvent(sad::input::EventType::ET_MouseEnter, sad::input::MouseEnterEvent());
+        r->controls()->postEvent(sad::input::EventType::ET_MouseLeave, sad::input::MouseLeaveEvent());
+        r->controls()->postEvent(sad::input::EventType::ET_KeyPress, sad::input::KeyPressEvent());
 
-        r->controls()->postEvent(sad::input::ET_KeyRelease, sad::input::KeyReleaseEvent());
-        r->controls()->postEvent(sad::input::ET_MouseMove, sad::input::MouseMoveEvent());
-        r->controls()->postEvent(sad::input::ET_MousePress, sad::input::MousePressEvent());
+        r->controls()->postEvent(sad::input::EventType::ET_KeyRelease, sad::input::KeyReleaseEvent());
+        r->controls()->postEvent(sad::input::EventType::ET_MouseMove, sad::input::MouseMoveEvent());
+        r->controls()->postEvent(sad::input::EventType::ET_MousePress, sad::input::MousePressEvent());
 
-        r->controls()->postEvent(sad::input::ET_MouseRelease, sad::input::MouseReleaseEvent());
-        r->controls()->postEvent(sad::input::ET_MouseDoubleClick, sad::input::MouseDoubleClickEvent());
-        r->controls()->postEvent(sad::input::ET_MouseWheel, sad::input::MouseWheelEvent());
-        r->controls()->postEvent(sad::input::ET_Resize, sad::input::ResizeEvent());
+        r->controls()->postEvent(sad::input::EventType::ET_MouseRelease, sad::input::MouseReleaseEvent());
+        r->controls()->postEvent(sad::input::EventType::ET_MouseDoubleClick, sad::input::MouseDoubleClickEvent());
+        r->controls()->postEvent(sad::input::EventType::ET_MouseWheel, sad::input::MouseWheelEvent());
+        r->controls()->postEvent(sad::input::EventType::ET_Resize, sad::input::ResizeEvent());
 
 
         ctx2->delRef();

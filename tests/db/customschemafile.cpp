@@ -23,7 +23,7 @@ struct SadDbCustomSchemaFileTest : tpunit::TestFixture
         TEST(SadDbCustomSchemaFileTest::test_load_not_exists),
         TEST(SadDbCustomSchemaFileTest::test_load_parse_error),
         TEST(SadDbCustomSchemaFileTest::test_load_empty),
-        TEST(SadDbCustomSchemaFileTest::test_load_null),
+        TEST(SadDbCustomSchemaFileTest::test_load_nullptr),
         TEST(SadDbCustomSchemaFileTest::test_load_invalid_format),
         TEST(SadDbCustomSchemaFileTest::test_load_empty_array),
         TEST(SadDbCustomSchemaFileTest::test_load_invalid_name),
@@ -112,7 +112,7 @@ struct SadDbCustomSchemaFileTest : tpunit::TestFixture
        ASSERT_TRUE(count != 0);	   
    }
 
-   void test_load_null()
+   void test_load_nullptr()
    {
        sad::Renderer r;
        sad::resource::Tree tree;
@@ -127,7 +127,7 @@ struct SadDbCustomSchemaFileTest : tpunit::TestFixture
                 "},"
                 "{"
                     "\"type\"   : \"sad::db::custom::SchemaFile\","
-                    "\"filename\": \"tests/db/null.json\""
+                    "\"filename\": \"tests/db/nullptr.json\""
                 "}"
             "]"
         );
@@ -402,10 +402,10 @@ struct SadDbCustomSchemaFileTest : tpunit::TestFixture
        sad::resource::Link<sad::db::custom::Schema> link1;
        link1.setTree(&tree);
        link1.setPath("1");
-       ASSERT_TRUE(link1.get() == NULL);
+       ASSERT_TRUE(link1.get() == nullptr);
 
        link1.setPath("myschema");
-       ASSERT_TRUE(link1.get() != NULL);
+       ASSERT_TRUE(link1.get() != nullptr);
    }
 
 
@@ -436,7 +436,7 @@ struct SadDbCustomSchemaFileTest : tpunit::TestFixture
        link1.setPath("myschema");
        link1.setTree(&tree);
        sad::resource::Resource* old = link1.get();
-       ASSERT_TRUE(old != NULL);
+       ASSERT_TRUE(old != nullptr);
 
        rename("tests/db/valid.json", "tests/db/valid.json.tmp");
        errors = old->file()->reload(); 
@@ -475,7 +475,7 @@ struct SadDbCustomSchemaFileTest : tpunit::TestFixture
        link1.setPath("myschema");
        link1.setTree(&tree);
        sad::resource::Resource* old = link1.get();
-       ASSERT_TRUE(old != NULL);
+       ASSERT_TRUE(old != nullptr);
 
        rename("tests/db/valid.json", "tests/db/valid.json.tmp");
        rename("tests/db/cannotdeletereference.json", "tests/db/valid.json");
@@ -523,7 +523,7 @@ struct SadDbCustomSchemaFileTest : tpunit::TestFixture
        link1.setPath("myschema");
        link1.setTree(&tree);
        sad::resource::Resource* old = link1.get();
-       ASSERT_TRUE(old != NULL);
+       ASSERT_TRUE(old != nullptr);
 
        link1.add(this, &SadDbCustomSchemaFileTest::inc);
        test = 0;

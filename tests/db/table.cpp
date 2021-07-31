@@ -43,7 +43,7 @@ public:
         t->add(mock);
         
         ASSERT_TRUE(t->queryByMinorId(mock->MinorId)->objectName() == "test");
-        ASSERT_TRUE(t->queryByMinorId(222) == NULL);
+        ASSERT_TRUE(t->queryByMinorId(222) == nullptr);
         
         // Replace old mock to test object replacement in adding items
         Mock3 * mock2 = new Mock3();
@@ -73,7 +73,7 @@ public:
         // Remove old mock
         t->remove(mock);
         
-        ASSERT_TRUE(t->queryByMinorId(oldminorid) == NULL);
+        ASSERT_TRUE(t->queryByMinorId(oldminorid) == nullptr);
 
         delete t;
     }
@@ -89,7 +89,7 @@ public:
         t->add(mock);
         
         ASSERT_TRUE(t->queryByMajorId(mock->MajorId)->objectName() == "test");
-        ASSERT_TRUE(t->queryByMajorId(155) == NULL);
+        ASSERT_TRUE(t->queryByMajorId(155) == nullptr);
         
         delete t;
     }
@@ -105,7 +105,7 @@ public:
         t->add(mock);
         
         ASSERT_TRUE(t->queryByMinorId(mock->MinorId)->objectName() == "test");
-        ASSERT_TRUE(t->queryByMinorId(155) == NULL);
+        ASSERT_TRUE(t->queryByMinorId(155) == nullptr);
         
         delete t;
     }
@@ -138,9 +138,9 @@ public:
         t->add(mock);
         
         ASSERT_TRUE(t->queryById(mock->MajorId, mock->MinorId)->objectName() == mock->objectName());
-        ASSERT_TRUE(t->queryById(mock->MajorId, 22) == NULL);
-        ASSERT_TRUE(t->queryById(22, mock->MinorId) == NULL);
-        ASSERT_TRUE(t->queryById(22, 155) == NULL);
+        ASSERT_TRUE(t->queryById(mock->MajorId, 22) == nullptr);
+        ASSERT_TRUE(t->queryById(22, mock->MinorId) == nullptr);
+        ASSERT_TRUE(t->queryById(22, 155) == nullptr);
         
         delete t;
     }

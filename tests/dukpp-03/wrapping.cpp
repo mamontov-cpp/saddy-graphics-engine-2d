@@ -28,7 +28,7 @@ sad::animations::Color* makeAnimation()
     return result;
 }
 
-sad::animations::Animation* object = NULL;
+sad::animations::Animation* object = nullptr;
 
 sad::db::Variant makeAnimationAsVariant()
 {

@@ -29,7 +29,7 @@ struct SadCanBeCastedFromToTest : tpunit::TestFixture
         ASSERT_FALSE( sad::db::can_be_casted_from_to("float", false, 0, "sad::String", false, 0) );
 
         sad::ClassMetaData * meta = sad::Font::globalMetaData();
-        ASSERT_TRUE(meta != NULL);
+        ASSERT_TRUE(meta != nullptr);
 
         ASSERT_FALSE( sad::db::can_be_casted_from_to("sad::Font", true, 0, "sad::Object", true, 0) );
         ASSERT_FALSE( sad::db::can_be_casted_from_to("sad::Font", true, 1, "sad::Object", true, 0) );

@@ -91,8 +91,8 @@ struct SadDbSchemaTest : tpunit::TestFixture
             sad::db::schema::Schema s;
             s.add("key", new sad::db::Field<Mock2, int>(&Mock2::m_id));
 
-            ASSERT_TRUE( s.getProperty("key") != NULL );
-            ASSERT_TRUE( s.getProperty("key2")== NULL );
+            ASSERT_TRUE( s.getProperty("key") != nullptr );
+            ASSERT_TRUE( s.getProperty("key2")== nullptr );
         }
         // Check getting through parent
         {
@@ -100,8 +100,8 @@ struct SadDbSchemaTest : tpunit::TestFixture
             current.addParent(&parent);
             parent.add("key", new sad::db::Field<Mock2, int>(&Mock2::m_id));
 
-            ASSERT_TRUE( current.getProperty("key") != NULL );
-            ASSERT_TRUE( current.getProperty("key2")== NULL );
+            ASSERT_TRUE( current.getProperty("key") != nullptr );
+            ASSERT_TRUE( current.getProperty("key2")== nullptr );
         }
    }
 } _sad_db_schema_schema_test;

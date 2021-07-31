@@ -36,7 +36,6 @@ public:
        sad::resource::Tree tree;
        tree.setStoreLinks(true);
        tree.setRenderer(&r);
-       // In debug, sad::fretype::Factory fonts becomes in font
        tree.factory()->registerResource<sad::irrklang::Sound>();
        tree.factory()->registerDefaultFileTypeFor<sad::irrklang::Sound>();
 

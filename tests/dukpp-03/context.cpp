@@ -402,7 +402,7 @@ public:
         sad::dukpp03::Context ctx;
         ctx.throwError("Generic Error!");
         const char* s = duk_to_string(ctx.context(), -1);
-        ASSERT_TRUE( s != NULL );
+        ASSERT_TRUE( s != nullptr );
         sad::String testvalue = s;
         ASSERT_TRUE(  testvalue.size() !=0 );
     }

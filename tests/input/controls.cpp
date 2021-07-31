@@ -98,40 +98,40 @@ struct SadControlsTest : tpunit::TestFixture
    {
        sad::input::Controls c;
      
-       c.add(*sad::input::ET_Quit, ::trigger_no_arg);
-       c.add(*sad::input::ET_Quit, ::trigger_arg);
+       c.add(*sad::input::EventType::ET_Quit, ::trigger_no_arg);
+       c.add(*sad::input::EventType::ET_Quit, ::trigger_arg);
        c.add(::trigger_arg);
       
-       c.add(*sad::input::ET_Quit, this, &SadControlsTest::trigger_no_arg);
-       c.add(*sad::input::ET_Quit, this, &SadControlsTest::trigger_arg);
+       c.add(*sad::input::EventType::ET_Quit, this, &SadControlsTest::trigger_no_arg);
+       c.add(*sad::input::EventType::ET_Quit, this, &SadControlsTest::trigger_arg);
        c.add(this, &SadControlsTest::trigger_arg);
 
-       c.add(*sad::input::ET_Quit, this, &SadControlsTest::trigger_no_arg_const);
-       c.add(*sad::input::ET_Quit, this, &SadControlsTest::trigger_arg_const);
+       c.add(*sad::input::EventType::ET_Quit, this, &SadControlsTest::trigger_no_arg_const);
+       c.add(*sad::input::EventType::ET_Quit, this, &SadControlsTest::trigger_arg_const);
        c.add(this, &SadControlsTest::trigger_arg_const);
 
-       c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_arg),
-       c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_no_arg),
+       c.add(*sad::input::EventType::ET_Quit, this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_arg),
+       c.add(*sad::input::EventType::ET_Quit, this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_no_arg),
        c.add(this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_arg),
 
-       c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_arg),
-       c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_no_arg),
+       c.add(*sad::input::EventType::ET_Quit, this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_arg),
+       c.add(*sad::input::EventType::ET_Quit, this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_no_arg),
        c.add(this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_arg),
 
-       c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_arg_const),
-       c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_no_arg_const),
+       c.add(*sad::input::EventType::ET_Quit, this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_arg_const),
+       c.add(*sad::input::EventType::ET_Quit, this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_no_arg_const),
        c.add(this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_arg_const),
 
-       c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_arg_const),
-       c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_no_arg_const),
+       c.add(*sad::input::EventType::ET_Quit, this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_arg_const),
+       c.add(*sad::input::EventType::ET_Quit, this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_no_arg_const),
        c.add(this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_arg_const),
 
 
        _triggered_count = 0;
 
        c.startReceivingEvents();
-       c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
-       c.finishRecevingEvents();
+       c.postEvent(sad::input::EventType::ET_Quit, sad::input::QuitEvent());
+       c.finishReceivingEvents();
 
        ASSERT_TRUE(_triggered_count == 21);
    }
@@ -142,24 +142,24 @@ struct SadControlsTest : tpunit::TestFixture
         _triggered_count = 0;
         c.startReceivingEvents();
         sad::input::AbstractHandler* h = new sad::input::FreeFunctionHandler<sad::input::QuitEvent>(::trigger_arg);
-        c.add(*sad::input::ET_Quit, h);
+        c.add(*sad::input::EventType::ET_Quit, h);
         // Handler will not be added
-        c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
+        c.postEvent(sad::input::EventType::ET_Quit, sad::input::QuitEvent());
         ASSERT_TRUE(_triggered_count == 0);
         // Here handler will be added
-        c.finishRecevingEvents();
+        c.finishReceivingEvents();
         
         c.startReceivingEvents();
         // Here handler will not be removed
         c.remove(h);
-        c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
+        c.postEvent(sad::input::EventType::ET_Quit, sad::input::QuitEvent());
         ASSERT_TRUE(_triggered_count == 1);
         // Here handler will be removed
-        c.finishRecevingEvents();
+        c.finishReceivingEvents();
 
         c.startReceivingEvents();
-        c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
-        c.finishRecevingEvents();
+        c.postEvent(sad::input::EventType::ET_Quit, sad::input::QuitEvent());
+        c.finishReceivingEvents();
         ASSERT_TRUE(_triggered_count == 1);
    }
 
@@ -171,34 +171,42 @@ struct SadControlsTest : tpunit::TestFixture
         
         sad::input::AbstractHandler* h = new sad::input::FreeFunctionHandler<sad::input::QuitEvent>(::trigger_arg);
         sad::input::HandlerTypeAndConditions conditions;
-        sad::KeyHoldCondition* condition = new sad::KeyHoldCondition(sad::Z);
-        conditions.set1(sad::input::ET_KeyPress);
+        sad::KeyHoldCondition* condition = new sad::KeyHoldCondition(sad::KeyboardKey::Z);
+        c.startReceivingEvents();
+        conditions.set1(sad::input::EventType::ET_KeyPress);
         conditions._2() << condition;
         c.add(conditions, h);
+        c.finishReceivingEvents();
 
         sad::input::KeyPressEvent ev;
-        ev.Key = sad::Z;
+        ev.Key = sad::KeyboardKey::Z;
         sad::input::KeyPressEvent ev2;
-        ev2.Key = sad::C;
+        ev2.Key = sad::KeyboardKey::C;
 
-        c.postEvent(sad::input::ET_KeyPress, ev);
-        c.postEvent(sad::input::ET_KeyPress, ev2);
+        c.startReceivingEvents();
+        c.postEvent(sad::input::EventType::ET_KeyPress, ev);
+        c.postEvent(sad::input::EventType::ET_KeyPress, ev2);
+        c.finishReceivingEvents();
 
-        ASSERT_TRUE( _triggered_count = 1);
+        ASSERT_TRUE( _triggered_count == 1);
 
-        condition->setKey(sad::X);
+        condition->setKey(sad::KeyboardKey::X);
 
-        c.postEvent(sad::input::ET_KeyPress, ev);
-        c.postEvent(sad::input::ET_KeyPress, ev2);
+        c.startReceivingEvents();
+        c.postEvent(sad::input::EventType::ET_KeyPress, ev);
+        c.postEvent(sad::input::EventType::ET_KeyPress, ev2);
+        c.finishReceivingEvents();
 
-        ASSERT_TRUE( _triggered_count = 1);
+        ASSERT_TRUE( _triggered_count == 1);
 
-        ev.Key = sad::X;
+        c.startReceivingEvents();
+        ev.Key = sad::KeyboardKey::X;
+        c.finishReceivingEvents();
 
-        c.postEvent(sad::input::ET_KeyPress, ev);
-        c.postEvent(sad::input::ET_KeyPress, ev2);
+        c.postEvent(sad::input::EventType::ET_KeyPress, ev);
+        c.postEvent(sad::input::EventType::ET_KeyPress, ev2);
         
-        ASSERT_TRUE( _triggered_count = 2);       
+        ASSERT_TRUE( _triggered_count == 2);       
    }
 
    void testSpecialKeyChangeForSpecialKeyHoldPosition()
@@ -209,35 +217,42 @@ struct SadControlsTest : tpunit::TestFixture
         
         sad::input::AbstractHandler* h = new sad::input::FreeFunctionHandler<sad::input::QuitEvent>(::trigger_arg);
         sad::input::HandlerTypeAndConditions conditions;
-        sad::SpecialKeyHoldCondition* condition = new sad::SpecialKeyHoldCondition(sad::HoldsControl);
-        conditions.set1(sad::input::ET_KeyPress);
+        sad::SpecialKeyHoldCondition* condition = new sad::SpecialKeyHoldCondition(sad::SpecialKey::HoldsControl);
+        conditions.set1(sad::input::EventType::ET_KeyPress);
         conditions._2() << condition;
         c.add(conditions, h);
+        c.finishReceivingEvents();
 
         sad::input::KeyPressEvent ev;
         ev.CtrlHeld = true;
         sad::input::KeyPressEvent ev2;
         ev2.AltHeld = true;
 
-        c.postEvent(sad::input::ET_KeyPress, ev);
-        c.postEvent(sad::input::ET_KeyPress, ev2);
+        c.startReceivingEvents();
+        c.postEvent(sad::input::EventType::ET_KeyPress, ev);
+        c.postEvent(sad::input::EventType::ET_KeyPress, ev2);
+        c.finishReceivingEvents();
+   
+        ASSERT_TRUE( _triggered_count == 1);
 
-        ASSERT_TRUE( _triggered_count = 1);
+        condition->setKey(sad::SpecialKey::HoldsShift);
 
-        condition->setKey(sad::HoldsShift);
-
-        c.postEvent(sad::input::ET_KeyPress, ev);
-        c.postEvent(sad::input::ET_KeyPress, ev2);
-
-        ASSERT_TRUE( _triggered_count = 1);
+        c.startReceivingEvents();
+        c.postEvent(sad::input::EventType::ET_KeyPress, ev);
+        c.postEvent(sad::input::EventType::ET_KeyPress, ev2);
+        c.finishReceivingEvents();
+   
+        ASSERT_TRUE( _triggered_count == 1);
 
         ev.CtrlHeld = false;
         ev.ShiftHeld = true;
 
-        c.postEvent(sad::input::ET_KeyPress, ev);
-        c.postEvent(sad::input::ET_KeyPress, ev2);
-        
-        ASSERT_TRUE( _triggered_count = 2);  
+        c.startReceivingEvents();
+        c.postEvent(sad::input::EventType::ET_KeyPress, ev);
+        c.postEvent(sad::input::EventType::ET_KeyPress, ev2);
+        c.finishReceivingEvents();
+
+        ASSERT_TRUE( _triggered_count == 2);  
    }
 
    void testButtonChangeForMouseButtonCondition()
@@ -248,34 +263,41 @@ struct SadControlsTest : tpunit::TestFixture
         
         sad::input::AbstractHandler* h = new sad::input::FreeFunctionHandler<sad::input::QuitEvent>(::trigger_arg);
         sad::input::HandlerTypeAndConditions conditions;
-        sad::MouseButtonHoldCondition* condition = new sad::MouseButtonHoldCondition(sad::MouseLeft);
-        conditions.set1(sad::input::ET_MousePress);
+        sad::MouseButtonHoldCondition* condition = new sad::MouseButtonHoldCondition(sad::MouseButton::MouseLeft);
+        conditions.set1(sad::input::EventType::ET_MousePress);
         conditions._2() << condition;
         c.add(conditions, h);
+        c.finishReceivingEvents();
 
         sad::input::MousePressEvent ev;
-        ev.Button = sad::MouseLeft;
+        ev.Button = sad::MouseButton::MouseLeft;
         sad::input::MousePressEvent ev2;
-        ev2.Button = sad::MouseRight;
+        ev2.Button = sad::MouseButton::MouseRight;
 
-        c.postEvent(sad::input::ET_MousePress, ev);
-        c.postEvent(sad::input::ET_MousePress, ev2);
+        c.startReceivingEvents();
+        c.postEvent(sad::input::EventType::ET_MousePress, ev);
+        c.postEvent(sad::input::EventType::ET_MousePress, ev2);
+        c.finishReceivingEvents();
 
-        ASSERT_TRUE( _triggered_count = 1);
+        ASSERT_TRUE( _triggered_count == 1);
 
-        condition->setButton(sad::MouseRight);
+        condition->setButton(sad::MouseButton::MouseRight);
 
-        c.postEvent(sad::input::ET_MousePress, ev);
-        c.postEvent(sad::input::ET_MousePress, ev2);
+        c.startReceivingEvents();
+        c.postEvent(sad::input::EventType::ET_MousePress, ev);
+        c.postEvent(sad::input::EventType::ET_MousePress, ev2);
+        c.finishReceivingEvents();
+   
+        ASSERT_TRUE( _triggered_count == 2);
 
-        ASSERT_TRUE( _triggered_count = 1);
+        ev.Button = sad::MouseButton::MouseRight;
 
-        ev.Button = sad::MouseRight;
+        c.startReceivingEvents();
+        c.postEvent(sad::input::EventType::ET_MousePress, ev);
+        c.postEvent(sad::input::EventType::ET_MousePress, ev2);
+        c.finishReceivingEvents();
 
-        c.postEvent(sad::input::ET_MousePress, ev);
-        c.postEvent(sad::input::ET_MousePress, ev2);
-        
-        ASSERT_TRUE( _triggered_count = 3);  
+        ASSERT_TRUE( _triggered_count == 4);  
    }
 
 } _sad_controls_test;

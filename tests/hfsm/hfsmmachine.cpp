@@ -119,13 +119,13 @@ struct SadHFSMTest : tpunit::TestFixture
         m.addState("test/1");
         m.addState("test/1/2");
 
-        ASSERT_TRUE(m.state("test/1")->child("2") != NULL);
-        ASSERT_TRUE(m.state("test/1/2") != NULL);
+        ASSERT_TRUE(m.state("test/1")->child("2") != nullptr);
+        ASSERT_TRUE(m.state("test/1/2") != nullptr);
 
         m.removeState("test/1");
 
-        ASSERT_TRUE(m.state("test/1/2") == NULL);
-        ASSERT_TRUE(m.state("test/1") == NULL);
+        ASSERT_TRUE(m.state("test/1/2") == nullptr);
+        ASSERT_TRUE(m.state("test/1") == nullptr);
    }
 
    void testHierarchical()

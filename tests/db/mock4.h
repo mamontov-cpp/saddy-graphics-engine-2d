@@ -11,7 +11,7 @@ class Mock4: public sad::Object
 SAD_OBJECT
 public:
     Mock4();
-    virtual sad::db::schema::Schema * schema() const;
+    virtual sad::db::schema::Schema * schema() const override;
     
     int m_id;
 

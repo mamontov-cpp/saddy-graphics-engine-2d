@@ -43,7 +43,7 @@ struct SadDbVariantTest : tpunit::TestFixture
     void testObject()
     {
         sad::ClassMetaData * meta = sad::TextureMappedFont::globalMetaData();
-        ASSERT_TRUE(meta != NULL);
+        ASSERT_TRUE(meta != nullptr);
 
         sad::Font * font = new sad::TextureMappedFont();
 

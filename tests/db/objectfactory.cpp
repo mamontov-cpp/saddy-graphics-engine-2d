@@ -38,9 +38,9 @@ struct SadDbObjectFactoryTest : tpunit::TestFixture
         f.add<Mock>("Mock", &s, false);
         f.add<Mock2>("Mock2",  new sad::db::schema::Schema());
         
-        ASSERT_TRUE( f.schema("Mock") != NULL );
-        ASSERT_TRUE( f.schema("Mock2") != NULL );
-        ASSERT_TRUE( f.schema("Mock3") == NULL );		
+        ASSERT_TRUE( f.schema("Mock") != nullptr );
+        ASSERT_TRUE( f.schema("Mock2") != nullptr );
+        ASSERT_TRUE( f.schema("Mock3") == nullptr );		
     }
 
     void test_object()
@@ -54,12 +54,12 @@ struct SadDbObjectFactoryTest : tpunit::TestFixture
         
         sad::db::Object * k;
         k = f.create("Mock");
-        ASSERT_TRUE( k != NULL );
+        ASSERT_TRUE( k != nullptr );
         delete k;
         k = f.create("Mock2");
-        ASSERT_TRUE( k != NULL );
+        ASSERT_TRUE( k != nullptr );
         delete k;
-        ASSERT_TRUE( f.create("Mock3") == NULL );		
+        ASSERT_TRUE( f.create("Mock3") == nullptr );		
     }
     
 
@@ -67,7 +67,7 @@ struct SadDbObjectFactoryTest : tpunit::TestFixture
     {
        sad::db::ObjectFactory factory;
        
-       sad::db::Object * o = NULL;
+       sad::db::Object * o = nullptr;
        o = factory.create("sad::Label");
        ASSERT_TRUE(o);
        delete o;
@@ -81,7 +81,7 @@ struct SadDbObjectFactoryTest : tpunit::TestFixture
        delete o;
 
        o = factory.create("sad::UnknownItem");
-       ASSERT_TRUE(o == NULL);
+       ASSERT_TRUE(o == nullptr);
        delete o;
     }
        

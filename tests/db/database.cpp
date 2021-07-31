@@ -35,7 +35,7 @@ public:
         TEST(SadDbDatabaseTest::test_save),
         TEST(SadDbDatabaseTest::test_load_not_exists),
         TEST(SadDbDatabaseTest::test_load_empty),
-        TEST(SadDbDatabaseTest::test_load_null),
+        TEST(SadDbDatabaseTest::test_load_nullptr),
         TEST(SadDbDatabaseTest::test_load_emptyobject),
         TEST(SadDbDatabaseTest::test_load_invalid_definitions),
         TEST(SadDbDatabaseTest::test_load_invalid_property),
@@ -102,7 +102,7 @@ public:
     
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    void test_load_null()
+    void test_load_nullptr()
     {
         sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
         f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
@@ -113,7 +113,7 @@ public:
         sad::Renderer r;
         r.addDatabase("", db);
 
-        bool result = r.database("")->loadFromFile("tests/db/database/null.json");
+        bool result = r.database("")->loadFromFile("tests/db/database/nullptr.json");
         ASSERT_FALSE( result );
     }
     
@@ -233,8 +233,8 @@ public:
         ASSERT_FALSE( db.addTable("table", t2) );
         delete t2;
         
-        ASSERT_TRUE( db.table("table") != NULL );
-        ASSERT_TRUE( db.table("table2") == NULL );		
+        ASSERT_TRUE( db.table("table") != nullptr );
+        ASSERT_TRUE( db.table("table2") == nullptr );		
     }
     
     // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -244,12 +244,12 @@ public:
         sad::db::Database db;
         ASSERT_TRUE( db.addTable("table", new sad::db::Table()) );
         
-        ASSERT_TRUE( db.table("table") != NULL );
+        ASSERT_TRUE( db.table("table") != nullptr );
         
         db.removeTable("table");
         db.removeTable("table2");
         
-        ASSERT_TRUE( db.table("table") == NULL );		
+        ASSERT_TRUE( db.table("table") == nullptr );		
     }
     
     // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -260,14 +260,14 @@ public:
         
         db.addProperty("test", new sad::db::StoredProperty<int>());
         
-        ASSERT_TRUE( db.propertyByName("test") != NULL );
+        ASSERT_TRUE( db.propertyByName("test") != nullptr );
         
         ASSERT_TRUE( db.setProperty("test", 3) );
         
         ASSERT_TRUE( db.getProperty<int>("test").value() == 3);
     
         db.removeProperty("test");
-        ASSERT_TRUE( db.propertyByName("test") == NULL );		
+        ASSERT_TRUE( db.propertyByName("test") == nullptr );		
     }
     
     // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -284,7 +284,7 @@ public:
         db.table("table")->add(mock);
     
         ASSERT_TRUE( db.queryByMajorId(1)->objectName() == "test");
-        ASSERT_TRUE( db.queryByMajorId(22) == NULL );
+        ASSERT_TRUE( db.queryByMajorId(22) == nullptr );
 
         ASSERT_TRUE( db.objectByMajorId<Mock3>(1)->objectName() == "test");
     }
@@ -360,27 +360,27 @@ public:
 
         // Change database, altering tables. Check that objects will not exists
         db->removeTable("table");
-        ASSERT_TRUE( db->table("table") == NULL );
+        ASSERT_TRUE( db->table("table") == nullptr );
         
         sad::db::Table* tbl1 = new sad::db::Table();
         db->addTable("table1", tbl1);
-        ASSERT_TRUE( db->table("table1") != NULL );
+        ASSERT_TRUE( db->table("table1") != nullptr );
 
         sad::db::Table* tbl2 = new sad::db::Table();
         db->addTable("table2", tbl2);
-        ASSERT_TRUE( db->table("table2") != NULL );
+        ASSERT_TRUE( db->table("table2") != nullptr );
 
-        ASSERT_TRUE( db->objectByName<Mock3>("m1") == NULL );
-        ASSERT_TRUE( db->objectByName<Mock3>("m2") == NULL );
+        ASSERT_TRUE( db->objectByName<Mock3>("m1") == nullptr );
+        ASSERT_TRUE( db->objectByName<Mock3>("m2") == nullptr );
 
         // Restore database and check, that everything is fine
         db->restoreSnapshot();
 
-        ASSERT_TRUE( db->table("table") != NULL );
-        ASSERT_TRUE( db->table("table1") == NULL );
-        ASSERT_TRUE( db->table("table2") == NULL );        
-        ASSERT_TRUE( db->objectByName<Mock3>("m1") != NULL );
-        ASSERT_TRUE( db->objectByName<Mock3>("m2") != NULL );
+        ASSERT_TRUE( db->table("table") != nullptr );
+        ASSERT_TRUE( db->table("table1") == nullptr );
+        ASSERT_TRUE( db->table("table2") == nullptr );        
+        ASSERT_TRUE( db->objectByName<Mock3>("m1") != nullptr );
+        ASSERT_TRUE( db->objectByName<Mock3>("m2") != nullptr );
     }
     
     // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -415,14 +415,14 @@ public:
         // Change database, altering tables. Check that objects will not exists        
         sad::db::Table* tbl1 = new sad::db::Table();
         db->addTable("table1", tbl1);
-        ASSERT_TRUE( db->table("table1") != NULL );
+        ASSERT_TRUE( db->table("table1") != nullptr );
 
         // Restore database and check, that everything is fine
         db->restoreSnapshot();
 
         ASSERT_TRUE( db->table("table") == tbl );
-        ASSERT_TRUE( db->table("table1") == NULL );
-        ASSERT_TRUE( db->table("table2") == NULL );        
+        ASSERT_TRUE( db->table("table1") == nullptr );
+        ASSERT_TRUE( db->table("table2") == nullptr );        
         ASSERT_TRUE( db->objectByName<Mock3>("m1") == mock1 );
         ASSERT_TRUE( db->objectByName<Mock3>("m2") == mock2 );
     }
@@ -465,19 +465,19 @@ public:
         mock3->setIdC(24);
         mock3->setObjectName("m3");
         tbl->add(mock3);
-        ASSERT_TRUE( db->objectByName<Mock3>("m1") == NULL );
+        ASSERT_TRUE( db->objectByName<Mock3>("m1") == nullptr );
         ASSERT_TRUE( db->objectByName<Mock3>("m2") == mock2 );
         ASSERT_TRUE( mock2->id_c() == 25 );
-        ASSERT_TRUE( db->objectByName<Mock3>("m3") != NULL );
+        ASSERT_TRUE( db->objectByName<Mock3>("m3") != nullptr );
         
         // Restore database and check, that everything is fine
         db->restoreSnapshot();
 
         ASSERT_TRUE( db->table("table") == tbl );
-        ASSERT_TRUE( db->objectByName<Mock3>("m1") != NULL );
+        ASSERT_TRUE( db->objectByName<Mock3>("m1") != nullptr );
         ASSERT_TRUE( db->objectByName<Mock3>("m2") == mock2 );
         ASSERT_TRUE( mock2->id_c() == 23 );
-        ASSERT_TRUE( db->objectByName<Mock3>("m3") == NULL );
+        ASSERT_TRUE( db->objectByName<Mock3>("m3") == nullptr );
     }
     
     // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -531,12 +531,12 @@ public:
     void test_animation_easing_functions()
     {
         sad::animations::Color* clr1 = new sad::animations::Color();
-        clr1->easing()->setFunctionType(sad::animations::easing::ATTT_OutSine);
+        clr1->easing()->setFunctionType(sad::animations::easing::Types::ATTT_OutSine);
         clr1->easing()->setPeriod(2.0);
         clr1->easing()->setOvershootAmplitude(1.0);
 
         sad::animations::Color* clr2 = new sad::animations::Color();
-        clr2->easing()->setFunctionType(sad::animations::easing::ATTT_InSine);
+        clr2->easing()->setFunctionType(sad::animations::easing::Types::ATTT_InSine);
         clr2->easing()->setPeriod(3.0);
         clr2->easing()->setOvershootAmplitude(2.0);
 
@@ -562,12 +562,12 @@ public:
         sad::animations::Color* oclr2 = static_cast<sad::animations::Color*>(outDb->queryByMajorId(clr2->MajorId));
     
         ASSERT_TRUE( oclr1 );
-        ASSERT_TRUE( oclr1->easing()->functionType() == sad::animations::easing::ATTT_OutSine );
+        ASSERT_TRUE( oclr1->easing()->functionType() == sad::animations::easing::Types::ATTT_OutSine );
         ASSERT_TRUE( sad::is_fuzzy_equal(oclr1->easing()->period(), 2.0) );
         ASSERT_TRUE( sad::is_fuzzy_equal(oclr1->easing()->overshootAmplitude(), 1.0) );
 
         ASSERT_TRUE( oclr2 );
-        ASSERT_TRUE( oclr2->easing()->functionType() == sad::animations::easing::ATTT_InSine );
+        ASSERT_TRUE( oclr2->easing()->functionType() == sad::animations::easing::Types::ATTT_InSine );
         ASSERT_TRUE( sad::is_fuzzy_equal(oclr2->easing()->period(), 3.0) );
         ASSERT_TRUE( sad::is_fuzzy_equal(oclr2->easing()->overshootAmplitude(), 2.0) );
     }

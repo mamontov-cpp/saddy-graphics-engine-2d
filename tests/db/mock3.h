@@ -25,7 +25,7 @@ public:
     void setIdRC(int & i) const;
     void setIdCR(const int & i);
     void setIdCRC(const int & i) const;
-    virtual sad::db::schema::Schema * schema() const;
+    virtual sad::db::schema::Schema * schema() const override;
 
     int m_id;
 
