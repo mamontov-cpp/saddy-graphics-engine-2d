@@ -59,7 +59,7 @@ int main(int argc, char** argv)
         scene->addNode(sprite3d);
     }
     {
-        sad::Sprite2D* sprite2d = new sad::Sprite2D(NULL, sad::Rect2D(0, 0, 512, 512), sad::Rect2D(160, 160, 320, 480));
+        sad::Sprite2D* sprite2d = new sad::Sprite2D(nullptr, sad::Rect2D(0, 0, 512, 512), sad::Rect2D(160, 160, 320, 480));
         sprite2d->setAngle(-0.75);
         sprite2d->setColor(sad::AColor(0, 0, 255, 128.0));
         scene->addNode(sprite2d);
@@ -71,7 +71,7 @@ int main(int argc, char** argv)
         scene->addNode(sprite2d);
     }
     {
-        sad::Sprite3D* sprite3d = new sad::Sprite3D(NULL, sad::Rect2D(1, 1, 86, 86), sad::Rect<sad::Point3D>(sad::Point3D(360, 240, 0.0), sad::Point3D(440, 480, 0.0)));
+        sad::Sprite3D* sprite3d = new sad::Sprite3D(nullptr, sad::Rect2D(1, 1, 86, 86), sad::Rect<sad::Point3D>(sad::Point3D(360, 240, 0.0), sad::Point3D(440, 480, 0.0)));
         sprite3d->rotate(0.75, 0);
         sprite3d->setColor(sad::AColor(255, 128, 255, 128.0));
         scene->addNode(sprite3d);
