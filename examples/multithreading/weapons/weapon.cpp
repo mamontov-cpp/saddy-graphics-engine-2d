@@ -26,10 +26,10 @@ m_max_dangle(0),
 m_erase_after_shot(false)
 {
     m_timer.start();
-    m_settings.Type = weapons::Weapon::WWT_NONE;
-    m_settings.Settings.Bullet = NULL;
-    m_settings.Settings.Swing = NULL;
-    m_settings.Settings.Laser = NULL;
+    m_settings.Type = weapons::Weapon::Type::WWT_NONE;
+    m_settings.Settings.Bullet = nullptr;
+    m_settings.Settings.Swing = nullptr;
+    m_settings.Settings.Laser = nullptr;
 }
 
 weapons::Weapon::~Weapon()
@@ -101,7 +101,7 @@ double  weapons::Weapon::maxAngleDelta() const
 void weapons::Weapon::setSettings(const weapons::SwingSettings& s)
 {
     this->clearSettings();
-    m_settings.Type = weapons::Weapon::WWT_SWING;
+    m_settings.Type = weapons::Weapon::Type::WWT_SWING;
     m_settings.Settings.Swing = new weapons::SwingSettings(s);
     if (m_settings.Settings.Swing->SoundName.empty()) m_settings.Settings.Swing->SoundName = "swing";
 }
@@ -109,7 +109,7 @@ void weapons::Weapon::setSettings(const weapons::SwingSettings& s)
 void weapons::Weapon::setSettings(const weapons::BulletSettings& s)
 {
     this->clearSettings();
-    m_settings.Type = weapons::Weapon::WWT_BULLET;
+    m_settings.Type = weapons::Weapon::Type::WWT_BULLET;
     m_settings.Settings.Bullet = new weapons::BulletSettings(s);
     if (m_settings.Settings.Bullet->SoundName.empty()) m_settings.Settings.Bullet->SoundName = "shooting_1";
 }
@@ -117,7 +117,7 @@ void weapons::Weapon::setSettings(const weapons::BulletSettings& s)
 void weapons::Weapon::setSettings(const weapons::LaserSettings& s)
 {
     this->clearSettings();
-    m_settings.Type = weapons::Weapon::WWT_LASER;
+    m_settings.Type = weapons::Weapon::Type::WWT_LASER;
     m_settings.Settings.Laser = new weapons::LaserSettings(s);
     if (m_settings.Settings.Laser->SoundName.empty()) m_settings.Settings.Laser->SoundName = "shooting_2";
 }
@@ -135,7 +135,7 @@ void weapons::Weapon::tryShoot(Game* game, game::Actor* actor)
     {
         return;
     }
-    if (m_settings.Type == weapons::Weapon::WWT_NONE || m_amount_of_projectiles == 0)
+    if (m_settings.Type == weapons::Weapon::Type::WWT_NONE || m_amount_of_projectiles == 0)
     {
         return;
     }
@@ -200,7 +200,7 @@ void weapons::Weapon::toggleEraseAfterShoot(bool value)
 
 void weapons::Weapon::spawnProjectile(Game* game, game::Actor* actor, double angle, double delay)
 {
-    if (m_settings.Type == weapons::Weapon::WWT_NONE)
+    if (m_settings.Type == weapons::Weapon::Type::WWT_NONE)
     {
         return;
     }
@@ -238,57 +238,57 @@ weapons::Projectile* weapons::Weapon::makeProjectile(Game* game, game::Actor* ac
 {
     switch (m_settings.Type)
     {
-        case weapons::Weapon::WWT_NONE:
-            return NULL;
-        case weapons::Weapon::WWT_SWING:
+        case weapons::Weapon::Type::WWT_NONE:
+            return nullptr;
+        case weapons::Weapon::Type::WWT_SWING:
             {
                 weapons::SwingSettings s = *(m_settings.Settings.Swing);
                 actor->game()->playSound(s.SoundName);
                 return new weapons::Swing(game, actor, s);
             }
-        case weapons::Weapon::WWT_BULLET:
+        case weapons::Weapon::Type::WWT_BULLET:
             {
                 weapons::BulletSettings s = *(m_settings.Settings.Bullet);
                 actor->game()->playSound(s.SoundName);
                 return new weapons::Bullet(game, actor, angle, s);;
             }
-        case weapons::Weapon::WWT_LASER:
+        case weapons::Weapon::Type::WWT_LASER:
             {
                 weapons::LaserSettings s = *(m_settings.Settings.Laser);
                 actor->game()->playSound(s.SoundName);
                 return new weapons::Laser(game, actor, angle, s);
             }
     }
-    return NULL;
+    return nullptr;
 }
 
 void weapons::Weapon::clearSettings()
 {
-    if (m_settings.Type != weapons::Weapon::WWT_NONE)
+    if (m_settings.Type != weapons::Weapon::Type::WWT_NONE)
     {
-        if (m_settings.Type == weapons::Weapon::WWT_SWING)
+        if (m_settings.Type == weapons::Weapon::Type::WWT_SWING)
         {
             delete m_settings.Settings.Swing;
         }
-        if (m_settings.Type == weapons::Weapon::WWT_BULLET)
+        if (m_settings.Type == weapons::Weapon::Type::WWT_BULLET)
         {
             delete m_settings.Settings.Bullet;
         }
-        if (m_settings.Type == weapons::Weapon::WWT_LASER)
+        if (m_settings.Type == weapons::Weapon::Type::WWT_LASER)
         {
             delete m_settings.Settings.Laser;
         }
     }
-    m_settings.Type = weapons::Weapon::WWT_NONE;
-    m_settings.Settings.Bullet = NULL;
-    m_settings.Settings.Swing = NULL;
-    m_settings.Settings.Laser = NULL;
+    m_settings.Type = weapons::Weapon::Type::WWT_NONE;
+    m_settings.Settings.Bullet = nullptr;
+    m_settings.Settings.Swing = nullptr;
+    m_settings.Settings.Laser = nullptr;
 }
 
 
 void weapons::exposeWeapon(void* c)
 {
-    sad::dukpp03::Context* ctx = reinterpret_cast<sad::dukpp03::Context*>(c);
+    sad::dukpp03::Context* ctx = static_cast<sad::dukpp03::Context*>(c);
 
     sad::dukpp03::ClassBinding* weapon_binding = new sad::dukpp03::ClassBinding();
     weapon_binding->addObjectConstructor<weapons::Weapon>("Weapon");

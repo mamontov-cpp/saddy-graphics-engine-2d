@@ -4,7 +4,7 @@
 #include <irrklang/singlesound.h>
 #include <irrklang/sound.h>
 
-Sounds::Sounds(sad::Renderer* r) : m_footstep_sound(NULL), m_footsteps(NULL), m_renderer(r), m_paused(false)
+Sounds::Sounds(sad::Renderer* r) : m_footstep_sound(nullptr), m_footsteps(nullptr), m_renderer(r), m_paused(false)
 {
     m_footsteps = new sad::irrklang::SingleSound();
 }

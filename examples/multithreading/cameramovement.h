@@ -9,7 +9,7 @@
 
 class Game;
 
-/*! Defines a camera movement for multithreading
+/*! Defines a camera movement for multi-threading
  */
 class CameraMovement : public sad::Object
 {
@@ -26,7 +26,7 @@ public:
      */
     void setMoveLeftBoundary(double l);
     /*! Returns move left boundary, which when crossed by player makes camera shift left
-     *  \return left bounary
+     *  \return left boundary
      */
     double moveLeftBoundary() const;
     /*! Sets move right boundary, which when crossed by player makes camera shift right
@@ -34,7 +34,7 @@ public:
      */
     void setMoveRightBoundary(double l);
     /*! Returns move right boundary, which when crossed by player makes camera shift right
-     *  \return right bounary
+     *  \return right boundary
      */
     double moveRightBoundary() const;
     /*! Sets maximum shifting time for camera movement
@@ -42,7 +42,7 @@ public:
      */
     void setMaxShiftTime(double time);
     /*! Returns maximum shifting time for camera movement
-     *  \return maximum shiftin time 
+     *  \return maximum shifting time 
      */
     double maxShiftTime() const;
     /*! Sets arrow position for point
@@ -53,7 +53,7 @@ public:
      *  \return arrow position
      */
     const sad::Point2D& arrowPosition() const;
-    /*! Inits camera movement
+    /*! Initializes camera movement
      */
     void init();
     /*! Processes camera movement in game

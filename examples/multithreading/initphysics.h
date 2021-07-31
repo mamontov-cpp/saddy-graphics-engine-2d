@@ -17,12 +17,12 @@ namespace game
 class StaticObjectContainer;
 }
 
-/*! Inits physics world
+/*! Initializes physics world
  *  \param[in] world a main world
  */
 void initPhysicsWorld(sad::p2d::World* world);
 
-/*! Inits physics platforms
+/*! Initializes physics platforms
  *  \param[in] world a main world
  *  \param[in] main_scene a scene
  *  \param[in] registry a registry for platforms
@@ -30,7 +30,7 @@ void initPhysicsWorld(sad::p2d::World* world);
  */
 void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::MovingPlatformRegistry* registry, game::StaticObjectContainer* container);
 
-/*! Inits coins
+/*! Initializes coins
  *  \param[in] game a game
  *  \param[in] world a main world
  *  \param[in] db database

@@ -56,10 +56,10 @@ private:
      */
     void unloadRoom(int index)  const;
     /*! Makes simple normalized room number for loader by coordinate
-     * \param[in] coord a coordinate
+     * \param[in] coordinate a coordinate
      * \return data
      */
-    inline int normalizedRoomNumber(double coord)  const;
+    inline int normalizedRoomNumber(double coordinate)  const;
     /*! Tries to match 1 room to 2 old
      *  \param[in] min_index a minimal room index
      */
@@ -83,7 +83,7 @@ private:
     /*! A coin sprite loader
      */
     game::RoomStorageLoader* m_coin_sprite_loader;
-    /*! A coint body loader
+    /*! A coin body loader
      */
     game::RoomStorageLoader* m_coin_body_loader;
     /*! First active room

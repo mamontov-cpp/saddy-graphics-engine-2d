@@ -18,17 +18,17 @@ public:
      *  \param[in] total_time a total time
      */
     CameraLockAnimation(Game* g, double finishing_offset, double total_time);
-    /*!  Fress local resources
+    /*!  Frees local resources
      */
     virtual ~CameraLockAnimation();
     /*! Determines, whether after processing we should remove step from pipeline
         \return whether we should remove step from pipeline
      */
-    virtual bool shouldBeDestroyedAfterProcessing();
+    virtual bool shouldBeDestroyedAfterProcessing() override;
 private:
-    /*! Reimplement this function to create your own step actions
+    /*! Re-implement this function to create your own step actions
      */
-    virtual void _process();
+    virtual void _process() override;
     /*! A game data
      */
     Game* m_game;

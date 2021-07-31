@@ -11,7 +11,7 @@ game::PlatformBlinking::PlatformBlinking(Game* game, sad::Sprite2D* platform, do
   m_hidden(false),
   m_enabled(true),
   m_platform(platform),
-  m_body(NULL)
+  m_body(nullptr)
 {
    assert(game);
    assert(platform);

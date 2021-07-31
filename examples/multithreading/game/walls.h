@@ -41,7 +41,7 @@ public:
     /*! Destructor for walls
      */
     ~Walls();
-    /*! Inits walls with bounds
+    /*! Initializes walls with bounds
         \param[in] left a left bound
         \param[in] right a right bound
         \param[in] top a top bound
@@ -87,7 +87,7 @@ public:
      */
     void addToWorld(sad::p2d::World* world) const;
 private:
-    /*! Inits shapes for walls
+    /*! Initializes shapes for walls
      */
     void initShapes() const;
     /*! Destroys old shapes

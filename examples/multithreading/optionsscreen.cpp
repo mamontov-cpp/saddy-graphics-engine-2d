@@ -11,7 +11,7 @@
 
 // ==================================== OptionsScreen::StateForThread ====================================
 
-OptionsScreen::StateForThread::StateForThread() : Renderer(NULL), SoundVoumeSliderWidth(0.0), MusicVolumeSliderWidth(0.0)
+OptionsScreen::StateForThread::StateForThread() : Renderer(nullptr), SoundVolumeSliderWidth(0.0), MusicVolumeSliderWidth(0.0)
 {
     Blinking = new sad::animations::Blinking();
     Blinking->setFrequency(10);
@@ -33,7 +33,7 @@ OptionsScreen::StateForThread::~StateForThread()
 
 // ==================================== PUBLIC METHODS  ====================================
 
-OptionsScreen::OptionsScreen() : m_game(NULL), m_editing(false), m_already_handled(false), m_current_menu_item(0)
+OptionsScreen::OptionsScreen() : m_game(nullptr), m_editing(false), m_already_handled(false), m_current_menu_item(0)
 {
     m_label_underlays << "LeftUnderlay" << "RightUnderlay" << "DownUnderlay" << "UpUnderlay" << "JumpActionUnderlay" <<  "PauseUnderlay" <<  "SoundUnderlay" << "MusicUnderlay" << "SaveUnderlay" << "ResetUnderlay";
     m_blinking_parts  << "LeftLabelValue" << "RightLabelValue" << "DownLabelValue" << "UpLabelValue" << "JumpActionLabelValue" <<  "PauseLabelValue" << "SoundLabelValue" << "MusicLabelValue";
@@ -78,25 +78,25 @@ void OptionsScreen::tryStartEditing()
     if (!m_editing)
     {
         m_game->playSound("misc_menu_2");
-        if ((m_current_menu_item >= OptionsScreen::MIT_LEFT_KEY) && (m_current_menu_item <= OptionsScreen::MIT_MUSIC_VOLUME)) 
+        if ((m_current_menu_item >= static_cast<int>(OptionsScreen::MenuItemType::MIT_LEFT_KEY)) && (m_current_menu_item <= static_cast<int>(OptionsScreen::MenuItemType::MIT_MUSIC_VOLUME))) 
         {
             startEditingItem();
         } 
         else
         {
-            if (m_current_menu_item == OptionsScreen::MIT_SAVE)
+            if (m_current_menu_item == static_cast<int>(OptionsScreen::MenuItemType::MIT_SAVE))
             {
                 m_game->options()->save(m_main_state.Renderer);
                 m_game->changeSceneToStartingScreen();
             }
-            if (m_current_menu_item == OptionsScreen::MIT_RESET)
+            if (m_current_menu_item == static_cast<int>(OptionsScreen::MenuItemType::MIT_RESET))
             {
-                m_game->options()->LeftKey = sad::KeyLeft;
-                m_game->options()->RightKey = sad::KeyRight;
-                m_game->options()->UpKey = sad::KeyUp;
-                m_game->options()->DownKey = sad::KeyDown;
-                m_game->options()->JumpActionKey = sad::Space;
-                m_game->options()->PauseKey = sad::P;
+                m_game->options()->LeftKey = sad::KeyboardKey::KeyLeft;
+                m_game->options()->RightKey = sad::KeyboardKey::KeyRight;
+                m_game->options()->UpKey = sad::KeyboardKey::KeyUp;
+                m_game->options()->DownKey = sad::KeyboardKey::KeyDown;
+                m_game->options()->JumpActionKey = sad::KeyboardKey::Space;
+                m_game->options()->PauseKey = sad::KeyboardKey::P;
 
                 m_game->conditions()->apply(*(m_game->options()));
 
@@ -119,15 +119,15 @@ void OptionsScreen::tryHandleEditing(const sad::input::KeyPressEvent& ev)
     if (m_editing)
     {
         m_game->playSound("misc_menu_2");
-        switch (m_current_menu_item)
+        switch (static_cast<OptionsScreen::MenuItemType>(m_current_menu_item))
         {
-            case OptionsScreen::MIT_LEFT_KEY:          trySetKeyboardOption(ev.Key, &game::Options::LeftKey, "LeftLabelValue"); break;
-            case OptionsScreen::MIT_RIGHT_KEY:         trySetKeyboardOption(ev.Key, &game::Options::RightKey, "RightLabelValue"); break;
-            case OptionsScreen::MIT_UP_KEY:            trySetKeyboardOption(ev.Key, &game::Options::UpKey, "UpLabelValue"); break;
-            case OptionsScreen::MIT_DOWN_KEY:          trySetKeyboardOption(ev.Key, &game::Options::DownKey, "DownLabelValue"); break;
-            case OptionsScreen::MIT_JUMP_ACTION_KEY:   trySetKeyboardOption(ev.Key, &game::Options::JumpActionKey, "JumpActionLabelValue"); break;
-            case OptionsScreen::MIT_PAUSE_KEY:         trySetKeyboardOption(ev.Key, &game::Options::PauseKey, "PauseLabelValue"); break;
-            case OptionsScreen::MIT_MUSIC_VOLUME:
+            case OptionsScreen::MenuItemType::MIT_LEFT_KEY:          trySetKeyboardOption(ev.Key, &game::Options::LeftKey, "LeftLabelValue"); break;
+            case OptionsScreen::MenuItemType::MIT_RIGHT_KEY:         trySetKeyboardOption(ev.Key, &game::Options::RightKey, "RightLabelValue"); break;
+            case OptionsScreen::MenuItemType::MIT_UP_KEY:            trySetKeyboardOption(ev.Key, &game::Options::UpKey, "UpLabelValue"); break;
+            case OptionsScreen::MenuItemType::MIT_DOWN_KEY:          trySetKeyboardOption(ev.Key, &game::Options::DownKey, "DownLabelValue"); break;
+            case OptionsScreen::MenuItemType::MIT_JUMP_ACTION_KEY:   trySetKeyboardOption(ev.Key, &game::Options::JumpActionKey, "JumpActionLabelValue"); break;
+            case OptionsScreen::MenuItemType::MIT_PAUSE_KEY:         trySetKeyboardOption(ev.Key, &game::Options::PauseKey, "PauseLabelValue"); break;
+            case OptionsScreen::MenuItemType::MIT_MUSIC_VOLUME:
                 if (ev.Key == m_game->options()->LeftKey)
                 {
                     changeMusicVolume(-0.05);
@@ -141,7 +141,7 @@ void OptionsScreen::tryHandleEditing(const sad::input::KeyPressEvent& ev)
                     exitEditingState();
                 }
                 break;
-            case OptionsScreen::MIT_SOUND_VOLUME:
+            case OptionsScreen::MenuItemType::MIT_SOUND_VOLUME:
                 if (ev.Key == m_game->options()->LeftKey)
                 {
                     changeSoundVolume(-0.05);
@@ -164,7 +164,7 @@ void OptionsScreen::tryHandleEditing(const sad::input::KeyPressEvent& ev)
 
 // ==================================== PRIVATE METHODS  ====================================
 
-void OptionsScreen::trySetKeyboardOption(sad::KeyboardKey key, sad::KeyboardKey(game::Options::*key_option), const sad::String& label_name)
+void OptionsScreen::trySetKeyboardOption(sad::KeyboardKey key, sad::KeyboardKey game::Options::*key_option, const sad::String& label_name)
 {
     if (this->isKeyNotMatchingAnyFromConfigExceptCurrent(key))
     {
@@ -229,8 +229,8 @@ void OptionsScreen::changeSoundVolume(double diff) const
     {
         m_game->options()->SoundVolume = 1.0;
     }
-    OptionsScreen::setWidthForSliderValue(m_main_state.Renderer, m_game->options()->SoundVolume, "SoundLabelValue", m_main_state.SoundVoumeSliderWidth);
-    OptionsScreen::setWidthForSliderValue(m_inventory_state.Renderer, m_game->options()->SoundVolume, "SoundLabelValue", m_inventory_state.SoundVoumeSliderWidth);
+    OptionsScreen::setWidthForSliderValue(m_main_state.Renderer, m_game->options()->SoundVolume, "SoundLabelValue", m_main_state.SoundVolumeSliderWidth);
+    OptionsScreen::setWidthForSliderValue(m_inventory_state.Renderer, m_game->options()->SoundVolume, "SoundLabelValue", m_inventory_state.SoundVolumeSliderWidth);
 }
 
 void OptionsScreen::changeMusicVolume(double diff) const
@@ -272,7 +272,7 @@ void OptionsScreen::initAccordingToConfig(OptionsScreen::StateForThread& state) 
     setLabelValue(state.Renderer, "JumpLabelValue", sad::keyToString(m_game->options()->JumpActionKey));
     setLabelValue(state.Renderer, "PauseLabelValue", sad::keyToString(m_game->options()->PauseKey));
 
-    OptionsScreen::setWidthForSliderValue(state.Renderer, m_game->options()->SoundVolume, "SoundLabelValue", state.SoundVoumeSliderWidth);
+    OptionsScreen::setWidthForSliderValue(state.Renderer, m_game->options()->SoundVolume, "SoundLabelValue", state.SoundVolumeSliderWidth);
     OptionsScreen::setWidthForSliderValue(state.Renderer, m_game->options()->MusicVolume, "MusicLabelValue", state.MusicVolumeSliderWidth);
 }
 
@@ -374,7 +374,7 @@ void OptionsScreen::initForRenderer(OptionsScreen::StateForThread& state)
     sad::Sprite2D* sound_volume = db->objectByName<sad::Sprite2D>("SoundLabelValue");
     if (sound_volume)
     {
-        state.SoundVoumeSliderWidth = sound_volume->area().width();
+        state.SoundVolumeSliderWidth = sound_volume->area().width();
     }
     
     sad::Sprite2D* music_volume = db->objectByName<sad::Sprite2D>("MusicLabelValue");

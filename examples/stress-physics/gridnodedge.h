@@ -3,8 +3,10 @@
 
     Describes a basic grid node edge
  */
+#pragma once
 #include <scene.h>
 #include <p2d/body.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <p2d/app/constants.h>
 #include <sprite2d.h>
 #pragma once
@@ -21,9 +23,9 @@ class GridNodeEdge: public sad::SceneNode
  public:
      GridNodeEdge(sad::p2d::Body * b1, sad::p2d::Body * b2);
 
-     virtual void render();
-     virtual void setScene(sad::Scene * o);
-     virtual void rendererChanged();
+     virtual void render() override;
+     virtual void setScene(sad::Scene * o) override;
+     virtual void rendererChanged() override;
 
      virtual ~GridNodeEdge();
 };

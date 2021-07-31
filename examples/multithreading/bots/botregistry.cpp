@@ -39,7 +39,7 @@ bots::AbstractBot* bots::BotRegistry::get(const sad::String& key) const
     {
         return m_bots[key];
     }
-    return NULL;
+    return nullptr;
 }
 
 bool bots::BotRegistry::contains(const sad::String& key) const

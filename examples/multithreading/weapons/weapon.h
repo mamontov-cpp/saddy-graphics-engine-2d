@@ -34,7 +34,7 @@ SAD_OBJECT
 public:
 /*! A type of weapon used
  */
-enum Type
+enum class Type: int
 {
     WWT_NONE = 0,   //!< None
     WWT_SWING = 1,  //!< Swing weapon

@@ -32,7 +32,7 @@ class OptionsScreen  // NOLINT(hicpp-special-member-functions, cppcoreguidelines
 public:
     /*! A type of selected menu ite
      */ 
-    enum MenuItemType
+    enum class MenuItemType: int
     {
         MIT_LEFT_KEY  = 0,       //!< A left key is selected
         MIT_RIGHT_KEY = 1,       //!< A right key is selected
@@ -51,16 +51,16 @@ public:
     /*! An options screen
      */
     ~OptionsScreen();
-    /*! Inits an options screen
+    /*! Initializes an options screen
         \param[in] game a game
         \param[in] main_renderer a renderer for main thread
         \param[in] inventory_renderer a renderer for inventory thread
      */
     void init(Game* game, sad::Renderer* main_renderer, sad::Renderer* inventory_renderer);
-    /*! Inits for main renderer
+    /*! Initializes for main renderer
      */
     void initForMainRenderer();
-    /*! Inits for inventory renderer
+    /*! Initializes for inventory renderer
      */
     void initForInventoryRenderer();
     /*! Moves to next item
@@ -86,7 +86,7 @@ struct StateForThread  // NOLINT(hicpp-special-member-functions, cppcoreguidelin
     sad::Renderer* Renderer;
     /*! Sound volume slider width
      */
-    double SoundVoumeSliderWidth;
+    double SoundVolumeSliderWidth;
     /*! Music volume slider width
      */
     double MusicVolumeSliderWidth;
@@ -124,8 +124,8 @@ struct StateForThread  // NOLINT(hicpp-special-member-functions, cppcoreguidelin
         \param[in] key_option a key options
         \param[in] label_name a name for label
      */
-    void trySetKeyboardOption(sad::KeyboardKey key, sad::KeyboardKey (game::Options::*key_option), const sad::String& label_name);
-    /*! Returns true if key is not maching any key from config, except current selected key
+    void trySetKeyboardOption(sad::KeyboardKey key, sad::KeyboardKey game::Options::*key_option, const sad::String& label_name);
+    /*! Returns true if key is not matching any key from config, except current selected key
         \param[in] key keyboard key
         \return true if key is not matching
      */
@@ -133,10 +133,10 @@ struct StateForThread  // NOLINT(hicpp-special-member-functions, cppcoreguidelin
     /*! Exists editing state
      */
     void exitEditingState();
-    /*! Reinitializes label values, according to config
+    /*! Re-initializes label values, according to config
      */
     void initAccordingToConfig();
-    /*! Reinitializes label values, according to config
+    /*! Re-initializes label values, according to config
         \param[in] state a state for thread
      */
     void initAccordingToConfig(OptionsScreen::StateForThread& state) const;
@@ -147,7 +147,7 @@ struct StateForThread  // NOLINT(hicpp-special-member-functions, cppcoreguidelin
         \param[in] difference a difference between old value and new value
      */
     void moveToItemByDifference(int difference);
-    /*! Inits screen for renderer
+    /*! Initializes screen for renderer
         \param[in] state a state value
      */
     void initForRenderer(OptionsScreen::StateForThread& state);

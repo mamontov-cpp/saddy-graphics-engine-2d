@@ -6,7 +6,7 @@
 
 DECLARE_SOBJ(weapons::Projectile)
 
-weapons::Projectile::Projectile() : m_damage(1), m_game(NULL)
+weapons::Projectile::Projectile() : m_damage(1), m_game(nullptr)
 {
     
 }

@@ -4,7 +4,7 @@
 
 // =================================== PUBLIC METHODS ==================================
 
-game::MovingPlatformRegistry::MovingPlatformRegistry() : m_db(NULL), m_game(NULL)
+game::MovingPlatformRegistry::MovingPlatformRegistry() : m_db(nullptr), m_game(nullptr)
 {
 
 }
@@ -34,7 +34,7 @@ void game::MovingPlatformRegistry::setDatabase(Game* game, sad::db::Database* db
 
 bool game::MovingPlatformRegistry::add(sad::p2d::Body* platform, sad::p2d::app::Way* way)
 {
-    if ((platform == NULL) || (way == NULL))
+    if ((platform == nullptr) || (way == nullptr))
     {
         return false;
     }

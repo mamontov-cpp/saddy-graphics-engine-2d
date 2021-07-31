@@ -40,7 +40,7 @@ SAD_OBJECT
 public:
     /*! A button for getting status bit
      */
-    enum Button
+    enum class Button: int
     {
         ABTN_LEFT = 0,   //!< Left button status
         ABTN_RIGHT = 1,  //!< Right button status
@@ -56,7 +56,7 @@ public:
     /*! Sets options for actor, returns false if options are already set
         \param[in] opts options
         \throws logic_error if options are invalid
-        \return true if setting is succesfull, otherwise false
+        \return true if setting is successful, otherwise false
      */
     bool setOptions(game::ActorOptions* opts);
     /*! Tries to start actor going up
@@ -99,12 +99,12 @@ public:
     Game* game() const;
     /*! Resets player's state in game
      */
-    void reset();
+    void reset() override;
     /*! Sets velocity for actor
      *  \param[in] v velocity
      */
     void setVelocity(const sad::p2d::Vector& v) const;
-    /*! Inits player's sprite according to state
+    /*! Initializes player's sprite according to state
         \param[in] no_sound whether we should disable sound on actor 
      */
     void init(bool no_sound = false);
@@ -214,12 +214,12 @@ public:
         \return whether actor is ducking
      */
     bool isDucking() const;
-    /*! Returns whether actor is freefalling
-        \return whether actor is freefalling
+    /*! Returns whether actor is free falling
+        \return whether actor is free falling
      */
     bool isFreefalling() const;
     /*! Returns old velocity for player
-        \return old veloctity
+        \return old velocity
      */
     const sad::p2d::Vector& oldVelocity() const;
     /*! A notify function for vector
@@ -279,7 +279,7 @@ public:
      */
     void onBeforeDeath(const std::function<void(game::Actor*)>& action);
     /*!  Sets animation, which is called, when actor is hurt
-         \param[in] animation
+         \param[in] animation used animation 
      */
     void setHurtAnimation(sad::animations::Animation* animation);
     /*! Modifies damage from weapon, allowing to increase it or decrease
@@ -519,7 +519,7 @@ private:
     /*! Whether last time we moved left
      */
     bool m_is_last_moved_left;
-    /*! An invcibility flag for making an actor invincible
+    /*! An invincibility flag for making an actor invincible
      */
     bool m_is_invincible;
     /*! Amount of lives for actor

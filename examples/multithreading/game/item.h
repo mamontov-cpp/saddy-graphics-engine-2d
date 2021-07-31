@@ -132,10 +132,10 @@ protected:
     void invokeCompiledFunction(sad::dukpp03::CompiledFunction* f, game::Actor* owner);
     /*! A game data
      */
-    Game* m_game{NULL};
+    Game* m_game{nullptr};
     /*! A sprite for an item
      */
-    sad::Sprite2D* m_sprite{NULL};
+    sad::Sprite2D* m_sprite{nullptr};
     /*! A definition for item
      */
     game::Item::Definition* m_definition;

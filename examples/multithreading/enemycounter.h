@@ -16,7 +16,7 @@ public:
     EnemyCounter();
     /*! Resets enemy counter
      */
-    virtual void reset();
+    virtual void reset() override;
     /*! Clears enemy counter
      */
     void clear();

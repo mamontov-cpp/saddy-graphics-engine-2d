@@ -12,10 +12,10 @@ game::Walls::Walls()
 m_right_bound(0), 
 m_top_bound(0),
 m_bottom_bound(0),
-m_left_wall(NULL),
-m_right_wall(NULL),
-m_bottom_wall(NULL),
-m_top_wall(NULL)
+m_left_wall(nullptr),
+m_right_wall(nullptr),
+m_bottom_wall(nullptr),
+m_top_wall(nullptr)
 {
     
 }
@@ -25,10 +25,10 @@ game::Walls::Walls(const game::Walls& walls)
 m_right_bound(walls.m_right_bound),
 m_top_bound(walls.m_top_bound),
 m_bottom_bound(walls.m_bottom_bound),
-m_left_wall(NULL),
-m_right_wall(NULL),
-m_bottom_wall(NULL),
-m_top_wall(NULL)
+m_left_wall(nullptr),
+m_right_wall(nullptr),
+m_bottom_wall(nullptr),
+m_top_wall(nullptr)
 {
     
 }
@@ -203,21 +203,21 @@ void game::Walls::destroyOldShapes()
     if (m_left_wall)
     {
         m_left_wall->delRef();
-        m_left_wall = NULL;
+        m_left_wall = nullptr;
     }
     if (m_right_wall)
     {
         m_right_wall->delRef();
-        m_right_wall = NULL;
+        m_right_wall = nullptr;
     }
     if (m_top_wall)
     {
         m_top_wall->delRef();
-        m_top_wall = NULL;
+        m_top_wall = nullptr;
     }
     if (m_bottom_wall)
     {
         m_bottom_wall->delRef();
-        m_bottom_wall = NULL;
+        m_bottom_wall = nullptr;
     }
 }

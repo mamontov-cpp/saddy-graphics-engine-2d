@@ -50,7 +50,7 @@ public:
     /*! Tries to add new actor in list
      *  \param[in] actor an actor
      *  \param[in] bot a bot to be added
-     *  \return if actor is already here, returns false. Also returns false, if actor is NULL
+     *  \return if actor is already here, returns false. Also returns false, if actor is nullptr
      */
     bool add(game::Actor* actor, bots::AbstractBot* bot);
     /*! Removes an actor from list, erasing all data

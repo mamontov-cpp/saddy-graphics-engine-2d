@@ -43,7 +43,7 @@ public:
     /*! Resets player's items in game
      */
     void reset();
-    /*! Inits player's sprite according to state
+    /*! Initializes player's sprite according to state
         \param[in] no_sound whether we should disable sound on actor 
      */
     void init(bool no_sound = false);
@@ -178,7 +178,7 @@ public:
     /*! Tries to shoot for actor
      */
     void tryShoot();
-    /*! Inits physics for player
+    /*! Initializes physics for player
      *  \param[in] world a world, where player belongs
      *  \param[in] db database
      */
@@ -186,7 +186,7 @@ public:
     /*! Kills a player, making him die
      */
     void die();
-    /*! Called on bototm wall collision
+    /*! Called on bottom wall collision
      */
     void onBottomWallCollision();
     /*! Increments attack modifier

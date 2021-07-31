@@ -3,7 +3,9 @@
 
     Describes a simple shooter, which shoots object
  */
+#pragma once
 #include <p2d/app/object.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <p2d/app/constants.h>
 #include <p2d/app/objectemitter.h>
 #include "coloredbullet.h"
@@ -21,8 +23,8 @@ class Shooter: public sad::p2d::app::Object
     Shooter * m_parent;
   public:
      Gun(Shooter * parent);
-     virtual sad::p2d::app::App * app();
-     virtual void perform();
+     virtual sad::p2d::app::App * app() override;
+     virtual void perform() override;
  };
  protected:
      Gun * m_gun;

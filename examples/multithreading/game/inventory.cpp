@@ -11,7 +11,7 @@ const int game::Inventory::Height = 5; // 6,7-th row is reserved for recycle bin
 
 // ============================================ PUBLIC METHODS  ============================================
 
-game::Inventory::Inventory() : m_node(NULL), m_started_dragging_item(false), m_free_slots(0), m_owner(NULL)
+game::Inventory::Inventory() : m_node(nullptr), m_started_dragging_item(false), m_free_slots(0), m_owner(nullptr)
 {
     m_free_slots = game::Inventory::Height * game::Inventory::Width;
     for(size_t i = 0; i < game::Inventory::Height; i++)
@@ -19,7 +19,7 @@ game::Inventory::Inventory() : m_node(NULL), m_started_dragging_item(false), m_f
         m_items.insert(i, sad::Hash<int, game::Item *>());
         for(size_t j = 0; j < game::Inventory::Width; j++)
         {
-            m_items[i].insert(j, NULL);
+            m_items[i].insert(j, nullptr);
         }
     }
 }
@@ -36,10 +36,10 @@ void game::Inventory::clear()
 void game::Inventory::reset()
 {
     this->clear();
-    this->setNode(NULL);
+    this->setNode(nullptr);
 
     m_started_dragging_item = false;
-    m_item_being_dragged.set3(NULL);
+    m_item_being_dragged.set3(nullptr);
     m_free_slots = game::Inventory::Height * game::Inventory::Width;
 }
 
@@ -52,11 +52,11 @@ game::Item* game::Inventory::getItemByIndex(int i, int j)
 {
     if (!m_items.contains(i))
     {
-        return NULL;
+        return nullptr;
     }
     if (!m_items[i].contains(j))
     {
-        return NULL;
+        return nullptr;
     }
     return m_items[i][j];
 }
@@ -71,7 +71,7 @@ bool game::Inventory::addItem(game::Item* item)
     {
         for (int j = 0; j < Width; j++) 
         {
-            if (m_items[i][j] == NULL) 
+            if (m_items[i][j] == nullptr) 
             {
                 m_items[i][j] = item;
                 item->addRef();
@@ -113,11 +113,11 @@ game::Item* game::Inventory::takeItem(int i, int j)
 {
     if (!m_items.contains(i))
     {
-        return NULL;
+        return nullptr;
     }
     if (!m_items[i].contains(j))
     {
-        return NULL;
+        return nullptr;
     }
     if (m_node)
     {
@@ -129,7 +129,7 @@ game::Item* game::Inventory::takeItem(int i, int j)
         item->notifyRemoved(this->owner());
         m_free_slots += 1;
     }
-    m_items[i][j] = NULL;
+    m_items[i][j] = nullptr;
     return item;;
 }
 
@@ -140,7 +140,7 @@ void game::Inventory::removeItemWithWeapon(weapons::Weapon* weapon)
         for (int j = 0; j < Width; j++)
         {
             game::Item* item = m_items[i][j];
-            if (item != NULL)
+            if (item != nullptr)
             {
                 if (item->givenWeapon() == weapon)
                 {
@@ -154,7 +154,7 @@ void game::Inventory::removeItemWithWeapon(weapons::Weapon* weapon)
                         item->delRef();
                         m_free_slots += 1;
                     }
-                    m_items[i][j] = NULL;
+                    m_items[i][j] = nullptr;
                 }
             }
         }
@@ -165,11 +165,11 @@ game::Item* game::Inventory::item(int i, int j)
 {
     if (!m_items.contains(i))
     {
-        return NULL;
+        return nullptr;
     }
     if (!m_items[i].contains(j))
     {
-        return NULL;
+        return nullptr;
     }
     return m_items[i][j];
 }
@@ -350,13 +350,13 @@ void game::Inventory::deleteAllItems()
             {
                 jt.value()->delRef();
             }
-            jt.value() = NULL;
+            jt.value() = nullptr;
         }
     }
     m_free_slots = game::Inventory::Height * game::Inventory::Width;
 }
 
-game::Inventory::Inventory(const game::Inventory&) : m_node(NULL), m_started_dragging_item(false), m_free_slots(0), m_owner(NULL)
+game::Inventory::Inventory(const game::Inventory&) : m_node(nullptr), m_started_dragging_item(false), m_free_slots(0), m_owner(nullptr)
 {
     m_free_slots = game::Inventory::Height * game::Inventory::Width;
 }

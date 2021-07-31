@@ -3,12 +3,12 @@
 #include <spitjson.h>
 #include <slurpjson.h>
 
-game::Options::Options() : LeftKey(sad::KeyLeft),
-RightKey(sad::KeyRight),
-DownKey(sad::KeyDown),
-UpKey(sad::KeyUp),
-JumpActionKey(sad::Space),
-PauseKey(sad::P),
+game::Options::Options() : LeftKey(sad::KeyboardKey::KeyLeft),
+RightKey(sad::KeyboardKey::KeyRight),
+DownKey(sad::KeyboardKey::KeyDown),
+UpKey(sad::KeyboardKey::KeyUp),
+JumpActionKey(sad::KeyboardKey::Space),
+PauseKey(sad::KeyboardKey::P),
 SoundVolume(1.0),
 MusicVolume(1.0)
 {
@@ -42,12 +42,12 @@ void game::Options::load(sad::Renderer* renderer)
         if (val.is<picojson::value::object>())
         {
             picojson::value::object obj = val.get<picojson::value::object>();
-            game::Options::tryLoadFromProperty(&obj, &(this->LeftKey) , "left" , sad::KeyLeft);
-            game::Options::tryLoadFromProperty(&obj, &(this->RightKey), "right", sad::KeyRight);
-            game::Options::tryLoadFromProperty(&obj, &(this->DownKey) , "down" , sad::KeyDown);
-            game::Options::tryLoadFromProperty(&obj, &(this->UpKey)   , "up"   , sad::KeyUp);
-            game::Options::tryLoadFromProperty(&obj, &(this->JumpActionKey), "jump_action", sad::Space);
-            game::Options::tryLoadFromProperty(&obj, &(this->PauseKey)     , "pause"      , sad::P);
+            game::Options::tryLoadFromProperty(&obj, &(this->LeftKey) , "left" , sad::KeyboardKey::KeyLeft);
+            game::Options::tryLoadFromProperty(&obj, &(this->RightKey), "right", sad::KeyboardKey::KeyRight);
+            game::Options::tryLoadFromProperty(&obj, &(this->DownKey) , "down" , sad::KeyboardKey::KeyDown);
+            game::Options::tryLoadFromProperty(&obj, &(this->UpKey)   , "up"   , sad::KeyboardKey::KeyUp);
+            game::Options::tryLoadFromProperty(&obj, &(this->JumpActionKey), "jump_action", sad::KeyboardKey::Space);
+            game::Options::tryLoadFromProperty(&obj, &(this->PauseKey)     , "pause"      , sad::KeyboardKey::P);
 
             game::Options::tryLoadFromProperty(&obj, &(this->SoundVolume), "sound_volume");
             game::Options::tryLoadFromProperty(&obj, &(this->MusicVolume), "music_volume");

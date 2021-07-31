@@ -10,7 +10,7 @@ namespace game
 
 /*! Clears penetration depths for all of items
  */
-void clearItemPenetationDepths();
+void clearItemPenetrationDepths();
 
 /*! Sets penetration depth for item
     \param[in] string a string of item's icon options
@@ -22,6 +22,6 @@ void setItemPenetrationDepth(const sad::String& string, int depth);
  *  \param[in] string a string option
  *  \return penetration depth for item
  */
-int getPenetationDepthForItem(const sad::String& string);
+int getPenetrationDepthForItem(const sad::String& string);
 
 }

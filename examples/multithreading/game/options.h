@@ -8,7 +8,7 @@
 
 namespace sad
 {
-class Renderer;    
+class Renderer;
 }
 
 namespace game

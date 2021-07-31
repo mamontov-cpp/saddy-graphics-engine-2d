@@ -38,7 +38,7 @@ public:
 protected:
     /*! Performs actual shooting for actor
      */
-    virtual void shoot(game::Actor* actor);
+    virtual void shoot(game::Actor* actor) override;
     /*! An angle
      */
     double m_angle;

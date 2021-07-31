@@ -10,6 +10,7 @@
 
     Also they contain shape templates.
  */
+#pragma once
 #include <p2d/app/constants.h>
 #pragma once
 

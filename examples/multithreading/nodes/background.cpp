@@ -223,14 +223,14 @@ void nodes::Background::setScene(sad::Scene* scene)
 // ========================================== PRIVATE METHODS ==========================================
 
 nodes::Background::Background(const nodes::Background& b)
-: m_base_label(NULL),
-m_rainbow_label1(NULL),
-m_rainbow_label2(NULL),
-m_outline_label(NULL),
-m_main_background(NULL),
-m_hills_background(NULL),
-m_inner_tile(NULL), 
-m_top_tile(NULL),
+: m_base_label(nullptr),
+m_rainbow_label1(nullptr),
+m_rainbow_label2(nullptr),
+m_outline_label(nullptr),
+m_main_background(nullptr),
+m_hills_background(nullptr),
+m_inner_tile(nullptr), 
+m_top_tile(nullptr),
 m_t(0),
 m_t2(0),
 m_t3(0),

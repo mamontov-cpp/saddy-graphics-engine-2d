@@ -34,7 +34,7 @@ public:
     /*! Tries to insert bot into registry
         \param[in] key a name for bot
         \param[in] bot a bot
-        \return true on success, false if bot is NULL or bots with same key already exists
+        \return true on success, false if bot is nullptr or bots with same key already exists
      */
     bool insert(const sad::String& key, bots::AbstractBot* bot);
     /*! Returns a bot by key

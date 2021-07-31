@@ -30,7 +30,7 @@ public:
     Bullet(Game* game, game::Actor* actor, double angle, const weapons::BulletSettings& settings);
     /*! Destroys bullet
      */
-    virtual ~Bullet();
+    virtual ~Bullet() override;
     /*! Sets a sprite for bullet
         \param[in] sprite a sprite
      */
@@ -54,13 +54,13 @@ public:
     /*! Returns actor
         \return actor
      */
-    virtual game::Actor* actor() const;
+    virtual game::Actor* actor() const override;
     /*! Kills an object
      */
-    virtual void kill();
+    virtual void kill() override;
     /*! Updates side for a swing
      */
-    virtual void update();
+    virtual void update() override;
     /*! Returns whether bullets should go through platforms
         \return whether bullets should go through platforms
      */
@@ -96,19 +96,19 @@ public:
     /*! Called, when bullet hits platform
      * \param[in] body a body
      */
-    void onPlatformHit(sad::p2d::Body* body);
+    void onPlatformHit(sad::p2d::Body* body) override;
     /*! Called, when bullet hits wall
      * \param body
      */
-    void onWallHit(sad::p2d::Body* body);
+    void onWallHit(sad::p2d::Body* body) override;
     /*! Called when bullet hits player
      * \param[in] player a player
      */
-    void onPlayerHit(game::Player* player);
+    void onPlayerHit(game::Player* player) override;
     /*! Called, when bullet hits enemy (not player)
         \param[in] actor enemy's actor
      */
-    void onEnemyHit(game::Actor* actor);
+    void onEnemyHit(game::Actor* actor) override;
 protected:
     /*! An inner sprite
      */

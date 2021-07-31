@@ -41,10 +41,10 @@ game::HealthBar::~HealthBar()
     m_heart->delRef();
 }
 
-void game::HealthBar::setTreeName(sad::Renderer* renderer, const sad::String& treename)
+void game::HealthBar::setTreeName(sad::Renderer* renderer, const sad::String& tree_name)
 {
-    this->sad::SceneNode::setTreeName(renderer, treename);
-    m_heart->setTreeName(renderer, treename);
+    this->sad::SceneNode::setTreeName(renderer, tree_name);
+    m_heart->setTreeName(renderer, tree_name);
 }
 
 void game::HealthBar::setScene(sad::Scene* scene)

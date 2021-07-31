@@ -41,13 +41,13 @@ void initPhysicsPlatforms(sad::p2d::World* /*world*/, sad::Scene* main_scene, ga
         {
             sad::String name = nodes[i]->objectName();
             name.toUpper();
-            if ((name.getOccurence("FLOOR") != -1) || (name.getOccurence("PLATFORM") != -1))
+            if ((name.getOccurrence("FLOOR") != -1) || (name.getOccurrence("PLATFORM") != -1))
             {
                 sad::Sprite2D* node = dynamic_cast<sad::Sprite2D*>(nodes[i]);
                 container->PlatformSprites.push_back(node);
                 if (node)
                 {
-                    if (name.getOccurence("MOVING") != -1)
+                    if (name.getOccurrence("MOVING") != -1)
                     {
                         ungrouped_platform_sprites << node;
                     }

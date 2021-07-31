@@ -4,6 +4,7 @@
  */
 #pragma once
 #include <sadhash.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <cstdlib>
 #include <functional>
 #include "storedobject.h"

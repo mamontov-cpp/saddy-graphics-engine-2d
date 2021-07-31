@@ -38,12 +38,12 @@ public:
     /*! Tries to perform shooting actor
      *  \param[in] actor an actor
      */
-    virtual void tryShoot(game::Actor* actor);
+    virtual void tryShoot(game::Actor* actor) override;
 protected:
     /*! Performs actual shooting for actor
      *  \param[in] actor an actor
      */
-    virtual void shoot(game::Actor* actor);
+    virtual void shoot(game::Actor* actor) override;
     /*! A time for full turn time
      */
     double m_full_turn_time;

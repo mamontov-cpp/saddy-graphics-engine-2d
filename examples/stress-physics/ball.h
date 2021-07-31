@@ -5,6 +5,7 @@
  */
 #pragma once
 #include <p2d/app/object.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <p2d/app/constants.h>
 #include <log/log.h>
 #include <log/filetarget.h>

@@ -4,6 +4,7 @@
  */
 #pragma once
 #include "scenetransitionoptions.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include <renderer.h>
 #include <sadthread.h>
 #include <sprite2d.h>
@@ -67,7 +68,7 @@ struct ThreadData
      *  \param[in] game a game object
      */
     SceneTransitionProcess(Game* game);
-    /*! Fress data for transition process
+    /*! Frees data for transition process
      */
     ~SceneTransitionProcess();
     /*! Execute process with specified options.

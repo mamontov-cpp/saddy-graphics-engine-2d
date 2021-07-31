@@ -81,7 +81,7 @@ class Game  // NOLINT(cppcoreguidelines-special-member-functions)
 public:
     /*! A main menu state
      */
-    enum MainMenuState
+    enum class MainMenuState: int
     {
         GMMS_PLAY     = 0,  //!< A new game is selected
         GMMS_OPTIONS  = 1,  //!< Options are selected
@@ -89,12 +89,12 @@ public:
     };
     /*! A paused menu state
      */
-    enum PauseMenuState
+    enum class PauseMenuState: int
     {
         GPMS_RESUME = 0,  //!< A resume option is chosen,
         GPMS_EXIT = 1, //!< An exit option is chosen
     };
-    /*! A default gravity forcevalue
+    /*! A default gravity force value
      */
     static const sad::Point2D GravityForceValue;
     /*! Amount of lives for basic enemy
@@ -112,7 +112,7 @@ public:
     /*! Runs main game thread
      */
     void runMainGameThread();
-    /*! Runs inventorty thread
+    /*! Runs inventory thread
      */
     void runInventoryThread();
 
@@ -153,20 +153,20 @@ public:
      */
     void setScore(int score);
     /*! Increments score for a game
-     *  \param[in] dscore score delta
+     *  \param[in] delta_score score delta
      */
-    void incrementScore(int dscore);
+    void incrementScore(int delta_score);
     /*! Decrements score for a game
-     *  \param[in] dscore score delta
+     *  \param[in] delta_score score delta
      */
-    void decrementScore(int dscore);
+    void decrementScore(int delta_score);
     /*! Start starting state
      */
     void tryStartStartingState();
-    /*! Inits start screen for main thread
+    /*! Initializes start screen for main thread
      */
     void initStartScreenForMainThread();
-    /*! Inits start screen for inventory thread
+    /*! Initializes start screen for inventory thread
      */
     void initStartScreenForInventoryThread();
     /*! Plays theme for a game
@@ -180,7 +180,7 @@ public:
     /*! Enters playing state on paused state machine
      */
     void enterPlayingState();
-    /*! Enter transiioning state on paused state machine
+    /*! Enter transitioning state on paused state machine
      */
     void enterTransitioningState();
     /*! Enter paused state on paused state machine
@@ -233,7 +233,7 @@ public:
     void tryLoadWinScreen(bool is_inventory_thread);
     /*! Tries loading game screen
      */
-    void tryLoadGameScreen();
+    void tryLoadGameScreen() const;
     /*! Returns options screen
         \return options screen
      */
@@ -334,7 +334,7 @@ public:
     void addProjectile(weapons::Projectile* projectile);
     /*! Tests if actor is dead
         \param[in] actor an actor
-        \return
+        \return true if actor is dead
      */
     bool isDead(game::Actor* actor) const;
     /*! Sets shooting strategy for bot
@@ -348,18 +348,18 @@ public:
      */
     void addDelayedTask(double time, const std::function<void()>& fn);
     /*! Makes new enemy actor
-        \param[in] optname a name for options for actor
+        \param[in] options_name a name for options for actor
         \param[in] middle a middle of enemy
      */
-    game::Actor* makeEnemy(const sad::String& optname, const sad::Point2D& middle);
+    game::Actor* makeEnemy(const sad::String& options_name, const sad::Point2D& middle);
     /*! Makes new item
-        \param[in] optname a name for sprite for actor (not an options for actor)
+        \param[in] options_name a name for sprite for actor (not an options for actor)
         \param[in] middle a middle of item
      */
-    game::Actor* makeItemActor(const sad::String& optname, const sad::Point2D& middle);
+    game::Actor* makeItemActor(const sad::String& options_name, const sad::Point2D& middle);
     /*! Tries to fetch from registry abstract bot
         \param[in] bot_name a name of bot
-        \return bot or  NULL if not found
+        \return bot or  nullptr if not found
      */
     bots::AbstractBot* getFromRegistry(const sad::String& bot_name) const;
     /*! Returns true if we have bot in registry
@@ -394,7 +394,7 @@ public:
      *  \return context
      */
     sad::dukpp03::Context* context() const;
-    /*! Clears item defintions
+    /*! Clears item definitions
      */
     void clearItemDefinitions();
     /*! Returns in-game wind speed
@@ -413,7 +413,7 @@ public:
      *  \return whether game is now playing
      */
     bool isNowPlaying() const;
-    /*! Returns max level x constant, that respresents
+    /*! Returns max level x constant, that represents
      *  how far does level go
      *  \return max level constant
      */
@@ -448,7 +448,7 @@ public:
      * \param[in] platform_name a platform name
      */
     void tryInvokeCallbackOnRestingOnPlatform(game::Actor* a, const sad::String& platform_name);
-    /*! Sets calbback on resting on platform
+    /*! Sets callback on resting on platform
      * \param[in] a an actor
      * \param[in] platform_name a platform name
      * \param[in] cb callback
@@ -488,7 +488,7 @@ public:
     game::LevelStorageLoader* levelStorageLoader() const;
     /*! Runs initialization script game_init.js
      */
-    void runGameInitializationScript();
+    void runGameInitializationScript() const;
 private:
     /*! Erases sprite from resting bodies to actors
      *  \param[in] a actor
@@ -497,7 +497,7 @@ private:
     /*! Shows current pause menu option
      */
     void showCurrentPauseMenuOption() const;
-    /*! Inits evaluation context
+    /*! Initializes evaluation context
      */
     void initContext();
     /*! Clear stored local projectiles
@@ -507,7 +507,7 @@ private:
     /*! Destroys physics world
      */
     void destroyWorld();
-    /*! Inits in-game physics
+    /*! Initializes in-game physics
      */
     void initGamePhysics();
     /*! Renders debug game shapes
@@ -549,7 +549,7 @@ private:
     /*! A pause menu state for paused menu
      */
     Game::PauseMenuState m_pause_menu_state;
-    /*! A mappping, that maps a state index from Game::MainMenuState
+    /*! A mapping, that maps a state index from Game::MainMenuState
         to a label, where should be placed marker (player stuff)
      */
     sad::Hash<size_t, sad::String> m_main_menu_states_to_labels;
@@ -585,7 +585,7 @@ private:
     /*! A theme playing song
      */
     ::irrklang::ISound* m_theme_playing;
-    /*! A list of ingame sounds
+    /*! A list of in-game sounds
      */
     Sounds* m_sounds;
 
@@ -602,7 +602,7 @@ private:
     /*! A global game options
      */
     game::Options m_options;
-    /*! An ingame used key conditions
+    /*! An in-game used key conditions
      */
     game::Conditions m_conditions;
     /*! A player, that will be used in game
@@ -665,7 +665,7 @@ private:
     /*! An animation for hitting the players
      */
     sad::animations::Blinking* m_hit_animation_for_players;
-    /*! Unanimated coins for game
+    /*! Un-animated coins for game
      */
     game::UnanimatedCoins m_unanimated_coins;
     /*! A list of delayed tasks

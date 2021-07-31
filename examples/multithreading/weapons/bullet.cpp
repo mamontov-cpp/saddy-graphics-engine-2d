@@ -23,8 +23,8 @@ DECLARE_SOBJ_INHERITANCE(weapons::Bullet, weapons::Projectile)
 #define LOWEST_BULLET_SPEED (10)
 
 weapons::Bullet::Bullet(Game* game, game::Actor* actor, double angle, const weapons::BulletSettings& settings)
-: m_sprite(NULL),
-m_body(NULL),
+: m_sprite(nullptr),
+m_body(nullptr),
 m_is_ghost(false),
 m_bounce_count_left(0),
 m_bounce_restitution_coefficient(1.0),
@@ -147,7 +147,7 @@ bool weapons::Bullet::canBeRotated()
 
 game::Actor* weapons::Bullet::actor() const
 {
-    return NULL;
+    return nullptr;
 }
 
 void weapons::Bullet::kill()

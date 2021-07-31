@@ -20,6 +20,7 @@
 #include <pipeline/pipeline.h>
 #include <pipeline/pipelinedelayedtask.h>
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <keymouseconditions.h>
 
 #include <sprite2d.h>
@@ -70,7 +71,7 @@
 
 const sad::Point2D Game::GravityForceValue(0.0, -300.0); // -300 is arbitrarily defined, to make player fall slowly
 
-const int Game::BasicEnemyLivesCount = 3; //< Amount of lives for enemy
+const int Game::BasicEnemyLivesCount = 3; // Amount of lives for enemy
 
 const int Game::BasicPlayerLivesCount = 1; // Amount of lives for player
 
@@ -80,29 +81,29 @@ DECLARE_COMMON_TYPE(Game);
 // ==================================== PUBLIC METHODS ====================================
 
 Game::Game()  : m_is_quitting(false),  // NOLINT(cppcoreguidelines-pro-type-member-init)
-m_main_menu_state(Game::GMMS_PLAY),
-m_pause_menu_state(Game::GPMS_RESUME),
+m_main_menu_state(Game::MainMenuState::GMMS_PLAY),
+m_pause_menu_state(Game::PauseMenuState::GPMS_RESUME),
 m_score(0),
 m_highscore(0),
 m_loaded_options_database{false, false},
 m_loaded_lose_screen_database{false, false},
 m_loaded_win_screen_database{false, false},
-m_main_level_loader(NULL),
-m_theme_playing(NULL),
-m_sounds(NULL),
-m_inventory_node(NULL),
-m_inventory_popup(NULL),
-m_eval_context(NULL),
-m_physics_world(NULL),
+m_main_level_loader(nullptr),
+m_theme_playing(nullptr),
+m_sounds(nullptr),
+m_inventory_node(nullptr),
+m_inventory_popup(nullptr),
+m_eval_context(nullptr),
+m_physics_world(nullptr),
 m_is_rendering_world_bodies(false),
 m_max_level_x(0.0),
-m_hit_animation_for_enemies(NULL),
-m_hit_animation_for_players(NULL),
+m_hit_animation_for_enemies(nullptr),
+m_hit_animation_for_players(nullptr),
 m_wind_speed(0),
-m_snow_particles(NULL),
-m_camera_movement(NULL),
+m_snow_particles(nullptr),
+m_camera_movement(nullptr),
 m_winning(false),
-m_level_storage_loader(NULL)// NOLINT
+m_level_storage_loader(nullptr)// NOLINT
 {
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
@@ -119,9 +120,9 @@ m_level_storage_loader(NULL)// NOLINT
     m_player->setGame(this);
     m_player->setLives(Game::BasicPlayerLivesCount);
 
-    m_main_menu_states_to_labels.insert(Game::GMMS_PLAY   , "Play");
-    m_main_menu_states_to_labels.insert(Game::GMMS_OPTIONS, "Options");
-    m_main_menu_states_to_labels.insert(Game::GMMS_EXIT   , "Exit");
+    m_main_menu_states_to_labels.insert(static_cast<size_t>(Game::MainMenuState::GMMS_PLAY)   , "Play");
+    m_main_menu_states_to_labels.insert(static_cast<size_t>(Game::MainMenuState::GMMS_OPTIONS), "Options");
+    m_main_menu_states_to_labels.insert(static_cast<size_t>(Game::MainMenuState::GMMS_EXIT)   , "Exit");
 
 
     m_transition_process = new SceneTransitionProcess(this);
@@ -131,12 +132,12 @@ m_level_storage_loader(NULL)// NOLINT
 
     m_options_screen.init(this, m_main_thread->renderer(), m_inventory_thread->renderer());
     
-    m_step_task = new sad::p2d::WorldStepTask(NULL, m_main_thread->renderer());
+    m_step_task = new sad::p2d::WorldStepTask(nullptr, m_main_thread->renderer());
     
     m_bounce_solver = new sad::p2d::BounceSolver();
     m_bounce_solver->toggleIgnoreContactPoints(true);
     m_bounce_solver->toggleInelasticCollisions(true);
-    m_bounce_solver->setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+    m_bounce_solver->setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
 
     m_bounce_solver_for_bullets = new sad::p2d::BounceSolver();
 
@@ -216,7 +217,7 @@ void Game::runMainGameThread()
     m_options.load(&renderer);
     m_conditions.apply(m_options);
 
-    sad::Maybe<picojson::value> maybe_json = sad::slurpJson("highscore.json", &renderer);
+    const sad::Maybe<picojson::value> maybe_json = sad::slurpJson("highscore.json", &renderer);
     if (maybe_json.exists())
     {
         picojson::value val = maybe_json.value();
@@ -229,7 +230,7 @@ void Game::runMainGameThread()
     // so initialize flag now
     m_inventory_thread->needsToBeNotifiedFromLater();
     SL_LOCAL_DEBUG("Initializing main thread", renderer);
-    // Attempt to load resouces
+    // Attempt to load resources
     m_main_thread->tryInitialize(
         "M",
         "main_thread.txt",
@@ -257,7 +258,7 @@ void Game::runMainGameThread()
             error +=  "\n";
         }
         // Output errors
-        m_main_thread->renderer()->error(error, "Initilaization error");
+        m_main_thread->renderer()->error(error, "Initialization error");
 
         // Kill inventory thread
         m_inventory_thread->sendKillSignalFrom(m_main_thread);
@@ -269,9 +270,9 @@ void Game::runMainGameThread()
         m_inventory_thread->sendResumeSignalFrom(m_main_thread);
     }
 
-    sad::db::Database* db = new sad::db::Database();
+    auto* db = new sad::db::Database();
     db->setRenderer(&renderer);
-    bool result = db->loadFromFile("examples/multithreading/titlescreen.json", &renderer);
+    const bool result = db->loadFromFile("examples/multithreading/titlescreen.json", &renderer);
     if (result)
     {
         renderer.addDatabase("titlescreen", db);
@@ -289,7 +290,7 @@ void Game::runMainGameThread()
     setControlsForInventoryThread(m_inventory_thread->renderer());
 
     renderer.controls()->addLambda(
-        *sad::input::ET_KeyPress & sad::Esc,
+        *sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc,
         [this]() -> void {
             this->quitGame();
         }
@@ -297,7 +298,7 @@ void Game::runMainGameThread()
 
     SL_LOCAL_DEBUG("Starting", renderer);
     renderer.controls()->addLambda(
-        *sad::input::ET_Quit,
+        *sad::input::EventType::ET_Quit,
         [this]() -> void {
             if (!m_is_quitting) {
                 m_is_quitting = true;
@@ -324,7 +325,7 @@ void Game::runInventoryThread()
     // We wait for main thread later to get initialization result,
     // so initialize flag now
     m_main_thread->needsToBeNotifiedFromLater();
-    // Attempt to load resouces
+    // Attempt to load resources
     SL_LOCAL_DEBUG("Initializing inventory thread", renderer);
     m_inventory_thread->tryInitialize(
         "I",
@@ -348,7 +349,7 @@ void Game::runInventoryThread()
     m_inventory_thread->markAsRendererStarted();
     // Kill other window, if closed
     renderer.controls()->addLambda(
-        *sad::input::ET_Quit,
+        *sad::input::EventType::ET_Quit,
         [this]() -> void {
             if (!m_is_quitting) {
                 m_is_quitting = true;
@@ -385,10 +386,10 @@ void Game::putPlayerPickAccordingToMenuState(Game::MainMenuState state)
 {
     sad::Renderer* renderer = m_main_thread->renderer();
     sad::db::Database* db = renderer->database("titlescreen");
-    sad::Sprite2D* choice_pointer = db->objectByName<sad::Sprite2D>("PlayerPick");
-    sad::Label* new_game_label = db->objectByName<sad::Label>(this->m_main_menu_states_to_labels[state]);
-    double x = new_game_label->area().p0().x() - padding_between_label_and_player_choice - (choice_pointer->area().width() / 2.0);
-    double y = (new_game_label->area().p0().y() - new_game_label->area().height() / 2.0);
+    auto* choice_pointer = db->objectByName<sad::Sprite2D>("PlayerPick");
+    auto* new_game_label = db->objectByName<sad::Label>(this->m_main_menu_states_to_labels[static_cast<size_t>(state)]);
+    const double x = new_game_label->area().p0().x() - padding_between_label_and_player_choice - (choice_pointer->area().width() / 2.0);
+    const double y = (new_game_label->area().p0().y() - new_game_label->area().height() / 2.0);
     choice_pointer->setMiddle(sad::Point2D(x, y));
 }
 
@@ -404,18 +405,18 @@ void Game::removeItemFromPlayersInventoryWithWeapon(weapons::Weapon* weapon) con
 void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
 {
     // Set pointer for the main menu options
-    this->m_main_menu_state = GMMS_PLAY;
+    this->m_main_menu_state = MainMenuState::GMMS_PLAY;
     this->putPlayerPickAccordingToMenuState(this->m_main_menu_state);
 
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_START_SCREEN]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[static_cast<size_t>(game::Conditions::State::CS_START_SCREEN)]
         & ((&m_state_machine) * sad::String("starting_screen"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() -> void {
-        if (this->m_main_menu_state == Game::GMMS_PLAY)
+        if (this->m_main_menu_state == Game::MainMenuState::GMMS_PLAY)
         {
-            this->m_main_menu_state = Game::GMMS_EXIT;
+            this->m_main_menu_state = Game::MainMenuState::GMMS_EXIT;
         }
         else
         {
@@ -426,14 +427,14 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
     });
 
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_START_SCREEN]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[static_cast<size_t>(game::Conditions::State::CS_START_SCREEN)]
         & ((&m_state_machine) * sad::String("starting_screen"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() -> void {
-        if (this->m_main_menu_state == Game::GMMS_EXIT)
+        if (this->m_main_menu_state == Game::MainMenuState::GMMS_EXIT)
         {
-            this->m_main_menu_state = Game::GMMS_PLAY;
+            this->m_main_menu_state = Game::MainMenuState::GMMS_PLAY;
         }
         else
         {
@@ -444,17 +445,17 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
     });
 
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_START_SCREEN]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[static_cast<size_t>(game::Conditions::State::CS_START_SCREEN)]
         & ((&m_state_machine) * sad::String("starting_screen"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() -> void {
         this->playSound("misc_menu_2");
         switch (this->m_main_menu_state)
         {
-            case Game::GMMS_PLAY: this->changeSceneToPlayingScreen(); break;
-            case Game::GMMS_OPTIONS: this->changeSceneToOptions(); break;
-            case Game::GMMS_EXIT: this->quitGame(); break;
+            case Game::MainMenuState::GMMS_PLAY: this->changeSceneToPlayingScreen(); break;
+            case Game::MainMenuState::GMMS_OPTIONS: this->changeSceneToOptions(); break;
+            case Game::MainMenuState::GMMS_EXIT: this->quitGame(); break;
         }
     });
 
@@ -462,43 +463,43 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
 
     // An options
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[static_cast<size_t>(game::Conditions::State::CS_OPTIONS_SCREEN)]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() { this->optionsScreen().moveToPreviousItem(); }
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.RightKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.RightKeyConditions[static_cast<size_t>(game::Conditions::State::CS_OPTIONS_SCREEN)]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() { this->optionsScreen().moveToNextItem(); }
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[static_cast<size_t>(game::Conditions::State::CS_OPTIONS_SCREEN)]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() { this->optionsScreen().moveToPreviousItem(); }
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[static_cast<size_t>(game::Conditions::State::CS_OPTIONS_SCREEN)]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() { this->optionsScreen().moveToNextItem(); }
     );
     renderer->controls()->add(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[static_cast<size_t>(game::Conditions::State::CS_OPTIONS_SCREEN)]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         &(this->optionsScreen()),
         &OptionsScreen::tryStartEditing
     );
     renderer->controls()->add(
-        *sad::input::ET_KeyPress
+        *sad::input::EventType::ET_KeyPress
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         &(this->optionsScreen()),
@@ -506,76 +507,76 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
     );
 
     // A playing game screen
-    std::function<void()> stop_going_into_any_direction = [=]() {
+    const std::function<void()> stop_going_into_any_direction = [=]() {
         // Stop going into any direction
         this->player()->tryStopGoingLeft();
         this->player()->tryStopGoingRight();
     };
     renderer->controls()->addLambda(
-        *sad::input::ET_Deactivate
+        *sad::input::EventType::ET_Deactivate
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         stop_going_into_any_direction
     );
     renderer->controls()->add(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PLAYING_PRESSED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         this->m_player,
         &game::Player::tryStartGoingLeft
     );
     renderer->controls()->add(
-        *sad::input::ET_KeyRelease
-        & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED]
+        *sad::input::EventType::ET_KeyRelease
+        & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PLAYING_RELEASED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         this->m_player,
         &game::Player::tryStopGoingLeft
     );
     renderer->controls()->add(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.RightKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PLAYING_PRESSED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         this->m_player,
         &game::Player::tryStartGoingRight
     );
     renderer->controls()->add(
-        *sad::input::ET_KeyRelease
-        & m_conditions.ConditionsForMainRenderer.RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED]
+        *sad::input::EventType::ET_KeyRelease
+        & m_conditions.ConditionsForMainRenderer.RightKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PLAYING_RELEASED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         this->m_player,
         &game::Player::tryStopGoingRight
     );
     renderer->controls()->add(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PLAYING_PRESSED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         this->m_player,
         &game::Player::tryStartGoingUp
     );
     renderer->controls()->add(
-        *sad::input::ET_KeyRelease
-        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED]
+        *sad::input::EventType::ET_KeyRelease
+        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PLAYING_RELEASED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         this->m_player,
         &game::Player::tryStopGoingUp
     );
     renderer->controls()->add(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PLAYING_PRESSED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         this->m_player,
         &game::Player::tryStartGoingDown
     );
     renderer->controls()->add(
-        *sad::input::ET_KeyRelease
-        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED]
+        *sad::input::EventType::ET_KeyRelease
+        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PLAYING_RELEASED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         this->m_player,
@@ -584,9 +585,9 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
 
     std::function<void(const sad::Point2D& p)> set_lookup_angle = [this](const sad::Point2D& pnt) {
         double angle = 0;
-        sad::Point2D middle = this->m_player->middle();
-        double dy = pnt.y() - middle.y();
-        double dx = pnt.x() - middle.x();
+        const sad::Point2D middle = this->m_player->middle();
+        const double dy = pnt.y() - middle.y();
+        const double dx = pnt.x() - middle.x();
         if (!sad::is_fuzzy_zero(dx))
         {
             angle = atan2(dy, dx);
@@ -594,13 +595,13 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         this->m_player->actor()->setLookupAngle(angle);
     };
 
-    std::function<void(const sad::input::MouseMoveEvent&)> mouse_move_event = [=](const sad::input::MouseMoveEvent& ev) {
+    const std::function<void(const sad::input::MouseMoveEvent&)> mouse_move_event = [=](const sad::input::MouseMoveEvent& ev) {
         set_lookup_angle(ev.pos2D());
     };
 
-    std::function<void()> perform_action = [this, set_lookup_angle]() {
+    const std::function<void()> perform_action = [this, set_lookup_angle]() {
         // this->m_player->setFloaterState(!(this->m_player->isFloater()));
-        sad::MaybePoint3D pnt = this->rendererForMainThread()->cursorPosition();
+        const sad::MaybePoint3D pnt = this->rendererForMainThread()->cursorPosition();
         if (pnt.exists())
         {
            set_lookup_angle(pnt.value());
@@ -609,60 +610,60 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
     };
 
     // This handler is reserved for future purposes
-    std::function<void()> right_click_handler = [=] {};
+    const std::function<void()> right_click_handler = [=] {};
 
     renderer->controls()->addLambda(
-        *sad::input::ET_MouseMove
+        *sad::input::EventType::ET_MouseMove
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         mouse_move_event
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_MousePress
-        & sad::MouseLeft
+        *sad::input::EventType::ET_MousePress
+        & sad::MouseButton::MouseLeft
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         perform_action
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_MousePress
-        & sad::MouseRight
+        *sad::input::EventType::ET_MousePress
+        & sad::MouseButton::MouseRight
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         right_click_handler
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PLAYING)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         perform_action
     );
     renderer->controls()->add(
-        *sad::input::ET_KeyPress
+        *sad::input::EventType::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.PauseCondition
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         this, &Game::tryEnterPause
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & sad::Tab
+        *sad::input::EventType::ET_KeyPress
+        & sad::KeyboardKey::Tab
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this] { this->m_is_rendering_world_bodies = !this->m_is_rendering_world_bodies;  }
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & sad::Backspace
+        *sad::input::EventType::ET_KeyPress
+        & sad::KeyboardKey::Backspace
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() { this->changeSceneToStartingScreen();  }
     );
     // Kill all bodies, simple cheat code :)
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & sad::End
+        *sad::input::EventType::ET_KeyPress
+        & sad::KeyboardKey::End
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() {
@@ -674,38 +675,38 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
     });
 
     // A paused game screen
-    std::function<void()> pause_menu_next_option = [=]() {
-        this->m_pause_menu_state = (this->m_pause_menu_state == Game::GPMS_RESUME) ? Game::GPMS_EXIT : Game::GPMS_RESUME;
+    const std::function<void()> pause_menu_next_option = [=]() {
+        this->m_pause_menu_state = (this->m_pause_menu_state == Game::PauseMenuState::GPMS_RESUME) ? Game::PauseMenuState::GPMS_EXIT : Game::PauseMenuState::GPMS_RESUME;
         this->showCurrentPauseMenuOption();
     };
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PAUSED_PRESSED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         pause_menu_next_option
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PAUSED_PRESSED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         pause_menu_next_option
     );
     // On pressed state
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PAUSED_PRESSED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         [=]() {
-        if (this->m_pause_menu_state == Game::GPMS_RESUME)
+        if (this->m_pause_menu_state == Game::PauseMenuState::GPMS_RESUME)
         {
             this->tryExitPause([=]() {
                 this->playSound("misc_menu_2");
             });
         }
-        if (this->m_pause_menu_state == Game::GPMS_EXIT)
+        if (this->m_pause_menu_state == Game::PauseMenuState::GPMS_EXIT)
         {
             this->tryExitPause([=]() {
                 this->changeSceneToStartingScreen();
@@ -715,7 +716,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
     });
     void (Game::*try_exit_pause)() = &Game::tryExitPause;
     renderer->controls()->add(
-        *sad::input::ET_KeyPress
+        *sad::input::EventType::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.PauseConditionWhenPaused
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
@@ -723,29 +724,29 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
     );
     // A paused key release handlers
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyRelease
-        & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED]
+        *sad::input::EventType::ET_KeyRelease
+        & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PAUSED_RELEASED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         [=]() { this->player()->tryStopGoingLeft(); }
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyRelease
-        & m_conditions.ConditionsForMainRenderer.RightKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED]
+        *sad::input::EventType::ET_KeyRelease
+        & m_conditions.ConditionsForMainRenderer.RightKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PAUSED_RELEASED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         [=]() { this->player()->tryStopGoingRight(); }
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyRelease
-        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED]
+        *sad::input::EventType::ET_KeyRelease
+        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PAUSED_RELEASED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         [=]() { this->player()->tryStopGoingUp(); }
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyRelease
-        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED]
+        *sad::input::EventType::ET_KeyRelease
+        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PAUSED_RELEASED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         [=]() { this->player()->tryStopGoingDown(); }
@@ -785,47 +786,47 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
 
 void Game::setControlsForInventoryThread(sad::Renderer* renderer)
 {
-    std::function<void()> empty_callback = []() {};
+	const std::function<void()> empty_callback = []() {};
 
     // An options
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForInventoryRenderer.LeftKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.LeftKeyConditions[static_cast<size_t>(game::Conditions::State::CS_OPTIONS_SCREEN)]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() { this->optionsScreen().moveToPreviousItem(); }
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForInventoryRenderer.RightKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.RightKeyConditions[static_cast<size_t>(game::Conditions::State::CS_OPTIONS_SCREEN)]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() { this->optionsScreen().moveToNextItem(); }
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForInventoryRenderer.UpKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.UpKeyConditions[static_cast<size_t>(game::Conditions::State::CS_OPTIONS_SCREEN)]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() { this->optionsScreen().moveToPreviousItem(); }
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForInventoryRenderer.DownKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.DownKeyConditions[static_cast<size_t>(game::Conditions::State::CS_OPTIONS_SCREEN)]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() { this->optionsScreen().moveToNextItem(); }
     );
     renderer->controls()->add(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForInventoryRenderer.JumpActionConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.JumpActionConditions[static_cast<size_t>(game::Conditions::State::CS_OPTIONS_SCREEN)]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         &(this->optionsScreen()),
         &OptionsScreen::tryStartEditing
     );
     renderer->controls()->add(
-        *sad::input::ET_KeyPress
+        *sad::input::EventType::ET_KeyPress
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         &(this->optionsScreen()),
@@ -834,35 +835,35 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
 
     // A playing game screen
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForInventoryRenderer.LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.LeftKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PLAYING)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         empty_callback
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForInventoryRenderer.RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.RightKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PLAYING)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         empty_callback
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForInventoryRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.UpKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PLAYING)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         empty_callback
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForInventoryRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.DownKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PLAYING)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         empty_callback
     );
     renderer->controls()->add(
-        *sad::input::ET_KeyPress
+        *sad::input::EventType::ET_KeyPress
         & m_conditions.ConditionsForInventoryRenderer.PauseCondition
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
@@ -871,36 +872,36 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
 
     // A paused game screen
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForInventoryRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.UpKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PAUSED_PRESSED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         empty_callback
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForInventoryRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.DownKeyConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PAUSED_PRESSED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         empty_callback
     );
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForInventoryRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED]
+        *sad::input::EventType::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.JumpActionConditions[static_cast<size_t>(game::Conditions::State::CS_PLAYGAME_PAUSED_PRESSED)]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         empty_callback
     );
     void (Game::*try_exit_pause)() = &Game::tryExitPause;
     renderer->controls()->add(
-        *sad::input::ET_KeyPress
+        *sad::input::EventType::ET_KeyPress
         & m_conditions.ConditionsForInventoryRenderer.PauseConditionWhenPaused
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         this, try_exit_pause
     );
 
-    std::function<void(const sad::input::MousePressEvent& e)> left_button_click = [=](const sad::input::MousePressEvent& e) {
+    const std::function<void(const sad::input::MousePressEvent& e)> left_button_click = [=](const sad::input::MousePressEvent& e) {
         sad::Maybe<sad::Triplet<int, int, game::Item*> > result_data = this->m_player->inventory()->getItemWhichIsUnderCursor(e.pos2D());
         if (result_data.exists())
         {
@@ -920,38 +921,38 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
         }
     };
     renderer->controls()->addLambda(
-        *sad::input::ET_MousePress
-        & sad::MouseLeft
+        *sad::input::EventType::ET_MousePress
+        & sad::MouseButton::MouseLeft
         & ((&m_state_machine) * sad::String("playing")),
         left_button_click
     );
 
-    std::function<void(const sad::input::MousePressEvent& e)> right_button_click = [=](const sad::input::MousePressEvent& e) {
+   const std::function<void(const sad::input::MousePressEvent& e)> right_button_click = [=](const sad::input::MousePressEvent& e) {
         this->m_player->inventory()->tryStartDraggingItem(e.pos2D());
     };
     renderer->controls()->addLambda(
-        *sad::input::ET_MousePress
-        & sad::MouseRight
+        *sad::input::EventType::ET_MousePress
+        & sad::MouseButton::MouseRight
         & ((&m_state_machine) * sad::String("playing")),
         right_button_click
     );
 
-    std::function<void(const sad::input::MouseReleaseEvent& e)> right_button_release = [=](const sad::input::MouseReleaseEvent& e) {
+    const std::function<void(const sad::input::MouseReleaseEvent& e)> right_button_release = [=](const sad::input::MouseReleaseEvent& e) {
         this->m_player->inventory()->tryReleaseDraggedItem(e.pos2D());
     };
     renderer->controls()->addLambda(
-        *sad::input::ET_MouseRelease
-        & sad::MouseRight
+        *sad::input::EventType::ET_MouseRelease
+        & sad::MouseButton::MouseRight
         & ((&m_state_machine) * sad::String("playing")),
         right_button_release
     );
 
-    std::function<void(const sad::input::MouseMoveEvent& e)> move_callback = [=](const sad::input::MouseMoveEvent& e) {
+    const std::function<void(const sad::input::MouseMoveEvent& e)> move_callback = [=](const sad::input::MouseMoveEvent& e) {
         this->tryShowInventoryPopup(e.pos2D());
         this->m_player->inventory()->tryMoveDraggedItem(e.pos2D());
     };
     renderer->controls()->addLambda(
-        *sad::input::ET_MouseMove
+        *sad::input::EventType::ET_MouseMove
         & ((&m_state_machine) * sad::String("playing")),
         move_callback
     );
@@ -993,15 +994,15 @@ void Game::setScore(int score)
     setHighscore(std::max(m_score, m_highscore));
 }
 
-void Game::incrementScore(int dscore)
+void Game::incrementScore(int delta_score)
 {
-    m_score += dscore;
+    m_score += delta_score;
     setHighscore(std::max(m_score, m_highscore));
 }
 
-void Game::decrementScore(int dscore)
+void Game::decrementScore(int delta_score)
 {
-    m_score -= dscore;
+    m_score -= delta_score;
     setHighscore(std::max(m_score, m_highscore));
 }
 
@@ -1021,20 +1022,20 @@ void Game::initStartScreenForMainThread()
     // Play animations
     sad::Renderer* renderer = m_main_thread->renderer();
     sad::db::Database* db  = renderer->database("titlescreen");
-    sad::animations::Instance* player_walk = db->objectByName<sad::animations::Instance>("player_walk");
-    sad::animations::Instance* player_walk2 = db->objectByName<sad::animations::Instance>("player_walk2");
+    auto* player_walk = db->objectByName<sad::animations::Instance>("player_walk");
+    auto* player_walk2 = db->objectByName<sad::animations::Instance>("player_walk2");
     renderer->animations()->add(player_walk);
     renderer->animations()->add(player_walk2);
 
     sad::Scene* scene = renderer->scenes()[0];
-    nodes::Background* background = new nodes::Background(true);
+    auto* background = new nodes::Background(true);
     scene->addNode(background);
     scene->setLayer(background, 0);
 
-    sad::Label* highscore = db->objectByName<sad::Label>("Highscore");
+    auto* highscore = db->objectByName<sad::Label>("Highscore");
     highscore->setString(sad::String("HIGHSCORE   IS   ") + sad::String::number(m_highscore));
     const double middle = 400; // A middle position data
-    double width = highscore->area().width();
+    const double width = highscore->area().width();
     // A hardcoded data from titlescreen database
     highscore->setArea(sad::Rect2D(middle - width / 2.0, 585, middle + width / 2.0, 549));
 }
@@ -1045,20 +1046,20 @@ void Game::initStartScreenForInventoryThread()
     sad::Renderer& renderer= *(m_inventory_thread->renderer());
 
     sad::Scene* scene = renderer.scenes()[0];
-    nodes::Background* background = new nodes::Background(false);
+    auto* background = new nodes::Background(false);
     scene->addNode(background);
 }
 
 void Game::playTheme(const sad::String& theme)
 {
-    sad::irrklang::Sound* theme_data = m_inventory_thread->renderer()->tree("")->get<sad::irrklang::Sound>(theme);
+    auto* theme_data = m_inventory_thread->renderer()->tree("")->get<sad::irrklang::Sound>(theme);
     m_theme_playing = m_theme.play2D(theme_data, m_options.MusicVolume);
 }
 
 void Game::setThemeVolume(double volume)
 {
     m_options.MusicVolume = volume;
-    m_theme_playing->setVolume(volume);
+    m_theme_playing->setVolume(static_cast<float>(volume));
 }
 
 void Game::enterPlayingState()
@@ -1078,7 +1079,7 @@ void Game::enterPausedState()
 
 void Game::triggerWinGame()
 {
-    m_winning = true;;
+    m_winning = true;
     // We append task here to avoid dangers of dying inside physics loop
     this->rendererForMainThread()->pipeline()->appendTask([=] {
         this->m_player->toggleIsDead(true);
@@ -1090,16 +1091,16 @@ void Game::triggerWinGame()
         }
         this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(local_sprite);
 
-        sad::Point2D middle = local_sprite->middle();
+        const sad::Point2D middle = local_sprite->middle();
 
-        sad::animations::SimpleMovement* movement = new sad::animations::SimpleMovement();
+        auto* movement = new sad::animations::SimpleMovement();
         movement->setStartingPoint(middle);
         movement->setEndingPoint(sad::Point2D(middle.x() + this->rendererForMainThread()->settings().width(), middle.y()));
         movement->setTime(800);
         movement->setLooped(false);
 
 
-        sad::animations::Instance* instance = new sad::animations::Instance();
+        auto* instance = new sad::animations::Instance();
         instance->setObject(local_sprite);
         instance->setAnimation(movement);
         instance->end([=] { local_sprite->scene()->removeNode(local_sprite); this->changeSceneToWinScreen(); });
@@ -1129,14 +1130,14 @@ void Game::changeSceneToStartingScreen()
     this->destroyWorld();
     SceneTransitionOptions options;
 
-    m_inventory_popup = NULL;
+    m_inventory_popup = nullptr;
     clearLevelStorageLoader();
 
 
     sad::Renderer* main_renderer = m_main_thread->renderer();
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
 
-    Game::MainMenuState  state = m_main_menu_state;
+    const Game::MainMenuState  state = m_main_menu_state;
     options.mainThread().LoadFunction = [main_renderer]() { main_renderer->database("titlescreen")->restoreSnapshot(); };
     options.inventoryThread().LoadFunction = [this]() { this->m_player->reset(); };
     options.mainThread().OnLoadedFunction = [=]()  {
@@ -1175,7 +1176,7 @@ void Game::changeSceneToLoseScreen()
     this->destroyWorld();
     SceneTransitionOptions options;
 
-    m_inventory_popup = NULL;
+    m_inventory_popup = nullptr;
     clearLevelStorageLoader();
 
 
@@ -1185,9 +1186,9 @@ void Game::changeSceneToLoseScreen()
     options.mainThread().LoadFunction = [this]() { this->tryLoadLoseScreen(false); };
     options.inventoryThread().LoadFunction = [this]() { this->m_player->reset(); this->tryLoadLoseScreen(true); };
 
-    std::function<void(sad::Renderer*)> init_screen = [=](sad::Renderer* r) {
+    const std::function<void(sad::Renderer*)> init_screen = [=](sad::Renderer* r) {
         sad::db::Database* db = r->database("lose_screen");
-        sad::Label* label = db->objectByName<sad::Label>("ScoreValue");
+        auto* label = db->objectByName<sad::Label>("ScoreValue");
         if (label)
         {
             label->setString(sad::String::number(this->score()));
@@ -1231,7 +1232,7 @@ void Game::changeSceneToWinScreen()
     this->destroyWorld();
     SceneTransitionOptions options;
 
-    m_inventory_popup = NULL;
+    m_inventory_popup = nullptr;
     clearLevelStorageLoader();
 
 
@@ -1240,9 +1241,9 @@ void Game::changeSceneToWinScreen()
 
     options.mainThread().LoadFunction = [this]() { this->tryLoadWinScreen(false); };
     options.inventoryThread().LoadFunction = [this]() { this->m_player->reset(); this->tryLoadWinScreen(true); };
-    std::function<void(sad::Renderer*)> init_screen_for_renderer = [=](sad::Renderer* r) {
+    const std::function<void(sad::Renderer*)> init_screen_for_renderer = [=](sad::Renderer* r) {
         sad::db::Database* db = r->database("win_screen");
-        sad::Label* label = db->objectByName<sad::Label>("ScoreValue");
+        auto* label = db->objectByName<sad::Label>("ScoreValue");
         if (label)
         {
             label->setString(sad::String::number(this->score()));
@@ -1261,11 +1262,11 @@ void Game::changeSceneToWinScreen()
     options.mainThread().OnFinishedFunction = [this]() {
         this->playSound("win_screen"); this->m_state_machine.enterState("win_screen"); this->enterPlayingState();
         this->rendererForMainThread()->pipeline()->append(new sad::pipeline::DelayedTask([=] { this->changeSceneToStartingScreen();  }, 2100));
-        sad::animations::Group* group = this->rendererForMainThread()->database("win_screen")->objectByName<sad::animations::Group>("Group1");
+        auto* group = this->rendererForMainThread()->database("win_screen")->objectByName<sad::animations::Group>("Group1");
         this->rendererForMainThread()->animations()->add(group);
     };
     options.inventoryThread().OnFinishedFunction = [this]() {
-        sad::animations::Group* group = this->rendererForInventoryThread()->database("win_screen")->objectByName<sad::animations::Group>("Group1");
+        auto* group = this->rendererForInventoryThread()->database("win_screen")->objectByName<sad::animations::Group>("Group1");
         this->rendererForInventoryThread()->animations()->add(group);
 
         this->enterPlayingState();
@@ -1295,7 +1296,7 @@ void Game::changeSceneToPlayingScreen()
 
     SceneTransitionOptions options;
 
-    m_inventory_popup = NULL;
+    m_inventory_popup = nullptr;
     m_is_rendering_world_bodies = false;
     
 
@@ -1306,7 +1307,7 @@ void Game::changeSceneToPlayingScreen()
     m_player->inventory()->setOwner(m_player->actor());
     clearLevelStorageLoader();
 
-    sad::Timer* timer = new sad::Timer();
+    auto* timer = new sad::Timer();
     timer->start();
 
     options.mainThread().LoadFunction = [this]() {  this->tryLoadGameScreen(); };
@@ -1316,7 +1317,7 @@ void Game::changeSceneToPlayingScreen()
         SL_LOCAL_DEBUG(str(fmt::Format("Loaded level in {0} ms") << timer->elapsed()), *main_renderer);
         timer->start();
         sad::db::Database* db = main_renderer->database("gamescreen");
-        sad::Scene* pause_scene = db->objectByName<sad::Scene>("pause");
+        auto* pause_scene = db->objectByName<sad::Scene>("pause");
         if (pause_scene)
         {
             pause_scene->setActive(false);
@@ -1331,8 +1332,8 @@ void Game::changeSceneToPlayingScreen()
         timer->stop();
         SL_LOCAL_DEBUG(str(fmt::Format("sad::db::populateScenesFromDatabase took {0} ms") << timer->elapsed()), *main_renderer);
         timer->start();
-        sad::Scene* scene = db->objectByName<sad::Scene>("gui");
-        game::HealthBar* bar = new game::HealthBar(this);
+        auto* scene = db->objectByName<sad::Scene>("gui");
+        auto* bar = new game::HealthBar(this);
         scene->addNode(bar);
         scene->setLayer(bar, 0);
         m_snow_particles->setGame(this);
@@ -1344,7 +1345,7 @@ void Game::changeSceneToPlayingScreen()
         SL_LOCAL_DEBUG(str(fmt::Format("initGamePhysics() took {0} ms") << timer->elapsed()), *main_renderer);
         timer->start();
         // When loaded we should evaluate initialization script
-        game::clearItemPenetationDepths();
+        game::clearItemPenetrationDepths();
         this->clearItemDefinitions();
         timer->stop();
         SL_LOCAL_DEBUG(str(fmt::Format("Clearing of item penetration depths and definitions took {0} ms") << timer->elapsed()), *main_renderer);
@@ -1356,7 +1357,7 @@ void Game::changeSceneToPlayingScreen()
     };
 
     options.inventoryThread().OnLoadedFunction = [=]() {
-        sad::Scene* scene = new sad::Scene();
+        auto* scene = new sad::Scene();
         scene->setRenderer(inventory_renderer);
         this->m_inventory_node = new nodes::InventoryNode(m_player->inventory());
         this->m_inventory_popup = this->m_inventory_node->popup();
@@ -1370,10 +1371,10 @@ void Game::changeSceneToPlayingScreen()
     options.inventoryThread().OnFinishedFunction = [this, inventory_renderer]() {
         this->enterPlayingScreenState();
         this->enterPlayingState();
-        sad::MaybePoint3D mbp3d = inventory_renderer->cursorPosition();
-        if (mbp3d.exists())
+        const sad::MaybePoint3D maybe_point_3d = inventory_renderer->cursorPosition();
+        if (maybe_point_3d.exists())
         {
-            sad::Point2D pnt(mbp3d.value().x(), mbp3d.value().y());
+            const sad::Point2D pnt(maybe_point_3d.value().x(), maybe_point_3d.value().y());
             this->tryShowInventoryPopup(pnt);
         }
     };
@@ -1397,7 +1398,7 @@ void Game::changeSceneToOptions()
     this->m_player->reset();
 
 
-    m_inventory_popup = NULL;
+    m_inventory_popup = nullptr;
     clearLevelStorageLoader();
 
 
@@ -1458,7 +1459,7 @@ void Game::tryLoadWinScreen(bool is_inventory_thread)
     this->tryLoadIdenticalScreenDatabase(m_loaded_win_screen_database, "win_screen", "examples/multithreading/win_screen.json", is_inventory_thread);
 }
 
-void Game::tryLoadGameScreen()
+void Game::tryLoadGameScreen() const
 {
     this->m_main_level_loader->loadGameScreen();
 }
@@ -1505,7 +1506,7 @@ sad::Renderer* Game::rendererForInventoryThread() const
 
 void Game::tryShowInventoryPopup(const sad::Point2D& p) const
 {
-    sad::Maybe<sad::Triplet<int, int, game::Item*> > result_data = m_player->inventory()->getItemWhichIsUnderCursor(p);
+    const sad::Maybe<sad::Triplet<int, int, game::Item*> > result_data = m_player->inventory()->getItemWhichIsUnderCursor(p);
     bool handled = false;
     if (!(m_player->inventory()->isStartedDraggingItem()))
     { 
@@ -1559,7 +1560,7 @@ bool Game::evalScript(const sad::String& s) const
 
 void Game::evaluateInitializationScript() const
 {
-    sad::Maybe<sad::String> maybe_script = sad::slurp("examples/multithreading/init.js", m_main_thread->renderer());
+    const sad::Maybe<sad::String> maybe_script = sad::slurp("examples/multithreading/init.js", m_main_thread->renderer());
     if (maybe_script.exists())
     {
         // ReSharper disable CppExpressionWithoutSideEffects
@@ -1571,9 +1572,9 @@ game::Item* Game::makeItem(const sad::String& icon)
 {
     if (!m_item_definitions.contains(icon))
     {
-        return NULL;
+        return nullptr;
     }
-    game::Item* item = new game::Item(m_item_definitions[icon]);
+    auto* item = new game::Item(m_item_definitions[icon]);
     item->setGame(this);
     return item;
 }
@@ -1633,7 +1634,7 @@ sad::p2d::World* Game::physicsWorld() const
 
 void Game::killActorByBody(sad::p2d::Body* body)
 {
-    game::Actor* actor = static_cast<game::Actor*>(body->userObject());
+    auto* actor = static_cast<game::Actor*>(body->userObject());  // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
     this->killProjectilesRelatedToActor(actor);
     this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(actor->sprite());
     m_physics_world->removeBody(body);
@@ -1713,32 +1714,32 @@ void Game::addDelayedTask(double time, const std::function<void()>& fn)
     m_delayed_tasks.add(DelayedTask(time, fn));
 }
 
-game::Actor* Game::makeEnemy(const sad::String& optname, const sad::Point2D& middle)
+game::Actor* Game::makeEnemy(const sad::String& options_name, const sad::Point2D& middle)
 {
-    if (m_actor_options.contains(optname))
+    if (m_actor_options.contains(options_name))
     {
-        game::ActorOptions* options = m_actor_options[optname];
+        game::ActorOptions* options = m_actor_options[options_name];
 
-        sad::Scene* scene = this->rendererForMainThread()->database("gamescreen")->objectByName<sad::Scene>("main");
+        auto* scene = this->rendererForMainThread()->database("gamescreen")->objectByName<sad::Scene>("main");
         if (scene)
         {
-            sad::Sprite2D* sprite = new sad::Sprite2D();
+            auto* sprite = new sad::Sprite2D();
             sprite->setScene(scene);
             sprite->setTreeName(this->rendererForMainThread(), "");
             sprite->set(options->JumpingSprite);
             sprite->moveTo(middle);
             scene->add(sprite);
 
-            game::Actor* actor = new game::Actor();
+            auto* actor = new game::Actor();
             actor->setLives(Game::BasicEnemyLivesCount);
             actor->setGame(this);
             actor->setSprite(sprite);
             actor->setOptions(options);
 
-            sad::p2d::Body* body = new sad::p2d::Body();
+            auto* body = new sad::p2d::Body();
             body->setCurrentAngularVelocity(0);
             body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
-            sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
+            auto* rect = new sad::p2d::Rectangle();
             rect->setRect(sprite->area());
             body->setShape(rect);
 
@@ -1757,12 +1758,12 @@ game::Actor* Game::makeEnemy(const sad::String& optname, const sad::Point2D& mid
             return actor;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
-game::Actor* Game::makeItemActor(const sad::String& optname, const sad::Point2D& middle)
+game::Actor* Game::makeItemActor(const sad::String& options_name, const sad::Point2D& middle)
 {
-    sad::String real_opt_name = optname + "______item_actor";
+    const sad::String real_opt_name = options_name + "______item_actor";
     if (!m_actor_options.contains(real_opt_name)) {
         game::ActorOptions opts;
         opts.IsFloater = false;
@@ -1774,33 +1775,33 @@ game::Actor* Game::makeItemActor(const sad::String& optname, const sad::Point2D&
         opts.WalkingAnimationTime = 1;
         opts.JumpingAnimationTime = 1;
 
-        opts.StandingSprite = optname;
-        opts.WalkingSprite = optname;
-        opts.WalkingAnimationOptions.push_back(optname);
-        opts.JumpingAnimationOptions.push_back(optname);
-        opts.JumpingSprite = optname;
-        opts.FallingSprite = optname;
-        opts.DuckingSprite = optname;
-        opts.FloaterSprite = optname;
-        opts.FloaterFlyAnimationOptions.push_back(optname);
+        opts.StandingSprite = options_name;
+        opts.WalkingSprite = options_name;
+        opts.WalkingAnimationOptions.push_back(options_name);
+        opts.JumpingAnimationOptions.push_back(options_name);
+        opts.JumpingSprite = options_name;
+        opts.FallingSprite = options_name;
+        opts.DuckingSprite = options_name;
+        opts.FloaterSprite = options_name;
+        opts.FloaterFlyAnimationOptions.push_back(options_name);
 
         addActorOptions(real_opt_name, opts);
     }
     game::ActorOptions* options = m_actor_options[real_opt_name];
 
     sad::db::Database* gamescreen = this->rendererForMainThread()->database("gamescreen");
-    sad::Scene* scene = gamescreen->objectByName<sad::Scene>("main");
-    sad::animations::Animation* animation = gamescreen->objectByName<sad::animations::Animation>("item_falling");
+    auto* scene = gamescreen->objectByName<sad::Scene>("main");
+    auto* animation = gamescreen->objectByName<sad::animations::Animation>("item_falling");
     if (scene)
     {
-        sad::Sprite2D* sprite = new sad::Sprite2D();
+        auto* sprite = new sad::Sprite2D();
         sprite->setScene(scene);
         sprite->setTreeName(this->rendererForMainThread(), "");
         sprite->set(options->JumpingSprite);
         sprite->moveTo(middle);
         scene->add(sprite);
 
-        game::Actor* actor = new game::Actor();
+        auto* actor = new game::Actor();
         actor->setLives(Game::BasicEnemyLivesCount);
         actor->setGame(this);
         actor->setSprite(sprite);
@@ -1808,14 +1809,14 @@ game::Actor* Game::makeItemActor(const sad::String& optname, const sad::Point2D&
 
         // Make sprite larger (x3)
         sprite->setChangeSizeWhenOptionsAreChanged(false);
-        sad::Point2D wh(game::Item::SpriteSize / 2.0, game::Item::SpriteSize / 2.0);
-        sad::Rect2D area(middle - wh, middle + wh);
+        const sad::Point2D wh(game::Item::SpriteSize / 2.0, game::Item::SpriteSize / 2.0);
+        const sad::Rect2D area(middle - wh, middle + wh);
         sprite->setArea(area);
 
-        sad::p2d::Body* body = new sad::p2d::Body();
+        auto* body = new sad::p2d::Body();
         body->setCurrentAngularVelocity(0);
-        body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0)); // Just to ensure follind
-        sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
+        body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0)); // Just to ensure falling properly
+        auto* rect = new sad::p2d::Rectangle();
         rect->setRect(sprite->area());
         body->setShape(rect);
 
@@ -1835,7 +1836,7 @@ game::Actor* Game::makeItemActor(const sad::String& optname, const sad::Point2D&
 
         if (animation)
         {
-            sad::animations::Instance* i = new sad::animations::Instance();
+            auto* i = new sad::animations::Instance();
             i->setObject(sprite);
             i->setAnimation(animation);
             i->disableStateRestoringOnFinish();
@@ -1844,7 +1845,7 @@ game::Actor* Game::makeItemActor(const sad::String& optname, const sad::Point2D&
         
         return actor;
     }
-    return NULL;
+    return nullptr;
 }
 
 bots::AbstractBot* Game::getFromRegistry(const sad::String& bot_name) const
@@ -1869,7 +1870,7 @@ void Game::addToMainRenderer(sad::animations::Process* p) const
 
 game::ActorOptions* Game::getActorOptions(const sad::String& name)
 {
-    return (m_actor_options.contains(name)) ? m_actor_options[name] : NULL;
+    return (m_actor_options.contains(name)) ? m_actor_options[name] : nullptr;
 }
 
 bool Game::addActorOptions(const sad::String& name, const game::ActorOptions& opts)
@@ -1877,9 +1878,9 @@ bool Game::addActorOptions(const sad::String& name, const game::ActorOptions& op
     if (m_actor_options.contains(name)) {
         return false;
     }
-    game::ActorOptions* nopts = new game::ActorOptions(opts);
-    nopts->addRef();
-    m_actor_options.insert(name, nopts);
+    auto* actor_options = new game::ActorOptions(opts);
+    actor_options->addRef();
+    m_actor_options.insert(name, actor_options);
     return true;
 }
 
@@ -1947,14 +1948,14 @@ void Game::tryEnterPause()
             this->m_delayed_tasks.pause();
             this->m_player->pauseWeaponsReloading();
             this->m_actors.pause();
-            this->m_pause_menu_state = Game::GPMS_RESUME;
+            this->m_pause_menu_state = Game::PauseMenuState::GPMS_RESUME;
             sad::db::Database* gamescreen = r->database("gamescreen");
-            sad::Scene* pause_scene = gamescreen->objectByName<sad::Scene>("pause");
+            auto* pause_scene = gamescreen->objectByName<sad::Scene>("pause");
             if (pause_scene)
             {
                 this->showCurrentPauseMenuOption();
-				sad::Vector3D v = r->globalTranslationOffset();
-				v.setX(v.x() * (-1.0));
+                sad::Vector3D v = r->globalTranslationOffset();
+                v.setX(v.x() * (-1.0));
                 pause_scene->camera().setTranslationOffset(v);
                 pause_scene->setActive(true);
             }
@@ -1983,7 +1984,7 @@ void Game::tryExitPause(const std::function<void()>& on_exit_main)
             this->m_delayed_tasks.resume();
             this->m_player->resumeWeaponsReloading();
             this->m_actors.resume();
-            sad::Scene* pause_scene = this->rendererForMainThread()->database("gamescreen")->objectByName<sad::Scene>("pause");
+            auto* pause_scene = this->rendererForMainThread()->database("gamescreen")->objectByName<sad::Scene>("pause");
             if (pause_scene)
             {
                 pause_scene->setActive(false);
@@ -2007,7 +2008,7 @@ CameraMovement* Game::cameraMovement() const
 
 void Game::setWallsAccordingToOffset()
 {
-    sad::Point2D p = this->rendererForMainThread()->globalTranslationOffset();
+	const sad::Point2D p = this->rendererForMainThread()->globalTranslationOffset();
     this->m_walls.setLeftBound(p.x() * -1.0);
     this->m_walls.setRightBound(p.x() * -1.0 + this->rendererForMainThread()->settings().width());
 }
@@ -2018,7 +2019,7 @@ void Game::removePlatform(const sad::String& name)
     sad::db::Database* gamescreen = r->database("gamescreen");
     if (gamescreen)
     {
-        sad::Sprite2D* sprite = gamescreen->objectByName<sad::Sprite2D>(name);
+        auto* sprite = gamescreen->objectByName<sad::Sprite2D>(name);
         sprite->addRef();
         if (sprite)
         {
@@ -2099,7 +2100,7 @@ void Game::disablePlatformBlinking(const sad::String& platform_name)
     sad::db::Database* db = renderer->database("gamescreen");
     if (db)
     { 
-        sad::Sprite2D* sprite = db->objectByName<sad::Sprite2D>(platform_name);
+        auto* sprite = db->objectByName<sad::Sprite2D>(platform_name);
         if (sprite)
         { 
             if (m_blinking_platforms.contains(sprite))
@@ -2116,7 +2117,7 @@ void Game::enablePlatformBlinking(const sad::String& platform_name, double time)
     sad::db::Database* db = renderer->database("gamescreen");
     if (db)
     {
-        sad::Sprite2D* sprite = db->objectByName<sad::Sprite2D>(platform_name);
+        auto* sprite = db->objectByName<sad::Sprite2D>(platform_name);
         if (sprite)
         {
             if (m_blinking_platforms.contains(sprite))
@@ -2127,7 +2128,7 @@ void Game::enablePlatformBlinking(const sad::String& platform_name, double time)
             }
             else
             {
-                game::PlatformBlinking* blinking = new game::PlatformBlinking(this, sprite, time);
+                auto* blinking = new game::PlatformBlinking(this, sprite, time);
                 m_blinking_platforms.insert(sprite, blinking);
                 blinking->enable();
                 blinking->setTime(time);
@@ -2182,10 +2183,10 @@ game::LevelStorageLoader* Game::levelStorageLoader() const
 }
 
 
-void Game::runGameInitializationScript()
+void Game::runGameInitializationScript() const
 {
     // Fetch and run game initialization script
-    sad::Maybe<sad::String> maybe_script = sad::slurp("examples/multithreading/game_init.js", m_main_thread->renderer());
+    const sad::Maybe<sad::String> maybe_script = sad::slurp("examples/multithreading/game_init.js", m_main_thread->renderer());
     if (maybe_script.exists())
     {
         this->evalScript(maybe_script.value());
@@ -2219,16 +2220,16 @@ void Game::showCurrentPauseMenuOption() const
 {
     sad::Renderer* r = this->rendererForMainThread();
     sad::db::Database* gamescreen = r->database("gamescreen");
-    sad::Scene* pause_scene = gamescreen->objectByName<sad::Scene>("pause");
+    auto* pause_scene = gamescreen->objectByName<sad::Scene>("pause");
     if (pause_scene)
     {
-        const char* label_name = (this->m_pause_menu_state == Game::GPMS_RESUME) ? "PauseResume" : "PauseExit";
-        sad::Label* label = gamescreen->objectByName<sad::Label>(label_name);
-        sad::Sprite2D* sprite = gamescreen->objectByName<sad::Sprite2D>("PauseArrow");
+        const char* label_name = (this->m_pause_menu_state == Game::PauseMenuState::GPMS_RESUME) ? "PauseResume" : "PauseExit";
+        auto* label = gamescreen->objectByName<sad::Label>(label_name);
+        auto* sprite = gamescreen->objectByName<sad::Sprite2D>("PauseArrow");
         if (label && sprite)
         {
-            sad::Rect2D old_area = sprite->area();
-            double y = label->area().p0().y() - (label->area().height() - old_area.height()) / 2.0 - 3.0; // Simple offset to solve font size inconsistency
+            const sad::Rect2D old_area = sprite->area();
+            const double y = label->area().p0().y() - (label->area().height() - old_area.height()) / 2.0 - 3.0; // Simple offset to solve font size inconsistency
             sprite->setArea(sad::Rect2D(old_area.p0().x(), y - old_area.height(), old_area.p2().x(), y));
         }
     }
@@ -2284,15 +2285,18 @@ void Game::initContext()
                        const sad::String& title,
                        const sad::String& description,
                        bool delete_after_applied,
-                       sad::dukpp03::CompiledFunction on_item_added,
-                       sad::dukpp03::CompiledFunction on_item_removed,
-                       sad::dukpp03::CompiledFunction apply_item
+                       // ReSharper disable once CppParameterMayBeConst
+                       sad::dukpp03::CompiledFunction on_item_added,  // NOLINT(performance-unnecessary-value-param)
+                       // ReSharper disable once CppParameterMayBeConst
+                       sad::dukpp03::CompiledFunction on_item_removed,  // NOLINT(performance-unnecessary-value-param)
+                       // ReSharper disable once CppParameterMayBeConst
+                       sad::dukpp03::CompiledFunction apply_item  // NOLINT(performance-unnecessary-value-param)
     ) -> bool {
         if (this->m_item_definitions.contains(option_name))
         {
             return false;
         }
-        game::Item::Definition* definition = new game::Item::Definition(option_name, title, description, delete_after_applied);
+        auto* definition = new game::Item::Definition(option_name, title, description, delete_after_applied);
         definition->OnItemAdded = on_item_added;
         definition->OnItemRemoved = on_item_removed;
         definition->ApplyCallback = apply_item;
@@ -2325,6 +2329,7 @@ void Game::initContext()
         this->addDelayedTask(delay, [=]() { actor->decrementFloaterStateCounter(); });
     };
 
+    // ReSharper disable once CppParameterMayBeConst
     std::function<void(double, sad::dukpp03::CompiledFunction)> add_delayed_task = [=](double delay, sad::dukpp03::CompiledFunction f) {
         this->addDelayedTask(delay, [=]() {
             sad::dukpp03::CompiledFunction mf = f;
@@ -2351,7 +2356,7 @@ void Game::initContext()
                 sum += it.value();
             }
             sad::Maybe<sad::String> result;
-            double value = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX)) * 100.0;
+            const double value = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX)) * 100.0;
             // ReSharper disable once CppJoinDeclarationAndAssignment
             double begin;
             double end = 0;
@@ -2556,9 +2561,9 @@ void Game::destroyWorld()
 {
     if (m_physics_world)
     {
-        m_step_task->setWorld(NULL);
+        m_step_task->setWorld(nullptr);
         m_physics_world->delRef();
-        m_physics_world = NULL;
+        m_physics_world = nullptr;
     }
 }
 
@@ -2571,10 +2576,10 @@ void Game::initGamePhysics()
     sad::Renderer* renderer = m_main_thread->renderer();
     sad::db::Database* db = renderer->database("gamescreen");
     m_player->initPhysics(m_physics_world, db);
-    sad::Scene* main_scene = db->objectByName<sad::Scene>("main");
+    auto* main_scene = db->objectByName<sad::Scene>("main");
     if (main_scene)
     {
-        game::StaticObjectContainer* container = new game::StaticObjectContainer();
+        auto* container = new game::StaticObjectContainer();
         initPhysicsPlatforms(m_physics_world, main_scene, &m_moving_platform_registry, container);
         initCoins(this, m_physics_world, db, this->rendererForMainThread(), &m_unanimated_coins, container);
         m_level_storage_loader = new game::LevelStorageLoader(container, m_physics_world, m_player->area());
@@ -2585,7 +2590,7 @@ void Game::initGamePhysics()
     m_walls.addToWorld(m_physics_world);
 
     // Handle all collision as non-resilient, enabling sliding
-    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
+    const std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
         if (ev.m_object_2 == this->m_walls.bottomWall())
         {
             m_player->onBottomWallCollision();
@@ -2593,8 +2598,8 @@ void Game::initGamePhysics()
         }
         this->m_player->onPlatformCollision(ev);
     };
-    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
-        game::Actor* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
+    const std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        auto* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
         if (!a->isFloater() && ev.m_object_2 == this->m_walls.bottomWall())
         {
             a->fireOnDeathEvents();
@@ -2607,8 +2612,8 @@ void Game::initGamePhysics()
             a->onPlatformCollision(ev);
         }
     };
-    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_walls = [=](const sad::p2d::BasicCollisionEvent & ev) {
-        game::Actor* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
+    const std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_walls = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        auto* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
         if (!a->isFloater() && ev.m_object_2 == this->m_walls.bottomWall())
         {
             a->fireOnDeathEvents();
@@ -2625,8 +2630,8 @@ void Game::initGamePhysics()
         }
     };
 
-    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_item_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
-        game::Actor* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
+    const std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_item_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        auto* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
         if (!a->isFloater() && ev.m_object_2 == this->m_walls.bottomWall())
         {
             this->rendererForMainThread()->pipeline()->appendTask([=] {
@@ -2643,8 +2648,8 @@ void Game::initGamePhysics()
                 a->onPlatformCollision(ev);
                 this->rendererForMainThread()->pipeline()->appendTask([=] {
                     this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(a->sprite());
-                    sad::String opts = a->sprite()->optionsName();
-                    int depth = game::getPenetationDepthForItem(opts);
+                    const sad::String opts = a->sprite()->optionsName();
+                    const int depth = game::getPenetrationDepthForItem(opts);
                     if (depth != 0)
                     {
                         a->sprite()->setAngle(M_PI / 4);
@@ -2656,10 +2661,10 @@ void Game::initGamePhysics()
         }
     };
 
-    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_item_and_player = [=](const sad::p2d::BasicCollisionEvent & ev) {
+    const std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_item_and_player = [=](const sad::p2d::BasicCollisionEvent & ev) {
         // Avoid hard computations for item on ground
         if (!this->player()->inventory()->isFull()) {
-            game::Actor* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
+            auto* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
             const sad::String& options = a->sprite()->optionsName();
             if (this->m_item_definitions.contains(options)) 
             {
@@ -2689,14 +2694,14 @@ void Game::initGamePhysics()
 
     m_physics_world->addHandler("items", "player", collision_between_item_and_player);
 
-    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_walls_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
+    const std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_walls_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
         sad::Object* a = ev.m_object_2->userObject();
         // This conditions only holds only in case of bullets,
         static_cast<weapons::Projectile*>(a)->onWallHit(ev.m_object_1);
     };
     m_physics_world->addHandler("walls", "player_bullets", collision_between_walls_and_bullet);
     m_physics_world->addHandler("walls", "enemy_bullets", collision_between_walls_and_bullet);
-    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_platform_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
+    const std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_platform_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
         sad::p2d::Body* maybe_bullet_body = ev.m_object_2;
         sad::Object* obj = maybe_bullet_body->userObject();
         static_cast<weapons::Projectile*>(obj)->onPlatformHit(ev.m_object_1);
@@ -2704,21 +2709,21 @@ void Game::initGamePhysics()
     m_physics_world->addHandler("platforms", "player_bullets", collision_between_platform_and_bullet);
     m_physics_world->addHandler("platforms", "enemy_bullets", collision_between_platform_and_bullet);
 
-    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
-        game::Actor* actor = static_cast<game::Actor*>(ev.m_object_1->userObject());
-        weapons::Projectile* projectile = static_cast<weapons::Projectile*>(ev.m_object_2->userObject());
+    const std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        auto* actor = static_cast<game::Actor*>(ev.m_object_1->userObject());
+        auto* projectile = static_cast<weapons::Projectile*>(ev.m_object_2->userObject());
         projectile->onEnemyHit(actor);
         actor->takeDamage(projectile->damage());
     };
 
-    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
-        weapons::Projectile* projectile = static_cast<weapons::Projectile*>(ev.m_object_2->userObject());
-        int dmg = projectile->damage();
+    const std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        auto* projectile = static_cast<weapons::Projectile*>(ev.m_object_2->userObject());
+        const int damage = projectile->damage();
         projectile->onPlayerHit(m_player);
-        this->player()->takeDamage(dmg);
+        this->player()->takeDamage(damage);
     };
 
-    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_enemies = [=](const sad::p2d::BasicCollisionEvent & ev) {
+    const std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_enemies = [=](const sad::p2d::BasicCollisionEvent & ev) {
         if (!this->player()->isInvincible()) this->playSound("hurt");
         this->player()->tryDecrementLives(1);
     };
@@ -2743,7 +2748,7 @@ void Game::tryRenderDebugShapes() const
     }
     sad::Scene* scene = renderer->scenes()[renderer->scenes().size() - 1];
     sad::Vector<sad::p2d::Body*> bodies = m_physics_world->allBodies();
-    // As we already reset view matrix, shift rendered shapres by offset manually
+    // As we already reset view matrix, shift rendered shapes by offset manually
     sad::Point2D p = renderer->globalTranslationOffset();
     //p = sad::Point2D(0, 0);
     if (!bodies.empty())
@@ -2768,7 +2773,7 @@ void Game::tryRenderDebugShapes() const
             }
             if (shape->metaIndex() == sad::p2d::Line::globalMetaIndex())
             {
-                sad::p2d::Line* line = dynamic_cast<sad::p2d::Line*>(shape);
+                auto* line = dynamic_cast<sad::p2d::Line*>(shape);
                 renderer->render()->line(scene, line->cutter().p1() + p, line->cutter().p2() + p,  sad::AColor(0, 0, 255));
             }
         }
@@ -2789,7 +2794,7 @@ void Game::updateProjectiles() const
 
 void Game::tryLoadIdenticalScreenDatabase(bool* loaded, const sad::String& db_name, const sad::String& file_name, bool is_inventory_thread) const
 {
-    int index = (is_inventory_thread) ? 1 : 0;
+	const int index = (is_inventory_thread) ? 1 : 0;
     sad::Renderer* renderer = (is_inventory_thread) ? (m_inventory_thread->renderer()) : (m_main_thread->renderer());
     if (loaded[index])
     {
@@ -2797,7 +2802,7 @@ void Game::tryLoadIdenticalScreenDatabase(bool* loaded, const sad::String& db_na
     }
     else
     {
-        sad::db::Database* database = new sad::db::Database();
+        auto* database = new sad::db::Database();
         database->setRenderer(renderer);
         database->tryLoadFrom(file_name);
         database->saveSnapshot();
@@ -2811,45 +2816,45 @@ void Game::clearLevelStorageLoader()
     if (m_level_storage_loader)
     {
         delete m_level_storage_loader;
-        m_level_storage_loader = NULL;
+        m_level_storage_loader = nullptr;
     }
 }
 
 Game::Game(const Game&)  // NOLINT
     :
-    m_main_thread(NULL),
-    m_inventory_thread(NULL),
+    m_main_thread(nullptr),
+    m_inventory_thread(nullptr),
     m_is_quitting(false),
-    m_main_menu_state(Game::GMMS_PLAY),
-    m_pause_menu_state(Game::GPMS_RESUME),
+    m_main_menu_state(Game::MainMenuState::GMMS_PLAY),
+    m_pause_menu_state(Game::PauseMenuState::GPMS_RESUME),
     m_score(0),
     m_highscore(0),
     m_loaded_options_database{false, false},
     m_loaded_lose_screen_database{false, false},
     m_loaded_win_screen_database{false, false},
-    m_main_level_loader(NULL),
-    m_theme_playing(NULL),
-    m_sounds(NULL),
-    m_transition_process(NULL),
-    m_inventory_node(NULL),
-    m_inventory_popup(NULL),
-    m_player(NULL),
-    m_eval_context(NULL),
-    m_physics_world(NULL),
-    m_step_task(NULL),
-    m_bounce_solver(NULL),
-    m_bounce_solver_for_bullets(NULL),
+    m_main_level_loader(nullptr),
+    m_theme_playing(nullptr),
+    m_sounds(nullptr),
+    m_transition_process(nullptr),
+    m_inventory_node(nullptr),
+    m_inventory_popup(nullptr),
+    m_player(nullptr),
+    m_eval_context(nullptr),
+    m_physics_world(nullptr),
+    m_step_task(nullptr),
+    m_bounce_solver(nullptr),
+    m_bounce_solver_for_bullets(nullptr),
     m_is_rendering_world_bodies(false),
     m_max_level_x(0),
-    m_hit_animation_for_enemies(NULL),
-    m_hit_animation_for_players(NULL),
-    m_score_bar(NULL),
+    m_hit_animation_for_enemies(nullptr),
+    m_hit_animation_for_players(nullptr),
+    m_score_bar(nullptr),
     m_wind_speed(0),
-    m_snow_particles(NULL),
-    m_camera_movement(NULL),
+    m_snow_particles(nullptr),
+    m_camera_movement(nullptr),
     m_winning(false), 
-    m_enemy_counter(NULL),
-    m_level_storage_loader(NULL)
+    m_enemy_counter(nullptr),
+    m_level_storage_loader(nullptr)
 {
     throw std::logic_error("Not implemented");
 }

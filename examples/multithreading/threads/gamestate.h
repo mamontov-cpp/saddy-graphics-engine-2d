@@ -9,7 +9,7 @@ namespace threads
 
 /*! A global game state
  */
-enum GameState
+enum class GameState: int
 {
     GS_UNITIALIZED = 0, // Renderer not fully started yet
     GS_START = 1,       // A starting screen

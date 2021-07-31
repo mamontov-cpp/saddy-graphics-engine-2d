@@ -3,7 +3,9 @@
 
     Describes a ball
  */
+#pragma once
 #include <p2d/app/object.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <p2d/app/constants.h>
 #pragma once
 

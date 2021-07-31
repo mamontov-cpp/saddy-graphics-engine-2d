@@ -9,7 +9,7 @@
 namespace bots
 { 
 
-/*! A bot, which works as JS function, that evals (actor, state) -> (state)
+/*! A bot, which works as JS function, that evaluates (actor, state) -> (state)
  */
 class JSBot: public bots::AbstractBot
 {
@@ -22,16 +22,16 @@ public:
     JSBot(const sad::dukpp03::CompiledFunction& fn, sad::Hash<sad::String, sad::db::Variant> state, sad::dukpp03::Context* context);
     /*! Frees all data
      */
-    virtual ~JSBot();
+    virtual ~JSBot() override;
     /*! Copies bot's state and returns a new copy
        \return clone of current bot
      */
-    virtual bots::AbstractBot* clone() const;
+    virtual bots::AbstractBot* clone() const override;
     /*! Performs actors actions on each bot
         \param[in] game a game
         \param[in] actor an actor to be called
      */
-    virtual void perform(Game* game, game::Actor* actor);
+    virtual void perform(Game* game, game::Actor* actor) override;
 private:
     /*! A context for evaluation
      */

@@ -33,7 +33,7 @@ public:
     /*! Notifies a thread, that we finished waiting
      */
     void notify();
-    /*! Whether some errors occured
+    /*! Whether some errors occurred
      */
     bool hasErrors() const;
     /*! Returns errors, occurred in thread
@@ -69,7 +69,7 @@ public:
     /*! Marks that renderer is started
      */
     void markAsRendererStarted();
-    /*! Sets a gane state
+    /*! Sets a game state
      */
     void setState(threads::GameState state);
     /*! Returns a state

@@ -84,7 +84,7 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
             
             inventory->LoadWaitingLock.lock();
             delete main->Thread;
-            main->Thread = NULL;
+            main->Thread = nullptr;
             inventory->LoadWaitingLock.unlock();
 
             r->setGlobalTranslationOffset(sad::Point2D(0, 0));
@@ -137,7 +137,7 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
 
             main->LoadWaitingLock.lock();
             delete inventory->Thread;
-            inventory->Thread = NULL;
+            inventory->Thread = nullptr;
             main->LoadWaitingLock.unlock();
             // Reset offset and translation (and also sprite position)
             r->setGlobalTranslationOffset(sad::Point2D(0, 0));
@@ -203,7 +203,7 @@ sad::Scene* SceneTransitionProcess::lastActiveScene(sad::Renderer* r)
 {
     if (!r)
     {
-        return NULL;
+        return nullptr;
     }
     for(int i = r->scenes().size() -1; i > -1; i--)
     {
@@ -212,7 +212,7 @@ sad::Scene* SceneTransitionProcess::lastActiveScene(sad::Renderer* r)
             return r->scenes()[i];
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 
@@ -238,7 +238,7 @@ sad::Texture* SceneTransitionProcess::makeTextureForRenderer(sad::Renderer* r)
     buf->Data.resize(16, 255);
     t->BuildMipMaps = true;
     t->Bpp = 32;
-    t->Format = sad::Texture::SFT_R8_G8_B8_A8;
+    t->Format = sad::Texture::InternalFormat::SFT_R8_G8_B8_A8;
     t->Width = 2;
     t->Height = 2;
     t->Id = 0;
@@ -250,7 +250,7 @@ sad::Texture* SceneTransitionProcess::makeTextureForRenderer(sad::Renderer* r)
 void SceneTransitionProcess::fillThreadData(SceneTransitionProcess::ThreadData* data, sad::Renderer* r)
 {
     data->Renderer = r;
-    data->Thread = NULL;
+    data->Thread = nullptr;
 
     data->Texture = makeTextureForRenderer(r);
     data->Texture->addRef();

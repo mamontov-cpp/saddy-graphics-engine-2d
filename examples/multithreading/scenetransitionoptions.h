@@ -43,7 +43,7 @@ struct ThreadOptions
      */
     std::function<void()> OnFinishedFunction;
 };
-    /*! Inits options with default empty callback
+    /*! Initializes options with default empty callback
      */
     SceneTransitionOptions();
     /*! Returns options for main thread

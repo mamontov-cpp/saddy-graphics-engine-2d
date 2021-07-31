@@ -22,14 +22,14 @@ SAD_OBJECT
 
     /*! Renders a sprites, setting a blend functions
      */
-    virtual void render();
+    virtual void render() override;
     /*! Called, when renderer for scene is changed
      */
-    virtual void rendererChanged();
+    virtual void rendererChanged() override;
     /*! Updates scene for all of background
         \param[in] scene a scene, which will render a node
     */
-    virtual void setScene(sad::Scene* scene);
+    virtual void setScene(sad::Scene* scene) override;
 private: 
     /*! Background is non-copyable, to make implementation simpler
         \param[in] b other background

@@ -1,7 +1,7 @@
 #include "wayfloater.h"
 #include "../game.h"
 
-bots::WayFloater::WayFloater(double start_time, const sad::String& name) : m_time(start_time), m_way(NULL), m_way_name(name)
+bots::WayFloater::WayFloater(double start_time, const sad::String& name) : m_time(start_time), m_way(nullptr), m_way_name(name)
 {
     
 }

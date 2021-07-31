@@ -8,7 +8,7 @@
 
 const double game::UnanimatedCoins::MaxDistance = 1600;
 
-game::UnanimatedCoins::UnanimatedCoins() : m_database(NULL),  m_renderer(NULL), m_animation(NULL)
+game::UnanimatedCoins::UnanimatedCoins() : m_database(nullptr),  m_renderer(nullptr), m_animation(nullptr)
 {
 
 }
@@ -24,7 +24,7 @@ sad::Vector<sad::Sprite2D*> game::UnanimatedCoins::fetchCoinSprites(sad::db::Dat
         {
             sad::String name = objs[i]->objectName();
             name.toUpper();
-            if (name.getOccurence("COIN") != -1)
+            if (name.getOccurrence("COIN") != -1)
             {
                 result << static_cast<sad::Sprite2D*>(objs[i]);
             }
@@ -38,7 +38,7 @@ void  game::UnanimatedCoins::init(const sad::Vector<sad::Sprite2D*>& sprites, sa
     m_sprites = sprites;
     m_database = db;
     m_renderer = r;
-    m_animation = NULL;
+    m_animation = nullptr;
 }
 
 void game::UnanimatedCoins::animateNearestCoins(const sad::Point2D& middle)

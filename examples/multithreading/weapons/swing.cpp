@@ -17,8 +17,8 @@ const double weapons::Swing::RightAngleEnd = 79;
 
 
 weapons::Swing::Swing(Game* game, game::Actor* actor, const weapons::SwingSettings& settings)
-: m_swing_sprite(NULL),
-m_body(NULL),
+: m_swing_sprite(nullptr),
+m_body(nullptr),
 m_attached_actor(actor),
 m_max_time(settings.DecayTime)
 {

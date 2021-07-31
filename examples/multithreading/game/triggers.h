@@ -2,6 +2,7 @@
 
      A simple triggers, that can be used to perform in-game actions
  */
+#pragma once
 #include <dukpp-03/context.h>
 #include <sadvector.h>
 #include <sadpair.h>
@@ -35,11 +36,11 @@ public:
     void clear();
     /*! Tries to run triggers
      *  \param[in] p player, whose location we should check
-     *  \param[in] ctx context ot be runned in
+     *  \param[in] ctx context to be launched in
      */
     void tryRun(game::Player* p, sad::dukpp03::Context* ctx);
 private:
-    /*! A list of triggers to chec
+    /*! A list of triggers to check
      */
     sad::Vector<game::Triggers::Data> m_triggers;
 };

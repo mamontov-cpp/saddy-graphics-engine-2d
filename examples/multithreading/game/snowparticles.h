@@ -100,7 +100,7 @@ private:
     /*! Spawns particles
      */
     void spawnParticles();
-    /*! Corects particle amounts, swapping them if necessary
+    /*! Corrects particle amounts, swapping them if necessary
      */
     void correctParticleAmounts();
     /*! Whether particles are enabled
@@ -124,7 +124,7 @@ private:
     /*! A delay between spawned particles
      */
     double m_spawn_particles_delay;
-    /*! A span  for randome delay between delayed particles
+    /*! A span  for random delay between delayed particles
      */
     double m_spawn_particles_delay_span;
     /*! Min amount of particles spawned

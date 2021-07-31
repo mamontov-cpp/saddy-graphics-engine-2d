@@ -4,6 +4,7 @@
  */
 #pragma once
 #include <label.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <scene.h>
 
 class Game;
@@ -18,10 +19,10 @@ public:
     /*! Makes new game
      */
     ScoreBar(Game* game);
-    /*! Inits score bar
+    /*! Initializes score bar
      */
     void init();
-    /*! Deinitializes score bar
+    /*! De-initializes score bar
      */
     void deinit();
     /*! Updates score bar

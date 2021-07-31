@@ -56,7 +56,7 @@ public:
      */
     bool add(const sad::String& platform_name, const sad::String& way_name);
     /*! Removes all instances of platform in registry, stopping it
-     *  \param[in, out] platform
+     *  \param[in,out] platform a platform
      */
     void remove(sad::p2d::Body* platform);
     /*! Removes an instance of platform in registry, stopping it
@@ -70,7 +70,7 @@ public:
      *  \param[in] tick a tick size for registry
      */
     void movePlatforms(double tick);
-    /*! Adds new platform to registry. If platform is NULL does nothing
+    /*! Adds new platform to registry. If platform is nullptr does nothing
      * \param[in] name name for platform
      * \param[in] platform a platform
      */
@@ -86,7 +86,7 @@ private:
     /*! A list of states to progress through
      */
     sad::Vector<game::MovingPlatformState> m_states;
-    /*! A lits of platforms for registry
+    /*! A lists of platforms for registry
      */
     sad::Hash<sad::String, sad::p2d::Body*> m_platforms;
     /*! A linked database for searching for ways

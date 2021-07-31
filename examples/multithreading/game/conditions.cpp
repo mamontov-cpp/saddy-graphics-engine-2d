@@ -5,99 +5,99 @@
 void game::Conditions::ConditionsForRenderer::init(bool is_inventory_thread)
 {
     // Unused on starting screen and on paused screen
-    LeftKeyConditions[game::Conditions::CS_START_SCREEN] = NULL;
-    LeftKeyConditions[game::Conditions::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::KeyLeft);
-    LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::KeyLeft);
+    LeftKeyConditions[game::Conditions::State::CS_START_SCREEN] = nullptr;
+    LeftKeyConditions[game::Conditions::State::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyLeft);
+    LeftKeyConditions[game::Conditions::State::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyLeft);
     if (is_inventory_thread)
     {
-         LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = NULL;
-         LeftKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = NULL;
+         LeftKeyConditions[game::Conditions::State::CS_PLAYGAME_PLAYING_RELEASED] = nullptr;
+         LeftKeyConditions[game::Conditions::State::CS_PLAYGAME_PAUSED_RELEASED] = nullptr;
     }
     else
     {
-        LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyRight);
-        LeftKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = new sad::KeyHoldCondition(sad::KeyRight);
+        LeftKeyConditions[game::Conditions::State::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyRight);
+        LeftKeyConditions[game::Conditions::State::CS_PLAYGAME_PAUSED_RELEASED] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyRight);
     }
-    LeftKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED] = NULL;
+    LeftKeyConditions[game::Conditions::State::CS_PLAYGAME_PAUSED_PRESSED] = nullptr;
 
     // Unused on starting screen and on  paused screen
-    RightKeyConditions[game::Conditions::CS_START_SCREEN] = NULL;
-    RightKeyConditions[game::Conditions::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::KeyRight);
-    RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::KeyRight);
+    RightKeyConditions[game::Conditions::State::CS_START_SCREEN] = nullptr;
+    RightKeyConditions[game::Conditions::State::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyRight);
+    RightKeyConditions[game::Conditions::State::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyRight);
     if (is_inventory_thread)
     {
-        RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED]= NULL;
-        RightKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = NULL;
+        RightKeyConditions[game::Conditions::State::CS_PLAYGAME_PLAYING_RELEASED]= nullptr;
+        RightKeyConditions[game::Conditions::State::CS_PLAYGAME_PAUSED_RELEASED] = nullptr;
     }
     else
     {
-        RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyRight);
-        RightKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = new sad::KeyHoldCondition(sad::KeyRight);
+        RightKeyConditions[game::Conditions::State::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyRight);
+        RightKeyConditions[game::Conditions::State::CS_PLAYGAME_PAUSED_RELEASED] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyRight);
     }
-    RightKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED] = NULL;
+    RightKeyConditions[game::Conditions::State::CS_PLAYGAME_PAUSED_PRESSED] = nullptr;
 
     if (is_inventory_thread)
     {
-        UpKeyConditions[game::Conditions::CS_START_SCREEN] = NULL;
+        UpKeyConditions[game::Conditions::State::CS_START_SCREEN] = nullptr;
     }
     else
     { 
-        UpKeyConditions[game::Conditions::CS_START_SCREEN] = new sad::KeyHoldCondition(sad::KeyUp);
+        UpKeyConditions[game::Conditions::State::CS_START_SCREEN] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyUp);
     }
-    UpKeyConditions[game::Conditions::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::KeyUp);
-    UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::KeyUp);
+    UpKeyConditions[game::Conditions::State::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyUp);
+    UpKeyConditions[game::Conditions::State::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyUp);
     if (is_inventory_thread)
     {
-        UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = NULL;
-        UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = NULL;
+        UpKeyConditions[game::Conditions::State::CS_PLAYGAME_PLAYING_RELEASED] = nullptr;
+        UpKeyConditions[game::Conditions::State::CS_PLAYGAME_PAUSED_RELEASED] = nullptr;
     }
     else
     {
-        UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyUp);
-        UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = new sad::KeyHoldCondition(sad::KeyUp);
+        UpKeyConditions[game::Conditions::State::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyUp);
+        UpKeyConditions[game::Conditions::State::CS_PLAYGAME_PAUSED_RELEASED] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyUp);
     }
-    UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED] = new sad::KeyHoldCondition(sad::KeyUp);
+    UpKeyConditions[game::Conditions::State::CS_PLAYGAME_PAUSED_PRESSED] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyUp);
 
 
     if (is_inventory_thread)
     {
-        DownKeyConditions[game::Conditions::CS_START_SCREEN] = NULL;
+        DownKeyConditions[game::Conditions::State::CS_START_SCREEN] = nullptr;
     }
     else
     {
-        DownKeyConditions[game::Conditions::CS_START_SCREEN] = new sad::KeyHoldCondition(sad::KeyDown);
+        DownKeyConditions[game::Conditions::State::CS_START_SCREEN] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyDown);
     }
-    DownKeyConditions[game::Conditions::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::KeyDown);
-    DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::KeyDown);
+    DownKeyConditions[game::Conditions::State::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyDown);
+    DownKeyConditions[game::Conditions::State::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyDown);
     if (is_inventory_thread)
     {
-        DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = NULL;
-        DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = NULL;
+        DownKeyConditions[game::Conditions::State::CS_PLAYGAME_PLAYING_RELEASED] = nullptr;
+        DownKeyConditions[game::Conditions::State::CS_PLAYGAME_PAUSED_RELEASED] = nullptr;
     }
     else
     { 
-        DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyDown);
-        DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = new sad::KeyHoldCondition(sad::KeyDown);
+        DownKeyConditions[game::Conditions::State::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyDown);
+        DownKeyConditions[game::Conditions::State::CS_PLAYGAME_PAUSED_RELEASED] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyDown);
     }
-    DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED] = new sad::KeyHoldCondition(sad::KeyDown);
+    DownKeyConditions[game::Conditions::State::CS_PLAYGAME_PAUSED_PRESSED] = new sad::KeyHoldCondition(sad::KeyboardKey::KeyDown);
 
     if (is_inventory_thread)
     {
-        JumpActionConditions[game::Conditions::CS_START_SCREEN] = NULL;
+        JumpActionConditions[game::Conditions::State::CS_START_SCREEN] = nullptr;
     }
     else 
     {
-        JumpActionConditions[game::Conditions::CS_START_SCREEN] = new sad::KeyHoldCondition(sad::Space);
+        JumpActionConditions[game::Conditions::State::CS_START_SCREEN] = new sad::KeyHoldCondition(sad::KeyboardKey::Space);
     }
 
-    JumpActionConditions[game::Conditions::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::Space);
-    JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::Space);
-    JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = NULL;
-    JumpActionConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED] = new sad::KeyHoldCondition(sad::Space);
-    JumpActionConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = NULL;
+    JumpActionConditions[game::Conditions::State::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::KeyboardKey::Space);
+    JumpActionConditions[game::Conditions::State::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::KeyboardKey::Space);
+    JumpActionConditions[game::Conditions::State::CS_PLAYGAME_PLAYING_RELEASED] = nullptr;
+    JumpActionConditions[game::Conditions::State::CS_PLAYGAME_PAUSED_PRESSED] = new sad::KeyHoldCondition(sad::KeyboardKey::Space);
+    JumpActionConditions[game::Conditions::State::CS_PLAYGAME_PAUSED_RELEASED] = nullptr;
 
-    PauseCondition = new sad::KeyHoldCondition(sad::P);
-    PauseConditionWhenPaused = new sad::KeyHoldCondition(sad::P);
+    PauseCondition = new sad::KeyHoldCondition(sad::KeyboardKey::P);
+    PauseConditionWhenPaused = new sad::KeyHoldCondition(sad::KeyboardKey::P);
 }
 
 

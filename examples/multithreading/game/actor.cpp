@@ -26,26 +26,26 @@ DECLARE_SOBJ(game::Actor)
 // ============================================== PUBLIC METHODS ==============================================
 
 game::Actor::Actor() : m_own_horizontal_velocity(0),
-m_sprite(NULL),
-m_body(NULL),
+m_sprite(nullptr),
+m_body(nullptr),
 m_is_resting(false),
 m_is_ducking(false),
 m_is_free_fall(false),
 m_is_walking_animation_playing(false),
 m_is_jumping_animation_playing(false), 
-m_resting_platform(NULL),
+m_resting_platform(nullptr),
 m_is_floater(false),
 m_is_dying(false),
-m_walking_animation(NULL),
-m_walking_instance(NULL),
-m_jumping_animation(NULL),
-m_jumping_instance(NULL),
-m_game(NULL),
-m_options(NULL),
+m_walking_animation(nullptr),
+m_walking_instance(nullptr),
+m_jumping_animation(nullptr),
+m_jumping_instance(nullptr),
+m_game(nullptr),
+m_options(nullptr),
 m_is_last_moved_left(false),
 m_is_invincible(false),
 m_lives(1),
-m_hurt_animation(NULL),
+m_hurt_animation(nullptr),
 m_lookup_angle(0),
 m_fixed_size(false),
 m_attack_modifier(0),
@@ -132,12 +132,12 @@ bool game::Actor::setOptions(game::ActorOptions* opts)
 
 void game::Actor::tryStartGoingUp()
 {
-    m_key_states.set(game::Actor::ABTN_UP);
+    m_key_states.set(static_cast<size_t>(game::Actor::Button::ABTN_UP));
 
-    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_UP);
-    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_DOWN);
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_UP));
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_DOWN));
 
-    m_key_states.set(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_UP);
+    m_key_states.set(LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_UP));
     
     if (m_options)
     {
@@ -157,8 +157,8 @@ void game::Actor::tryStartGoingUp()
 // ReSharper disable once CppMemberFunctionMayBeConst
 void game::Actor::tryStopGoingUp()
 {
-    m_key_states.reset(game::Actor::ABTN_UP);
-    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_UP);
+    m_key_states.reset(static_cast<size_t>(game::Actor::Button::ABTN_UP));
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_UP));
 
     if (m_options)
     {
@@ -181,12 +181,12 @@ void game::Actor::tryStopGoingUp()
 
 void game::Actor::tryStartGoingDown()
 {
-    m_key_states.set(game::Actor::ABTN_DOWN);
+    m_key_states.set(static_cast<size_t>(game::Actor::Button::ABTN_DOWN));
 
-    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_UP);
-    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_DOWN);
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_UP));
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_DOWN));
 
-    m_key_states.set(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_DOWN);
+    m_key_states.set(LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_DOWN));
 
     if (m_options)
     {
@@ -204,8 +204,8 @@ void game::Actor::tryStartGoingDown()
 
 void game::Actor::tryStopGoingDown()
 {
-    m_key_states.reset(game::Actor::ABTN_DOWN);
-    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_DOWN);
+    m_key_states.reset(static_cast<size_t>(game::Actor::Button::ABTN_DOWN));
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_DOWN));
 
     if (m_options)
     {
@@ -234,12 +234,12 @@ void game::Actor::tryStopGoingDown()
 void game::Actor::tryStartGoingLeft()
 {
     m_is_last_moved_left = true;
-    m_key_states.set(game::Actor::ABTN_LEFT);
+    m_key_states.set(static_cast<size_t>(game::Actor::Button::ABTN_LEFT));
 
-    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_LEFT);
-    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_RIGHT);
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_LEFT));
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_RIGHT));
 
-    m_key_states.set(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_LEFT);
+    m_key_states.set(LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_LEFT));
 
     if (m_options)
     {
@@ -253,8 +253,8 @@ void game::Actor::tryStartGoingLeft()
 
 void game::Actor::tryStopGoingLeft()
 {
-    m_key_states.reset(game::Actor::ABTN_LEFT);
-    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_LEFT);
+    m_key_states.reset(static_cast<size_t>(game::Actor::Button::ABTN_LEFT));
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_LEFT));
 
     if (m_options)
     {
@@ -279,12 +279,12 @@ void game::Actor::tryStopGoingLeft()
 void game::Actor::tryStartGoingRight()
 {
     m_is_last_moved_left = false;
-    m_key_states.set(game::Actor::ABTN_RIGHT);
+    m_key_states.set(static_cast<size_t>(game::Actor::Button::ABTN_RIGHT));
 
-    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_LEFT);
-    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_RIGHT);
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_LEFT));
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_RIGHT));
 
-    m_key_states.set(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_RIGHT);
+    m_key_states.set(LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_RIGHT));
 
     if (m_options)
     {
@@ -298,8 +298,8 @@ void game::Actor::tryStartGoingRight()
 
 void game::Actor::tryStopGoingRight()
 {
-    m_key_states.reset(game::Actor::ABTN_RIGHT);
-    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_RIGHT);
+    m_key_states.reset(static_cast<size_t>(game::Actor::Button::ABTN_RIGHT));
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_RIGHT));
 
     if (m_options)
     {
@@ -373,12 +373,12 @@ void game::Actor::reset()
 {
     m_key_states.reset();
 
-    m_sprite = NULL;
-    m_body = NULL;
+    m_sprite = nullptr;
+    m_body = nullptr;
     m_is_resting = false;
     m_is_ducking = false;
     m_is_free_fall = false;
-    m_resting_platform = NULL;
+    m_resting_platform = nullptr;
     m_own_horizontal_velocity = 0;
     m_old_velocity = sad::p2d::Vector(0, 0);
     m_is_walking_animation_playing = false;
@@ -728,7 +728,7 @@ void game::Actor::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& old
         m_is_free_fall = false;
         m_is_ducking = false;
     }
-    if (m_resting_platform != NULL)
+    if (m_resting_platform != nullptr)
     {
         m_game->unregisterRestingBody(b, this);
     }
@@ -791,12 +791,12 @@ void game::Actor::disableResting()
         return;
     }
     this->enableGravity();
-    if (m_resting_platform != NULL)
+    if (m_resting_platform != nullptr)
     {
         m_game->unregisterRestingBody(m_resting_platform, this);
     }
     m_is_resting = false;
-    m_resting_platform = NULL;
+    m_resting_platform = nullptr;
     
     this->cancelWalkingAnimation();
     if (m_options->CanEmitSound && !m_is_floater)
@@ -1225,7 +1225,7 @@ weapons::Weapon* game::Actor::weapon() const
     {
         return m_weapons[m_weapons.size() - 1];
     }
-    return NULL;
+    return nullptr;
 }
 
 void game::Actor::tryShoot()
@@ -1475,9 +1475,9 @@ void game::Actor::computeIsGoingUpDownFlags(bool& is_going_up, bool& is_going_do
 {
     is_going_up = false;
     is_going_down = false;
-    if (m_key_states[game::Actor::ABTN_UP] && m_key_states[game::Actor::ABTN_DOWN])
+    if (m_key_states[static_cast<size_t>(game::Actor::Button::ABTN_UP)] && m_key_states[static_cast<size_t>(game::Actor::Button::ABTN_DOWN)])
     {
-        if (m_key_states[LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_UP])
+        if (m_key_states[LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_UP)])
         {
             is_going_up = true;
         }
@@ -1488,8 +1488,8 @@ void game::Actor::computeIsGoingUpDownFlags(bool& is_going_up, bool& is_going_do
     }
     else
     {
-        if (m_key_states[game::Actor::ABTN_UP]) is_going_up = true;
-        if (m_key_states[game::Actor::ABTN_DOWN]) is_going_down = true;
+        if (m_key_states[static_cast<size_t>(game::Actor::Button::ABTN_UP)]) is_going_up = true;
+        if (m_key_states[static_cast<size_t>(game::Actor::Button::ABTN_DOWN)]) is_going_down = true;
     }
 }
 
@@ -1497,9 +1497,9 @@ void game::Actor::computeIsGoingLeftRightFlags(bool& is_going_left, bool& is_goi
 {
     is_going_left = false;
     is_going_right = false;
-    if (m_key_states[game::Actor::ABTN_LEFT] && m_key_states[game::Actor::ABTN_RIGHT])
+    if (m_key_states[static_cast<size_t>(game::Actor::Button::ABTN_LEFT)] && m_key_states[static_cast<size_t>(game::Actor::Button::ABTN_RIGHT)])
     {
-        if (m_key_states[LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_LEFT])
+        if (m_key_states[LAST_KEY_BITSET_OFFSET + static_cast<size_t>(game::Actor::Button::ABTN_LEFT)])
         {
             is_going_left = true;
         }
@@ -1510,8 +1510,8 @@ void game::Actor::computeIsGoingLeftRightFlags(bool& is_going_left, bool& is_goi
     }
     else
     {
-        if (m_key_states[game::Actor::ABTN_LEFT]) is_going_left = true;
-        if (m_key_states[game::Actor::ABTN_RIGHT]) is_going_right = true;
+        if (m_key_states[static_cast<size_t>(game::Actor::Button::ABTN_LEFT)]) is_going_left = true;
+        if (m_key_states[static_cast<size_t>(game::Actor::Button::ABTN_RIGHT)]) is_going_right = true;
     }
 }
 

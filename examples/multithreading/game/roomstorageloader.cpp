@@ -35,7 +35,7 @@ game::RoomStorageLoader::RoomStorageLoader(
         }
         else
         {
-            m_items[i].Item = NULL;
+            m_items[i].Item = nullptr;
             m_items[i].Active = false;
             m_items[i].Counter = 0;
         }
@@ -68,7 +68,7 @@ game::RoomStorageLoader::RoomStorageLoader(
         }
         else
         {
-            m_items[i].Item = NULL;
+            m_items[i].Item = nullptr;
             m_items[i].Active = false;
             m_items[i].Counter = 0;
         }
@@ -90,7 +90,7 @@ void game::RoomStorageLoader::removeItem(void* object)
         if (o.Active)
         {
             o.Item->delRef();
-            o.Item = NULL;
+            o.Item = nullptr;
             o.Active = false;
         }
     }

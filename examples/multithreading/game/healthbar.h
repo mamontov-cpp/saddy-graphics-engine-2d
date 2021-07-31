@@ -31,21 +31,21 @@ public:
     HealthBar(Game* game);
     /*! Can be inherited
      */
-    virtual ~HealthBar();
+    virtual ~HealthBar() override;
     /*! Sets tree name for health bar
      *  \param[in] renderer a renderer
-     *  \param[in] treename a tree name
+     *  \param[in] tree_name a tree name
      */
-    virtual void setTreeName(sad::Renderer* renderer, const sad::String& treename = "");
+    virtual void setTreeName(sad::Renderer* renderer, const sad::String& tree_name = "") override;
     /*! Sets scene for health bar
      */
-    virtual void setScene(sad::Scene* scene);
+    virtual void setScene(sad::Scene* scene) override;
     /*! Triggers changed renderer for bar
      */
-    virtual void rendererChanged();
+    virtual void rendererChanged() override;
     /*! Renders health bar, setting proper object flags
      */
-    virtual void render();
+    virtual void render() override;
 protected:
     /*! Makes new game
      */

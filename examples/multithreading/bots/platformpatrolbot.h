@@ -18,16 +18,16 @@ public:
     PlatformPatrolBot();
     /*! Frees all data
      */
-    virtual ~PlatformPatrolBot();
+    virtual ~PlatformPatrolBot() override;
     /*! Copies bot's state and returns a new copy
        \return clone of current bot
      */
-    virtual bots::AbstractBot* clone() const;
+    virtual bots::AbstractBot* clone() const override;
     /*! Performs actors actions on each bot
         \param[in] game a game
         \param[in] actor an actor to be called
      */
-    virtual void perform(Game* game, game::Actor* actor);
+    virtual void perform(Game* game, game::Actor* actor) override;
 private:
     /*! Whether bot should walk left
      */

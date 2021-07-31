@@ -5,7 +5,7 @@
 #include <functional>
 #include <cassert>
 
-game::MainLevelLoader::MainLevelLoader(sad::Renderer* renderer) : m_loaded_game_screen(false), m_first_time_loaded_game_screen(false), m_thread(NULL), m_renderer(renderer)
+game::MainLevelLoader::MainLevelLoader(sad::Renderer* renderer) : m_loaded_game_screen(false), m_first_time_loaded_game_screen(false), m_thread(nullptr), m_renderer(renderer)
 {
     std::function<void()> loader = [=]() {
         sad::db::Database* database = new sad::db::Database();

@@ -33,7 +33,7 @@ public:
 
     /*! Constructs default object link
      */
-    inline StoredObject() : Item(NULL), Counter(1), Active(false)
+    inline StoredObject() : Item(nullptr), Counter(1), Active(false)
     {
 
     }
@@ -52,7 +52,7 @@ public:
         if (Active)
         {
             Item->delRef();
-            Item = NULL;
+            Item = nullptr;
         }
     }
 };

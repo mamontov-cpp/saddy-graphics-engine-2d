@@ -280,12 +280,12 @@ sad::Rect2D nodes::InventoryNode::getPositionInSlot(int row, int column, double 
 }
 
 nodes::InventoryNode::InventoryNode(const nodes::InventoryNode&) // NOLINT(bugprone-copy-constructor-init)
-: m_inventory(NULL), 
-m_background(NULL), 
-m_label(NULL),
-m_slot(NULL), 
-m_basket_item(NULL), 
-m_popup(NULL),
+: m_inventory(nullptr), 
+m_background(nullptr), 
+m_label(nullptr),
+m_slot(nullptr), 
+m_basket_item(nullptr), 
+m_popup(nullptr),
 m_computed_inventory_slots_places(false)
 {
     throw std::logic_error("The object is non-copyable");

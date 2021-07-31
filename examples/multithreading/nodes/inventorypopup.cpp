@@ -58,7 +58,7 @@ void nodes::InventoryPopup::rendererChanged()
     m_label->setFontName("Liberation Sans");
     m_label->setSize(32);
     m_label->setMaximalLineWidth(50);
-    m_label->setBreakText(sad::Label::LBT_BREAK_WORD);
+    m_label->setBreakText(sad::Label::BreakText::LBT_BREAK_WORD);
     m_label->setColor(sad::AColor(255, 255, 255));
 }
 
@@ -152,7 +152,7 @@ void nodes::InventoryPopup::setAreaForPopup(double px,  double py, double width,
     ));
 }
 
-nodes::InventoryPopup::InventoryPopup(const nodes::InventoryPopup&) : m_background_underlay(NULL), m_background_overlay(NULL), m_label(NULL) // NOLINT(bugprone-copy-constructor-init)
+nodes::InventoryPopup::InventoryPopup(const nodes::InventoryPopup&) : m_background_underlay(nullptr), m_background_overlay(nullptr), m_label(nullptr) // NOLINT(bugprone-copy-constructor-init)
 {
     throw std::logic_error("The object is non-copyable");
 }

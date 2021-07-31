@@ -7,8 +7,8 @@ DECLARE_SOBJ(game::SnowParticles);
 
 game::SnowParticles::SnowParticles() 
 : m_enabled(false), 
-  m_source_scene(NULL), 
-  m_game(NULL),
+  m_source_scene(nullptr), 
+  m_game(nullptr),
   m_falling_speed(0.0),
   m_speedup_coefficient(0.0),
   m_spawn_particles_delay(0.0),

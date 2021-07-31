@@ -21,7 +21,7 @@ DECLARE_SOBJ(game::Item);
 const int game::Item::SpriteSize = 24;
 
 game::Item::Item(game::Item::Definition* definition)
-: m_definition(definition), m_weapon(NULL)
+: m_definition(definition), m_weapon(nullptr)
 {
     if (!m_definition)
     {
@@ -127,7 +127,7 @@ void game::Item::removeGivenWeaponFrom(game::Actor* owner)
     {
         owner->removeWeapon(m_weapon);
         m_weapon->delRef();
-        m_weapon = NULL;
+        m_weapon = nullptr;
     }
 }
 

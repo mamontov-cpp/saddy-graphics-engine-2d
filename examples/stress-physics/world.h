@@ -7,12 +7,15 @@
 
 #include "movingsmile.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <periodicalevent.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <scene.h>
 #include <p2d/app/app.h>
 #include <p2d/findcontactpoints.h>
 #include <p2d/walls.h>
 #include <p2d/bouncesolver.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <formattedlabel.h>
 
 
@@ -30,7 +33,7 @@ protected:
     sad::p2d::FindContactPoints * m_find; //!<  A method for finding contact points
     sad::p2d::Walls * m_walls;   //!< A walls
     sad::p2d::BounceSolver * m_solver; //!< A solver for bouncing objects
-    sad::p2d::app::Way          * m_way;    //!< A way for moving smilies
+    sad::p2d::app::Way          * m_way;    //!< A way for moving smiley faces
 
     int m_hit_count; //!< A hit count
     /*! This callback sets a friction for collision, so ball will lose speed
@@ -76,20 +79,20 @@ protected:
     {
         this->removeObject(ev.m_object_1);
     }
-    /*! Toggles fullscreen		
+    /*! Toggles fullscreen
      */
     void toggleFullscreen();
 public:
 
     World();
 
-    virtual ~World();
+    virtual ~World() override;
     /*! Runs a simulation
      */
-    void run();
+    void run() override;
     /*! Quits a simulation
      */
-    void quit();
+    void quit() override;
     /*! Returns count, how much times player is hit
      */
     int hitCount();

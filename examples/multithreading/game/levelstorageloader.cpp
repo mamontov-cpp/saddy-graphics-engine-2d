@@ -169,9 +169,9 @@ void game::LevelStorageLoader::unloadRoom(int index) const
 }
 
 
-int game::LevelStorageLoader::normalizedRoomNumber(double coord) const
+int game::LevelStorageLoader::normalizedRoomNumber(double coordinate) const
 {
-    int index =  static_cast<int>((coord / game::LevelStorageLoader::DETECTION_RADIUS));
+    int index =  static_cast<int>((coordinate / game::LevelStorageLoader::DETECTION_RADIUS));
     if (index < 0) {
         return 0;
     }

@@ -68,7 +68,7 @@ struct ActorOptions: sad::RefCountable
     /*! A sprite for ducking actor
      */
     sad::String DuckingSprite;
-    /*! A sprite for floate mode
+    /*! A sprite for floater mode
      */
     sad::String FloaterSprite;
     /*! A floater flying options

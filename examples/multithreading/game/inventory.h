@@ -55,7 +55,7 @@ public:
     /*! Returns item by it's index in inventory
      *  \param[in] i row
      *  \param[in] j column
-     *  \return item or NULL if not found
+     *  \return item or nullptr if not found
      */
     game::Item* getItemByIndex(int i, int j);
     /*! Adds item to inventory
@@ -74,7 +74,7 @@ public:
     /*! Takes item, returning it but removing also an item
      *  \param[in] i an index
      *  \param[in] j an index
-     *  \return pointer to item or NULL if not found
+     *  \return pointer to item or nullptr if not found
      */
     game::Item* takeItem(int i, int j);
     /*! Removes item with weapon from inventory
@@ -84,7 +84,7 @@ public:
     /*! Returns an item from inventory
      *  \param[in] i an index for row
      *  \param[in] j an index for column
-     *  \return pointer to item or NULL if not found
+     *  \return pointer to item or nullptr if not found
      */
     game::Item* item(int i, int j);
     /*! Returns an items from inventory
@@ -121,7 +121,7 @@ public:
      */
     bool isStartedDraggingItem() const;
     /*! Tries to start dragging item, if can
-     *  \param[in] p point, whhere user clicked
+     *  \param[in] p point, where user clicked
      */
     void tryStartDraggingItem(const sad::Point2D& p);
     /*! Tries to move dragged area to current point

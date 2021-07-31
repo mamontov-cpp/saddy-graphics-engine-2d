@@ -3,8 +3,10 @@
 
     Describes a moving smile
  */
- #include <p2d/app/way.h>
+#pragma once
+#include <p2d/app/way.h>
 #include <p2d/app/object.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <p2d/app/constants.h>
 #pragma once
 
@@ -20,5 +22,5 @@ class MovingSmile: public sad::p2d::app::Object
      MovingSmile(sad::p2d::app::Way * o);
      void step(double time);
 
-     virtual void render();
+     virtual void render() override;
 };

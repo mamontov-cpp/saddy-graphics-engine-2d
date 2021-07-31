@@ -15,7 +15,7 @@ class DirectionBot : public bots::AbstractBot
 public:
 /*! A horizontal direction
  */
-enum HDir
+enum class HDir: int
 {
     DBHD_RIGHT = 0,
     DBHD_LEFT = 1,
@@ -23,7 +23,7 @@ enum HDir
 };
 /*! A vertical direction
  */
-enum VDir
+enum class VDir: int
 {
     DBVD_UP = 0,
     DBVD_DOWN = 1,
@@ -36,16 +36,16 @@ enum VDir
     DirectionBot(int horizontal_direction, int vertical_direction);
     /*! Frees all data
      */
-    virtual ~DirectionBot();
+    virtual ~DirectionBot() override;
     /*! Copies bot's state and returns a new copy
        \return clone of current bot
      */
-    virtual bots::AbstractBot* clone() const;
+    virtual bots::AbstractBot* clone() const override;
     /*! Performs actors actions on each bot
         \param[in] game a game
         \param[in] actor an actor to be called
      */
-    virtual void perform(Game* game, game::Actor* actor);
+    virtual void perform(Game* game, game::Actor* actor) override;
 private:
     /*! A horizontal direction
      */

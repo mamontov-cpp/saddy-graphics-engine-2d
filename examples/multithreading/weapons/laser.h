@@ -36,13 +36,13 @@ SAD_OBJECT
     /*! Returns actor
         \return actor
      */
-    virtual game::Actor* actor() const;
+    virtual game::Actor* actor() const override;
     /*! Kills a swing
      */
-    virtual void kill();
+    virtual void kill() override;
     /*! Updates side for a swing
      */
-    virtual void update();
+    virtual void update() override;
 private:
     /*! Constructs rectangle for laser
      *  \param[in] middle a middle data

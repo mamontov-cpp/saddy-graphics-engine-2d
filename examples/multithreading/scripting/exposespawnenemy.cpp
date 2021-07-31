@@ -53,7 +53,7 @@ void scripting::exposeSpawnEnemy(void* c, Game* game)
             }
             return actor;
         }
-        game::Actor* result = NULL;
+        game::Actor* result = nullptr;
         return result;
     };
     std::function<game::Actor*(const sad::String&,

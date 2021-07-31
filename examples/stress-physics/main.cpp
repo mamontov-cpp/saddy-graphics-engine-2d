@@ -37,7 +37,7 @@ int main(int argc, char** argv)
     sad::Renderer::ref()->init(sad::Settings(800,600,false));
     SL_MESSAGE("Renderer successfully initialized!");	
     // Inits generator for spawns and random raings
-    srand((unsigned int)time(NULL));
+    srand((unsigned int)time(nullptr));
 
     //Loading resources. We re-use textures from game example. 
     bool res=true; 

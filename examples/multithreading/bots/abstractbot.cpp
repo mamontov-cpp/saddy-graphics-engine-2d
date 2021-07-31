@@ -1,6 +1,6 @@
 #include "abstractbot.h"
 
-bots::AbstractBot::AbstractBot() : m_strategy(NULL)
+bots::AbstractBot::AbstractBot() : m_strategy(nullptr)
 {
     
 }

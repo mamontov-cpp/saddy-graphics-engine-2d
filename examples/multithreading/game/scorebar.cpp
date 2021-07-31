@@ -8,11 +8,11 @@
 
 game::ScoreBar::ScoreBar(Game* game) 
 : m_game(game),
-m_scene(NULL),
-m_score_label(NULL),
-m_highscore_label(NULL),
-m_score_value(NULL),
-m_highscore_value(NULL)
+m_scene(nullptr),
+m_score_label(nullptr),
+m_highscore_label(nullptr),
+m_score_value(nullptr),
+m_highscore_value(nullptr)
 {
     
 }
@@ -54,13 +54,13 @@ void game::ScoreBar::init()
 
 void game::ScoreBar::deinit()
 {
-    m_scene = NULL;
+    m_scene = nullptr;
 
-    m_score_label = NULL;
-    m_highscore_label = NULL;
+    m_score_label = nullptr;
+    m_highscore_label = nullptr;
 
-    m_score_value = NULL;
-    m_highscore_value = NULL;
+    m_score_value = nullptr;
+    m_highscore_value = nullptr;
 }
 
 void game::ScoreBar::update() const

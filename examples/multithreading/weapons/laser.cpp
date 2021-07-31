@@ -15,7 +15,7 @@
 DECLARE_SOBJ_INHERITANCE(weapons::Laser, weapons::Projectile)
 
 weapons::Laser::Laser(Game* game, game::Actor* actor, double angle, const weapons::LaserSettings& settings)
-: m_actor(actor), m_sprite(NULL), m_body(NULL), m_max_time(settings.Time), m_dangle(0), m_sprite_width(0), m_physical_width(0), m_height(0)
+: m_actor(actor), m_sprite(nullptr), m_body(nullptr), m_max_time(settings.Time), m_dangle(0), m_sprite_width(0), m_physical_width(0), m_height(0)
 {
     m_game = game;
     bool is_player =  game->player()->actor() == actor;
@@ -79,7 +79,7 @@ weapons::Laser::~Laser()
 
 game::Actor* weapons::Laser::actor() const
 {
-    return NULL;
+    return nullptr;
 }
 
 void weapons::Laser::kill()

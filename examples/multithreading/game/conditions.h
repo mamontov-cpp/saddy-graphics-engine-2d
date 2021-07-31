@@ -26,7 +26,6 @@ struct Conditions
         CS_PLAYGAME_PAUSED_PRESSED  = 4,   //!< A playing screen, when paused (common version)
         CS_PLAYGAME_PAUSED_RELEASED = 5    //!< A press on paused screen, when released
     };
-
 /*! A conditions for specified renderer
  */
 struct ConditionsForRenderer
@@ -52,7 +51,7 @@ struct ConditionsForRenderer
     /*! A pause key condition, which should be checked when game is paused
      */
     sad::KeyHoldCondition* PauseConditionWhenPaused;
-    /*! Inits a structure for specified thread
+    /*! Initializes a structure for specified thread
         \param[in] is_inventory_thread whether thread, that uses conditions is inventory thread
      */
     void init(bool is_inventory_thread);

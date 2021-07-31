@@ -10,7 +10,7 @@ struct ItemNameToDepth {
 
 static sad::Vector<ItemNameToDepth>  itemname_to_penetration_depth;
 
-void game::clearItemPenetationDepths()
+void game::clearItemPenetrationDepths()
 {
     itemname_to_penetration_depth.clear();
 }
@@ -31,7 +31,7 @@ void game::setItemPenetrationDepth(const sad::String& string, int depth)
 }
 
 
-int game::getPenetationDepthForItem(const sad::String& string)
+int game::getPenetrationDepthForItem(const sad::String& string)
 {
     sad::String copy = string;
     copy.toUpper();

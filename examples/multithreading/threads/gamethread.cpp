@@ -14,7 +14,7 @@
 #include <irrklang/sound.h>
 
 
-threads::GameThread::GameThread() : m_state(threads::GS_UNITIALIZED), m_killed(false), m_need_to_wait(false), m_renderer_started(false)
+threads::GameThread::GameThread() : m_state(threads::GameState::GS_UNITIALIZED), m_killed(false), m_need_to_wait(false), m_renderer_started(false)
 {
     m_renderer = new sad::Renderer();
 }
@@ -84,7 +84,7 @@ void threads::GameThread::tryInitialize(
     console_format += log_prefix;
     console_format += ": [{1}] {3}{2}{4}";
     sad::log::ConsoleTarget* ct = new sad::log::ConsoleTarget(console_format);
-    ct->setColorForPriorityAndColoredOutput(sad::log::DEBUG, sad::log::WHITE);
+    ct->setColorForPriorityAndColoredOutput(sad::log::Priority::DEBUG, sad::log::Color::WHITE);
     m_renderer->log()->addTarget(ct);
 
     /* Setup the logging. We redirect all messages to a file, passed as parameter to thread

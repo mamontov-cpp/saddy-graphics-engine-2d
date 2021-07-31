@@ -58,13 +58,13 @@ void World::run()
     sad::Renderer::ref()->setWindowTitle("Physics stress test");
 
     sad::Renderer::ref()->controls()
-                        ->add(*sad::input::ET_KeyPress & sad::F, this, &World::toggleFullscreen);
+                        ->add(*sad::input::EventType::ET_KeyPress & sad::KeyboardKey::F, this, &World::toggleFullscreen);
     
     // Set window size to be fixed
     sad::Renderer::ref()->makeFixedSize();
 
-    m_steptask = new sad::p2d::WorldStepTask(m_world);
-    sad::Renderer::ref()->pipeline()->append(m_steptask);
+    m_step_task = new sad::p2d::WorldStepTask(m_world);
+    sad::Renderer::ref()->pipeline()->append(m_step_task);
 
 
     // SETUP WORLD CALLBACKS HERE!!!
@@ -132,7 +132,7 @@ void World::run()
         {0, 1}, {1, 2}, {0, 3}, {1, 4}, {3, 4}, {2, 5},
         {4, 5}, {3, 6}, {4, 7}, {6, 7}, {5, 8}, {7, 8}
     };
-    // Build grafical representaion for elastic grid
+    // Build grafical representation for elastic grid
     for(int i = 0; i < 12; i++)
     {
         sc->add( new GridNodeEdge(g[graphic[i][0]]->body(), g[graphic[i][1]]->body()) );
