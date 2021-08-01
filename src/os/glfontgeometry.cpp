@@ -36,7 +36,14 @@ void sad::os::GLFontGeometry::setVertices(const sad::Vector<double>& points) con
     f->glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer);
     tryLogGlError("sad::os::GLFontGeometry::setVertices: glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer)");
 
-    f->glBufferSubData(GL_ARRAY_BUFFER, 0, points.size() * sizeof(double), reinterpret_cast<const double*>(&(points[0])));
+    if (points.size())
+    {
+        f->glBufferSubData(GL_ARRAY_BUFFER, 0, points.size() * sizeof(double), reinterpret_cast<const double*>(&(points[0])));
+    }
+    else
+    {
+        f->glBufferSubData(GL_ARRAY_BUFFER, 0, 0, nullptr);
+    }
     tryLogGlError("sad::os::GLFontGeometry::setVertices: glBufferSubData()");
 }
 
@@ -53,7 +60,14 @@ void sad::os::GLFontGeometry::setTextureCoordinates(const sad::Vector<double>& t
     f->glBindBuffer(GL_ARRAY_BUFFER, m_texture_buffer);
     tryLogGlError("sad::os::GLFontGeometry::setTextureCoordinates: glBindBuffer(GL_ARRAY_BUFFER, m_texture_buffer)");
 
-    f->glBufferSubData(GL_ARRAY_BUFFER, 0, textureCoordinates.size() * sizeof(double), reinterpret_cast<const double*>(&(textureCoordinates[0])));
+    if (textureCoordinates.size())
+    {
+        f->glBufferSubData(GL_ARRAY_BUFFER, 0, textureCoordinates.size() * sizeof(double), reinterpret_cast<const double*>(&(textureCoordinates[0])));
+    }
+    else
+    {
+        f->glBufferSubData(GL_ARRAY_BUFFER, 0, 0, nullptr);
+    }
     tryLogGlError("sad::os::GLFontGeometry::setTextureCoordinates: glBufferSubData()");
 }
 
