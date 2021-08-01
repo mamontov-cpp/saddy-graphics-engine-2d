@@ -1400,9 +1400,11 @@ void sad::Label::setRenderingStringLimitAsRatioToLength(double limit)
 
 void sad::Label::onRemovedFromScene()
 {
-    if (m_geometries->renderer())
+    sad::Renderer* r = m_geometries->renderer();
+    if (!r)  r = this->renderer();
+    if (r)
     {
-        m_geometries->renderer()->removeFontGeometries(m_geometries);
+        r->removeFontGeometries(m_geometries);
     }
     m_geometries->setRenderer(nullptr);
     m_geometries_dirty = true;

@@ -62,6 +62,10 @@ void sad::os::GLFontGeometry::unload()
     if (m_is_on_gpu)
     {
         sad::os::ExtensionFunctions* f = m_f;
+	if (!f) 
+	{
+		return;
+	}
         f->glDeleteBuffers(1, &m_vertex_buffer);
         f->glDeleteBuffers(1, &m_texture_buffer);
         f->glDeleteVertexArrays(1, &m_vertex_array);

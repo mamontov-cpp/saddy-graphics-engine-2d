@@ -252,6 +252,10 @@ void sad::Scene::clearNow()
 {
     for(size_t i = 0; i < m_layers.count(); i++)
     {
+        if (m_layers[i])
+        {
+            m_layers[i]->onRemovedFromScene();
+        }
         m_layers[i]->delRef();
     }
     m_layers.clear();

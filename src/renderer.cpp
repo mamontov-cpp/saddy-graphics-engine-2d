@@ -1057,7 +1057,10 @@ void sad::Renderer::storeGeometry(sad::os::GLUntexturedGeometry3D* g)
 
 void sad::Renderer::addFontGeometries(sad::os::GLFontGeometries* g)
 {
-    m_gl_font_geometries.add(g);
+    if (std::find(m_gl_font_geometries.begin(), m_gl_font_geometries.end(), g) == m_gl_font_geometries.end())
+    {
+        m_gl_font_geometries.add(g);
+    }
 }
 
 void sad::Renderer::removeFontGeometries(sad::os::GLFontGeometries* g)
