@@ -415,16 +415,11 @@ sad::Point3D sad::os::GLContextImpl::mapToViewport(const sad::Point2D & p, bool 
     winx=(float)p.x();
 #ifdef WIN32  // On win32 we explicitly handle coordinates
     winy=(float)(p.y());
-#else
+#endif
+    glGetIntegerv(GL_VIEWPORT, viewport);
+#ifndef WIN32
     winy=(float)(viewport[3] - p.y());
 #endif
-    if (ztest)
-        glReadPixels((int)winx,(int)winy,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&winz);
-    else
-        winz = DEFAULT_DEPTH_VALUE;
-
-    glGetIntegerv(GL_VIEWPORT, viewport);
-
     if (this->isOpenGL3compatible())
     {
         glm::mat4x4 model, projection;
@@ -458,7 +453,6 @@ sad::Point3D sad::os::GLContextImpl::mapToViewport(const sad::Point2D & p, bool 
     {
         glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
         glGetDoublev(GL_PROJECTION_MATRIX, projection);
-
         gluUnProject(winx, winy, winz, modelview, projection, viewport, result, result + 1, result + 2);
         result[0] -= this->renderer()->globalTranslationOffset().x();
         result[1] -= this->renderer()->globalTranslationOffset().y();
