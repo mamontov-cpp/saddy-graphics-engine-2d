@@ -22,7 +22,7 @@ static void dumpDocument(const sad::util::Markup::Document& doc)
             printf("Strikethrough: %s\n", (c.Strikethrough) ? "true" : "false");
             if (c.Size.exists())
             {
-                printf("Size: %d%s\n", c.Size.value().Size, (c.Size.value().Type == sad::util::Markup::MFZST_PIXELS) ? "px" : "pt");
+                printf("Size: %d%s\n", c.Size.value().Size, (c.Size.value().Type == sad::util::Markup::FontSizeType::MFZST_PIXELS) ? "px" : "pt");
             }
             if (c.Color.exists())
             {
@@ -34,7 +34,7 @@ static void dumpDocument(const sad::util::Markup::Document& doc)
             }
             if (c.Linespacing.exists())
             {
-                printf("Linespacing : %d%s\n", c.Linespacing.value().Size, (c.Linespacing.value().Type == sad::util::Markup::MLST_PIXELS) ? "px" : "%");
+                printf("Linespacing : %d%s\n", c.Linespacing.value().Size, (c.Linespacing.value().Type == sad::util::Markup::LineSpacingSizeType::MLST_PIXELS) ? "px" : "%");
             }
             
             printf("\"%s\"", c.Content.c_str());
@@ -61,11 +61,11 @@ public:
         sad::Maybe<sad::util::Markup::FontSize> empty;
         ASSERT_TRUE(sad::util::Markup::parseSize("", empty).exists() == false);
         ASSERT_TRUE(sad::util::Markup::parseSize("p", empty).exists() == false);
-        ASSERT_TRUE(sad::util::Markup::parseSize("1", empty).value() == sad::util::Markup::FontSize(1, sad::util::Markup::MFZST_PIXELS));
-        ASSERT_TRUE(sad::util::Markup::parseSize("322", empty).value() == sad::util::Markup::FontSize(322, sad::util::Markup::MFZST_PIXELS));
+        ASSERT_TRUE(sad::util::Markup::parseSize("1", empty).value() == sad::util::Markup::FontSize(1, sad::util::Markup::FontSizeType::MFZST_PIXELS));
+        ASSERT_TRUE(sad::util::Markup::parseSize("322", empty).value() == sad::util::Markup::FontSize(322, sad::util::Markup::FontSizeType::MFZST_PIXELS));
         ASSERT_TRUE(sad::util::Markup::parseSize("322p", empty).exists() == false);
-        ASSERT_TRUE(sad::util::Markup::parseSize("322px", empty).value() == sad::util::Markup::FontSize(322, sad::util::Markup::MFZST_PIXELS));
-        ASSERT_TRUE(sad::util::Markup::parseSize("322pt", empty).value() == sad::util::Markup::FontSize(322, sad::util::Markup::MFZST_POINTS));
+        ASSERT_TRUE(sad::util::Markup::parseSize("322px", empty).value() == sad::util::Markup::FontSize(322, sad::util::Markup::FontSizeType::MFZST_PIXELS));
+        ASSERT_TRUE(sad::util::Markup::parseSize("322pt", empty).value() == sad::util::Markup::FontSize(322, sad::util::Markup::FontSizeType::MFZST_POINTS));
         ASSERT_TRUE(sad::util::Markup::parseSize("322xpx", empty).exists() == false);
         ASSERT_TRUE(sad::util::Markup::parseSize("322xpt", empty).exists() == false);
     }
@@ -76,11 +76,11 @@ public:
         ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("", empty).exists() == false);
         ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("p", empty).exists() == false);
         ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("%", empty).exists() == false);
-        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("1", empty).value() == sad::util::Markup::LineSpacingSize(1, sad::util::Markup::MLST_PIXELS));
-        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("322", empty).value() == sad::util::Markup::LineSpacingSize(322, sad::util::Markup::MLST_PIXELS));
+        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("1", empty).value() == sad::util::Markup::LineSpacingSize(1, sad::util::Markup::LineSpacingSizeType::MLST_PIXELS));
+        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("322", empty).value() == sad::util::Markup::LineSpacingSize(322, sad::util::Markup::LineSpacingSizeType::MLST_PIXELS));
         ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("322p", empty).exists() == false);
-        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("322px", empty).value() == sad::util::Markup::LineSpacingSize(322, sad::util::Markup::MLST_PIXELS));
-        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("322%", empty).value() == sad::util::Markup::LineSpacingSize(322, sad::util::Markup::MLST_PERCENTS));
+        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("322px", empty).value() == sad::util::Markup::LineSpacingSize(322, sad::util::Markup::LineSpacingSizeType::MLST_PIXELS));
+        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("322%", empty).value() == sad::util::Markup::LineSpacingSize(322, sad::util::Markup::LineSpacingSizeType::MLST_PERCENTS));
         ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("322xpx", empty).exists() == false);
         ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("322x%", empty).exists() == false);
     }

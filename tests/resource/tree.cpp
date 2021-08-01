@@ -267,9 +267,9 @@ struct SadTreeTest : tpunit::TestFixture
        int count = errors.size();
        sad::util::free(errors);
        ASSERT_TRUE(count == 0);
-       ASSERT_TRUE(tree.root()->resource("objects") != NULL);
-       ASSERT_TRUE(tree.root()->resource("myfont") != NULL);
-       ASSERT_TRUE(tree.root()->resource("emporium.ttf") != NULL);
+       ASSERT_TRUE(tree.root()->resource("objects") != nullptr);
+       ASSERT_TRUE(tree.root()->resource("myfont") != nullptr);
+       ASSERT_TRUE(tree.root()->resource("emporium.ttf") != nullptr);
    }
 
     // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -295,10 +295,10 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE(count == 0);
        ASSERT_TRUE(count2 == 0);
 
-       ASSERT_TRUE(tree.root()->resource("objects") != NULL);
-       ASSERT_TRUE(tree.root()->resource("myfont") != NULL);
-       ASSERT_TRUE(tree.root()->resource("emporium.ttf") != NULL);
-       ASSERT_TRUE(tree.root()->resource("objects2") != NULL);
+       ASSERT_TRUE(tree.root()->resource("objects") != nullptr);
+       ASSERT_TRUE(tree.root()->resource("myfont") != nullptr);
+       ASSERT_TRUE(tree.root()->resource("emporium.ttf") != nullptr);
+       ASSERT_TRUE(tree.root()->resource("objects2") != nullptr);
    }
 
     // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -401,8 +401,8 @@ struct SadTreeTest : tpunit::TestFixture
        int count = errors.size();
        sad::util::free(errors);
        ASSERT_TRUE(count == 0);
-       ASSERT_TRUE(tree.root()->resource("objects") != NULL);
-       ASSERT_TRUE(tree.root()->resource("objects2") != NULL);
+       ASSERT_TRUE(tree.root()->resource("objects") != nullptr);
+       ASSERT_TRUE(tree.root()->resource("objects2") != nullptr);
 
        sad::resource::Link<sad::Texture> l1, l2;
        l1.setTree(&tree);
@@ -410,8 +410,8 @@ struct SadTreeTest : tpunit::TestFixture
        l1.setPath("objects");
        l2.setPath("objects");
 
-       ASSERT_TRUE(l1.get() != NULL);
-       ASSERT_TRUE(l2.get() != NULL);
+       ASSERT_TRUE(l1.get() != nullptr);
+       ASSERT_TRUE(l2.get() != nullptr);
 
        ASSERT_FALSE( tree.unload("examples/game/objects.bmp") );
        ASSERT_TRUE ( tree.unload("examples/game/title.tga") );
@@ -445,8 +445,8 @@ struct SadTreeTest : tpunit::TestFixture
        int count = errors.size();
        sad::util::free(errors);
        ASSERT_TRUE(count == 0);
-       ASSERT_TRUE(tree.root()->resource("objects") != NULL);
-       ASSERT_TRUE(tree.root()->resource("objects2") != NULL);
+       ASSERT_TRUE(tree.root()->resource("objects") != nullptr);
+       ASSERT_TRUE(tree.root()->resource("objects2") != nullptr);
 
        sad::resource::Link<sad::Texture> l1, l2;
        l1.setTree(&tree);
@@ -454,8 +454,8 @@ struct SadTreeTest : tpunit::TestFixture
        l1.setPath("objects");
        l2.setPath("objects");
 
-       ASSERT_TRUE(l1.get() != NULL);
-       ASSERT_TRUE(l2.get() != NULL);
+       ASSERT_TRUE(l1.get() != nullptr);
+       ASSERT_TRUE(l2.get() != nullptr);
 
        ASSERT_FALSE( tree.unload(tree.root()->resource("objects")->file()) );
        ASSERT_TRUE ( tree.unload(tree.root()->resource("objects2")->file()) );
@@ -484,14 +484,14 @@ struct SadTreeTest : tpunit::TestFixture
        int count = errors.size();
        sad::util::free(errors);
        ASSERT_TRUE(count == 0);
-       ASSERT_TRUE(tree.root()->resource("objects") != NULL);
+       ASSERT_TRUE(tree.root()->resource("objects") != nullptr);
 
        sad::resource::Link<sad::Texture> l1;
        l1.setTree(&tree);
        l1.setPath("objects");
 
        sad::Texture * old = l1.get();
-       ASSERT_TRUE(old != NULL);
+       ASSERT_TRUE(old != nullptr);
 
        rename("examples/game/objects.bmp", "examples/game/objects.bmp2");
 
@@ -533,14 +533,14 @@ struct SadTreeTest : tpunit::TestFixture
        int count = errors.size();
        sad::util::free(errors);
        ASSERT_TRUE(count == 0);
-       ASSERT_TRUE(tree.root()->resource("objects") != NULL);
+       ASSERT_TRUE(tree.root()->resource("objects") != nullptr);
 
        sad::resource::Link<sad::TextureMappedFont> l1;
        l1.setTree(&tree);
        l1.setPath("objects");
 
        sad::TextureMappedFont * old = l1.get();
-       ASSERT_TRUE(old != NULL);
+       ASSERT_TRUE(old != nullptr);
 
        rename("examples/game/font.cfg", "examples/game/font.cfg2");
 
@@ -582,14 +582,14 @@ struct SadTreeTest : tpunit::TestFixture
        int count = errors.size();
        sad::util::free(errors);
        ASSERT_TRUE(count == 0);
-       ASSERT_TRUE(tree.root()->resource("objects") != NULL);
+       ASSERT_TRUE(tree.root()->resource("objects") != nullptr);
 
        sad::resource::Link<sad::freetype::Font> l1;
        l1.setTree(&tree);
        l1.setPath("objects");
 
        sad::freetype::Font * old = l1.get();
-       ASSERT_TRUE(old != NULL);
+       ASSERT_TRUE(old != nullptr);
 
        sad::Vector<sad::resource::Error*> result  = tree.root()->resource("objects")->file()->reload();
        count = result.size();
@@ -607,8 +607,8 @@ struct SadTreeTest : tpunit::TestFixture
        sad::resource::Tree tree;
        tree.setStoreLinks(true);
        tree.setRenderer(&r);
-       ASSERT_TRUE( tree.archiveEntry("tests/images/images.tar", "png.png") != NULL) ;
-       ASSERT_TRUE( tree.archiveEntry("111", "png.png") == NULL) ;
+       ASSERT_TRUE( tree.archiveEntry("tests/images/images.tar", "png.png") != nullptr) ;
+       ASSERT_TRUE( tree.archiveEntry("111", "png.png") == nullptr) ;
    }
 
     // ReSharper disable once CppMemberFunctionMayBeStatic

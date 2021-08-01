@@ -41,7 +41,7 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
                    sad::Point2D(2, 2), sad::Point2D(2, 1))	  
        );
        r2.setPosition(-2);
-       r2.setType(sad::p2d::BT_LEFT);
+       r2.setType(sad::p2d::BoundType::BT_LEFT);
        sad::p2d::FindContactPoints m;
        sad::p2d::CollisionShape * s1 = &r1;
        sad::p2d::CollisionShape * s2 = &r2;
@@ -60,7 +60,7 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
                    sad::Point2D(2, 2), sad::Point2D(2, 1))	  
        );
        r2.setPosition(3);
-       r2.setType(sad::p2d::BT_RIGHT);
+       r2.setType(sad::p2d::BoundType::BT_RIGHT);
        sad::p2d::FindContactPoints m;
        sad::p2d::CollisionShape * s1 = &r1;
        sad::p2d::CollisionShape * s2 = &r2;
@@ -78,7 +78,7 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
                    sad::Point2D(2, 2), sad::Point2D(2, 1))	  
        );
        r2.setPosition(3);
-       r2.setType(sad::p2d::BT_UP);
+       r2.setType(sad::p2d::BoundType::BT_UP);
        sad::p2d::FindContactPoints m;
        sad::p2d::CollisionShape * s1 = &r1;
        sad::p2d::CollisionShape * s2 = &r2;
@@ -97,7 +97,7 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
                    sad::Point2D(2, 2), sad::Point2D(2, 1))	  
        );
        r2.setPosition(0);
-       r2.setType(sad::p2d::BT_DOWN);
+       r2.setType(sad::p2d::BoundType::BT_DOWN);
        sad::p2d::FindContactPoints m;
        sad::p2d::CollisionShape * s1 = &r1;
        sad::p2d::CollisionShape * s2 = &r2;
@@ -116,7 +116,7 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
                    sad::Point2D(2, 2), sad::Point2D(2, 1))	  
        );
        r2.setPosition(-2);
-       r2.setType(sad::p2d::BT_LEFT);
+       r2.setType(sad::p2d::BoundType::BT_LEFT);
        sad::p2d::FindContactPoints m;
        sad::p2d::CollisionShape * s1 = &r1;
        sad::p2d::CollisionShape * s2 = &r2;
@@ -136,7 +136,7 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
                    sad::Point2D(2, 2), sad::Point2D(2, 1))	  
        );
        r2.setPosition(3);
-       r2.setType(sad::p2d::BT_RIGHT);
+       r2.setType(sad::p2d::BoundType::BT_RIGHT);
        sad::p2d::FindContactPoints m;
        sad::p2d::CollisionShape * s1 = &r1;
        sad::p2d::CollisionShape * s2 = &r2;
@@ -155,7 +155,7 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
                    sad::Point2D(2, 2), sad::Point2D(2, 1))	  
        );
        r2.setPosition(3);
-       r2.setType(sad::p2d::BT_UP);
+       r2.setType(sad::p2d::BoundType::BT_UP);
        sad::p2d::FindContactPoints m;
        sad::p2d::CollisionShape * s1 = &r1;
        sad::p2d::CollisionShape * s2 = &r2;
@@ -175,7 +175,7 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
                    sad::Point2D(2, 2), sad::Point2D(2, 1))	  
        );
        r2.setPosition(0);
-       r2.setType(sad::p2d::BT_DOWN);
+       r2.setType(sad::p2d::BoundType::BT_DOWN);
        sad::p2d::FindContactPoints m;
        sad::p2d::CollisionShape * s1 = &r1;
        sad::p2d::CollisionShape * s2 = &r2;
@@ -194,7 +194,7 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
                    sad::Point2D(2, 2), sad::Point2D(2, 1))	  
        );
        r2.setPosition(-2);
-       r2.setType(sad::p2d::BT_LEFT);
+       r2.setType(sad::p2d::BoundType::BT_LEFT);
        sad::p2d::FindContactPoints m;
        sad::p2d::CollisionShape * s1 = &r1;
        sad::p2d::CollisionShape * s2 = &r2;
@@ -214,7 +214,7 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
                    sad::Point2D(2, 2), sad::Point2D(2, 1))	  
        );
        r2.setPosition(3);
-       r2.setType(sad::p2d::BT_RIGHT);
+       r2.setType(sad::p2d::BoundType::BT_RIGHT);
        sad::p2d::FindContactPoints m;
        sad::p2d::CollisionShape * s1 = &r1;
        sad::p2d::CollisionShape * s2 = &r2;
@@ -234,7 +234,7 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
                    sad::Point2D(2, 2), sad::Point2D(2, 1))	  
        );
        r2.setPosition(3);
-       r2.setType(sad::p2d::BT_UP);
+       r2.setType(sad::p2d::BoundType::BT_UP);
        sad::p2d::FindContactPoints m;
        sad::p2d::CollisionShape * s1 = &r1;
        sad::p2d::CollisionShape * s2 = &r2;
@@ -254,7 +254,7 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
                    sad::Point2D(2, 2), sad::Point2D(2, 1))	  
        );
        r2.setPosition(-3);
-       r2.setType(sad::p2d::BT_DOWN);
+       r2.setType(sad::p2d::BoundType::BT_DOWN);
        sad::p2d::FindContactPoints m;
        sad::p2d::CollisionShape * s1 = &r1;
        sad::p2d::CollisionShape * s2 = &r2;

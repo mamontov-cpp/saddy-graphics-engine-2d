@@ -33,7 +33,7 @@ public:
 } _sad_controls_primitive;
 
 
-sad::pipeline::Pipeline * global_pipeline = NULL;
+sad::pipeline::Pipeline * global_pipeline = nullptr;
 
 void trigger_and_add()
 {

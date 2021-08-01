@@ -27,17 +27,17 @@ struct SadResourceFileIdentifierTest : tpunit::TestFixture
         sad::resource::ResourceFileIdentifier ri;
         sad::resource::ResourceFileIdentifier::parse("t", ri);
         ASSERT_TRUE(ri.Valid);
-        ASSERT_TRUE(ri.Type == sad::resource::RFT_FILE);
+        ASSERT_TRUE(ri.Type == sad::resource::ResourceFileType::RFT_FILE);
         ASSERT_TRUE(ri.FileName == "t");
 
         sad::resource::ResourceFileIdentifier::parse("tar", ri);
         ASSERT_TRUE(ri.Valid);
-        ASSERT_TRUE(ri.Type == sad::resource::RFT_FILE);
+        ASSERT_TRUE(ri.Type == sad::resource::ResourceFileType::RFT_FILE);
         ASSERT_TRUE(ri.FileName == "tar");
 
         sad::resource::ResourceFileIdentifier::parse("D:/tar/1.tar", ri);
         ASSERT_TRUE(ri.Valid);
-        ASSERT_TRUE(ri.Type == sad::resource::RFT_FILE);
+        ASSERT_TRUE(ri.Type == sad::resource::ResourceFileType::RFT_FILE);
         ASSERT_TRUE(ri.FileName == "D:/tar/1.tar");
     }
 
@@ -78,19 +78,19 @@ struct SadResourceFileIdentifierTest : tpunit::TestFixture
         sad::resource::ResourceFileIdentifier ri;
         sad::resource::ResourceFileIdentifier::parse("tar7z:9://ftest.tar/img.img", ri);
         ASSERT_TRUE(ri.Valid);
-        ASSERT_TRUE(ri.Type == sad::resource::RFT_TAR7Z_INNER_FILE);
+        ASSERT_TRUE(ri.Type == sad::resource::ResourceFileType::RFT_TAR7Z_INNER_FILE);
         ASSERT_TRUE(ri.ArchiveName == "ftest.tar");
         ASSERT_TRUE(ri.FileName == "img.img");
 
         sad::resource::ResourceFileIdentifier::parse("tar7z:15://ftest_22_33.tar/img.img/img.img", ri);
         ASSERT_TRUE(ri.Valid);
-        ASSERT_TRUE(ri.Type == sad::resource::RFT_TAR7Z_INNER_FILE);
+        ASSERT_TRUE(ri.Type == sad::resource::ResourceFileType::RFT_TAR7Z_INNER_FILE);
         ASSERT_TRUE(ri.ArchiveName == "ftest_22_33.tar");
         ASSERT_TRUE(ri.FileName == "img.img/img.img");
 
         sad::resource::ResourceFileIdentifier::parse("tar7z:15://tests/image.tar/png.png", ri);
         ASSERT_TRUE(ri.Valid);
-        ASSERT_TRUE(ri.Type == sad::resource::RFT_TAR7Z_INNER_FILE);
+        ASSERT_TRUE(ri.Type == sad::resource::ResourceFileType::RFT_TAR7Z_INNER_FILE);
         ASSERT_TRUE(ri.ArchiveName == "tests/image.tar");
         ASSERT_TRUE(ri.FileName == "png.png");
     }

@@ -13,7 +13,7 @@ struct SadRendererTest : tpunit::TestFixture
  public:
    SadRendererTest() : tpunit::TestFixture(
        TEST(SadRendererTest::testDefaultTree),
-       TEST(SadRendererTest::testAddNULL),
+       TEST(SadRendererTest::testAddnullptr),
        TEST(SadRendererTest::testAddTake),
        TEST(SadRendererTest::testAddExisting),
        TEST(SadRendererTest::testRemove)
@@ -22,25 +22,25 @@ struct SadRendererTest : tpunit::TestFixture
    void testDefaultTree()
    {
        sad::Renderer r;
-       ASSERT_TRUE( r.tree() != NULL)
+       ASSERT_TRUE( r.tree() != nullptr)
    }
 
-   void testAddNULL()
+   void testAddnullptr()
    {
        sad::Renderer r;
-       r.addTree("1", NULL);
-       ASSERT_TRUE( r.tree("1") == NULL)
+       r.addTree("1", nullptr);
+       ASSERT_TRUE( r.tree("1") == nullptr)
    }
 
    void testAddTake()
    {
        sad::Renderer r;
        r.addTree("1", new sad::resource::Tree());
-       ASSERT_TRUE( r.tree("1") != NULL);
+       ASSERT_TRUE( r.tree("1") != nullptr);
        ASSERT_TRUE( r.tree("1")->renderer() == &r);
 
        sad::resource::Tree * t = r.takeTree("1");
-       ASSERT_TRUE( r.tree("1") == NULL);
+       ASSERT_TRUE( r.tree("1") == nullptr);
        delete t;
    }
 
@@ -48,7 +48,7 @@ struct SadRendererTest : tpunit::TestFixture
    {
        sad::Renderer r;
        r.addTree("1", new sad::resource::Tree());
-       ASSERT_TRUE( r.tree("1") != NULL);
+       ASSERT_TRUE( r.tree("1") != nullptr);
        sad::resource::Tree * old = r.tree("1");
        r.addTree("1", new sad::resource::Tree());	
        ASSERT_TRUE( r.tree("1") != old);
@@ -59,7 +59,7 @@ struct SadRendererTest : tpunit::TestFixture
        sad::Renderer r;
        r.addTree("1", new sad::resource::Tree());
        r.removeTree("1");
-       ASSERT_TRUE( r.tree("1") == NULL);
+       ASSERT_TRUE( r.tree("1") == nullptr);
    }
    
 

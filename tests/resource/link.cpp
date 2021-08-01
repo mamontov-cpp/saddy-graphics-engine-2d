@@ -184,12 +184,12 @@ struct SadLinkTest : tpunit::TestFixture
        sad::resource::Link<LinkResource> l1;
        l1.setTree(&r, "mylittletree");
        l1.setPath("friendshipismagic/s1");
-       ASSERT_TRUE(l1.resource() != NULL);
+       ASSERT_TRUE(l1.resource() != nullptr);
 
        sad::resource::Link<LinkResource> l2;
        l2.setTree(&r, "");
        l2.setPath("1/1/1");
-       ASSERT_TRUE(l2.resource() != NULL);
+       ASSERT_TRUE(l2.resource() != nullptr);
 
    }
 

@@ -78,7 +78,7 @@ void performEvent12(const sad::p2d::CollisionEvent<p2dworld::UserObject1, p2dwor
 
 void performEventChecked(const sad::p2d::CollisionEvent<p2dworld::UserObject1, p2dworld::UserObject1> & ev)
 { 
-   if (ev.m_object_2 == NULL || ev.m_object_1 == NULL)
+   if (ev.m_object_2 == nullptr || ev.m_object_1 == nullptr)
        eventperformed++;
 }
 
@@ -1114,8 +1114,8 @@ struct WorldTest : tpunit::TestFixture
 
         ASSERT_TRUE(w->amountOfHandlers() == 0);
         ASSERT_TRUE(w->amountOfHandlersForGroups("b1", "b2") == 0);
-        ASSERT_TRUE(w->totalHandlerOccurences(h) == 0);
-        ASSERT_TRUE(w->totalHandlerOccurencesInGroups("b1", "b2", h) == 0);
+        ASSERT_TRUE(w->totalHandlerOccurrences(h) == 0);
+        ASSERT_TRUE(w->totalHandlerOccurrencesInGroups("b1", "b2", h) == 0);
         ASSERT_TRUE(w->isHandlerInWorld(h) == false);
         ASSERT_TRUE(w->isHandlerInGroups("b1", "b2", h) == false);
 
@@ -1150,8 +1150,8 @@ struct WorldTest : tpunit::TestFixture
 
         ASSERT_TRUE(w->amountOfHandlers() == 0);
         ASSERT_TRUE(w->amountOfHandlersForGroups("b1", "b2") == 0);
-        ASSERT_TRUE(w->totalHandlerOccurences(h) == 0);
-        ASSERT_TRUE(w->totalHandlerOccurencesInGroups("b1", "b2", h) == 0);
+        ASSERT_TRUE(w->totalHandlerOccurrences(h) == 0);
+        ASSERT_TRUE(w->totalHandlerOccurrencesInGroups("b1", "b2", h) == 0);
         ASSERT_TRUE(w->isHandlerInWorld(h) == false);
         ASSERT_TRUE(w->isHandlerInGroups("b1", "b2", h) == false);
 
@@ -1187,8 +1187,8 @@ struct WorldTest : tpunit::TestFixture
 
         ASSERT_TRUE(w->amountOfHandlers() == 0);
         ASSERT_TRUE(w->amountOfHandlersForGroups("b1", "b2") == 0);
-        ASSERT_TRUE(w->totalHandlerOccurences(h) == 0);
-        ASSERT_TRUE(w->totalHandlerOccurencesInGroups("b1", "b2", h) == 0);
+        ASSERT_TRUE(w->totalHandlerOccurrences(h) == 0);
+        ASSERT_TRUE(w->totalHandlerOccurrencesInGroups("b1", "b2", h) == 0);
         ASSERT_TRUE(w->isHandlerInWorld(h) == false);
         ASSERT_TRUE(w->isHandlerInGroups("b1", "b2", h) == false);
 

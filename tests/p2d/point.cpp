@@ -1,11 +1,12 @@
 #pragma warning(push)
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include <cstdio>
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #include "p2d/point.h"
 #pragma warning(pop)
-
 
 /*!
  * Tests point operations

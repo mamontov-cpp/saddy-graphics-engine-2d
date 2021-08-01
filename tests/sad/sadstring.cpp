@@ -25,12 +25,12 @@ struct SadStringTest : tpunit::TestFixture
    {
        {
            sad::String s = "separator;;;";
-           sad::StringList list = s.split(";", sad::String::KEEP_EMPTY_PARTS);
+           sad::StringList list = s.split(";", sad::String::SplitBehaviour::KEEP_EMPTY_PARTS);
            ASSERT_TRUE( list.size() == 3 );
        }
        {
            sad::String s = "separator;;;sep";
-           sad::StringList list = s.split(";", sad::String::KEEP_EMPTY_PARTS);
+           sad::StringList list = s.split(";", sad::String::SplitBehaviour::KEEP_EMPTY_PARTS);
            ASSERT_TRUE( list.size() == 4 );
        }
    }
@@ -39,12 +39,12 @@ struct SadStringTest : tpunit::TestFixture
    {
        {
            sad::String s = "separator;;;";
-           sad::StringList list = s.split(";", sad::String::OMIT_EMPTY_PARTS);
+           sad::StringList list = s.split(";", sad::String::SplitBehaviour::OMIT_EMPTY_PARTS);
            ASSERT_TRUE( list.size() == 1 );
        }
        {
            sad::String s = "separator;;;sep";
-           sad::StringList list = s.split(";", sad::String::OMIT_EMPTY_PARTS);
+           sad::StringList list = s.split(";", sad::String::SplitBehaviour::OMIT_EMPTY_PARTS);
            ASSERT_TRUE( list.size() == 2 );
        }
    }

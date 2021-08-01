@@ -2,6 +2,8 @@
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
 #include <cstdio>
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #include "p2d/vector.h"
 #pragma warning(pop)
@@ -56,19 +58,19 @@ struct VectorTest : tpunit::TestFixture
    {
        sad::p2d::Vector p;
        
-       p = sad::p2d::ortho(sad::p2d::Vector(0,0), sad::p2d::OVI_DEG_90);
+       p = sad::p2d::ortho(sad::p2d::Vector(0,0), sad::p2d::OrthoVectorIndex::OVI_DEG_90);
        ASSERT_FLOAT_EQUAL( p.x(),  M_SQRT1_2);
        ASSERT_FLOAT_EQUAL( p.y(),  -M_SQRT1_2);
 
-       p = sad::p2d::ortho(sad::p2d::Vector(10,10), sad::p2d::OVI_DEG_90);
+       p = sad::p2d::ortho(sad::p2d::Vector(10,10), sad::p2d::OrthoVectorIndex::OVI_DEG_90);
        ASSERT_FLOAT_EQUAL( p.x(),  M_SQRT1_2);
        ASSERT_FLOAT_EQUAL( p.y(),  -M_SQRT1_2);
 
-       p = sad::p2d::ortho(sad::p2d::Vector(10,0), sad::p2d::OVI_DEG_90);
+       p = sad::p2d::ortho(sad::p2d::Vector(10,0), sad::p2d::OrthoVectorIndex::OVI_DEG_90);
        ASSERT_FLOAT_EQUAL( p.x(),  0.0);
        ASSERT_FLOAT_EQUAL( p.y(),  -1.0);
 
-       p = sad::p2d::ortho(sad::p2d::Vector(0,10), sad::p2d::OVI_DEG_90);
+       p = sad::p2d::ortho(sad::p2d::Vector(0,10), sad::p2d::OrthoVectorIndex::OVI_DEG_90);
        ASSERT_FLOAT_EQUAL( p.x(),  1.0);
        ASSERT_FLOAT_EQUAL( p.y(),  0.0);
    }
@@ -77,19 +79,19 @@ struct VectorTest : tpunit::TestFixture
    {
        sad::p2d::Vector p;
        
-       p = sad::p2d::ortho(sad::p2d::Vector(0,0), sad::p2d::OVI_DEG_270);
+       p = sad::p2d::ortho(sad::p2d::Vector(0,0), sad::p2d::OrthoVectorIndex::OVI_DEG_270);
        ASSERT_FLOAT_EQUAL( p.x(),  -M_SQRT1_2);
        ASSERT_FLOAT_EQUAL( p.y(),  M_SQRT1_2);
 
-       p = sad::p2d::ortho(sad::p2d::Vector(10,10), sad::p2d::OVI_DEG_270);
+       p = sad::p2d::ortho(sad::p2d::Vector(10,10), sad::p2d::OrthoVectorIndex::OVI_DEG_270);
        ASSERT_FLOAT_EQUAL( p.x(),  -M_SQRT1_2);
        ASSERT_FLOAT_EQUAL( p.y(),  M_SQRT1_2);
 
-       p = sad::p2d::ortho(sad::p2d::Vector(10,0), sad::p2d::OVI_DEG_270);
+       p = sad::p2d::ortho(sad::p2d::Vector(10,0), sad::p2d::OrthoVectorIndex::OVI_DEG_270);
        ASSERT_FLOAT_EQUAL( p.x(),  0.0);
        ASSERT_FLOAT_EQUAL( p.y(),  1.0);
 
-       p = sad::p2d::ortho(sad::p2d::Vector(0,10), sad::p2d::OVI_DEG_270);
+       p = sad::p2d::ortho(sad::p2d::Vector(0,10), sad::p2d::OrthoVectorIndex::OVI_DEG_270);
        ASSERT_FLOAT_EQUAL( p.x(),  -1.0);
        ASSERT_FLOAT_EQUAL( p.y(),  0.0);
    }

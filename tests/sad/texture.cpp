@@ -160,7 +160,7 @@ struct SadTextureTest : tpunit::TestFixture
         sad::Texture c;
         tar7z::Archive a;
         tar7z::Reader r;
-        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::Error::T7ZE_OK );
         tar7z::Entry* e = a.file("tga24_compressed.tga");
         ASSERT_TRUE(e);
         ASSERT_TRUE( c.load(e) );
@@ -171,7 +171,7 @@ struct SadTextureTest : tpunit::TestFixture
         sad::Texture c;
         tar7z::Archive a;
         tar7z::Reader r;
-        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::Error::T7ZE_OK );
         tar7z::Entry* e = a.file("tga32_compressed.tga");
         ASSERT_TRUE(e);
         ASSERT_TRUE( c.load(e) );
@@ -182,7 +182,7 @@ struct SadTextureTest : tpunit::TestFixture
         sad::Texture c;
         tar7z::Archive a;
         tar7z::Reader r;
-        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::Error::T7ZE_OK );
         tar7z::Entry* e = a.file("tga32_compressed_small.tga");
         ASSERT_TRUE(e);
         ASSERT_TRUE( c.load(e) );
@@ -193,7 +193,7 @@ struct SadTextureTest : tpunit::TestFixture
         sad::Texture c;
         tar7z::Archive a;
         tar7z::Reader r;
-        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::Error::T7ZE_OK );
         tar7z::Entry* e = a.file("tga32_uncompressed.tga");
         ASSERT_TRUE(e);
         ASSERT_TRUE( c.load(e) );
@@ -204,7 +204,7 @@ struct SadTextureTest : tpunit::TestFixture
         sad::Texture c;
         tar7z::Archive a;
         tar7z::Reader r;
-        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::Error::T7ZE_OK );
         tar7z::Entry* e = a.file("bmp.bmp");
         ASSERT_TRUE(e);
         ASSERT_TRUE( c.load(e) );
@@ -215,7 +215,7 @@ struct SadTextureTest : tpunit::TestFixture
         sad::Texture c;
         tar7z::Archive a;
         tar7z::Reader r;
-        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::Error::T7ZE_OK );
         tar7z::Entry* e = a.file("png.png");
         ASSERT_TRUE(e);
         ASSERT_TRUE( c.load(e) );
@@ -226,7 +226,7 @@ struct SadTextureTest : tpunit::TestFixture
         sad::Texture c;
         tar7z::Archive a;
         tar7z::Reader r;
-        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::Error::T7ZE_OK );
         tar7z::Entry* e = a.file("nice.srgba");
         ASSERT_TRUE(e);
         ASSERT_TRUE( c.load(e) );
@@ -237,7 +237,7 @@ struct SadTextureTest : tpunit::TestFixture
         sad::Texture c;
         tar7z::Archive a;
         tar7z::Reader r;
-        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::Error::T7ZE_OK );
         tar7z::Entry* e = a.file("nice.sr3g3b2");
         ASSERT_TRUE(e);
         ASSERT_TRUE( c.load(e) );
@@ -248,7 +248,7 @@ struct SadTextureTest : tpunit::TestFixture
         sad::Texture c;
         tar7z::Archive a;
         tar7z::Reader r;
-        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::Error::T7ZE_OK );
         tar7z::Entry* e = a.file("nice.sr5g6b5");
         ASSERT_TRUE(e);
         ASSERT_TRUE( c.load(e) );
@@ -259,7 +259,7 @@ struct SadTextureTest : tpunit::TestFixture
         sad::Texture c;
         tar7z::Archive a;
         tar7z::Reader r;
-        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::Error::T7ZE_OK );
         tar7z::Entry* e = a.file("nice.sr4g4b4a4");
         ASSERT_TRUE(e);
         ASSERT_TRUE( c.load(e) );
@@ -329,7 +329,7 @@ struct SadTextureTest : tpunit::TestFixture
         bool found_unhandled_error = false;
         for (size_t i = 0; i < files.size(); i++)
         {
-            if (files[i].getOccurence("texture.cpp") >= 0)
+            if (files[i].getOccurrence("texture.cpp") >= 0)
             {
                 if (messages[i].length() >  0)
                 {

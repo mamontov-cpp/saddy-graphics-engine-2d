@@ -35,7 +35,7 @@ struct PicoJSONTest : tpunit::TestFixture
        v = picojson::parse_string("[");
        ASSERT_TRUE(v.is<picojson::null>());
 
-       v = picojson::parse_string("null");
+       v = picojson::parse_string("nullptr");
        ASSERT_TRUE(v.is<picojson::null>());
 
        v = picojson::parse_string("22");
@@ -89,9 +89,9 @@ struct PicoJSONTest : tpunit::TestFixture
        object1.insert("11", object2);
        sad::String json = object1.serialize();
        sad::String result = "{\"11\":{\"a\":\"11\",\"b\":[\"11\",22.220000,false]}}";
-       json.replaceAllOccurences("\n", "");
-       json.replaceAllOccurences("\r", "");
-       json.replaceAllOccurences(" ", "");
+       json.replaceAllOccurrences("\n", "");
+       json.replaceAllOccurrences("\r", "");
+       json.replaceAllOccurrences(" ", "");
        ASSERT_TRUE(json == result);	   
    }
 

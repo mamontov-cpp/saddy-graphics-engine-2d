@@ -60,14 +60,14 @@ struct SadFolderTest : tpunit::TestFixture
        ASSERT_TRUE( folder->folder("test1/test2/test3") == fld1 );
        ASSERT_TRUE( folder->folder("test1/test3") == fld2 );
 
-       ASSERT_TRUE( fld1->parent() != NULL );
-       ASSERT_TRUE( fld2->parent() != NULL );
+       ASSERT_TRUE( fld1->parent() != nullptr );
+       ASSERT_TRUE( fld2->parent() != nullptr );
 
        folder->removeFolder("test1/test2/test3");
        folder->removeFolder("test1/test3");
 
-       ASSERT_TRUE( folder->folder("test1/test2/test3") == NULL );
-       ASSERT_TRUE( folder->folder("test1/test3") == NULL );
+       ASSERT_TRUE( folder->folder("test1/test2/test3") == nullptr );
+       ASSERT_TRUE( folder->folder("test1/test3") == nullptr );
 
        delete folder;
    }
@@ -91,8 +91,8 @@ struct SadFolderTest : tpunit::TestFixture
        folder->removeResource("test1/test2/test3.jpg");
        folder->removeResource("test1/test3.jpg");
 
-       ASSERT_TRUE( folder->resource("test1/test2/test3.jpg") == NULL );
-       ASSERT_TRUE( folder->resource("test1/test3.jpg") == NULL );
+       ASSERT_TRUE( folder->resource("test1/test2/test3.jpg") == nullptr );
+       ASSERT_TRUE( folder->resource("test1/test3.jpg") == nullptr );
        
        delete folder;
        ASSERT_TRUE(_deleted == 2);
@@ -130,8 +130,8 @@ struct SadFolderTest : tpunit::TestFixture
 
        folder->addResource("test1/test2/test3", r1);
 
-       ASSERT_TRUE( folder->folder("test1") != NULL );
-       ASSERT_TRUE( folder->folder("test1")->folder("test2") != NULL );
+       ASSERT_TRUE( folder->folder("test1") != nullptr );
+       ASSERT_TRUE( folder->folder("test1")->folder("test2") != nullptr );
 
 
        sad::Maybe<sad::String> result = folder->find(r1);

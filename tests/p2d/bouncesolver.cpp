@@ -121,7 +121,7 @@ public:
     void testInelasticLeftCollision1()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -164,7 +164,7 @@ public:
     void testInelasticLeftCollision2()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -207,7 +207,7 @@ public:
     void testInelasticLeftCollision3()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -256,7 +256,7 @@ public:
     void testInelasticLeftCollision4()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -297,7 +297,7 @@ public:
     void testInelasticLeftCollision5()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -338,7 +338,7 @@ public:
     void testInelasticLeftCollision6()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -380,7 +380,7 @@ public:
     void testInelasticLeftCollision7()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -421,7 +421,7 @@ public:
     void testInelasticLeftCollision8()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -463,7 +463,7 @@ public:
     void testInelasticLeftCollision9()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -505,7 +505,7 @@ public:
     void testInelasticLeftCollision10()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -554,7 +554,7 @@ public:
     void testInelasticLeftCollision11()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -603,7 +603,7 @@ public:
     void testInelasticLeftCollision12()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -652,7 +652,7 @@ public:
     void testInelasticLeftCollisionComplex1()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -709,7 +709,7 @@ public:
     void testInelasticLeftCollisionComplex2()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -765,7 +765,7 @@ public:
     void testInelasticLeftCollisionEverythingMoving()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -832,7 +832,7 @@ public:
     void testInelasticLeftCollisionEverythingSpecial1()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -894,7 +894,7 @@ public:
     void testInelasticLeftCollisionEverythingSpecial2()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 
@@ -956,7 +956,7 @@ public:
     void testInelasticLeftCollisionEverythingSpecial3()
     {
         sad::p2d::BounceSolver solver;
-        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST);
         solver.toggleInelasticCollisions(true);
         solver.toggleIgnoreContactPoints(true);
 

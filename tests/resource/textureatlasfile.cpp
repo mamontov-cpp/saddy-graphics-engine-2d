@@ -382,8 +382,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        sad::util::free(errors);
        ASSERT_TRUE(count == 0);
     
-       ASSERT_TRUE(tree.root()->resource("icons") != NULL);
-       ASSERT_TRUE(tree.root()->resource("1") != NULL);
+       ASSERT_TRUE(tree.root()->resource("icons") != nullptr);
+       ASSERT_TRUE(tree.root()->resource("1") != nullptr);
    }
 
     // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -444,8 +444,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        l2.setTree(&tree);
        sad::Texture * test = l2.get();
 
-       ASSERT_TRUE(old != NULL);
-       ASSERT_TRUE(test == NULL);
+       ASSERT_TRUE(old != nullptr);
+       ASSERT_TRUE(test == nullptr);
 
 
        errors = tree.root()->resource("1")->file()->reload();
@@ -482,7 +482,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        l.setTree(&tree);
        sad::Sprite2D::Options * old = l.get();;
 
-       ASSERT_TRUE(old != NULL);
+       ASSERT_TRUE(old != nullptr);
 
 
        rename("tests/icons.json", "tests/icons.json.tmp");
@@ -521,7 +521,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        l.setTree(&tree);
        sad::Sprite2D::Options * old = l.get();;
 
-       ASSERT_TRUE(old != NULL);
+       ASSERT_TRUE(old != nullptr);
 
 
        rename("tests/icons.png", "tests/icons.png.tmp");
@@ -560,7 +560,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        l.setTree(&tree);
        sad::Sprite2D::Options * old = l.get();;
 
-       ASSERT_TRUE(old != NULL);
+       ASSERT_TRUE(old != nullptr);
 
 
        rename("tests/icons.json", "tests/icons.json.tmp");
@@ -601,7 +601,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        l.setTree(&tree);
        sad::Sprite2D::Options * old = l.get();
 
-       ASSERT_TRUE(old != NULL);
+       ASSERT_TRUE(old != nullptr);
 
 
        rename("tests/icons.json", "tests/icons.json.tmp");
@@ -618,7 +618,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        sad::resource::Link<sad::Sprite2D::Options> l2;
        l2.setPath("7");
        l2.setTree(&tree);
-       ASSERT_TRUE(l2.get() != NULL);
+       ASSERT_TRUE(l2.get() != nullptr);
    }
 
     // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -647,7 +647,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        l.setTree(&tree);
        sad::Sprite2D::Options * old = l.get();
 
-       ASSERT_TRUE(old != NULL);
+       ASSERT_TRUE(old != nullptr);
 
 
        rename("tests/icons.json", "tests/icons.json.tmp");

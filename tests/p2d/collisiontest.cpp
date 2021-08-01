@@ -160,7 +160,7 @@ struct CollisionTestTest : tpunit::TestFixture
             sad::Rect2D(sad::Point2D(108, 0), sad::Point2D(192, 0),
                    sad::Point2D(108, 20), sad::Point2D(192, 20))	  
        );
-       r2.setType(sad::p2d::BT_DOWN);
+       r2.setType(sad::p2d::BoundType::BT_DOWN);
        r2.setPosition(0);
        sad::p2d::CollisionTest t;
        ASSERT_TRUE( t.invoke(&r1, &r2) );

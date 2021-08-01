@@ -2,6 +2,8 @@
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
 #include <cstdio>
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include <3rdparty/tpunit++/tpunit++.hpp>
 #include <sadvector.h>
 #include <p2d/findcontactpoints.h>
