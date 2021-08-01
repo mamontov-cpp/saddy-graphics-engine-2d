@@ -420,6 +420,10 @@ sad::Point3D sad::os::GLContextImpl::mapToViewport(const sad::Point2D & p, bool 
 #ifndef WIN32
     winy=(float)(viewport[3] - p.y());
 #endif
+    if (ztest)
+        glReadPixels((int)winx,(int)winy,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&winz);
+    else
+        winz = DEFAULT_DEPTH_VALUE;
     if (this->isOpenGL3compatible())
     {
         glm::mat4x4 model, projection;
