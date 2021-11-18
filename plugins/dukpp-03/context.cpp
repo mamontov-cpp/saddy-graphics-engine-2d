@@ -854,6 +854,7 @@ void sad::dukpp03::Context::exposeSceneNode()
     c->addMethod("active", sad::dukpp03::bind_method::from(&sad::SceneNode::active));
     c->addMethod("setObjectName", sad::dukpp03::bind_method::from(&sad::SceneNode::setObjectName));
     c->addMethod("objectName", sad::dukpp03::bind_method::from(&sad::SceneNode::objectName));
+    c->addMethod("rendererChanged", sad::dukpp03::bind_method::from(&sad::SceneNode::rendererChanged));
     
     c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::SceneNode::MajorId), sad::dukpp03::setter::from(&sad::SceneNode::MajorId));
     c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::SceneNode::MinorId), sad::dukpp03::setter::from(&sad::SceneNode::MinorId));
