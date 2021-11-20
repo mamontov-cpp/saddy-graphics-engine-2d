@@ -106,6 +106,8 @@ static void exposeSimpleMovement(sad::dukpp03::Context* ctx)
     c->addMethod("endingPoint", sad::dukpp03::bind_method::from(&sad::animations::SimpleMovement::endingPoint));
     c->addMethod("setStartingPoint", sad::dukpp03::bind_method::from(&sad::animations::SimpleMovement::setStartingPoint));
     c->addMethod("setEndingPoint", sad::dukpp03::bind_method::from(&sad::animations::SimpleMovement::setEndingPoint));
+    c->addMethod("setClampFloatingPoints", sad::dukpp03::bind_method::from(&sad::animations::SimpleMovement::setClampFloatingPoints));
+    c->addMethod("clampFloatingPoints", sad::dukpp03::bind_method::from(&sad::animations::SimpleMovement::clampFloatingPoints));
     c->setPrototypeFunction("SadAnimationsSimpleMovement");
     c->addParentBinding(ctx->getClassBinding("sad::animations::Animation"));
 

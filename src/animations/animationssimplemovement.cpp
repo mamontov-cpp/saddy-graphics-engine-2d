@@ -24,15 +24,12 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::SimpleMovement, sad::animations::Anima
 // =============================== PUBLIC METHODS ==========================
 
 
-sad::animations::SimpleMovement::SimpleMovement()
+sad::animations::SimpleMovement::SimpleMovement() : m_clamp_floating_points(false)
 {
     m_creators.pushCreator<sad::animations::SavedObjectPosition>("sad::animations::SavedObjectPosition");
 }
 
-sad::animations::SimpleMovement::~SimpleMovement()
-{
-    
-}
+sad::animations::SimpleMovement::~SimpleMovement() = default;
 
 void sad::animations::SimpleMovement::setStartingPoint(const sad::Point2D& p)
 {
@@ -51,7 +48,7 @@ const sad::Point2D& sad::animations::SimpleMovement::startingPoint() const
 
 const sad::Point2D& sad::animations::SimpleMovement::endingPoint() const
 {
-    return m_end_point;    
+    return m_end_point;
 }
 
 static sad::db::schema::Schema* AnimationSimpleMovementSchema = nullptr;
@@ -122,7 +119,11 @@ void sad::animations::SimpleMovement::setState(sad::animations::Instance* i, dou
 {
     double time_position = m_easing->eval(time, m_time);
     sad::Point2D pos = m_start_point + ((m_end_point - m_start_point) * time_position);
-
+    if (m_clamp_floating_points)
+    {
+        pos.setX(std::round(pos.x()));
+        pos.setY(std::round(pos.y()));
+    }
     i->stateCommandAs<sad::Point2D>()->call(pos);
     if (i->body())
     {
@@ -163,4 +164,14 @@ bool sad::animations::SimpleMovement::applicableTo(sad::db::Object* o)
         result = areapropertyexists;
     }
     return result;
+}
+
+void sad::animations::SimpleMovement::setClampFloatingPoints(bool clamp)
+{
+    m_clamp_floating_points = clamp;
+}
+
+bool sad::animations::SimpleMovement::clampFloatingPoints() const
+{
+    return m_clamp_floating_points;
 }

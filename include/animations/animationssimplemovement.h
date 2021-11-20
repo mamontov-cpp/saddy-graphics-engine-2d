@@ -71,6 +71,14 @@ public:
         \return whether animation is applicable to that object
      */
     virtual bool applicableTo(sad::db::Object* o) override;
+    /*! Sets whether clamping floating points should be performed
+     *  \param[in] clamp whether clamping points should be performed
+     */
+    void setClampFloatingPoints(bool clamp);
+    /*! Returns true if clamping floating points should be performed
+     *  \return value
+     */
+    bool clampFloatingPoints() const;
 protected:
     /*! A starting point for animation
      */
@@ -78,6 +86,9 @@ protected:
     /*! An ending point for animation
      */
     sad::Point2D m_end_point;
+    /*! Whether we should clamp floating points
+     */
+    bool m_clamp_floating_points;
 };
 
 }
