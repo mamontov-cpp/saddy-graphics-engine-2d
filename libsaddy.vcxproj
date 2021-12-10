@@ -191,6 +191,7 @@
     <ClCompile Include="src\object.cpp" />
     <ClCompile Include="src\objectdependentfpsinterpolation.cpp" />
     <ClCompile Include="src\opengl.cpp" />
+    <ClCompile Include="src\openinbrowser.cpp" />
     <ClCompile Include="src\orthographiccamera.cpp" />
     <ClCompile Include="src\os\extensionfunctions.cpp" />
     <ClCompile Include="src\os\glfontgeometries.cpp" />
@@ -426,6 +427,7 @@
     <ClInclude Include="include\object.h" />
     <ClInclude Include="include\objectdependentfpsinterpolation.h" />
     <ClInclude Include="include\opengl.h" />
+    <ClInclude Include="include\openinbrowser.h" />
     <ClInclude Include="include\orthographiccamera.h" />
     <ClInclude Include="include\os\extensionfunctions.h" />
     <ClInclude Include="include\os\glfontgeometries.h" />

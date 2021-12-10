@@ -819,6 +819,9 @@
     <ClCompile Include="src\os\glfontgeometries.cpp">
       <Filter>Файлы исходного кода\os</Filter>
     </ClCompile>
+    <ClCompile Include="src\openinbrowser.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.h">
@@ -1741,6 +1744,9 @@
     </ClInclude>
     <ClInclude Include="include\os\glfontgeometries.h">
       <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openinbrowser.h">
+      <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
