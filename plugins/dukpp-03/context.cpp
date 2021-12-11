@@ -1006,8 +1006,15 @@ void sad::dukpp03::Context::exposeLabel()
     c->addMethod("setLineSpacingRatio", sad::dukpp03::bind_method::from(&sad::Label::setLineSpacingRatio));
 
 
+    const std::function<size_t(sad::Label*)> get_size = [](sad::Label* lbl) -> size_t
+    {
+        return lbl->size();
+    };
+    c->addMethod("fontSize", sad::dukpp03::bind_lambda::from(get_size));
+
     void (sad::Label::*set_color_a)(const sad::AColor&) = &sad::Label::setColor;
     void (sad::Label::*set_point_r_g_b_a)(sad::uchar,sad::uchar,sad::uchar,sad::uchar) = &sad::Label::setColor;
+
 
     ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * set_color = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
     set_color->add(sad::dukpp03::bind_method::from(set_color_a));
