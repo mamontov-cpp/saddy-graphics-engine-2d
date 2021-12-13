@@ -99,6 +99,16 @@ sad::String sad::freetype::Font::dumpGlyphParameters() const
     return m_dptr->dumpGlyphParameters();
 }
 
+void sad::freetype::Font::setMinCacheFontSize(unsigned int size)
+{
+    sad::freetype::FontImpl::setMinCacheFontSize(size);
+}
+
+void sad::freetype::Font::setMaxCacheFontSize(unsigned int size)
+{
+    sad::freetype::FontImpl::setMaxCacheFontSize(size);
+}
+
 // Uncomment to enable glyph rendering debug
 // #define FREETYPE_GLYPH_DEBUG
 

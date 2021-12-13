@@ -92,6 +92,14 @@ public:
         \return string of glyph parameters
      */
     sad::String dumpGlyphParameters() const;
+    /*! Sets minimal font size for cache
+        \param[in] size size for minimal cache for font
+     */
+    static void setMinCacheFontSize(unsigned int size);
+    /*! Sets maximum font size for cache
+        \param[in] size size for maximum cache for font
+     */
+    static void setMaxCacheFontSize(unsigned int size);
 private:
     sad::freetype::FontImpl * m_dptr; //!< A private implementation of font
     sad::Renderer * m_renderer; //!<  A stored renderer for a font

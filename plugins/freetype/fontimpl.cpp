@@ -29,7 +29,18 @@ sad::freetype::FontImpl::~FontImpl()
 }
 
 
+static unsigned int ___minimumCacheFontSize = 10;
+static unsigned int ___maximumCacheFontSize = 36;
 
+void sad::freetype::FontImpl::setMinCacheFontSize(unsigned int size)
+{
+    ___minimumCacheFontSize = size;
+}
+
+void sad::freetype::FontImpl::setMaxCacheFontSize(unsigned int size)
+{
+    ___maximumCacheFontSize = size;
+}
 
 bool sad::freetype::FontImpl::load(const sad::String & filename)
 {
@@ -43,9 +54,9 @@ bool sad::freetype::FontImpl::load(const sad::String & filename)
         return false;
     }
     // Build partially a cache for freetype
-    for(size_t i = 10; i < 36; ++i)
+    for(unsigned int i = ___minimumCacheFontSize; i < ___maximumCacheFontSize; ++i)
     {
-        this->fontForSize(i);
+        (void)this->fontForSize(i);
     }
     return true;
 }
