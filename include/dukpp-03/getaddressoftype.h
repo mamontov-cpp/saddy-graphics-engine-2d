@@ -253,42 +253,42 @@ public:
 };
 
 template<>
-struct GetAddressOfType<irrklang::ISound*, false, false>
+struct GetAddressOfType<::irrklang::ISound*, false, false>
 {
 public:
     /*! Returns address of type, stored in variant.
         \param[in] v value
         \return empty maybe
      */
-    inline static ::dukpp03::Maybe<irrklang::ISound*> getAddress(sad::db::Variant* v)
+    inline static ::dukpp03::Maybe<::irrklang::ISound*> getAddress(sad::db::Variant* v)
     {
         return {};
     }
 };
 
 template<>
-struct GetAddressOfType<irrklang::ISoundSource*, false, false>
+struct GetAddressOfType<::irrklang::ISoundSource*, false, false>
 {
 public:
     /*! Returns address of type, stored in variant.
         \param[in] v value
         \return empty maybe
      */
-    inline static ::dukpp03::Maybe<irrklang::ISoundSource*> getAddress(sad::db::Variant* v)
+    inline static ::dukpp03::Maybe<::irrklang::ISoundSource*> getAddress(sad::db::Variant* v)
     {
         return {};
     }
 };
 
 template<>
-struct GetAddressOfType<irrklang::ISoundEngine*, false, false>
+struct GetAddressOfType<::irrklang::ISoundEngine*, false, false>
 {
 public:
     /*! Returns address of type, stored in variant.
         \param[in] v value
         \return empty maybe
      */
-    inline static ::dukpp03::Maybe<irrklang::ISoundEngine*> getAddress(sad::db::Variant* v)
+    inline static ::dukpp03::Maybe<::irrklang::ISoundEngine*> getAddress(sad::db::Variant* v)
     {
         return {};
     }
