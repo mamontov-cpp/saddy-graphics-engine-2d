@@ -1,5 +1,5 @@
 /*! \file getaddressoftype.h
-    
+
     Gets address of specified type
  */
 #pragma once
@@ -12,6 +12,12 @@ namespace sad
 
 class Renderer;
 class Window;
+
+
+namespace imageformats
+{
+class Loader;
+}
 
 namespace resource
 {
@@ -31,6 +37,18 @@ namespace layouts
 
 class Cell;
 
+}
+
+namespace hfsm
+{
+class AbstractHandler;
+}
+
+namespace p2d
+{
+template<typename T>
+class AbstractMovementDeltaListener;
+class BasicCollisionHandler;
 }
 
 namespace dukpp03
@@ -56,7 +74,7 @@ extern sad::db::ConversionTable conversion_table;
 template<typename _UnderlyingValue, bool _IsPointerToAbstractClass, bool _IsSadObject>
 struct GetAddressOfType
 {
-public: 
+public:
     /*! Returns address of type, stored in variant - hence nothing for plain types
         \param[in] v value
         \return empty maybe
@@ -73,7 +91,7 @@ public:
 template<typename _UnderlyingValue, bool _IsSadObject>
 struct GetAddressOfType<_UnderlyingValue, true, _IsSadObject>
 {
-public: 
+public:
     /*! Returns address of type, stored in variant - hence nothing for plain types
         \param[in] v value
         \return empty maybe
@@ -91,7 +109,7 @@ public:
 template<typename _UnderlyingValue, bool _IsAbstract>
 struct GetAddressOfType<_UnderlyingValue, _IsAbstract, true>
 {
-public: 
+public:
     /*! Returns address of type, stored in variant - hence nothing for plain types
         \param[in] v value
         \return empty maybe
@@ -109,7 +127,7 @@ public:
 template<typename _UnderlyingValue>
 struct GetAddressOfType<_UnderlyingValue, true, true>
 {
-public: 
+public:
     /*! Returns address of type, stored in variant - hence nothing for plain types
         \param[in] v value
         \return empty maybe
@@ -126,7 +144,7 @@ public:
 template<typename _UnderlyingValue>
 struct GetAddressOfType<_UnderlyingValue*, false, false>
 {
-public: 
+public:
     /*! Returns address of type, stored in variant.
         \param[in] v value
         \return empty maybe
@@ -145,7 +163,7 @@ public:
 template<>
 struct GetAddressOfType<sad::dukpp03::Context*, false, false>
 {
-public: 
+public:
     /*! Returns address of type, stored in variant.
         \param[in] v value
         \return empty maybe
@@ -159,12 +177,69 @@ public:
 template<>
 struct GetAddressOfType<sad::Renderer*, false, false>
 {
-public: 
+public:
     /*! Returns address of type, stored in variant.
         \param[in] v value
         \return empty maybe
      */
     inline static ::dukpp03::Maybe<sad::Renderer*> getAddress(sad::db::Variant* v)
+    {
+        return {};
+    }
+};
+
+
+template<>
+struct GetAddressOfType<sad::imageformats::Loader*, false, false>
+{
+public:
+    /*! Returns address of type, stored in variant.
+        \param[in] v value
+        \return empty maybe
+     */
+    inline static ::dukpp03::Maybe<sad::imageformats::Loader*> getAddress(sad::db::Variant* v)
+    {
+        return {};
+    }
+};
+
+template<>
+struct GetAddressOfType<sad::hfsm::AbstractHandler*, false, false>
+{
+public:
+    /*! Returns address of type, stored in variant.
+        \param[in] v value
+        \return empty maybe
+     */
+    inline static ::dukpp03::Maybe<sad::hfsm::AbstractHandler*> getAddress(sad::db::Variant* v)
+    {
+        return {};
+    }
+};
+
+template<typename T>
+struct GetAddressOfType<sad::p2d::AbstractMovementDeltaListener<T>*, false, false>
+{
+public:
+    /*! Returns address of type, stored in variant.
+        \param[in] v value
+        \return empty maybe
+     */
+    inline static ::dukpp03::Maybe<sad::p2d::AbstractMovementDeltaListener<T>*> getAddress(sad::db::Variant* v)
+    {
+        return {};
+    }
+};
+
+template<>
+struct GetAddressOfType<sad::p2d::BasicCollisionHandler*, false, false>
+{
+public:
+    /*! Returns address of type, stored in variant.
+        \param[in] v value
+        \return empty maybe
+     */
+    inline static ::dukpp03::Maybe<sad::p2d::BasicCollisionHandler*> getAddress(sad::db::Variant* v)
     {
         return {};
     }
@@ -188,7 +263,7 @@ public:
 template<>
 struct GetAddressOfType<sad::dukpp03::Renderer*, false, false>
 {
-public: 
+public:
     /*! Returns address of type, stored in variant.
         \param[in] v value
         \return empty maybe
@@ -202,7 +277,7 @@ public:
 template<>
 struct GetAddressOfType<sad::dukpp03::Thread*, false, false>
 {
-public: 
+public:
     /*! Returns address of type, stored in variant.
         \param[in] v value
         \return empty maybe
@@ -217,7 +292,7 @@ public:
 template<>
 struct GetAddressOfType<sad::Window*, false, false>
 {
-public: 
+public:
     /*! Returns address of type, stored in variant.
         \param[in] v value
         \return empty maybe
@@ -231,7 +306,7 @@ public:
 template<>
 struct GetAddressOfType<sad::resource::Tree*, false, false>
 {
-public: 
+public:
     /*! Returns address of type, stored in variant.
         \param[in] v value
         \return empty maybe
@@ -245,7 +320,7 @@ public:
 template<>
 struct GetAddressOfType<sad::dukpp03::JSControls*, false, false>
 {
-public: 
+public:
     /*! Returns address of type, stored in variant.
         \param[in] v value
         \return empty maybe
@@ -260,7 +335,7 @@ public:
 template<>
 struct GetAddressOfType<sad::pipeline::Pipeline*, false, false>
 {
-public: 
+public:
     /*! Returns address of type, stored in variant.
         \param[in] v value
         \return empty maybe
@@ -276,7 +351,7 @@ public:
 template<>
 struct GetAddressOfType<const char*, false, false>
 {
-public: 
+public:
     /*! Returns address of type, stored in variant.
         \param[in] v value
         \return empty maybe

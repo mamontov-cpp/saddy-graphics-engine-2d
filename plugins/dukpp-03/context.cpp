@@ -29,6 +29,8 @@
 
 #include <pipeline/pipeline.h>
 
+#include <imageformats/loader.h>
+
 DECLARE_COMMON_TYPE(sad::dukpp03::CompiledFunction)
 
 //#define CONFIG_DEBUG
@@ -40,16 +42,16 @@ sad::dukpp03::Context::Context(bool vanilla) : m_renderer(nullptr), m_vanilla(va
     if (!m_vanilla)
     {
         this->initialize();
-    }    
+    }
 }
 
 sad::dukpp03::Context::~Context()
 {
-    
+
 }
 
 bool sad::dukpp03::Context::evalFromFile(
-    const std::string& path, 
+    const std::string& path,
     bool clean_heap,
     std::string* error
 )
@@ -68,7 +70,7 @@ bool sad::dukpp03::Context::evalFromFile(
              mpath = util::concatPaths(r->executablePath(), mpath);
              if (sad::util::fileExists(mpath.c_str()) == false)
              {
-                if (error) 
+                if (error)
                 {
                     *error = "File \"";
                     *error += path;
@@ -79,7 +81,7 @@ bool sad::dukpp03::Context::evalFromFile(
         }
         else
         {
-            if (error) 
+            if (error)
             {
                 *error = "File \"";
                 *error += path;
@@ -91,7 +93,7 @@ bool sad::dukpp03::Context::evalFromFile(
     m_running = true;
     startEvaluating();
     bool result = false;
-    if (duk_peval_file(m_context, mpath.c_str()) != 0) 
+    if (duk_peval_file(m_context, mpath.c_str()) != 0)
     {
         if (duk_has_prop_string(m_context,  -1, "stack"))
         {
@@ -99,13 +101,13 @@ bool sad::dukpp03::Context::evalFromFile(
             *error = duk_safe_to_string(m_context, -1);
             duk_pop(m_context);
         }
-        else 
+        else
         {
             *error = duk_safe_to_string(m_context, -1);
         }
         duk_pop(m_context);
-    } 
-    else 
+    }
+    else
     {
         if (error)
         {
@@ -119,7 +121,7 @@ bool sad::dukpp03::Context::evalFromFile(
     }
     m_running = false;
     return result;
-    
+
 }
 
 void sad::dukpp03::Context::setRenderer(sad::Renderer* r)
@@ -192,7 +194,7 @@ sad::String dumpNativeObject(const sad::db::Variant& v)
         std::stringstream ss;
         ss << maybeobject.value()->serializableName();
         ss << "(" << maybeobject.value() << ")";
-        std::string name = ss.str(); 
+        std::string name = ss.str();
         return name;
     }
     else
@@ -200,7 +202,7 @@ sad::String dumpNativeObject(const sad::db::Variant& v)
         std::stringstream ss;
         ss << v.typeName();
         ss << "(" << v.data() << ")";
-        std::string name = ss.str(); 
+        std::string name = ss.str();
         return name;
     }
 }
@@ -228,9 +230,9 @@ void sad::dukpp03::Context::initialize()
     assert(result == 0);
     duk_dup(m_context, -1);
     duk_put_prop_string(m_context, -3, "prototype");
-    duk_set_prototype(m_context, - 2);   
+    duk_set_prototype(m_context, - 2);
     duk_put_prop_string(m_context, -2 /*idx:global*/, "SadInternalIsNativeObject");
-    duk_pop(m_context);  
+    duk_pop(m_context);
 
     // Register SadInternalDumpNativeObject function
     this->registerCallable("SadInternalDumpNativeObject", sad::dukpp03::make_function::from(dumpNativeObject));
@@ -307,7 +309,7 @@ void sad::dukpp03::Context::exposePoint3D()
     c->addCloneValueObjectMethodFor<sad::Point3D>();
     c->setPrototypeFunction("SadPoint3D");
 
-    this->addClassBinding("sad::Point3D", c);    
+    this->addClassBinding("sad::Point3D", c);
 }
 
 void sad::dukpp03::Context::exposePoint2I()
@@ -321,7 +323,7 @@ void sad::dukpp03::Context::exposePoint2I()
     c->addCloneValueObjectMethodFor<sad::Point2I>();
     c->setPrototypeFunction("SadPoint2I");
 
-    this->addClassBinding("sad::Point2I", c);       
+    this->addClassBinding("sad::Point2I", c);
 }
 
 void sad::dukpp03::Context::exposePoint3I()
@@ -336,7 +338,7 @@ void sad::dukpp03::Context::exposePoint3I()
     c->addCloneValueObjectMethodFor<sad::Point3I>();
     c->setPrototypeFunction("SadPoint3I");
 
-    this->addClassBinding("sad::Point3I", c);  
+    this->addClassBinding("sad::Point3I", c);
 }
 
 
@@ -362,7 +364,7 @@ void sad::dukpp03::Context::exposeP2DVector()
     this->registerCallable("SadP2DScalar", sad::dukpp03::make_function::from(sad::p2d::scalar));
     this->registerCallable("SadP2DOrtho", sad::dukpp03::make_function::from(local_ortho));
 
-    this->addClassBinding("sad::p2d::Vector", c);    
+    this->addClassBinding("sad::p2d::Vector", c);
 }
 
 void  sad::dukpp03::Context::exposeSize2D()
@@ -388,7 +390,7 @@ void  sad::dukpp03::Context::exposeSize2I()
     c->addCloneValueObjectMethodFor<sad::Size2I>();
     c->setPrototypeFunction("SadSize2I");
 
-    this->addClassBinding("sad::Size2I", c);   
+    this->addClassBinding("sad::Size2I", c);
 }
 
 
@@ -408,7 +410,7 @@ void sad::dukpp03::Context::exposeRect2D()
     c->addCloneValueObjectMethodFor<sad::Rect2D>();
     c->setPrototypeFunction("SadRect2D");
 
-    this->addClassBinding("sad::Rect2D", c);    
+    this->addClassBinding("sad::Rect2D", c);
 }
 
 void sad::dukpp03::Context::exposeRect2I()
@@ -427,7 +429,7 @@ void sad::dukpp03::Context::exposeRect2I()
     c->addCloneValueObjectMethodFor<sad::Rect2I>();
     c->setPrototypeFunction("SadRect2I");
 
-    this->addClassBinding("sad::Rect2I", c);       
+    this->addClassBinding("sad::Rect2I", c);
 }
 
 
@@ -448,7 +450,7 @@ void sad::dukpp03::Context::exposeColor()
     c->addCloneValueObjectMethodFor<sad::Color>();
     c->setPrototypeFunction("SadColor");
 
-    this->addClassBinding("sad::Color", c); 
+    this->addClassBinding("sad::Color", c);
 }
 
 void sad::dukpp03::Context::exposeAColor()
@@ -464,7 +466,7 @@ void sad::dukpp03::Context::exposeAColor()
     c->addCloneValueObjectMethodFor<sad::AColor>();
     c->setPrototypeFunction("SadAColor");
 
-    this->addClassBinding("sad::AColor", c); 
+    this->addClassBinding("sad::AColor", c);
 }
 
 void sad::dukpp03::Context::exposeUtilFS()
@@ -495,7 +497,7 @@ static duk_ret_t __slurp(duk_context* c)
         }
         return 1;
     }
-    
+
     ctx->throwInvalidTypeError(1, "sad::String");
     return 0;
 }
@@ -518,7 +520,7 @@ static duk_ret_t __spit(duk_context* c)
         }
         ctx->throwInvalidTypeError(2, "sad::String");
         return 0;
-    }      
+    }
     ctx->throwInvalidTypeError(1, "sad::String");
     return 0;
 }
@@ -549,7 +551,7 @@ static duk_ret_t __eval(duk_context* c)
         }
         ctx->throwInvalidTypeError(2, "sad::String");
         return 0;
-    }      
+    }
     ctx->throwInvalidTypeError(1, "sad::dukpp03::Context*");
     return 0;
 }
@@ -574,7 +576,7 @@ static duk_ret_t __eval_from_file(duk_context* c)
         }
         ctx->throwInvalidTypeError(2, "sad::String");
         return 0;
-    }      
+    }
     ctx->throwInvalidTypeError(1, "sad::dukpp03::Context*");
     return 0;
 }
@@ -582,7 +584,7 @@ static duk_ret_t __eval_from_file(duk_context* c)
 void sad::dukpp03::Context::exposeContext()
 {
     this->registerNativeFunction("SadContextEval", __eval, 2);
-    this->registerNativeFunction("SadContextEvalFromFile", __eval_from_file, 2); 
+    this->registerNativeFunction("SadContextEvalFromFile", __eval_from_file, 2);
 
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
     c->addObjectConstructor<sad::dukpp03::Context>("SadContext");
@@ -590,7 +592,7 @@ void sad::dukpp03::Context::exposeContext()
     c->addMethod("setRenderer", sad::dukpp03::bind_method::from(&sad::dukpp03::Context::setRenderer));
     c->setPrototypeFunction("SadContext");
 
-    this->addClassBinding("sad::dukpp03::Context", c);       
+    this->addClassBinding("sad::dukpp03::Context", c);
 
     this->registerGlobal("context", this);
 }
@@ -607,7 +609,7 @@ template<typename T> static void ___make_interpolation_object_dependent(T* a)
 
 void sad::dukpp03::Context::exposeRenderer()
 {
-    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding(); 
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
     c->addMethod("init", sad::dukpp03::bind_method::from(&sad::Renderer::init));
     c->addMethod("animations", sad::dukpp03::bind_method::from(&sad::Renderer::animations));
     c->addMethod("settings", sad::dukpp03::bind_method::from(&sad::Renderer::settings));
@@ -669,11 +671,11 @@ void sad::dukpp03::Context::exposeRenderer()
 
     c->setPrototypeFunction("sad.Renderer");
 
-    this->addClassBinding("sad::Renderer", c); 
+    this->addClassBinding("sad::Renderer", c);
 
     this->registerCallable("SadRendererRef", sad::dukpp03::make_function::from(sad::Renderer::ref));
 
-    sad::dukpp03::ClassBinding* cext = new sad::dukpp03::ClassBinding(); 
+    sad::dukpp03::ClassBinding* cext = new sad::dukpp03::ClassBinding();
     cext->addObjectConstructor<sad::dukpp03::Renderer>("SadRenderer");
     cext->addMethod("clipboard", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::clipboard));
     cext->addMethod("init", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::init));
@@ -733,10 +735,10 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("globalTranslationOffset", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::globalTranslationOffset));
     cext->addMethod("setGlobalTranslationOffset", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setGlobalTranslationOffset));
     cext->addMethod("setScene", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setScene));
-    
+
     cext->setPrototypeFunction("sad.Renderer");
 
-    this->addClassBinding("sad::dukpp03::Renderer", cext); 
+    this->addClassBinding("sad::dukpp03::Renderer", cext);
 
     sad::dukpp03::ClassBinding* prenderer = new sad::dukpp03::ClassBinding();
     std::function<void(sad::PrimitiveRenderer*, sad::Scene*, const sad::Point2D&, const sad::Point2D&, const sad::AColor&)> line = [](sad::PrimitiveRenderer* r, sad::Scene* s, const sad::Point2D& p1, const sad::Point2D&  p2, const sad::AColor& clr) -> void {
@@ -748,7 +750,7 @@ void sad::dukpp03::Context::exposeRenderer()
     };
     prenderer->addMethod("rectangle", sad::dukpp03::bind_lambda::from(rect));
 
-    this->addClassBinding("sad::PrimitiveRenderer", prenderer); 
+    this->addClassBinding("sad::PrimitiveRenderer", prenderer);
 
     ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>* makeFPSInterpolationDefault = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
     makeFPSInterpolationDefault->add(sad::dukpp03::make_function::from(___make_interpolation_default<sad::Renderer>));
@@ -770,7 +772,7 @@ void  sad::dukpp03::Context::exposeCamera()
 {
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
     c->addObjectConstructor<sad::Camera>("SadCamera");
-	
+
 	c->addMethod("translationOffset", sad::dukpp03::bind_method::from(&sad::Camera::translationOffset));
 	c->addMethod("setTranslationOffset", sad::dukpp03::bind_method::from(&sad::Camera::setTranslationOffset));
 
@@ -856,7 +858,7 @@ void sad::dukpp03::Context::exposeSceneNode()
     c->addMethod("setObjectName", sad::dukpp03::bind_method::from(&sad::SceneNode::setObjectName));
     c->addMethod("objectName", sad::dukpp03::bind_method::from(&sad::SceneNode::objectName));
     c->addMethod("rendererChanged", sad::dukpp03::bind_method::from(&sad::SceneNode::rendererChanged));
-    
+
     c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::SceneNode::MajorId), sad::dukpp03::setter::from(&sad::SceneNode::MajorId));
     c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::SceneNode::MinorId), sad::dukpp03::setter::from(&sad::SceneNode::MinorId));
 
@@ -872,7 +874,7 @@ void sad::dukpp03::Context::exposeSprite3D()
     c->registerAsObjectWithSchema<sad::Sprite3D>();
     c->addObjectConstructor<sad::Sprite3D>("SadSprite3D");
     c->addCloneObjectMethodFor<sad::Sprite3D>();
-    
+
     c->addMethod("setTextureCoordinates", sad::dukpp03::bind_method::from(&sad::Sprite3D::setTextureCoordinates));
 
     void (sad::Sprite3D::*setTextureCoordinatep)(int, const sad::Point2D& p) = &sad::Sprite3D::setTextureCoordinate;
@@ -901,7 +903,7 @@ void sad::dukpp03::Context::exposeSprite3D()
     move_by->add(sad::dukpp03::bind_method::from(move_by_3d));
     move_by->add(sad::dukpp03::bind_method::from(move_by_2d));
     c->addMethod("moveBy", move_by);
-    
+
     void (sad::Sprite3D::*rotate_1)(double) = &sad::Sprite3D::rotate;
     void (sad::Sprite3D::*rotate_2)(double, double) = &sad::Sprite3D::rotate;
 
@@ -943,7 +945,7 @@ void  sad::dukpp03::Context::exposeSadRectPoint3D()
     c->addMethod("p3", sad::dukpp03::bind_method::from(&sad::Rect<sad::Point3D>::p3));
     c->addCloneValueObjectMethodFor<sad::Rect<sad::Point3D> >();
     c->setPrototypeFunction("SadRectPoint3D");
-    this->addClassBinding("sad::Rect<sad::Point3D>", c);  
+    this->addClassBinding("sad::Rect<sad::Point3D>", c);
 }
 
 static void label_set_font_1(sad::Label* l, const sad::String& s)
@@ -973,11 +975,11 @@ void sad::dukpp03::Context::exposeLabel()
     c->addMethod("region", sad::dukpp03::bind_method::from(&sad::Label::region));
 
     ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * set_font = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
-   
+
     set_font->add(sad::dukpp03::make_function::from(label_set_font_1));
     set_font->add(sad::dukpp03::make_function::from(label_set_font_2));
     set_font->add(sad::dukpp03::make_function::from(label_set_font_3));
-    
+
     this->registerCallable("SadLabelSetFont", set_font);
 
     c->addMethod("string", sad::dukpp03::bind_method::from(&sad::Label::string));
@@ -1274,7 +1276,7 @@ void sad::dukpp03::Context::exposeCustomObject()
     c->setPrototypeFunction("sad.db.custom.Object");
 
     this->addClassBinding("sad::db::custom::Object", c);
-    
+
 }
 
 void sad::dukpp03::Context::exposeSprite2DOptions()
@@ -1301,7 +1303,7 @@ void sad::dukpp03::Context::exposeClipboard()
     c->addMethod("get", sad::dukpp03::bind_method::from(&sad::Clipboard::get));
     c->addMethod("set", sad::dukpp03::bind_method::from(&sad::Clipboard::set));
     c->addMethod("clear", sad::dukpp03::bind_method::from(&sad::Clipboard::clear));
-    
+
     this->addClassBinding("sad::Clipboard", c);
 }
 
