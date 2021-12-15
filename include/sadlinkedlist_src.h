@@ -359,7 +359,7 @@ sad::LinkedList<T>& sad::LinkedList<T>::operator>>(T& obj)
     }
     if (m_size == 1)
     {
-        obj = *(m_firstnode->me);
+        obj = *(m_firstnode->m_me);
         makeClear();
     }
     else
