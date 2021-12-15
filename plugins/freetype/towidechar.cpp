@@ -11,21 +11,21 @@ wchar_t sad::freetype::to_wide_char(unsigned char c)
     }
     wchar_t result = wc[0]; 
     // Convert russian locale letters
-    if (c == '¸')              
+    if (c == 0xB8)
     { 
-        result = 0x0451; 
+        result = 0x0451;
     }
-    if (c == '¨')              
+    if (c == 0xA8)
     { 
-        result = 0x0401; 
+        result = 0x0401;
     }
-    if (c >= 'À' && c <= 'ß')   
+    if (c >= 0xC0 && c <= 0xDF)   
     { 
-        result = 0x0410 + (c - 'À'); 
+        result = 0x0410 + (c - 0xC0);
     }
-    if (c >= 'à' && c <= 'ÿ')   
+    if (c >= 0xE0 )
     { 
-        result = 0x0430 + (c - 'à'); 
+        result = 0x0430 + (c - 0xE0);
     }
     return result;
 }

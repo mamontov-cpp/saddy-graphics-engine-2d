@@ -81,6 +81,7 @@ void sad::freetype::Glyph::fillGeometries(double x, double y, double top_offset,
 
 sad::Maybe<FT_Glyph> sad::freetype::Glyph::glyph(FT_Face face, unsigned char c, unsigned int & index)
 {
+    FT_Select_Charmap(face, FT_ENCODING_UNICODE);
     wchar_t widecharacter = sad::freetype::to_wide_char(c);
     index = FT_Get_Char_Index( face, widecharacter );
     

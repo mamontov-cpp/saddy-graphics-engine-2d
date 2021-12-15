@@ -163,6 +163,10 @@ public:
     {
         return static_cast<int>(Key);
     }
+    /*! Converts source key to Win-1251 encoding
+     *  \return Win-1251 encoding
+     */
+    sad::Maybe<sad::String> toWin1251Key() const;
     /*! Kept, for purpose of inheritance
      */
     virtual ~KeyEvent();

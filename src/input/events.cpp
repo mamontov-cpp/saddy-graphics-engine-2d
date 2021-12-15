@@ -23,6 +23,53 @@ sad::input::KeyEvent::~KeyEvent()
 
 }
 
+sad::Maybe<sad::String> sad::input::KeyEvent::toWin1251Key() const
+{
+    if (!ReadableKey.exists())
+    {
+        return sad::Maybe<sad::String>();
+    }
+    sad::String key = ReadableKey.value();
+    if (key.length() == 2)
+    {
+        char num[4] = { key[1], key[0], 0, 0 };
+        const int d = *reinterpret_cast<int*>(num);
+        char kv[2] = { 0x0, 0x0 };
+        unsigned char* pkv = reinterpret_cast<unsigned char*>(&kv[0]);
+        if (d == 0xD191)
+        {
+            *pkv = 0xB8;
+            key = kv;
+        }
+        if (d == 0xD081)
+        {
+            *pkv = 0xA8;
+            key = kv;
+        }
+        if (d >= 0xD090 && d <= 0xD09F)
+        {
+            *pkv = 0xC0 + static_cast<int>(d - 0xD090);  // NOLINT(clang-diagnostic-implicit-int-conversion)
+            key = kv;
+        }
+        if (d >= 0xD0A0 && d <= 0xD0AF)
+        {
+            *pkv = 0xD0 + static_cast<int>(d - 0xD0A0);  // NOLINT(clang-diagnostic-implicit-int-conversion)
+            key = kv;
+        }
+        if (d >= 0xD0B0 && d <= 0xD0BF)
+        {
+            *pkv = 0xE0 + static_cast<int>(d - 0xD0B0); // NOLINT(clang-diagnostic-implicit-int-conversion)
+            key = kv;
+        }
+        if (d >= 0xD180 && d <= 0xD18F)
+        {
+            *pkv = 0xF0 + static_cast<int>(d - 0xD180); // NOLINT(clang-diagnostic-implicit-int-conversion)
+            key = kv;
+        }
+    }
+    return sad::Maybe<sad::String>(key);
+}
+
 sad::input::MouseCursorEvent::~MouseCursorEvent()
 {
 
