@@ -121,7 +121,49 @@ bool sad::dukpp03::Context::evalFromFile(
     }
     m_running = false;
     return result;
+}
 
+bool sad::dukpp03::Context::evalAndDumpToString(const std::string& script, std::string& error, std::string& result)
+{
+    bool result_flag = true;
+
+    if (!this->eval(script, false, &error))
+    {
+        result_flag = false;
+    }
+    else
+    {
+        result_flag = true;
+        result.clear();
+        if (this->getTop() > 0)
+        {
+            duk_context* ctx = this->context();
+            duk_get_global_string(ctx, "console");
+            duk_get_prop_string(ctx, -1, "dump");
+            duk_swap_top(ctx, -2);
+            duk_pop(ctx);
+            duk_swap_top(ctx, -2);
+            if (duk_pcall(ctx, 1) == 0)
+            {
+                result = duk_safe_to_string(ctx, -1);
+            }
+            else
+            {
+                if (duk_has_prop_string(ctx, -1, "stack"))
+                {
+                    duk_get_prop_string(ctx, -1, "stack");
+                    error = duk_safe_to_string(ctx, -1);
+                }
+                else
+                {
+                    error = duk_safe_to_string(ctx, -1);
+                }
+                result_flag = false;
+            }
+        }
+    }
+    this->cleanStack();
+    return result_flag;
 }
 
 void sad::dukpp03::Context::setRenderer(sad::Renderer* r)
