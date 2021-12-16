@@ -55,7 +55,7 @@ public:
      */
     bool evalFromFile(const std::string& path, bool clean_heap = true,std::string* error = nullptr);
     /*! Evaluates script and dumps the result into result string, otherwise dumps error to error string. Note that this uses console.dump to dump those, so if anything goes wrong with it - it'll be
-     *  as error
+     *  reported here as error and all calls to this function will fail.
      *  \param[in] script a script data
      *  \param[out] error a error result
      *  \param[out] result a result for string
