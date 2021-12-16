@@ -90,8 +90,12 @@ public:
     {
         if (m_referenced && !m_is_weak)
         {
-            object(false)->removeParent(m_parent);
-            object(false)->delRef();
+            T* obj = object(false);
+            if (obj)
+            {
+                obj->removeParent(m_parent);
+                obj->delRef();
+            }
         }
     }
     /*! Sets tree for a name
@@ -133,8 +137,12 @@ public:
     {
         if (m_referenced && !m_is_weak)
         {
-            object(false)->removeParent(m_parent);
-            object(false)->delRef();
+            T* obj = object(false);
+            if (obj)
+            {
+                obj->removeParent(m_parent);
+                obj->delRef();
+            }
         }
         m_db.setDatabase(db);
         m_point_to_resource = false;
