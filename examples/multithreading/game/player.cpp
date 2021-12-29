@@ -166,7 +166,12 @@ sad::Rect2D game::Player::area() const
     {
         return {};
     }
-    return dynamic_cast<sad::p2d::Rectangle*>(m_actor.body()->currentShape())->rect();
+    sad::p2d::Rectangle* rect = dynamic_cast<sad::p2d::Rectangle*>(m_actor.body()->currentShape());
+    if (!rect)
+    {
+        return {};
+    }
+    return rect->rect();
 }
 
 sad::Point2D game::Player::middle() const

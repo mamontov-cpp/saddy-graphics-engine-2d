@@ -92,8 +92,8 @@ void gui::AnimationGroupProcess::timerExpired()
             if (m_instance)
             {
                 if (m_instance->finished())
-                {					
-                    this->stop();					
+                {
+                    this->stop();
                 }
             }
         }

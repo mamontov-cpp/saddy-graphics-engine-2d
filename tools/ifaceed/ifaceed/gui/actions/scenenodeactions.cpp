@@ -229,9 +229,6 @@ void gui::actions::SceneNodeActions::rotate(const sad::input::MouseWheelEvent& e
                 {
                     m_editor->actions()->gridActions()->updateRegion();
                 }
-            }
-            if (selected)
-            {
                 m_rotation->start(node, maybeangle.value(), nextangle);
             }
         }

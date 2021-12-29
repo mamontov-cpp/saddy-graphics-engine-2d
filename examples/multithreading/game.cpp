@@ -1420,8 +1420,9 @@ void Game::changeSceneToOptions()
         this->optionsScreen().initForInventoryRenderer();
     };
 
-    options.mainThread().OnFinishedFunction = [this]() {  this->enterOptionsState(); this->enterPlayingState(); };
-    options.inventoryThread().OnFinishedFunction = [this]() { this->enterOptionsState();  this->enterPlayingState(); };
+    std::function<void(void)> on_finished_function = [this]() {  this->enterOptionsState(); this->enterPlayingState(); };
+    options.mainThread().OnFinishedFunction = on_finished_function;
+    options.inventoryThread().OnFinishedFunction = on_finished_function;
 
     this->enterTransitioningState();
     this->waitForPipelineTasks();
@@ -2020,9 +2021,9 @@ void Game::removePlatform(const sad::String& name)
     if (gamescreen)
     {
         auto* sprite = gamescreen->objectByName<sad::Sprite2D>(name);
-        sprite->addRef();
         if (sprite)
         {
+            sprite->addRef();
             sad::Vector<sad::p2d::Body*> bodies = m_physics_world->allBodiesInGroup("platforms");
             for (size_t i = 0; i < bodies.size(); i++)
             {
@@ -2600,29 +2601,29 @@ void Game::initGamePhysics()
     };
     const std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
         auto* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
-        if (!a->isFloater() && ev.m_object_2 == this->m_walls.bottomWall())
-        {
-            a->fireOnDeathEvents();
-            this->killActorWithoutSprite(a);
-            a->playDeathAnimation();
-            return;
-        }
         if (a)
         {
+            if (!a->isFloater() && ev.m_object_2 == this->m_walls.bottomWall())
+            {
+                a->fireOnDeathEvents();
+                this->killActorWithoutSprite(a);
+                a->playDeathAnimation();
+                return;
+            }
             a->onPlatformCollision(ev);
         }
     };
     const std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_walls = [=](const sad::p2d::BasicCollisionEvent & ev) {
         auto* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
-        if (!a->isFloater() && ev.m_object_2 == this->m_walls.bottomWall())
-        {
-            a->fireOnDeathEvents();
-            this->killActorWithoutSprite(a);
-            a->playDeathAnimation();
-            return;
-        }
         if (a)
         {
+            if (!a->isFloater() && ev.m_object_2 == this->m_walls.bottomWall())
+            {
+                a->fireOnDeathEvents();
+                this->killActorWithoutSprite(a);
+                a->playDeathAnimation();
+                return;
+            }
             if (!a->isClipThroughBoundaries())
             { 
                 a->onPlatformCollision(ev);
@@ -2632,15 +2633,15 @@ void Game::initGamePhysics()
 
     const std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_item_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
         auto* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
-        if (!a->isFloater() && ev.m_object_2 == this->m_walls.bottomWall())
-        {
-            this->rendererForMainThread()->pipeline()->appendTask([=] {
-                this->killActorByBody(ev.m_object_1);
-            });
-            return;
-        }
         if (a)
         {
+            if (!a->isFloater() && ev.m_object_2 == this->m_walls.bottomWall())
+            {
+                this->rendererForMainThread()->pipeline()->appendTask([=] {
+                    this->killActorByBody(ev.m_object_1);
+                    });
+                return;
+            }
             a->onPlatformCollision(ev);
             if (a->isResting())
             {
@@ -2665,6 +2666,10 @@ void Game::initGamePhysics()
         // Avoid hard computations for item on ground
         if (!this->player()->inventory()->isFull()) {
             auto* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
+            if (!a)
+            {
+                return;
+            }
             const sad::String& options = a->sprite()->optionsName();
             if (this->m_item_definitions.contains(options)) 
             {
@@ -2758,9 +2763,13 @@ void Game::tryRenderDebugShapes() const
             sad::p2d::CollisionShape* shape = bodies[i]->currentShape();
             if (shape->metaIndex() == sad::p2d::Rectangle::globalMetaIndex())
             {
-                sad::Rect2D r = dynamic_cast<sad::p2d::Rectangle*>(shape)->rect();
-                sad::moveBy(p, r);
-                renderer->render()->rectangle(scene, r, sad::AColor(0, 0, 255));
+                sad::p2d::Rectangle* shape_rect = dynamic_cast<sad::p2d::Rectangle*>(shape);
+                if (shape_rect)
+                {
+                    sad::Rect2D r = shape_rect->rect();
+                    sad::moveBy(p, r);
+                    renderer->render()->rectangle(scene, r, sad::AColor(0, 0, 255));
+                }
             }
             if (shape->metaIndex() == sad::p2d::Circle::globalMetaIndex())
             {
@@ -2774,7 +2783,10 @@ void Game::tryRenderDebugShapes() const
             if (shape->metaIndex() == sad::p2d::Line::globalMetaIndex())
             {
                 auto* line = dynamic_cast<sad::p2d::Line*>(shape);
-                renderer->render()->line(scene, line->cutter().p1() + p, line->cutter().p2() + p,  sad::AColor(0, 0, 255));
+                if (line)
+                {
+                    renderer->render()->line(scene, line->cutter().p1() + p, line->cutter().p2() + p, sad::AColor(0, 0, 255));
+                }
             }
         }
     }

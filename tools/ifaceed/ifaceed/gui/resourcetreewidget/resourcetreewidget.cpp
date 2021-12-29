@@ -410,18 +410,22 @@ void gui::resourcetreewidget::ResourceTreeWidget::tryRestoreSelection(
         {
             sad::StringList list = pathvalue.split("/");
             current = m_tree_view->topLevelItem(0);
-            for(int i = 0; i < list.count() && current != nullptr; i++)
+            for(int i = 0; i < list.count() && (current != nullptr); i++)
             {
-                bool hasspecifieditem = false;
-                for(int j = 0; j < current->childCount() && !hasspecifieditem; j++)
+                bool has_specified_item = false;
+                for(int j = 0; j < current->childCount() && !has_specified_item; j++)
                 {
-                   if(Q2STDSTRING(current->child(j)->text(0)) == list[i].c_str())
-                   {
-                        current = current->child(j);
-                        hasspecifieditem = true;
-                   }
+                    QTreeWidgetItem* child_item = current->child(j);
+                    if (child_item)
+                    {
+                        if (Q2STDSTRING(child_item->text(0)) == list[i].c_str())
+                        {
+                            current = child_item;
+                            has_specified_item = true;
+                        }
+                    }
                 }
-                if (!hasspecifieditem)
+                if (!has_specified_item)
                 {
                     current = nullptr;
                 }

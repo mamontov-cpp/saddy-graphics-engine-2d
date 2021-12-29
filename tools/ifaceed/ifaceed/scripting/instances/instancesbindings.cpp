@@ -60,7 +60,7 @@ unsigned long long scripting::instances::_addWayInstance(
             if (id != 0)
             {
                 scripting->context()->throwError(error);
-                throw new dukpp03::ArgumentException();
+                throw dukpp03::ArgumentException();
             }
         }
         if (!converted && way.canConvert(QVariant::String))
@@ -70,7 +70,7 @@ unsigned long long scripting::instances::_addWayInstance(
             if (name.length() != 0)
             {
                 scripting->context()->throwError(error);
-                throw new dukpp03::ArgumentException();
+                throw dukpp03::ArgumentException();
             }
         }
         
@@ -94,7 +94,7 @@ unsigned long long scripting::instances::_addWayInstance(
             if (id != 0)
             {
                 scripting->context()->throwError(error);
-                throw new dukpp03::ArgumentException();
+                throw dukpp03::ArgumentException();
             }
         }
         if (!converted && object.canConvert(QVariant::String))
@@ -104,7 +104,7 @@ unsigned long long scripting::instances::_addWayInstance(
             if (name.length() != 0)
             {
                 scripting->context()->throwError(error);
-                throw new dukpp03::ArgumentException();
+                throw dukpp03::ArgumentException();
             }
         }        
     }

@@ -99,7 +99,7 @@ bool gui::actions::AnimationActions::producesLoop(sad::animations::Animation* fi
             animations << static_cast<sad::animations::Composite*>(objects[i]);
         }
     }
-    for(size_t i = 0; (i < animations.size()) && result == false; i++)
+    for(size_t i = 0; (i < animations.size()) && (result == false); i++)
     {
         sad::Hash<unsigned long long, unsigned long long> tmp;
         result = result || producesLoop(animations[i], tmp, first, second);
@@ -185,7 +185,7 @@ void gui::actions::AnimationActions::removeAnimationFromDatabase(
                     positions << j;
                 }
             }
-            if (positions.size() != 0)
+            if (!positions.empty())
             {
                 list << sad::Pair<sad::animations::Composite*, sad::Vector<int> >(c, positions);				
             }

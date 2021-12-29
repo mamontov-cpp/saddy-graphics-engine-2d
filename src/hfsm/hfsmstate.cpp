@@ -48,12 +48,9 @@ void sad::hfsm::State::addChild(const sad::String & name, sad::hfsm::State * sta
         m_children.insert(name, state);
     }
 
-    if (state)
-    {
-        state->setMachine(m_machine);
-        state->setParent(this);
-        state->addRef();
-    }
+    state->setMachine(m_machine);
+    state->setParent(this);
+    state->addRef();
 }
 
 sad::hfsm::State * sad::hfsm::State::child(const sad::String & name) const
@@ -145,14 +142,14 @@ sad::hfsm::State * sad::hfsm::State::parent() const
 
 void sad::hfsm::State::removeEnterHandler(sad::hfsm::AbstractHandler * f)
 {
-    delete f;
     m_enter_handlers.removeAll(f);
+    delete f;
 }
 
 void sad::hfsm::State::removeLeaveHandler(sad::hfsm::AbstractHandler * f)
 {
-    delete f;
     m_leave_handlers.removeAll(f);
+    delete f;
 }
 
 void sad::hfsm::State::setVariable(const sad::String& name, const sad::db::Variant& v)

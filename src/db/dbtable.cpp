@@ -262,7 +262,7 @@ bool sad::db::Table::load(
             else
             {
                 tmp->setTreeName(renderer, tree_name);
-                ok = ok && tmp->load(entries[i]);
+                ok = tmp->load(entries[i]);
                 if (!ok)
                 {
                     delete  tmp;

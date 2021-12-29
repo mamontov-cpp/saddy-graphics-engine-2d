@@ -14,12 +14,16 @@ void gui::EventFilter::setEditor(core::Editor* e)
     m_editor = e;
 }
 
- bool gui::EventFilter::eventFilter(QObject *o, QEvent *e)
- {
-     bool handled = false;
-     gui::MainPanelProxy* proxy = m_editor->panelProxy();
-     if(e->type() == QEvent::KeyPress && m_editor)
-     {
+bool gui::EventFilter::eventFilter(QObject *o, QEvent *e)
+{
+    if (!m_editor)
+    {
+        return QObject::eventFilter(o, e);
+    }
+    bool handled = false;
+    gui::MainPanelProxy* proxy = m_editor->panelProxy();
+    if(e->type() == QEvent::KeyPress && m_editor)
+    {
         QKeyEvent* ev = static_cast<QKeyEvent*>(e);
         if (ev->modifiers() & Qt::ControlModifier)
         {
@@ -79,17 +83,17 @@ void gui::EventFilter::setEditor(core::Editor* e)
                 {
                     if (ev->key() >= Qt::Key_1 && ev->key() <= Qt::Key_8)
                     {
-                        int index = ev->key() - Qt::Key_1;
+                        const int index = ev->key() - Qt::Key_1;
                         proxy->setCurrentTabObjectsIndex(index);
                     }
                 }
             }
         }
-     }
-     bool result = true;
-     if (!handled)
-     {
-         result = QObject::eventFilter(o, e);
-     }
-     return result;
- }
+    }
+    bool result = true;
+    if (!handled)
+    {
+        result = QObject::eventFilter(o, e);
+    }
+    return result;
+}

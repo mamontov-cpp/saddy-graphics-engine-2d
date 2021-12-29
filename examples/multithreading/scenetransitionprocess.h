@@ -59,10 +59,10 @@ struct ThreadData
     sad::Mutex LoadWaitingLock;
     /*! Whether thread data executed on loaded actions
      */
-    bool ExecutedOnLoaded;
+    volatile bool ExecutedOnLoaded;
     /*!  Whether thread data executed on finished actions
      */
-    bool FinishedDarkening;
+    volatile bool FinishedDarkening;
 };
     /*! Constructs new process, based on game
      *  \param[in] game a game object

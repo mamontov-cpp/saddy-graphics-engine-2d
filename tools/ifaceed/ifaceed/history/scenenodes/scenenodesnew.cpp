@@ -39,16 +39,13 @@ void history::scenenodes::New::commit(core::Editor * ob)
 
     QVariant v;
     v.setValue(static_cast<sad::db::Object*>(m_node));
-    if(ob)
-    {
-        void (QComboBox::*f)(const QString&, const QVariant&) = &QComboBox::addItem;
-        ob->emitClosure( bind(
-            ob->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceObject,
-            f,
-            sn_actions->fullNameForNode(m_node),
-            v
-        ));
-    }
+    void (QComboBox::*f)(const QString&, const QVariant&) = &QComboBox::addItem;
+    ob->emitClosure( bind(
+        ob->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceObject,
+        f,
+        sn_actions->fullNameForNode(m_node),
+        v
+    ));
 }
 
 void history::scenenodes::New::rollback(core::Editor * ob)

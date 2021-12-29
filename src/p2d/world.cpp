@@ -636,7 +636,7 @@ sad::Vector<sad::p2d::BasicCollisionHandler*> sad::p2d::World::GlobalHandlerList
         result << lst;
     }
     std::sort(result.begin(), result.end());
-    std::unique(result.begin(), result.end());
+    (void)std::unique(result.begin(), result.end());
     return result;
 }
 

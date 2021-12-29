@@ -46,8 +46,10 @@ void history::database::RemoveProperty::commit(core::Editor * ob)
     ->removeProperty(Q2STDSTRING(m_delegate->propertyName()));
     
     m_delegate->remove();
-
-    ob->panelProxy()->delegatesByName().remove(Q2STDSTRING(m_delegate->propertyName()));
+    if (ob)
+    {
+        ob->panelProxy()->delegatesByName().remove(Q2STDSTRING(m_delegate->propertyName()));
+    }
 }
 
 void history::database::RemoveProperty::rollback(core::Editor * ob)

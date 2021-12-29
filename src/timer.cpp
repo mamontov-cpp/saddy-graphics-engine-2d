@@ -14,6 +14,10 @@ sad::Timer::Timer(const sad::Timer &o)
 
 sad::Timer& sad::Timer::operator=(const sad::Timer & o)
 {
+    if (this == &o)
+    {
+        return *this;
+    }
     delete m_dptr;
     m_dptr = new sad::os::TimerImpl(*(o.m_dptr));
     return *this;

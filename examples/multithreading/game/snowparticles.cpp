@@ -129,14 +129,14 @@ int game::SnowParticles::minAmountOfParticlesSpawned() const
 
 void game::SnowParticles::setMaxAmountOfParticlesSpawned(int amount)
 {
-    m_min_amount_of_particles_spawned = amount;
+    m_max_amount_of_particles_spawned = amount;
 
     this->correctParticleAmounts();
 }
 
 int game::SnowParticles::maxAmountOfParticlesSpawned() const
 {
-    return m_min_amount_of_particles_spawned;
+    return m_max_amount_of_particles_spawned;
 }
 
 void game::SnowParticles::setParticleName(const sad::String& particle_name)

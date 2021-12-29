@@ -39,9 +39,9 @@ void history::sprite2d::ChangeOptions::rollback(core::Editor* e)
 {
     this->history::scenenodes::ChangeProperty<sad::String>::rollback(e);
     m_node->setProperty("area", m_old_area);
-    e->tryUpdateParentGridForNode(m_node);
     if (e)
     {
+        e->tryUpdateParentGridForNode(m_node);
         if (e->isNodeSelected(m_node))
         {
             e->actions()->sceneNodeActions()->updateRegionForNode();
@@ -63,12 +63,9 @@ void history::sprite2d::ChangeOptions::updateUI(
     sad::Renderer::ref()->lockRendering();
     // Force updating region immediately
     m_node->rendererChanged();
-    if (e)
+    if (e->isNodeSelected(m_node))
     {
-        if (e->isNodeSelected(m_node))
-        {
-            e->actions()->sceneNodeActions()->updateRegionForNode();
-        }
+        e->actions()->sceneNodeActions()->updateRegionForNode();
     }
     sad::Renderer::ref()->unlockRendering();
 }

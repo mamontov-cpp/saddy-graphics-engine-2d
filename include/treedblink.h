@@ -224,8 +224,12 @@ public:
     {
         if (m_referenced  && !m_is_weak)
         {
-            object(false)->removeParent(m_parent);
-            object(false)->delRef();
+            T* obj = object(false);
+            if (obj)
+            {
+                obj->removeParent(m_parent);
+                obj->delRef();
+            }
         }
         m_resource.setPath(name);
         m_point_to_resource = true;
@@ -251,8 +255,12 @@ public:
     {
         if (m_referenced  && !m_is_weak)
         {
-            object(false)->removeParent(m_parent);
-            object(false)->delRef();
+            T* obj = object(false);
+            if (obj)
+            {
+                obj->removeParent(m_parent);
+                obj->delRef();
+            }
         }
         m_db.setMajorId(id);
         m_point_to_resource = false;

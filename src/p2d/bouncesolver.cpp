@@ -626,7 +626,7 @@ void sad::p2d::BounceSolver::tryFindBasicTaskForInelasticBounceWithCollisions(
     {
         if (sad::is_fuzzy_equal(data.TOI, list[i-1].TOI)
             || sad::is_fuzzy_equal(data.TOI, list[i].TOI)
-            || (list[i-1].TOI <= data.TOI) && (data.TOI <= list[i].TOI))
+            || ((list[i-1].TOI <= data.TOI) && (data.TOI <= list[i].TOI)))
         {
             sad::p2d::CollisionShape* second_shape  = m_second->currentShape()->clone();
             sad::p2d::Vector cp2 = m_second->position();
@@ -831,7 +831,8 @@ void sad::p2d::BounceSolver::resolveNormalSpeed(
     // If m1 is infinite, v1 = u1, v2 = u1 + k(u1-u2)
     double k = m_restitution_coefficient;
 
-    double v1x = 0 , v2x = 0, v1y = 0, v2y = 0, m1 = 1.0, m2 = 1.0, must_compute_full_collision = true;
+    double v1x = 0, v2x = 0, v1y = 0, v2y = 0, m1 = 1.0, m2 = 1.0;
+    bool must_compute_full_collision = true;
     if (is_body_1_fixed)
     {
        if (is_body_2_fixed)

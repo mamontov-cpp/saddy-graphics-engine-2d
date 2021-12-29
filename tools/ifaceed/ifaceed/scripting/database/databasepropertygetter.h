@@ -95,7 +95,7 @@ public:
         if (ctx->getTop() != required_args)
         {
             ctx->throwInvalidArgumentCountError(ctx->getTop(), 1);
-            throw new dukpp03::ArgumentException();
+            throw dukpp03::ArgumentException();
             // ReSharper disable once CppUnreachableCode
             return 0;
         }
@@ -116,7 +116,7 @@ public:
                 else
                 {
                     ctx->throwError("Invalid property value");
-                    throw new dukpp03::ArgumentException();
+                    throw dukpp03::ArgumentException();
                     // ReSharper disable once CppUnreachableCode
                     return 0;
                 }
@@ -124,7 +124,7 @@ public:
             else
             {
                 ctx->throwError(std::string("Property \"") + prop_name + std::string("\" is not readable"));
-                throw new dukpp03::ArgumentException();
+                throw dukpp03::ArgumentException();
                 // ReSharper disable once CppUnreachableCode
                 return 0;
             }
@@ -132,7 +132,7 @@ public:
         else
         {
             ctx->throwInvalidTypeError(1, "sad::String");
-            throw new dukpp03::ArgumentException();
+            throw dukpp03::ArgumentException();
             // ReSharper disable once CppUnreachableCode
             return 0;
         }

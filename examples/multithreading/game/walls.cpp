@@ -116,7 +116,7 @@ void game::Walls::setTopBound(double bound)
 
 void game::Walls::setBottomBound(double bound)
 {
-    m_top_bound = bound;
+    m_bottom_bound = bound;
     initShapes();
 }
 

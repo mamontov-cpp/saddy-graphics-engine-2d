@@ -511,7 +511,7 @@ static void __bounceSolverPushRotationFriction(sad::p2d::BounceSolver* b, double
 {
     if (index != 1 && index != 2)
     {
-        throw new std::logic_error("Invalid coefficent index for rotation friction");
+        throw std::logic_error("Invalid coefficient index for rotation friction");
     }
     b->pushRotationFriction(r, index);
 }
@@ -829,7 +829,7 @@ static void enableStepTask(sad::Renderer* r, sad::p2d::World* w)
 static void disableStepTask(sad::Renderer* r, sad::p2d::World* w)
 {
     sad::String result = taskNameForWorld(w);
-    r->pipeline()->enableByMark(result);
+    r->pipeline()->disableByMark(result);
 }
 
 static void exposeWorldStepTask(sad::dukpp03::Context* ctx)

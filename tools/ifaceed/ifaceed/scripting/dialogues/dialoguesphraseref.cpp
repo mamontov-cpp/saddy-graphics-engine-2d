@@ -33,17 +33,17 @@ bool scripting::dialogues::PhraseRef::valid() const
     if (!m_d)
     {
         m_scripting->context()->throwError("Invalid dialogue for phrase reference");
-        throw new dukpp03::ArgumentException();
+        throw dukpp03::ArgumentException();
     }
     if (!m_d->Active)
     {
         m_scripting->context()->throwError("Invalid dialogue for phrase reference");
-        throw new dukpp03::ArgumentException();
+        throw dukpp03::ArgumentException();
     }
     if (m_pos >= m_d->phrases().count())
     {
         m_scripting->context()->throwError("Invalid position of phrase");
-        throw new dukpp03::ArgumentException();
+        throw dukpp03::ArgumentException();
     }
 
     return true;

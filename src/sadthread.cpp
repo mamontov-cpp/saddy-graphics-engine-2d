@@ -14,6 +14,10 @@ sad::Thread::Thread(const sad::Thread & o)
 
 sad::Thread& sad::Thread::operator=(const sad::Thread & o)
 {
+    if (this == &o)
+    {
+        return *this;
+    }
     if (running())
     {
         this->stop();

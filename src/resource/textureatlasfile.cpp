@@ -212,7 +212,7 @@ void sad::resource::TextureAtlasFile::tryParsePartial(
                         bool entryisvalid = maybename.exists() 
                                 && maybesize.exists()
                                 && maybetexrect.exists();
-                        schemeok = schemeok && entryisvalid;
+                        schemeok = entryisvalid;
                         if (!entryisvalid)
                         {
                             errors << new sad::resource::MalformedResourceEntry(list[i]);

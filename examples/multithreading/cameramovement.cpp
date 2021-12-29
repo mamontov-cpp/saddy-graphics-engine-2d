@@ -7,7 +7,12 @@
 DECLARE_SOBJ(CameraMovement)
 
 // ReSharper disable once CppPossiblyUninitializedMember
-CameraMovement::CameraMovement(Game* game) : m_move_left_boundary(350), m_move_right_boundary(500), m_max_shift_time(20000), m_game(game), m_arrow_in_scene(false), m_locked(false)  // NOLINT(cppcoreguidelines-pro-type-member-init)
+CameraMovement::CameraMovement(Game* game)
+: m_move_left_boundary(350), m_move_right_boundary(500), m_max_shift_time(20000), m_game(game), m_backgrounds{nullptr, nullptr, nullptr}, m_bg_tiles{ nullptr, nullptr, nullptr },
+  m_fg_tiles{ nullptr, nullptr, nullptr },
+  m_arrow_in_scene(false),
+  m_scene(nullptr),
+  m_locked(false)// NOLINT(cppcoreguidelines-pro-type-member-init)
 {
     m_arrow_sprite = new sad::Sprite2D();
     m_arrow_sprite->addRef();
@@ -17,6 +22,7 @@ CameraMovement::CameraMovement(Game* game) : m_move_left_boundary(350), m_move_r
     m_blinking->setTime(2000);
     m_blinking->setFrequency(12);
     m_blinking->setLooped(false);
+    
 }
 
 CameraMovement::~CameraMovement()

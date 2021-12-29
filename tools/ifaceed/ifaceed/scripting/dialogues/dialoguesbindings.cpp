@@ -105,7 +105,7 @@ dukpp03::Maybe<scripting::dialogues::PhraseRef*> scripting::dialogues::phrase(sc
     if (pos >= d->phrases().count())
     {
         scripting->context()->throwError("phrase: position is out of dialogue");
-        throw new dukpp03::ArgumentException();
+        throw dukpp03::ArgumentException();
     }
 
     return dukpp03::Maybe<scripting::dialogues::PhraseRef*>(new scripting::dialogues::PhraseRef(scripting, d, pos));

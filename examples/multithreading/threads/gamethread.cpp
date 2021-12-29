@@ -99,6 +99,7 @@ void threads::GameThread::tryInitialize(
         error_result += "\"";
         SL_LOCAL_DEBUG(error_result, *m_renderer);
         m_error.setValue(error_result);
+        delete fl;
         return;
     }
     m_renderer->log()->addTarget(fl);

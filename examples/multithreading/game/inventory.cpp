@@ -144,16 +144,13 @@ void game::Inventory::removeItemWithWeapon(weapons::Weapon* weapon)
             {
                 if (item->givenWeapon() == weapon)
                 {
-                    if (item)
+                    if (m_node)
                     {
-                        if (m_node)
-                        {
-                            m_node->eraseSprite(i, j);
-                        }
-                        item->notifyRemoved(this->owner());
-                        item->delRef();
-                        m_free_slots += 1;
+                        m_node->eraseSprite(i, j);
                     }
+                    item->notifyRemoved(this->owner());
+                    item->delRef();
+                    m_free_slots += 1;
                     m_items[i][j] = nullptr;
                 }
             }
@@ -163,15 +160,7 @@ void game::Inventory::removeItemWithWeapon(weapons::Weapon* weapon)
 
 game::Item* game::Inventory::item(int i, int j)
 {
-    if (!m_items.contains(i))
-    {
-        return nullptr;
-    }
-    if (!m_items[i].contains(j))
-    {
-        return nullptr;
-    }
-    return m_items[i][j];
+    return getItemByIndex(i, j);
 }
 
 
@@ -310,8 +299,11 @@ void game::Inventory::tryReleaseDraggedItem(const sad::Point2D& p)
         if (this->isInBasketArea(p))
         {
             game::Item* item = this->takeItem(m_item_being_dragged.p1(), m_item_being_dragged.p2());
-            item->delRef();
-            m_free_slots += 1;
+            if (item)
+            {
+                item->delRef();
+                m_free_slots += 1;
+            }
         }
         else
         {

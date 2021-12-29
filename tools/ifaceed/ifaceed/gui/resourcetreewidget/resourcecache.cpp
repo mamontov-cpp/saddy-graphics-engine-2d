@@ -52,7 +52,7 @@ const QImage& gui::resourcetreewidget::ResourceCache::imageForResource(const QSt
     if (resource)
     {
         sad::ClassMetaData* meta = resource->metaData();
-        if (meta->name() == "sad::freetype::Font" && !handled)
+        if (meta->name() == "sad::freetype::Font")
         {
             sad::freetype::Font * font = static_cast<sad::freetype::Font*>(resource);
             sad::Texture * texture  = font->renderToTexture("Test", 20);

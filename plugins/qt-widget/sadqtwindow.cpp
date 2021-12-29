@@ -98,7 +98,7 @@ void sad::qt::Window::hide()
     QWidget* w = this->window();
     if (w)
     {
-        return w->show();
+        return w->hide();
     }
 }
 
@@ -122,7 +122,7 @@ void sad::qt::Window::pushRect(const sad::Rect2I& rect)
 
 void sad::qt::Window::popRect()
 {
-    if (m_sizes.size())
+    if (!m_sizes.empty())
     {
         setRect(m_sizes.pop());
     }
@@ -135,10 +135,10 @@ sad::Rect2I sad::qt::Window::rect() const
     QWidget* w = this->widget();
     if (w)
     {
-        QRect r = w->rect();
-        return sad::Rect2I(r.x(), r.y(), r.x() + r.width(), r.y() + r.height());
+        const QRect r = w->rect();
+        return {static_cast<double>(r.x()), static_cast<double>(r.y()), static_cast<double>(r.x() + r.width()), static_cast<double>(r.y() + r.height())};
     }
-    return sad::Rect2I();
+    return {};
 }
 
 

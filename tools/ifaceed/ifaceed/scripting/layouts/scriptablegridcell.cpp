@@ -62,7 +62,7 @@ sad::layouts::Cell* scripting::layouts::ScriptableGridCell::cell(bool throw_exce
     if (throw_exception)
     {
         m_scripting->context()->throwError(std::string("ScriptableGridCell.") + name.toStdString()  + ": Reference to a grid cell is not a valid instance");
-        throw new dukpp03::ArgumentException();
+        throw dukpp03::ArgumentException();
     }
     return nullptr;
 }

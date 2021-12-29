@@ -187,7 +187,7 @@ void SceneTransitionProcess::unloadTexturesForMainThread() const
 
 void SceneTransitionProcess::unloadTexturesForInventoryThread() const
 {
-    unloadTextureIfOnGPU(m_main_thread_data.Texture);
+    unloadTextureIfOnGPU(m_inventory_thread_data.Texture);
 }
 
 void SceneTransitionProcess::setTimeMultiplier(double mul_dark, double mul_light) const
@@ -235,7 +235,10 @@ sad::Texture* SceneTransitionProcess::makeTextureForRenderer(sad::Renderer* r)
     sad::Texture* t = new sad::Texture();
     // Create 2x2x4 white texture
     sad::Texture::DefaultBuffer* buf = dynamic_cast<sad::Texture::DefaultBuffer*>(t->Buffer);
-    buf->Data.resize(16, 255);
+    if (buf)
+    {
+        buf->Data.resize(16, 255);
+    }
     t->BuildMipMaps = true;
     t->Bpp = 32;
     t->Format = sad::Texture::InternalFormat::SFT_R8_G8_B8_A8;

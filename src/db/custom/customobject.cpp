@@ -30,6 +30,10 @@ sad::db::custom::Object::~Object()
     delete m_sprite2d;
     delete m_label;
     delete m_my_schema;
+    if (m_custom_schema)
+    {
+        delete m_custom_schema;
+    }
 }
 
 void sad::db::custom::Object::setScene(sad::Scene * scene)

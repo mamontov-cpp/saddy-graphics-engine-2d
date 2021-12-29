@@ -152,6 +152,14 @@ game::Actor* weapons::Bullet::actor() const
 
 void weapons::Bullet::kill()
 {
+    if (!m_sprite)
+    {
+        return;
+    }
+    if (!m_game)
+    {
+        return;
+    }
     sad::Scene* scene = m_sprite->scene();
     sad::Point2D middle = m_sprite->middle();
 
@@ -260,12 +268,13 @@ bool weapons::Bullet::isPiercing() const
 
 void weapons::Bullet::onPlatformHit(sad::p2d::Body* b)
 {
+    if (!m_game)
+    {
+        return;
+    }
     if (!this->isGhost())
     {
-        if (m_game)
-        {
-            m_game->playSound("hit");
-        }
+        m_game->playSound("hit");
         if (this->bounceCountLeft() <= 0)
         {
             m_game->killProjectile(this);

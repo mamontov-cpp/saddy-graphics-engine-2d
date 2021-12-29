@@ -255,6 +255,7 @@ void sad::animations::Composite::insert(sad::animations::Animation* o, int pos)
     {
         if (o->isParent(iter.key()))
         {
+             delete link;
              throw std::logic_error("Detected loop in sad::animations::Composite::insert");
         }
     }
@@ -293,6 +294,7 @@ void sad::animations::Composite::add(sad::animations::Animation* o)
     {
         if (o->isParent(iter.key()))
         {
+             delete link;
              throw std::logic_error("Detected loop in sad::animations::Composite::insert");
         }
     }

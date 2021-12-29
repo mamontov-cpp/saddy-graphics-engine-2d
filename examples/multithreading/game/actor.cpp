@@ -338,8 +338,15 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
     sad::Point2D current_position_2 = ev.m_object_2->position();
     sad::Point2D next_position_2 = ev.m_object_2->positionAt(ev.m_object_2->world()->timeStep());
 
-    sad::Rect2D shape_1 = dynamic_cast<sad::p2d::Rectangle*>(ev.m_object_1->currentShape())->rect();
-    sad::Rect2D shape_2 = dynamic_cast<sad::p2d::Rectangle*>(ev.m_object_2->currentShape())->rect();
+    sad::p2d::Rectangle* rect_1 = dynamic_cast<sad::p2d::Rectangle*>(ev.m_object_1->currentShape());
+    sad::p2d::Rectangle* rect_2 = dynamic_cast<sad::p2d::Rectangle*>(ev.m_object_2->currentShape());
+    if (!rect_1 || !rect_2)
+    {
+        return;
+    }
+
+    sad::Rect2D shape_1 = rect_1->rect();
+    sad::Rect2D shape_2 = rect_2->rect();
 
     sad::moveBy(next_position_1 - current_position_1, shape_1);
     sad::moveBy(next_position_2 - current_position_2, shape_2);
@@ -411,7 +418,7 @@ void game::Actor::init(bool no_sound)
     {
         return;
     }
-    bool can_emit_sound = m_options->CanEmitSound;
+    const bool can_emit_sound = m_options->CanEmitSound;
     if (no_sound)
     {
         m_options->CanEmitSound  = false;
@@ -513,12 +520,16 @@ void game::Actor::init(bool no_sound)
             if (m_is_resting)
             {
                 double lower_bound = m_sprite->area()[0].y();
-                double upper_bound = dynamic_cast<sad::p2d::Rectangle*>(m_resting_platform->currentShape())->rect()[2].y();                
-                if ((lower_bound > upper_bound) && !sad::is_fuzzy_equal(lower_bound, upper_bound, RESTING_DETECTION_PRECISION))
+                sad::p2d::Rectangle* rect = dynamic_cast<sad::p2d::Rectangle*>(m_resting_platform->currentShape());
+                if (rect)
                 {
-                    // Disable resting
-                    this->disableResting();
-                    this->enableGravity();
+                    double upper_bound = rect->rect()[2].y();
+                    if ((lower_bound > upper_bound) && !sad::is_fuzzy_equal(lower_bound, upper_bound, RESTING_DETECTION_PRECISION))
+                    {
+                        // Disable resting
+                        this->disableResting();
+                        this->enableGravity();
+                    }
                 }
             }
         }
@@ -728,13 +739,14 @@ void game::Actor::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& old
         m_is_free_fall = false;
         m_is_ducking = false;
     }
-    if (m_resting_platform != nullptr)
+
+    if (m_game)
     {
-        m_game->unregisterRestingBody(b, this);
-    }
-    m_resting_platform = b;
-    if (b)
-    {
+        if (m_resting_platform != nullptr)
+        {
+            m_game->unregisterRestingBody(b, this);
+        }
+        m_resting_platform = b;
         m_game->registerRestingBody(b, this);
     }
 
@@ -851,8 +863,14 @@ void game::Actor::testResting()
     }
     if (m_is_resting)
     {
-        sad::Rect2D shape_1 = dynamic_cast<sad::p2d::Rectangle*>(m_body->currentShape())->rect();
-        sad::Rect2D shape_2 = dynamic_cast<sad::p2d::Rectangle*>(m_resting_platform->currentShape())->rect();
+        sad::p2d::Rectangle* body_rect = dynamic_cast<sad::p2d::Rectangle*>(m_body->currentShape());
+        sad::p2d::Rectangle* resting_platform_rect = dynamic_cast<sad::p2d::Rectangle*>(m_resting_platform->currentShape());
+        if (!body_rect || !resting_platform_rect)
+        {
+            return;
+        }
+        sad::Rect2D shape_1 = body_rect->rect();
+        sad::Rect2D shape_2 = resting_platform_rect->rect();
 
         sad::p2d::Cutter1D player_part(std::min(shape_1[0].x(), shape_1[2].x()), std::max(shape_1[0].x(), shape_1[2].x()));
         sad::p2d::Cutter1D platform_part(std::min(shape_2[0].x(), shape_2[2].x()), std::max(shape_2[0].x(), shape_2[2].x()));
@@ -1732,11 +1750,14 @@ void game::Actor::startMoving(bool flip_flag, double velocity)
 void game::Actor::correctShape() const
 {
     sad::p2d::Rectangle*  shape = dynamic_cast<sad::p2d::Rectangle*>(m_body->currentShape());
-    sad::Point2D start_point = shape->rect()[0];
-    sad::Point2D width_height(this->m_sprite->area().width(), this->m_sprite->area().height());
-    sad::Rect2D corrected_rect(start_point, start_point + width_height);
-    this->m_sprite->setArea(corrected_rect);
-    shape->setRect(corrected_rect);
+    if (shape)
+    {
+        sad::Point2D start_point = shape->rect()[0];
+        sad::Point2D width_height(this->m_sprite->area().width(), this->m_sprite->area().height());
+        sad::Rect2D corrected_rect(start_point, start_point + width_height);
+        this->m_sprite->setArea(corrected_rect);
+        shape->setRect(corrected_rect);
+    }
 }
 
 void game::Actor::setOptionsForSprite(const sad::String& o) const

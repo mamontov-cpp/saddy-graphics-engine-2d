@@ -29,8 +29,8 @@ duk_ret_t dukpp03::internal::unrefAndFinalize(duk_context* ctx, sad::RefCountabl
             {
                 result->delRef();
             }
-            delete v;
             parent->unregisterVariant(v);
+            delete v;
         }
     }
     return 0; 

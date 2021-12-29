@@ -215,7 +215,7 @@ m_time(a.m_time),
 m_inner_valid(a.m_inner_valid),
 m_valid(a.m_valid)
 {
-    m_easing = m_easing->clone();
+    m_easing = a.m_easing->clone();
 }
 
 

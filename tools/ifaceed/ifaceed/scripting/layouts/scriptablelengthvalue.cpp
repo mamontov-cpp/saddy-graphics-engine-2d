@@ -83,6 +83,6 @@ void scripting::layouts::ScriptableLengthValue::setUnit(unsigned int v)
     else
     {
         m_scripting->context()->throwError("ScriptableLengthValue::setUnit(): argument is not valid unit");
-        throw new dukpp03::ArgumentException();
+        throw dukpp03::ArgumentException();
     }
 }

@@ -245,7 +245,6 @@ void sad::Sprite3D::render()
         else
         {
             m_was_textured = false;
-            m_was_textured = false;
             if (m_geometry_dirty)
             {
                 m_g.m_untextured_geometry = r->takeUntextured3D();

@@ -199,7 +199,6 @@ void sad::cli::Parser::parse(int argc, const char ** argv)
                 {
                     if (t.Type == sad::cli::TokenType::TT_VALUE)
                     {
-                        state = 2;
                         pushValueForMultipleValuedOption(currentkeyword, t.Data);
                     }
                     else

@@ -64,7 +64,7 @@ void scripting::layouts::ScriptableGrid::setArea(sad::Rect2D new_area) const
     if (!sad::isAABB(new_area))
     {
         m_scripting->context()->throwError("setArea: rectangle is not axis-aligned");
-        throw new dukpp03::ArgumentException();
+        throw dukpp03::ArgumentException();
     }
     sad::layouts::Grid* g = grid(true, "setArea");
     if (g)
@@ -110,7 +110,7 @@ scripting::layouts::ScriptableGridCell* scripting::layouts::ScriptableGrid::cell
             QString errorMessage = "ScriptableGrid.cell: There are no such cell %1, %2 in grid";
             errorMessage = errorMessage.arg(row).arg(column);
             m_scripting->context()->throwError(errorMessage.toStdString());
-            throw new dukpp03::ArgumentException();
+            throw dukpp03::ArgumentException();
         }
         else
         {
@@ -120,7 +120,7 @@ scripting::layouts::ScriptableGridCell* scripting::layouts::ScriptableGrid::cell
     else
     {
         m_scripting->context()->throwError("ScriptableGrid.cell: Attempt to get cell for non-existing grid");
-        throw new dukpp03::ArgumentException();
+        throw dukpp03::ArgumentException();
     }
     return nullptr;
 }
@@ -269,7 +269,7 @@ void scripting::layouts::ScriptableGrid::setRows(int rows) const
     if (rows <= 0)
     {
         m_scripting->context()->throwError("ScriptableGrid.setRows: amount of rows cannot be lesser or equal to 0");
-        throw new dukpp03::ArgumentException();
+        throw dukpp03::ArgumentException();
     }
 
     sad::layouts::Grid* g = grid(true, "setRows");
@@ -295,7 +295,7 @@ void scripting::layouts::ScriptableGrid::setColumns(int columns) const
     if (columns <= 0)
     {
         m_scripting->context()->throwError("ScriptableGrid.setColumns: amount of columns cannot be lesser or equal to 0");
-        throw new dukpp03::ArgumentException();
+        throw dukpp03::ArgumentException();
     }
 
     sad::layouts::Grid* g = grid(true, "setColumns");

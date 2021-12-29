@@ -44,12 +44,12 @@ sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenG
 
 sad::qt::OpenGLWidget::~OpenGLWidget()
 {
-    if (m_renderer->initialized())
-    {
-        m_renderer->deinitRendererAfterLoop();
-    }
     if (m_renderer)
     {
+        if (m_renderer->initialized())
+        {
+            m_renderer->deinitRendererAfterLoop();
+        }
         delete m_renderer;
     }
 }
@@ -107,10 +107,6 @@ void sad::qt::OpenGLWidget::resizeGL(int width, int height)
                 m_renderer->submitEvent(new sad::input::ActivateEvent());
             }
             m_first = false;
-        }
-        else
-        {
-            m_first = true;
         }
     }
     if (m_renderer->initialized())

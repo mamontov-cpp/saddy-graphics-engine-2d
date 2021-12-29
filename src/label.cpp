@@ -277,7 +277,7 @@ void sad::Label::render()
     }
 
     sad::Renderer* renderer = this->renderer();
-    if (!renderer || !font || (m_size < 0))
+    if (!renderer  || (m_size < 0))
     {
         return;
     }
@@ -1338,7 +1338,7 @@ sad::Vector<sad::util::Markup::Command> sad::Label::subString(const sad::Vector<
     {
         int new_last_index = index + row[i].Content.length() - 1;
         if (index < first_index)
-        {			
+        {
             if (new_last_index >= first_index)
             {
                 int string_position_index = first_index - index;

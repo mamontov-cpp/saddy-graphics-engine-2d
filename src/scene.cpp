@@ -240,8 +240,8 @@ void sad::Scene::removeNow(sad::SceneNode * node)
             if (node)
             {
                 node->onRemovedFromScene();
+                node->delRef();
             }
-            node->delRef();
             m_layers.removeAt(i);
             --i;
         }

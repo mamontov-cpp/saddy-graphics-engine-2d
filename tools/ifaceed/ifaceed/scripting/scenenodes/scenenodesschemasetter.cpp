@@ -21,7 +21,7 @@ scripting::scenenodes::SchemaSetter::SchemaSetter(scripting::Scripting* scriptin
         if (obj->metaData()->canBeCastedTo("sad::db::custom::Object") == false)
         {
           s->context()->throwError("First argument is not a custom object");
-          throw new dukpp03::ArgumentException();
+          throw dukpp03::ArgumentException();
         }
     };
     addAction(check_if_custom_object);

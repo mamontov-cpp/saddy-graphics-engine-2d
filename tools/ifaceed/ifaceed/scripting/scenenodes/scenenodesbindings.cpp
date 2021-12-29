@@ -98,7 +98,7 @@ unsigned long long scripting::scenenodes::_addLabel(
     {
         std::string resource_not_found_error = std::string("_addLabel: ") + resource.c_str() + " does not name font resource";
         scripting->context()->throwError(resource_not_found_error);
-        throw new dukpp03::ArgumentException();
+        throw dukpp03::ArgumentException();
         return 0;
     }
 
@@ -147,7 +147,7 @@ unsigned long long scripting::scenenodes::_addSprite2D(
     {
         std::string resource_not_found_error = std::string("_addSprite2D: ") + resource.c_str() + " does not name sprite options resource (sad::Sprite2D::Options type)";
         scripting->context()->throwError(resource_not_found_error);
-        throw new dukpp03::ArgumentException();
+        throw dukpp03::ArgumentException();
         return 0;
     }
 
@@ -155,7 +155,7 @@ unsigned long long scripting::scenenodes::_addSprite2D(
     {
         std::string rectangle_argument_error = "_addSprite2D: passed rectangle must be axis-aligned bounding box";
         scripting->context()->throwError(rectangle_argument_error);
-        throw new dukpp03::ArgumentException();
+        throw dukpp03::ArgumentException();
         return 0;
     }
 
@@ -207,7 +207,7 @@ unsigned long long scripting::scenenodes::_addCustomObject(
     {
         std::string resource_not_found_error = std::string("_addCustomObject: ") + resource.c_str() + " does not name schema resource (sad::db::custom::Schema type)";
         scripting->context()->throwError(resource_not_found_error);
-        throw new dukpp03::ArgumentException();
+        throw dukpp03::ArgumentException();
         return 0;
     }
 
@@ -215,7 +215,7 @@ unsigned long long scripting::scenenodes::_addCustomObject(
     {
         std::string rectangle_argument_error = "_addCustomObject: passed rectangle must be axis-aligned bounding box";
         scripting->context()->throwError(rectangle_argument_error);
-        throw new dukpp03::ArgumentException();
+        throw dukpp03::ArgumentException();
         return 0;
     }
 
