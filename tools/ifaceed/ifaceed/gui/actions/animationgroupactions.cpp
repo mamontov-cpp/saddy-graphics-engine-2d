@@ -303,7 +303,7 @@ void gui::actions::AnimationGroupActions::removeInstance()
     {
         sad::animations::Group* g = blk->lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
 
-        sad::animations::Instance* i = blk->lstAnimationsGroupInGroup->item(row)->data(Qt::UserRole).value<sad::animations::Instance*>();
+        sad::animations::Instance* i = blk->lstAnimationsGroupInGroup->item(irow)->data(Qt::UserRole).value<sad::animations::Instance*>();
 
         history::groups::RemoveInstance* c = new history::groups::RemoveInstance(g, i, irow);
         c->commit(this->m_editor);
