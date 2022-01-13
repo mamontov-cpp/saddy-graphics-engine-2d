@@ -209,7 +209,7 @@ enum class InternalFormat : int
         \param[in] file a file, via which a resource should be loaded
         \param[in] r  a renderer, which resource should be linked to (nullptr if global renderer)
         \param[in] options  an options for loading a resource
-        \return whether loading was successfull
+        \return whether loading was successful
      */
     virtual bool load(
         const sad::resource::ResourceFile & file,
@@ -219,25 +219,31 @@ enum class InternalFormat : int
     /*! Tries to load image from archive entry
         \param[in] e entry entry, containing data
         \param[in] r renderer
-        \return whether load was successfull
+        \return whether load was successful
      */
     bool load(tar7z::Entry* e, sad::Renderer* r = nullptr);
     /*! Loads an image, depending of file extension
         \param[in] filename name of file
         \param[in] r renderer where texture loader is getting from
-        \return whether load was successfull
+        \return whether load was successful
      */
     bool load(const sad::String & filename, sad::Renderer * r = nullptr);
     /*! Loads an image, depending of file extension
         \param[in] filename name of file
         \param[in] r renderer where texture loader is getting from
-        \return whether load was successfull
+        \return whether load was successful
      */
     bool load(const sad::WString & filename, sad::Renderer * r = nullptr);
 #endif
     /*! Binds a texture, making it current in context. Can upload a texture, if needed.
      */
     virtual void bind() override;
+    /*! Sets, whether we should repeat texture on x or y on wrapping (when texture coordinate is greater or lesser then size or 0), immediately setting those parameters in OpenGL.
+     *  Requires context to be created.
+     *  \param[in] repeat_x whether we should repeat in on x coordinate
+     *  \param[in] repeat_y whether we should repeat in on y coordinate
+     */
+    void setRepeat(bool repeat_x, bool repeat_y);
     /*! Unloads a texture from video card memory
      */
     void unload();
@@ -305,7 +311,7 @@ enum class InternalFormat : int
     { 
         return Buffer->buffer(); 
     }
-    /*! Sets a rendererer for texture uploading
+    /*! Sets a renderer for texture uploading
      */
     inline void setRenderer(sad::Renderer * r)
     {
@@ -321,7 +327,7 @@ protected:
     sad::Renderer * m_renderer;
 private:
     /*! Checks for errors in work of OpenGL and converts them into string
-        \return string with error description (nullptr if there wasn't any error)
+        \return string with error description (nullptr if there was no error)
     */
     unsigned char const * getGLError();
 };

@@ -50,7 +50,7 @@ public:
         \param[in] duration a duration time
      */
     virtual double eval(double time, double duration);
-    /*! Computes specified value at time with specified duration (strictly beeasing 0..1)
+    /*! Computes specified value at time with specified duration (strictly between 0..1)
         \param[in] time a time
         \param[in] duration a duration time
      */

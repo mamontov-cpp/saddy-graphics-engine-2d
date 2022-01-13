@@ -507,6 +507,28 @@ void sad::Texture::unload()
 #endif
 }
 
+void sad::Texture::setRepeat(bool repeat_x, bool repeat_y)
+{
+    sad::Renderer* r = this->renderer();
+    if (!r)
+    {
+        return;
+    }
+    this->bind();
+    unsigned char const * gl_error;
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (repeat_x) ? GL_REPEAT : GL_CLAMP);
+    // Call function to know if there was any error and send message to log if error occurred
+    gl_error = getGLError();
+    if (gl_error != nullptr)
+        SL_COND_LOCAL_INTERNAL(gl_error, r)
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (repeat_y) ? GL_REPEAT : GL_CLAMP);
+    // Call function to know if there was any error and send message to log if error occurred
+    gl_error = getGLError();
+    if (gl_error != nullptr)
+        SL_COND_LOCAL_INTERNAL(gl_error, r)
+}
+
 
 void sad::Texture::setAlpha(sad::uchar a) const
 {
