@@ -32,6 +32,7 @@ SOURCES += main.cpp\
     fullsearchpacker/imagegluingorder.cpp \
     fullsearchpacker/imagearranger.cpp \
 	growingbinpacker/growingbinpacker.cpp \
+    horizontalpacker.cpp \
     jsonwriter.cpp \
     writer.cpp \
     xmlwriter.cpp \
@@ -58,6 +59,7 @@ HEADERS  +=  atlas.h \
     fullsearchpacker/imagegluingorder.h \
     fullsearchpacker/imagearranger.h \
     jsonwriter.h \
+    horizontalpacker.h \
     writer.h \
     packer.h \	
     xmlwriter.h \
