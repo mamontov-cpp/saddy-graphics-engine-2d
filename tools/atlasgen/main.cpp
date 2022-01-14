@@ -3,6 +3,7 @@
 #include "jsonreader.h"
 #include "fullsearchpacker/fullsearchpacker.h"
 #include "growingbinpacker/growingbinpacker.h"
+#include "horizontalpacker.h"
 #include "xmlwriter.h"
 #include "jsonwriter.h"
 #include "outputoptions.h"
@@ -407,6 +408,8 @@ int main(int argc, char *argv[])
     bool textures_should_be_unique = true;
     // Whether we need a full search
     bool full_search = false;
+    // Whether we should layout all horizontally
+    bool horizontal_layout = false;
     // Whether we should take options only from first file
     bool take_first = true;
     // Whether next argument is tar archive
@@ -455,6 +458,11 @@ int main(int argc, char *argv[])
         {
             handled = true;
             full_search = true;
+        }
+        if (argument == "-layout-horizontal" || argument == "--layout-horizontal")
+        {
+            handled = true;
+            horizontal_layout = true;
         }
         if (argument == "-h" || argument == "--help")
         {
@@ -510,7 +518,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    if ((program_options["help"].value<bool>() || input_files.size() == 0) 
+    if ((program_options["help"].value<bool>() || input_files.empty()) 
         && program_options["run-tests"].value<bool>() == false)
     {
         if (program_options["help"].value<bool>() == false)
@@ -538,6 +546,8 @@ Options:\n\
 "-do-not-add-pixel, --do-not-add-pixel - disable adding one pixel boundary to textures to avoid rounding errors (default: on)\n"
 "-write-to-tar <filename>, --write-to-tar <filename> - write output to tar files\n"
 "-no-mipmaps, --no-mipmaps - disable building mipmaps when loading texture\n"
+"-layout-horizontal, --layout-horizontal - just layout textures horizontally. Usable for vertical tiling\n"
+"-full-search, --full-search - use full search algorithm instead of growing bin for computing optimal arrangement"
                   );
         }
     } 
@@ -580,7 +590,7 @@ Options:\n\
                 tryReplaceExtension(atlas, opts, "image-sr3g3b2", "sr3g3b2");
 
                 tryPrepareForTarWriting(opts);                
-                if (atlas.textures().size() != 0)
+                if (!atlas.textures().empty())
                 {
                     QImage* image;
                     Packer* packer;
@@ -590,7 +600,14 @@ Options:\n\
                     }
                     else
                     {
-                        packer = new growingbinpacker::GrowingBinPacker();
+                        if (horizontal_layout)
+                        {
+                            packer = new HorizontalPacker();
+                        }
+                        else
+                        {
+                            packer = new growingbinpacker::GrowingBinPacker();
+                        }
                     }
                     packer->setOptions(&program_options);
                     packer->pack(atlas, image);

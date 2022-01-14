@@ -95,7 +95,7 @@ protected:
     GrowingBinPacker();
     /*! Can be inherited
      */
-    virtual ~GrowingBinPacker();
+    virtual ~GrowingBinPacker() override;
     /*! Packs an images to atlas
         \param[in,out] atlas a source atlas
         \param[out] image an image with data of packer

@@ -19,7 +19,7 @@ public:
     FullSearchPacker();
     /*! Can be inherited
      */
-    virtual ~FullSearchPacker();
+    virtual ~FullSearchPacker() override;
     /*! Packs an images to atlas
         \param[in,out] atlas a source atlas
         \param[out] image an image with data of packer
