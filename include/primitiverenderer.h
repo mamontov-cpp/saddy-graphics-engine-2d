@@ -53,6 +53,22 @@ public:
         const sad::AColor & c,
         sad::ShaderFunction* fun = nullptr
     );
+    /*! Renders a circle with specifier color as multiple-segment line. If segment amount less than 3, circle won't be drawn
+     *  \param[in] scene a scene
+     *  \param[in] center a center
+     *  \param[in] radius a radius of circle
+     *  \param[in] c color
+     *  \param[in] segments amount of segment to draw
+     *  \param[in] fun a shading function to apply (nullptr for default)
+     */
+    virtual void circle(
+        sad::Scene* scene,
+        const sad::Point2D& center,
+        double radius,
+        const sad::AColor & c,
+        size_t  segments = 12,
+        sad::ShaderFunction* fun = nullptr
+    );
 };
 
 }

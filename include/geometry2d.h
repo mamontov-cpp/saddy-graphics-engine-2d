@@ -109,7 +109,7 @@ sad::Maybe<double> findAngle(double sina, double cosa);
 bool isValid(const sad::Rect2D & rect);	
 
 /*! Tests, whether rectangle is axis aligned
-    \param[in] rect rctangle
+    \param[in] rect rectangle
     \return whether points is valid
  */
 bool isAABB(const sad::Rect2D& rect);

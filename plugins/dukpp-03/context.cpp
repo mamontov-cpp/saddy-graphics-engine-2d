@@ -791,7 +791,16 @@ void sad::dukpp03::Context::exposeRenderer()
         r->rectangle(s, rc, clr);
     };
     prenderer->addMethod("rectangle", sad::dukpp03::bind_lambda::from(rect));
-
+    std::function<void(sad::PrimitiveRenderer*, sad::Scene*, const sad::Point2D&, double, const sad::AColor& , unsigned int)> circ6 = [](sad::PrimitiveRenderer* r, sad::Scene* s, const sad::Point2D& center, double radius, const sad::AColor& clr, unsigned int segments) -> void {
+        r->circle(s, center, radius, clr, segments);
+    };
+    std::function<void(sad::PrimitiveRenderer*, sad::Scene*, const sad::Point2D&, double, const sad::AColor&)> circ5 = [](sad::PrimitiveRenderer* r, sad::Scene* s, const sad::Point2D& center, double radius, const sad::AColor& clr) -> void {
+        r->circle(s, center, radius, clr);
+    };
+    ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>* circle = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+    circle->add(sad::dukpp03::bind_lambda::from(circ5));
+    circle->add(sad::dukpp03::bind_lambda::from(circ6));
+    prenderer->addMethod("circle", circle);
     this->addClassBinding("sad::PrimitiveRenderer", prenderer);
 
     ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>* makeFPSInterpolationDefault = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();

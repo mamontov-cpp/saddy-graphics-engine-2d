@@ -132,4 +132,68 @@ void sad::PrimitiveRenderer::rectangle(
     }
 }
 
+
+void sad::PrimitiveRenderer::circle(
+    sad::Scene* scene,
+    const sad::Point2D& center,
+    double radius,
+    const sad::AColor & c,
+    size_t  segments,
+    sad::ShaderFunction* fun
+)
+{
+    if (!scene || (segments < 3))
+    {
+        return;
+    }
+    sad::Renderer* r = scene->renderer();
+    if (!r)
+    {
+        r = sad::Renderer::ref();
+    }
+    if (r->context()->isOpenGL3compatible())
+    {
+        sad::ShaderFunction* f = fun;
+        if (!f)
+        {
+            f = r->defaultShaderFunctionWithoutTextures2d();
+        }
+        scene->getCamera()->moveMatricesIntoCameraBuffer();
+        f->apply(scene, &c);
+        sad::os::GLUntexturedGeometry2D* geometry = r->untexturedGeometry2DForPoints(segments);
+        double* points = new double[2 * segments];
+        for (size_t i = 0; i < segments; ++i)
+        {
+            const double angle = 2.0 * M_PI / static_cast<double>(segments * i);
+            points[i * 2] = center.x() + radius * cos(angle);
+            points[i * 2 + 1] = center.y() + radius * sin(angle);
+        }
+        geometry->drawArrays(GL_LINE_LOOP, points);
+        f->disable();
+        delete[] points;
+    }
+    else
+    {
+        glDisable(GL_TEXTURE_2D);
+        GLint   clr[4] = {};
+        glGetIntegerv(GL_CURRENT_COLOR, clr);
+        glColor4ub(c.r(), c.g(), c.b(), 255 - c.a());
+
+        glBegin(GL_LINE_LOOP);
+
+        for (size_t i = 0; i < segments; ++i)
+        {
+            const double angle = 2.0 * M_PI / static_cast<double>(segments * i);
+            const GLfloat x = static_cast<GLfloat>(center.x() + radius * cos(angle));
+            const GLfloat y = static_cast<GLfloat>(center.y() + radius * sin(angle));
+            glVertex2f(x, y);
+        }
+
+        glEnd();
+
+        glColor4iv(clr);
+        glEnable(GL_TEXTURE_2D);
+    }
+}
+
 DECLARE_COMMON_TYPE(sad::PrimitiveRenderer)
