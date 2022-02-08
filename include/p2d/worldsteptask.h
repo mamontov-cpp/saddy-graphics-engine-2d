@@ -32,7 +32,7 @@ public:
     /*! Returns step tick for task
         \return step tick
      */
-    double stepTick();
+    double stepTick() const;
     /*! Decreases reference count for world 
      */
     ~WorldStepTask() override;

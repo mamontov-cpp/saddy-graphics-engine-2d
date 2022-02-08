@@ -2,7 +2,7 @@
 
 
 sad::p2d::WorldStepTask::WorldStepTask(sad::p2d::World * w, sad::Renderer * r)
-: m_world(w), m_renderer(r)
+: m_renderer(r), m_world(w)
 {
     if (w)
     {
@@ -21,24 +21,24 @@ void sad::p2d::WorldStepTask::_process()
     }
 }
 
-double sad::p2d::WorldStepTask::stepTick()
+double sad::p2d::WorldStepTask::stepTick() const
 {
     if (!m_renderer)
     {
         return 1.0 / 60.0;
     }
     // 1.0 is a second, so if 1 frame at 1s, we will step second
-    double fps = m_renderer->fps();
-    double rendertime = 1.0 / fps;
+    const double fps = m_renderer->fps();
+    double render_time = 1.0 / fps;
     // If rendering goes extremely slow, like 5 FPS per sec
-    // everything can broke, So we avoid this, by setting rendertime to
+    // everything can broke, So we avoid this, by setting render time to
     // normal. Also we can't obviously use multiple steps, because
     // it could lead us to spiral of death problem
-    if (rendertime >= 200.0)
+    if (render_time >= 200.0)
     {
-        rendertime = 1.0 / 60.0; 
+        render_time = 1.0 / 60.0;
     }
-    return rendertime;
+    return render_time;
 }
 
 void sad::p2d::WorldStepTask::setWorld(sad::p2d::World * world)

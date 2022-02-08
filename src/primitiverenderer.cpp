@@ -164,7 +164,7 @@ void sad::PrimitiveRenderer::circle(
         double* points = new double[2 * segments];
         for (size_t i = 0; i < segments; ++i)
         {
-            const double angle = 2.0 * M_PI / static_cast<double>(segments * i);
+            const double angle = 2.0 * M_PI / static_cast<double>(segments) * i;
             points[i * 2] = center.x() + radius * cos(angle);
             points[i * 2 + 1] = center.y() + radius * sin(angle);
         }
@@ -183,7 +183,7 @@ void sad::PrimitiveRenderer::circle(
 
         for (size_t i = 0; i < segments; ++i)
         {
-            const double angle = 2.0 * M_PI / static_cast<double>(segments * i);
+            const double angle = 2.0 * M_PI / static_cast<double>(segments) * i;
             const GLfloat x = static_cast<GLfloat>(center.x() + radius * cos(angle));
             const GLfloat y = static_cast<GLfloat>(center.y() + radius * sin(angle));
             glVertex2f(x, y);
