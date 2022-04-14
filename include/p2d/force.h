@@ -81,7 +81,7 @@ public:
     inline Force(const T & v) : m_alive(true), m_value(v) {}
     /*! Forces a container to remove this force
      */
-    inline void die() { m_alive = true; }
+    inline void die() { m_alive = false; }
     /*! Whether force is alive
         \return whether it's alive
      */
