@@ -296,6 +296,9 @@ public:
     /*! Pauses an instance
      */
     virtual void pause() override;
+    /*! Returns whether instance is paused
+     */
+    inline bool isPaused() const { return m_paused;  }
     /*! Resumes an instance
      */
     virtual void resume() override;
