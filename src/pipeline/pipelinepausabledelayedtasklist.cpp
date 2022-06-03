@@ -22,6 +22,11 @@ void sad::pipeline::PausableDelayedTaskList::remove(sad::pipeline::PausableDelay
     m_list.removeAll(task);
 }
 
+void sad::pipeline::PausableDelayedTaskList::clear()
+{
+    m_list.clear();
+}
+
 size_t sad::pipeline::PausableDelayedTaskList::count() const
 {
     return m_list.size();

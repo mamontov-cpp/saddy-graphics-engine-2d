@@ -81,6 +81,9 @@ public:
      *  \param[in] task task
      */
     void remove(sad::pipeline::PausableDelayedTask* task);
+    /*! Clears list
+     */
+    void clear();
     /*! Returns amount of tasks in list
      *  \return amount of tasks in list
      */
