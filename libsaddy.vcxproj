@@ -204,6 +204,8 @@
     <ClCompile Include="src\pausabletimer.cpp" />
     <ClCompile Include="src\periodicalevent.cpp" />
     <ClCompile Include="src\pipeline\pipelinedelayedtask.cpp" />
+    <ClCompile Include="src\pipeline\pipelinepausabledelayedtask.cpp" />
+    <ClCompile Include="src\pipeline\pipelinepausabledelayedtasklist.cpp" />
     <ClCompile Include="src\primitiverenderer.cpp" />
     <ClCompile Include="src\refcountable.cpp" />
     <ClCompile Include="src\renderer.cpp" />
@@ -442,6 +444,8 @@
     <ClInclude Include="include\pausabletimer.h" />
     <ClInclude Include="include\periodicalevent.h" />
     <ClInclude Include="include\pipeline\pipelinedelayedtask.h" />
+    <ClInclude Include="include\pipeline\pipelinepausabledelayedtask.h" />
+    <ClInclude Include="include\pipeline\pipelinepausabledelayedtasklist.h" />
     <ClInclude Include="include\primitiverenderer.h" />
     <ClInclude Include="include\refcountable.h" />
     <ClInclude Include="include\renderer.h" />

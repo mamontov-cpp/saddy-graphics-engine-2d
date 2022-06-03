@@ -22,7 +22,10 @@ void sad::pipeline::DelayedTask::_process()
         m_timer.stop();
         if (m_timer.elapsed() >= m_interval)
         {
-            m_delegate->call();
+            if (m_delegate)
+            {
+                m_delegate->call();
+            }
             m_performed = true;
         }
     }

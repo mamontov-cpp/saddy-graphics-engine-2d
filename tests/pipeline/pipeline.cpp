@@ -2,7 +2,9 @@
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
 #include <cstdio>
+#include "sadsleep.h"
 #include "pipeline/pipeline.h"
+#include "pipeline/pipelinepausabledelayedtasklist.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
@@ -51,7 +53,8 @@ struct SadPipelineTest : tpunit::TestFixture
        TEST(SadPipelineTest::testSystemCallbacks),
        TEST(SadPipelineTest::testUserCallbacks),
        TEST(SadPipelineTest::testRemoval),
-       TEST(SadPipelineTest::testAppendAtRuntime)
+       TEST(SadPipelineTest::testAppendAtRuntime),
+       TEST(SadPipelineTest::testPausableDelayed)
    ) {}
 
 
@@ -174,6 +177,22 @@ struct SadPipelineTest : tpunit::TestFixture
        p.appendProcess(::trigger_and_add);
        p.run();
        ASSERT_TRUE(_triggered_count == 2);
+   }
+
+
+   // ReSharper disable once CppMemberFunctionMayBeStatic
+   void testPausableDelayed()
+   {
+       sad::pipeline::PausableDelayedTaskList list;
+       _triggered_count = 0;
+       sad::pipeline::AbstractTask* task = list.makeTask(::trigger, 600);
+       task->process();
+       ASSERT_TRUE(list.count() == 1)
+       ASSERT_TRUE(_triggered_count == 0)
+       sad::sleep(800);
+       task->process();
+       ASSERT_TRUE(list.count() == 0)
+       ASSERT_TRUE(_triggered_count == 1)
    }
 
 } _sad_controls_test;
