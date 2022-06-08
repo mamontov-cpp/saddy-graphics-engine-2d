@@ -52,6 +52,9 @@ protected:
     /*! Whether timer is running
      */
     bool m_running;
+    /*! True if user called start at least once
+     */
+    bool m_has_called_start;
     /*! A local elapsed time, used for pause
      */
     double m_elapsed;

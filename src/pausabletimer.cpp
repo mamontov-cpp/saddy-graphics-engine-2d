@@ -1,25 +1,27 @@
 #include "pausabletimer.h"
 
 sad::PausableTimer::PausableTimer() 
-: m_running(false), m_elapsed(0)
+: m_running(false), m_has_called_start(false), m_elapsed(0)
 {
 
 }
 
-sad::PausableTimer::~PausableTimer() 
-{
-
-}
+sad::PausableTimer::~PausableTimer() = default;
 
 void sad::PausableTimer::start()
 {
     m_elapsed = 0;
     m_timer.start();
+    m_has_called_start = true;
     m_running = true;
 }
 
 void sad::PausableTimer::stop()
 {
+    if (!m_has_called_start)
+    {
+        start();
+    }
     m_timer.stop();
     m_running = false;
 }
@@ -27,6 +29,10 @@ void sad::PausableTimer::stop()
 
 void sad::PausableTimer::pause()
 {
+    if (!m_has_called_start)
+    {
+        start();
+    }
     m_timer.stop();
     m_elapsed += m_timer.elapsed();
     m_running = false;

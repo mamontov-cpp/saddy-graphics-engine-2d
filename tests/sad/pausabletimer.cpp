@@ -10,7 +10,7 @@
 
 
 /*!
- * Tests semaphore logic
+ * Tests pausable timer logic
  */
 struct SadPausableTimer : tpunit::TestFixture
 {
