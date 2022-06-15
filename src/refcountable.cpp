@@ -17,9 +17,17 @@ void sad::RefCountable::delRef()
         delete this; 
 }
 
+void sad::RefCountable::delRefInstance(sad::RefCountable* rc)
+{
+    if (rc)
+    {
+        rc->delRef();
+    }
+}
+
 int sad::RefCountable::refsCount() const
 {
     return m_references;
 }
 
-sad::RefCountable::~RefCountable() {}
+sad::RefCountable::~RefCountable() = default;

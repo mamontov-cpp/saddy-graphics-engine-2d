@@ -186,6 +186,7 @@
     <ClCompile Include="object.cpp" />
     <ClCompile Include="pausabletimer.cpp" />
     <ClCompile Include="picojson.cpp" />
+    <ClCompile Include="refcountable.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="sadhash.cpp" />
     <ClCompile Include="sadmutex.cpp" />
