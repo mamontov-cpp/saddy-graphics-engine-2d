@@ -1760,5 +1760,8 @@
     <ClInclude Include="include\pipeline\pipelinepausabledelayedtask.h">
       <Filter>Заголовочные файлы\pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="include\arcuptr.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

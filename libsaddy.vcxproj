@@ -388,6 +388,7 @@
     <ClInclude Include="include\animations\animationssimplemovement.h" />
     <ClInclude Include="include\animations\easing\easingfunction.h" />
     <ClInclude Include="include\animations\easing\easingtypes.h" />
+    <ClInclude Include="include\arcuptr.h" />
     <ClInclude Include="include\bindable.h" />
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\classmetadata.h" />
