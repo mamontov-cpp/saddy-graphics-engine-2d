@@ -104,7 +104,7 @@ m_gl_sprite_geometry_storages(nullptr)
     sad::resource::Tree * defaulttree = new sad::resource::Tree(this);
     defaulttree->addRef();
     m_resource_trees.insert("", defaulttree);
-    
+
     // Add stopping a main loop to quite events of controls to make window close
     // when user closes a window
     m_controls->add(*(sad::input::EventType::ET_Quit), m_main_loop, &sad::MainLoop::stop);
@@ -113,7 +113,74 @@ m_gl_sprite_geometry_storages(nullptr)
     m_gl_sprite_geometry_storages->setRenderer(this);
 
     // Set context thread
-    m_context_thread = reinterpret_cast<void*>(sad::os::current_thread_id()); 
+    m_context_thread = reinterpret_cast<void*>(sad::os::current_thread_id());
+    // Init pipeline to make sure, that user can add actions after rendering step, before 
+    // renderer started
+    this->Renderer::initPipeline();
+}
+
+
+void sad::Renderer::reset()
+{
+    freeCurrentState();
+
+    m_window = new sad::Window();
+    m_context = new sad::GLContext();
+    m_log = new sad::log::Log();
+    m_cursor = new sad::MouseCursor();
+    m_opengl = new sad::OpenGL();
+    m_main_loop = new sad::MainLoop();
+    m_fps_interpolation = new sad::FPSInterpolation();
+    m_primitive_renderer = new sad::PrimitiveRenderer();
+    m_controls = new sad::input::Controls();
+    m_animations = new sad::animations::Animations();
+    m_pipeline = new sad::pipeline::Pipeline();
+    m_added_system_pipeline_tasks = false;
+    m_default_textures_shader_3d = nullptr;
+    m_default_texture_shader_function_3d = nullptr;
+    m_default_no_textures_shader_3d = nullptr;
+    m_default_no_textures_shader_function_3d = nullptr;
+    m_default_textures_shader_2d = nullptr;
+    m_default_texture_shader_function_2d = nullptr;
+    m_default_no_textures_shader_2d = nullptr;
+    m_default_no_textures_shader_function_2d = nullptr;
+    m_default_font_shader = nullptr;
+    m_default_font_shader_function = nullptr;
+    m_default_font_line_shader = nullptr;
+    m_default_font_line_shader_function = nullptr;
+    m_gl_sprite_geometry_storages = nullptr;
+
+    m_window->setRenderer(this);
+    m_cursor->setRenderer(this);
+    m_cursor->addRef();
+    m_opengl->setRenderer(this);
+    m_main_loop->setRenderer(this);
+
+    m_camera_buffer = new sad::os::UBO(this, 32 * sizeof(GLfloat));
+
+    setTextureLoader("BMP", new sad::imageformats::BMPLoader());
+    setTextureLoader("TGA", new sad::imageformats::TGALoader());
+    setTextureLoader("PNG", new sad::imageformats::PNGLoader());
+    setTextureLoader("SRGBA", new sad::imageformats::SRGBALoader());
+    setTextureLoader("SR5G6B5", new sad::imageformats::PixelStorageLoader(sad::imageformats::PixelStorageLoader::SR5G6B5Settings));
+    setTextureLoader("SR4G4B4A4", new sad::imageformats::PixelStorageLoader(sad::imageformats::PixelStorageLoader::SR4G4B4A4Settings));
+    setTextureLoader("SR3G3B2", new sad::imageformats::PixelStorageLoader(sad::imageformats::PixelStorageLoader::SR3G3B2Settings));
+
+
+
+    sad::resource::Tree * defaulttree = new sad::resource::Tree(this);
+    defaulttree->addRef();
+    m_resource_trees.insert("", defaulttree);
+
+    // Add stopping a main loop to quite events of controls to make window close
+    // when user closes a window
+    m_controls->add(*(sad::input::EventType::ET_Quit), m_main_loop, &sad::MainLoop::stop);
+
+    m_gl_sprite_geometry_storages = new sad::os::GLSpriteGeometryStorages();
+    m_gl_sprite_geometry_storages->setRenderer(this);
+
+    // Set context thread
+    m_context_thread = reinterpret_cast<void*>(sad::os::current_thread_id());
     // Init pipeline to make sure, that user can add actions after rendering step, before 
     // renderer started
     this->Renderer::initPipeline();
@@ -139,66 +206,7 @@ inline void destroy_shader_if_not_nullptr(sad::Shader* shader)
 
 sad::Renderer::~Renderer(void)
 {
-    // Force clearing of scenes, so resource links should be preserved
-    for(size_t i = 0; i < m_scenes.size(); i++)
-    {
-        m_scenes[i]->clear();
-    }
-
-    delete m_animations;
-    delete m_primitive_renderer;
-    delete m_camera_buffer;
-    m_cursor->delRef();
-
-    // Force freeing resources, to make sure, that pointer to context will be valid, when resource
-    // starting to be freed.
-    for(sad::Hash<sad::String, sad::resource::Tree*>::iterator it = m_resource_trees.begin();
-        it != m_resource_trees.end();
-        ++it)
-    {
-        it.value()->delRef();
-    }
-    m_resource_trees.clear();
-
-
-    del_ref_if_not_nullptr(m_default_texture_shader_function_3d);
-    del_ref_if_not_nullptr(m_default_no_textures_shader_function_3d);
-    del_ref_if_not_nullptr(m_default_textures_shader_3d);
-    del_ref_if_not_nullptr(m_default_no_textures_shader_3d);
-
-    del_ref_if_not_nullptr(m_default_texture_shader_function_2d);
-    del_ref_if_not_nullptr(m_default_no_textures_shader_function_2d);
-    del_ref_if_not_nullptr(m_default_textures_shader_2d);
-    del_ref_if_not_nullptr(m_default_no_textures_shader_2d);
-
-    del_ref_if_not_nullptr(m_default_font_shader_function);
-    del_ref_if_not_nullptr(m_default_font_shader);
-
-    del_ref_if_not_nullptr(m_default_font_line_shader);
-    del_ref_if_not_nullptr(m_default_font_line_shader_function);
-
-
-    delete m_pipeline;
-    delete m_controls;
-    delete m_window;
-    delete m_context;
-    delete m_opengl;
-    delete m_main_loop;
-    delete m_fps_interpolation; 
-    delete m_log;
-    
-    for(sad::Hash<sad::String, sad::db::Database*>::iterator it = m_databases.begin();
-        it != m_databases.end();
-        ++it)
-    {
-        it.value()->delRef();
-    }
-
-    sad::util::free_values(m_sizes_to_textured_geometry_3d);
-    sad::util::free_values(m_sizes_to_textured_geometry_2d);
-    sad::util::free_values(m_sizes_to_untextured_geometry_3d);
-    sad::util::free_values(m_sizes_to_untextured_geometry_2d);
-    delete m_gl_sprite_geometry_storages;
+    freeCurrentState();
 }
 
 void sad::Renderer::setScene(Scene * scene)
@@ -1553,6 +1561,72 @@ void sad::Renderer::tryInitShaders()
 
         m_shader_init_mutex.unlock();
     }
+}
+
+void sad::Renderer::freeCurrentState()
+{
+    // Force clearing of scenes, so resource links should be preserved
+    for (size_t i = 0; i < m_scenes.size(); i++)
+    {
+        m_scenes[i]->clear();
+    }
+
+    delete m_animations;
+    delete m_primitive_renderer;
+    delete m_camera_buffer;
+    m_cursor->delRef();
+
+    // Force freeing resources, to make sure, that pointer to context will be valid, when resource
+    // starting to be freed.
+    for (sad::Hash<sad::String, sad::resource::Tree*>::iterator it = m_resource_trees.begin();
+        it != m_resource_trees.end();
+        ++it)
+    {
+        it.value()->delRef();
+    }
+    m_resource_trees.clear();
+
+
+    del_ref_if_not_nullptr(m_default_texture_shader_function_3d);
+    del_ref_if_not_nullptr(m_default_no_textures_shader_function_3d);
+    del_ref_if_not_nullptr(m_default_textures_shader_3d);
+    del_ref_if_not_nullptr(m_default_no_textures_shader_3d);
+
+    del_ref_if_not_nullptr(m_default_texture_shader_function_2d);
+    del_ref_if_not_nullptr(m_default_no_textures_shader_function_2d);
+    del_ref_if_not_nullptr(m_default_textures_shader_2d);
+    del_ref_if_not_nullptr(m_default_no_textures_shader_2d);
+
+    del_ref_if_not_nullptr(m_default_font_shader_function);
+    del_ref_if_not_nullptr(m_default_font_shader);
+
+    del_ref_if_not_nullptr(m_default_font_line_shader);
+    del_ref_if_not_nullptr(m_default_font_line_shader_function);
+
+
+    delete m_pipeline;
+    delete m_controls;
+    delete m_window;
+    delete m_context;
+    delete m_opengl;
+    delete m_main_loop;
+    delete m_fps_interpolation;
+    delete m_log;
+
+    for (sad::Hash<sad::String, sad::db::Database*>::iterator it = m_databases.begin();
+        it != m_databases.end();
+        ++it)
+    {
+        it.value()->delRef();
+    }
+    m_databases.clear();
+    m_gl_font_geometries.clear();
+
+    sad::util::free_values(m_sizes_to_textured_geometry_3d);
+    sad::util::free_values(m_sizes_to_textured_geometry_2d);
+    sad::util::free_values(m_sizes_to_untextured_geometry_3d);
+    sad::util::free_values(m_sizes_to_untextured_geometry_2d);
+    delete m_gl_sprite_geometry_storages;
 }
 
 

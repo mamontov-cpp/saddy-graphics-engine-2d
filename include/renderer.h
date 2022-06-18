@@ -106,6 +106,9 @@ public:
     /*! Frees system resources from a renderer, when destroyed 
      */
     virtual ~Renderer();
+    /*! Resets all inner implementation data,  as it was recreated
+     */
+    void reset();
     /*! Sets a current scene, clearing scene container and adding a new scene. 
         Use this function to set a scene. Note that the pointer can not be null.
         If you want to clear scene, use sad::Scene::clear instead
@@ -748,6 +751,9 @@ protected:
     /*! Tries to init shaders for rendering
      */
     void tryInitShaders();
+    /*!  Frees current state of renderer to make it possible to restart
+     */
+    void freeCurrentState();
 };
 
 }
