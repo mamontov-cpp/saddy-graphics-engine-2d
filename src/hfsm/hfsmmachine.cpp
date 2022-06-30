@@ -18,20 +18,20 @@ sad::hfsm::Machine::~Machine()
 
 void sad::hfsm::Machine::enterState(const sad::String & state)
 {
-    sad::String trimmedstate = state;
-    trimmedstate.trimSpaces();
+    sad::String trimmed_state = state;
+    trimmed_state.trimSpaces();
 
-    sad::hfsm::State * previousstate  = this->state(m_current_state);
-    sad::hfsm::State * currentstate   = this->state(trimmedstate);
-    if (trimmedstate == m_current_state || currentstate == nullptr)
+    sad::hfsm::State * previous_state  = this->state(m_current_state);
+    sad::hfsm::State * current_state   = this->state(trimmed_state);
+    if (trimmed_state == m_current_state || current_state == nullptr)
         return;
     
     m_previous_state = m_current_state;
-    m_current_state = state;
+    m_current_state = trimmed_state;
     
-    previousstate->leave();
-    m_transitions->invoke(m_previous_state, state);
-    currentstate->enter();
+    previous_state->leave();
+    m_transitions->invoke(m_previous_state, trimmed_state);
+    current_state->enter();
 }
 
 sad::hfsm::State * sad::hfsm::Machine::state(const sad::String & s)

@@ -42,7 +42,8 @@ struct SadHFSMTest : tpunit::TestFixture
    SadHFSMTest() : tpunit::TestFixture(
        TEST(SadHFSMTest::testCallbacks),
        TEST(SadHFSMTest::testRemove),
-       TEST(SadHFSMTest::testHierarchical)
+       TEST(SadHFSMTest::testHierarchical),
+       TEST(SadHFSMTest::testEnterPrevious)
    ) {}
 
 
@@ -146,5 +147,17 @@ struct SadHFSMTest : tpunit::TestFixture
 
        ASSERT_TRUE(_triggered_count == 4);
    }
+
+    void testEnterPrevious()
+    {
+        sad::hfsm::Machine m;
+        m.addState("1", new sad::hfsm::State(), true);
+        m.addState("2", new sad::hfsm::State(), true);
+
+        m.enterState("1");
+        m.enterState("2");
+        m.enterState(m.previousState());
+        ASSERT_TRUE(m.isInState("1"));
+    }
 
 } _sad_hfsm_machine_test;
