@@ -2,7 +2,7 @@
 #include <fuzzyequal.h>
 
 #define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 
 double sad::p2d::modulo(const sad::p2d::Vector & v)
 {

@@ -27,7 +27,7 @@
 #endif
 
 #ifndef PUGIXML_NO_XPATH
-#	include <math.h>
+#	include <cmath>
 #	include <float.h>
 #	ifdef PUGIXML_NO_EXCEPTIONS
 #		include <setjmp.h>

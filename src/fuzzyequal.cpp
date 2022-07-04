@@ -1,6 +1,6 @@
 #include <fuzzyequal.h>
 
-#include <math.h>
+#include <cmath>
 
 bool sad::is_fuzzy_equal(double x1, double x2, double precision)
 {

@@ -12,8 +12,15 @@
     #define _USE_MATH_DEFINES
 #endif
 #include <cmath>
+#ifdef _MSC_VER
+    #ifndef M_PI
+        #include <corecrt_math_defines.h>
+    #endif
+#endif
 #ifndef M_PI
-    #define M_PI (3.14159265358979323846)
+    #ifndef _MATH_DEFINES_DEFINED
+        #define M_PI (3.14159265358979323846)
+    #endif
 #endif
 
 namespace sad

@@ -8,7 +8,7 @@
 
 #include <fuzzyequal.h>
 
-#include <math.h>
+#include <cmath>
 #include <fstream>
 #include "sadmutex.h"
 

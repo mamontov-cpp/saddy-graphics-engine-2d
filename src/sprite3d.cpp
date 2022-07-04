@@ -8,8 +8,6 @@
 #include <os/gltexturedgeometry3d.h>
 #include <os/gluntexturedgeometry3d.h>
 
-#include <math.h>
-
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
 #include "db/save.h"

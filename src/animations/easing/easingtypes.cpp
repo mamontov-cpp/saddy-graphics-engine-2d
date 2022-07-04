@@ -1,6 +1,6 @@
 #include "animations/easing/easingtypes.h"
 #define _USE_MATH_DEFINES 1
-#include <math.h>
+#include <cmath>
 
 #define PI_OVER_2 M_PI_2
 #define TWO_PI (M_PI * 2.0)

@@ -1,5 +1,5 @@
 #include "sadluvcolor.h"
-#include <math.h>
+#include <cmath>
 
 
 sad::LUVColor::LUVColor(const sad::Color & c)
