@@ -14,7 +14,7 @@
 
 #include <resource/resourcefile.h>
 
-#define TAR7Z_SADDY
+#define TAR7Z_SADDY  // NOLINT(clang-diagnostic-unused-macros)
 
 #include <3rdparty/tar7z/include/archive.h>
 
@@ -26,27 +26,28 @@
 
 // ================================ sad::Texture::Buffer implementation ================================
 
-sad::Texture::Buffer::~Buffer()
-{
+sad::Texture::Buffer::~Buffer() = default;
 
+void sad::Texture::Buffer::free()
+{
+    
 }
 
 // ================================ sad::Texture::DefaultBuffer implementation ================================
 
-sad::Texture::DefaultBuffer::DefaultBuffer()
-{
-    
-}
+sad::Texture::DefaultBuffer::DefaultBuffer() = default;
 
 sad::uchar* sad::Texture::DefaultBuffer::buffer() const
 {
     return Data.data();
 }
 
-sad::Texture::DefaultBuffer::~DefaultBuffer()
+void sad::Texture::DefaultBuffer::free()
 {
-    
+    Data.clear();
 }
+
+sad::Texture::DefaultBuffer::~DefaultBuffer() = default;
 
 
 // ================================ sad::Texture::PointerBuffer implementation ================================
@@ -59,6 +60,14 @@ sad::Texture::PointerBuffer::PointerBuffer(sad::uchar* p) : Data(p)
 sad::uchar* sad::Texture::PointerBuffer::buffer() const
 {
     return Data;
+}
+
+/*! Frees buffer data, invalidating it
+ */
+void sad::Texture::PointerBuffer::free()
+{
+    delete Data;
+    Data = nullptr;
 }
 
 sad::Texture::PointerBuffer::~PointerBuffer()
@@ -82,27 +91,18 @@ sad::uchar* sad::Texture::Tar7zArchiveBuffer::buffer() const
     return reinterpret_cast<unsigned char*>(const_cast<char *>(&(Archive->Contents[Offset])));
 }
 
-sad::Texture::Tar7zArchiveBuffer::~Tar7zArchiveBuffer()
-{
-    
-}
+sad::Texture::Tar7zArchiveBuffer::~Tar7zArchiveBuffer() = default;
 
 // ================================ sad::Texture::DefaultImageBuffer implementation ================================
 
-sad::Texture::DefaultImageBuffer::DefaultImageBuffer()
-{
-    
-}
+sad::Texture::DefaultImageBuffer::DefaultImageBuffer() = default;
 
 sad::uchar* sad::Texture::DefaultImageBuffer::buffer() const
 {
     return const_cast<sad::uchar*>(sad::util::DefaultImage::Data);
 }
 
-sad::Texture::DefaultImageBuffer::~DefaultImageBuffer()
-{
-    
-}
+sad::Texture::DefaultImageBuffer::~DefaultImageBuffer() = default;
 
 // ==================================== sad::Texture implementation ====================================
 #ifndef TEXTURE_LOADER_TEST
@@ -345,6 +345,16 @@ void sad::Texture::upload()
     if (res)
     {
         SL_COND_LOCAL_INTERNAL(gluErrorString(res), r);
+    }
+    else
+    {
+        if (m_renderer)
+        {
+            if (m_renderer->shouldFreeTextureBuffersAfterUpload())
+            {
+                Buffer->free();
+            }
+        }
     }
 #endif
 }

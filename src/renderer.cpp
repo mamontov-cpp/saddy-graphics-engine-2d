@@ -78,7 +78,8 @@ m_default_font_shader(nullptr),
 m_default_font_shader_function(nullptr),
 m_default_font_line_shader(nullptr),
 m_default_font_line_shader_function(nullptr),
-m_gl_sprite_geometry_storages(nullptr)
+m_gl_sprite_geometry_storages(nullptr),
+m_free_texture_buffer_after_upload(false)
 {
 #ifdef X11
     SafeXInitThreads();
@@ -149,6 +150,7 @@ void sad::Renderer::reset()
     m_default_font_line_shader = nullptr;
     m_default_font_line_shader_function = nullptr;
     m_gl_sprite_geometry_storages = nullptr;
+    m_free_texture_buffer_after_upload = false;
 
     m_window->setRenderer(this);
     m_cursor->setRenderer(this);
@@ -1078,6 +1080,16 @@ void sad::Renderer::removeFontGeometries(sad::os::GLFontGeometries* g)
     {
         g->unload();
     }
+}
+
+void sad::Renderer::setShouldFreeTextureBuffersAfterUpload(bool new_value)
+{
+    m_free_texture_buffer_after_upload = new_value;
+}
+
+bool sad::Renderer::shouldFreeTextureBuffersAfterUpload() const
+{
+    return m_free_texture_buffer_after_upload;
 }
 
 // ============================================================ PROTECTED METHODS ============================================================

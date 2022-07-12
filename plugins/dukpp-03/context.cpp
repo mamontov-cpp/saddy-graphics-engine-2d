@@ -710,6 +710,8 @@ void sad::dukpp03::Context::exposeRenderer()
     c->addMethod("globalTranslationOffset", sad::dukpp03::bind_method::from(&sad::Renderer::globalTranslationOffset));
     c->addMethod("setGlobalTranslationOffset", sad::dukpp03::bind_method::from(&sad::Renderer::setGlobalTranslationOffset));
     c->addMethod("setScene", sad::dukpp03::bind_method::from(&sad::Renderer::setScene));
+    c->addMethod("setShouldFreeTextureBuffersAfterUpload", sad::dukpp03::bind_method::from(&sad::Renderer::setShouldFreeTextureBuffersAfterUpload));
+    c->addMethod("shouldFreeTextureBuffersAfterUpload", sad::dukpp03::bind_method::from(&sad::Renderer::shouldFreeTextureBuffersAfterUpload));
 
     c->setPrototypeFunction("sad.Renderer");
 
@@ -777,6 +779,8 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("globalTranslationOffset", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::globalTranslationOffset));
     cext->addMethod("setGlobalTranslationOffset", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setGlobalTranslationOffset));
     cext->addMethod("setScene", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setScene));
+    cext->addMethod("setShouldFreeTextureBuffersAfterUpload", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setShouldFreeTextureBuffersAfterUpload));
+    cext->addMethod("shouldFreeTextureBuffersAfterUpload", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::shouldFreeTextureBuffersAfterUpload));
 
     cext->setPrototypeFunction("sad.Renderer");
 

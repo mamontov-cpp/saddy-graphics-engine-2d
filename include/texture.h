@@ -50,6 +50,9 @@ public:
         \return buffer
      */ 
     virtual sad::uchar* buffer() const = 0;
+    /*! Frees buffer data, invalidating it if can
+     */
+    virtual void free();
     /*! A destructor for buffer
      */ 
     virtual ~Buffer();
@@ -66,6 +69,9 @@ public:
         \return buffer
      */ 
     virtual sad::uchar* buffer() const override;
+    /*! Frees buffer data, invalidating it
+     */
+    virtual void free() override;
     /*! A destructor for buffer
      */ 
     virtual ~DefaultBuffer() override;
@@ -86,6 +92,9 @@ public:
         \return buffer
      */
     virtual sad::uchar* buffer() const override;
+    /*! Frees buffer data, invalidating it
+     */
+    virtual void free() override;
     /*! A destructor for buffer
      */
     virtual ~PointerBuffer() override;

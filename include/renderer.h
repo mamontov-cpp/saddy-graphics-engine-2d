@@ -105,7 +105,7 @@ public:
     Renderer();
     /*! Frees system resources from a renderer, when destroyed 
      */
-    virtual ~Renderer();
+    virtual ~Renderer() override;
     /*! Resets all inner implementation data,  as it was recreated
      */
     void reset();
@@ -540,6 +540,14 @@ public:
         \param[in] g geometries
      */
     void removeFontGeometries(sad::os::GLFontGeometries* g);
+    /*! Sets, whether we should free texture buffers after upload
+     *  \param[in] new_value a new value for flag
+     */
+    void setShouldFreeTextureBuffersAfterUpload(bool new_value);
+    /*! Returns whether we should free texture buffers after upload
+     *  \return flag value
+     */
+    bool shouldFreeTextureBuffersAfterUpload() const;
 protected:
     /*! A global instance for renderer, to make it local creation is
         procedures unnecessary. It's not a singleton, but can
@@ -670,7 +678,7 @@ protected:
     /*! A default shader font line function
      */
     sad::FontShaderFunction* m_default_font_line_shader_function;
-    /*! Sprite geometry storages
+    /*! Sprite geometry 
      */
     sad::os::GLSpriteGeometryStorages* m_gl_sprite_geometry_storages;
     /*! Font geometries to cleanup it
@@ -684,6 +692,9 @@ protected:
     /*! Camera buffer object
      */
     sad::os::UBO* m_camera_buffer;
+    /*! Whether we should free texture buffer after upload
+     */
+    bool m_free_texture_buffer_after_upload;
 
     /*! Copying a renderer, due to held system resources is disabled
         \param[in] o other renderer
@@ -694,7 +705,7 @@ protected:
         \return self-reference
     */
     Renderer& operator=(const Renderer& o);
-    /*! Initializes window and context. Do not call this functions, unless you want to run renderer's loop manualy,
+    /*! Initializes window and context. Do not call this functions, unless you want to run renderer's loop manually,
         via runOnce()
         \return true in case everything is ok, otherwise false
     */
