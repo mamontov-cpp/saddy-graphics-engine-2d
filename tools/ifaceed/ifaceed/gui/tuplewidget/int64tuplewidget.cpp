@@ -38,7 +38,7 @@ gui::tuplewidget::Int64TupleWidget::Int64TupleWidget(QWidget* parent) : QTableWi
     this->setCellWidget(1, 1, m_second);
 
     QObject::connect(m_first, SIGNAL(valueChanged(qlonglong)), this, SLOT(firstChanged(qlonglong)));
-    QObject::connect(m_first, SIGNAL(valueChanged(qlonglong)), this, SLOT(secondChanged(qlonglong)));
+    QObject::connect(m_second, SIGNAL(valueChanged(qlonglong)), this, SLOT(secondChanged(qlonglong)));
 }
 
 gui::tuplewidget::Int64TupleWidget::~Int64TupleWidget()

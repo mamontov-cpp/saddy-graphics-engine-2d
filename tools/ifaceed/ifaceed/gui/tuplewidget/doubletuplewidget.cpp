@@ -38,7 +38,7 @@ gui::tuplewidget::DoubleTupleWidget::DoubleTupleWidget(QWidget* parent) : QTable
     this->setCellWidget(1, 1, m_second);
 
     QObject::connect(m_first, SIGNAL(valueChanged(double)), this, SLOT(firstChanged(double)));
-    QObject::connect(m_first, SIGNAL(valueChanged(double)), this, SLOT(secondChanged(double)));
+    QObject::connect(m_second, SIGNAL(valueChanged(double)), this, SLOT(secondChanged(double)));
 }
 
 gui::tuplewidget::DoubleTupleWidget::~DoubleTupleWidget()
