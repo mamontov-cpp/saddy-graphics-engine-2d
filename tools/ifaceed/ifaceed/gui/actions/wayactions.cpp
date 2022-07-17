@@ -504,7 +504,7 @@ void gui::actions::WayActions::viewPoint(int i)
     sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
     if (w)
     {
-        if (i >= 0 && i <= w->wayPoints().count())
+        if (i >= 0 && i < w->wayPoints().count())
         {
             sad::Point2D p = w->wayPoints()[i];
             invoke_blocked(blk->dsbWayPointX, &QDoubleSpinBox::setValue, p.x());
