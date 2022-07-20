@@ -59,9 +59,9 @@ void gui::table::LongDelegate::makeEditor()
 {
     long value = this->currentValue<long>();
     QwwLongSpinBox * d = new QwwLongSpinBox();
-    d->setValue(value);
     d->setMinimum(LONG_MIN);
     d->setMaximum(LONG_MAX);
+    d->setValue(value);
     m_my_widget = d;
     this->insertToTable();
     QObject::connect(d, SIGNAL(valueChanged(qlonglong)), this, SLOT(widgetChanged(qlonglong)));	

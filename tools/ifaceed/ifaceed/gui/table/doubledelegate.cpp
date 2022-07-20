@@ -55,9 +55,9 @@ void gui::table::DoubleDelegate::makeEditor()
 {
     double value = this->currentValue<double>();
     QDoubleSpinBox * d = new QDoubleSpinBox();
-    d->setValue(value);
     d->setMinimum(-1.0E+6);
     d->setMaximum(1.0E+6);
+    d->setValue(value);
     m_my_widget = d;
     this->insertToTable();
     QObject::connect(d, SIGNAL(valueChanged(double)), this, SLOT(widgetChanged(double)));	

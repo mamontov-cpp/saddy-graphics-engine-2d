@@ -56,9 +56,9 @@ void gui::table::ShortDelegate::makeEditor()
 {
     short value = this->currentValue<short>();
     QSpinBox * d = new QSpinBox();
-    d->setValue((int)(value));
     d->setMinimum(SHRT_MIN);
     d->setMaximum(SHRT_MAX);
+    d->setValue((int)(value));
     m_my_widget = d;
     this->insertToTable();
     QObject::connect(d, SIGNAL(valueChanged(int)), this, SLOT(widgetChanged(int)));	
