@@ -512,6 +512,41 @@ void sad::db::custom::Object::onRemovedFromScene()
     m_label->onRemovedFromScene();
 }
 
+void sad::db::custom::Object::setTexture(sad::Texture* tex) const
+{
+    if (m_sprite2d)
+    {
+        m_sprite2d->setTexture(tex);
+    }
+}
+
+sad::Texture* sad::db::custom::Object::texture() const
+{
+    if (m_sprite2d)
+    {
+        return m_sprite2d->texture();
+    }
+    return nullptr;
+}
+
+void sad::db::custom::Object::setTextureName(const sad::String& name) const
+{
+    if (m_sprite2d)
+    {
+        m_sprite2d->setTexureName(name);
+    }
+}
+
+sad::String sad::db::custom::Object::textureName() const
+{
+    if (m_sprite2d)
+    {
+        return m_sprite2d->textureName();
+    }
+    return sad::String();
+}
+
+
 bool sad::db::custom::Object::load(const picojson::value& v)
 {
     m_sprite2d->toggleLoadingMode(true);

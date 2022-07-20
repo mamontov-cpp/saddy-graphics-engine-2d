@@ -343,6 +343,22 @@ public:
     /*! Called, when removed from scene 
      */
     virtual void onRemovedFromScene() override;
+    /*! Sets texture for object
+     *  \param[in] tex texture data
+     */
+    void setTexture(sad::Texture* tex) const;
+    /*! Returns texture for object
+     *  \return texture
+     */
+    sad::Texture* texture() const;
+    /*! Sets texture name
+     *  \param[in] name a a name for texture 
+     */
+    void setTextureName(const sad::String& name) const;
+    /*! Returns texture name a texture name
+     *  \return texture name
+     */
+    sad::String textureName() const;
 protected:
     /*! Fills custom object with default item properties
      */

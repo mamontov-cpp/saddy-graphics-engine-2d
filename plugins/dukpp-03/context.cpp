@@ -1273,6 +1273,9 @@ void sad::dukpp03::Context::exposeCustomObject()
     c->addMethod("setMaximalLineWidth", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setMaximalLineWidth));
     c->addMethod("maximalLineWidth", sad::dukpp03::bind_method::from(&sad::db::custom::Object::maximalLineWidth));
 
+    c->addMethod("setTextureName", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setTextureName));
+    c->addMethod("textureName", sad::dukpp03::bind_method::from(&sad::db::custom::Object::textureName));
+
     c->addMethod("setAngle", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setAngle));
     c->addMethod("setArea", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setArea));
 
