@@ -1638,6 +1638,10 @@ void sad::Renderer::freeCurrentState()
     sad::util::free_values(m_sizes_to_textured_geometry_2d);
     sad::util::free_values(m_sizes_to_untextured_geometry_3d);
     sad::util::free_values(m_sizes_to_untextured_geometry_2d);
+    m_sizes_to_textured_geometry_3d.clear();
+    m_sizes_to_textured_geometry_2d.clear();
+    m_sizes_to_untextured_geometry_3d.clear();
+    m_sizes_to_untextured_geometry_2d.clear();
     delete m_gl_sprite_geometry_storages;
 }
 
