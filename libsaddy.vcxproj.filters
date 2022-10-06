@@ -828,6 +828,9 @@
     <ClCompile Include="src\pipeline\pipelinepausabledelayedtasklist.cpp">
       <Filter>Файлы исходного кода\pipeline</Filter>
     </ClCompile>
+    <ClCompile Include="src\animations\animationsarcmovement.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.h">
@@ -1762,6 +1765,9 @@
     </ClInclude>
     <ClInclude Include="include\arcuptr.h">
       <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsarcmovement.h">
+      <Filter>Заголовочные файлы\animations</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -12,6 +12,7 @@
 
 #include "db/schema/schema.h"
 #include "db/dbfield.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "db/save.h"
 
 #include "label.h"
@@ -19,7 +20,7 @@
 #include "db/custom/customobject.h"
 #include <3rdparty/picojson/valuetotype.h>
 
-DECLARE_SOBJ_INHERITANCE(sad::animations::SimpleMovement, sad::animations::Animation);
+DECLARE_SOBJ_INHERITANCE(sad::animations::SimpleMovement, sad::animations::Animation)
 
 // =============================== PUBLIC METHODS ==========================
 
@@ -53,7 +54,7 @@ const sad::Point2D& sad::animations::SimpleMovement::endingPoint() const
 
 static sad::db::schema::Schema* AnimationSimpleMovementSchema = nullptr;
 
-static sad::Mutex AnimationSimpleMovementInit;
+static sad::Mutex AnimationSimpleMovementInit;  // NOLINT(clang-diagnostic-exit-time-destructors)
 
 sad::db::schema::Schema* sad::animations::SimpleMovement::basicSchema()
 {
@@ -74,7 +75,14 @@ sad::db::schema::Schema* sad::animations::SimpleMovement::basicSchema()
                 "end_point",
                 sad::db::define_field(&sad::animations::SimpleMovement::m_end_point)
             );
-                
+
+            auto* clamp_field = sad::db::define_field(&sad::animations::SimpleMovement::m_clamp_floating_points);
+            clamp_field->makeNonRequiredWithDefaultValue(new sad::db::Variant(false));
+            AnimationSimpleMovementSchema->add(
+                "clamp_floating_points",
+                clamp_field
+            );
+
             sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationSimpleMovementSchema);
         }
         AnimationSimpleMovementInit.unlock();
@@ -92,21 +100,28 @@ bool sad::animations::SimpleMovement::loadFromValue(const picojson::value& v)
     bool flag = this->sad::animations::Animation::loadFromValue(v);
     if (flag)
     {
-        sad::Maybe<sad::Point2D> maybestartpoint = picojson::to_type<sad::Point2D>(
+        const sad::Maybe<sad::Point2D> maybe_start_point = picojson::to_type<sad::Point2D>(
                                                        picojson::get_property(v, "start_point")
                                                    );
-        sad::Maybe<sad::Point2D> maybeendpoint   = picojson::to_type<sad::Point2D>(
+        const sad::Maybe<sad::Point2D> maybe_end_point   = picojson::to_type<sad::Point2D>(
                                                        picojson::get_property(v, "end_point")
                                                    );
-        bool result = maybestartpoint.exists() && maybeendpoint.exists();
-        if (maybestartpoint.exists())
+        const sad::Maybe<bool> maybe_clamp     = picojson::to_type<bool>(
+                                                        picojson::get_property(v, "clamp_floating_points")
+                                                   );
+        const bool result = maybe_start_point.exists() && maybe_end_point.exists();
+        if (maybe_start_point.exists())
         {
-            m_start_point = maybestartpoint.value();
+            m_start_point = maybe_start_point.value();
         }
 
-        if (maybeendpoint.exists())
+        if (maybe_end_point.exists())
         {
-            m_end_point = maybeendpoint.value();
+            m_end_point = maybe_end_point.value();
+        }
+        if (maybe_clamp.exists())
+        {
+            m_clamp_floating_points = maybe_clamp.value();
         }
 
 
@@ -117,7 +132,7 @@ bool sad::animations::SimpleMovement::loadFromValue(const picojson::value& v)
 
 void sad::animations::SimpleMovement::setState(sad::animations::Instance* i, double time)
 {
-    double time_position = m_easing->eval(time, m_time);
+    const double time_position = m_easing->eval(time, m_time);
     sad::Point2D pos = m_start_point + ((m_end_point - m_start_point) * time_position);
     if (m_clamp_floating_points)
     {
@@ -160,8 +175,8 @@ bool sad::animations::SimpleMovement::applicableTo(sad::db::Object* o)
     bool result = false;
     if (o)
     {
-        bool areapropertyexists = o->getProperty<sad::Rect2D>("area").exists();
-        result = areapropertyexists;
+        const bool area_property_exists = o->getProperty<sad::Rect2D>("area").exists();
+        result = area_property_exists;
     }
     return result;
 }

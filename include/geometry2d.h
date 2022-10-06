@@ -149,4 +149,48 @@ inline bool collides1D(_Numeric x11, _Numeric x12, _Numeric x21, _Numeric x22)
     return (x21<=x12) && (x22>=x11);
 }
 
+/*! Declares elliptic movement properties,
+ *  by following equation
+ *   x_c         cos phi  sin phi
+ * (     )  + (                   )  (R + dR sin phi)
+ *   y_c        -sin  phi cos phi
+ */
+struct EllipticMovementProperties
+{
+    sad::Point2D  C;  //!< (x_c, y_c)
+    sad::Point2D  R;  //!<  R
+    sad::Point2D  dR; //!< dR
+    double phi;
+    /*! Default properties
+     */
+    inline EllipticMovementProperties() : phi(0)
+    {
+        
+    }
+    /*! Constructs movement properties
+     *  \param[in] kC center
+     *  \param[in] kR radius original
+     *  \param[in] kdR delta radius
+     *  \param[in] kphi a maximum angle for radius
+     */
+    inline EllipticMovementProperties(const sad::Point2D& kC, const sad::Point2D& kR, const sad::Point2D& kdR, double kphi) : C(kC), R(kR), dR(kdR), phi(kphi)
+    {
+        
+    }
+    /*! Compute points on properties
+     *  \param[in] theta an angle to compute
+     *  \return point on trajectory
+     */
+    sad::Point2D compute(double theta) const;
+};
+
+/*! Computes movement properties for points
+ *  \param[in] c center points
+ *  \param[in] p1 first point
+ *  \param[in] p2 second point
+ *  \param[in] exception_on_unsolveable throws exception if un-solveable, returns some stuff if can
+ *  \return properties
+ */
+sad::EllipticMovementProperties computeEllipticProperties(const sad::Point2D& c, const sad::Point2D& p1, const sad::Point2D& p2, bool exception_on_unsolveable = true);
+
 }

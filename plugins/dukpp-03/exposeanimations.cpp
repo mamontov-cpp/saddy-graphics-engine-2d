@@ -12,6 +12,7 @@
 #include <animations/easing/easingfunction.h>
 
 #include <animations/animationsanimation.h>
+#include <animations/animationsarcmovement.h>
 #include <animations/animationssimplemovement.h>
 #include <animations/animationsblinking.h>
 #include <animations/animationscolor.h>
@@ -96,6 +97,26 @@ static void exposeAnimation(sad::dukpp03::Context* ctx)
     ctx->addClassBinding("sad::animations::Animation", c);
 }
 
+static void exposeArcMovement(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::ArcMovement>("SadAnimationsArcMovement");
+    c->addCloneObjectMethodFor<sad::animations::ArcMovement>();
+    c->addMethod("startingPoint", sad::dukpp03::bind_method::from(&sad::animations::ArcMovement::startingPoint));
+    c->addMethod("endingPoint", sad::dukpp03::bind_method::from(&sad::animations::ArcMovement::endingPoint));
+    c->addMethod("centerPoint", sad::dukpp03::bind_method::from(&sad::animations::ArcMovement::centerPoint));
+    c->addMethod("setStartingPoint", sad::dukpp03::bind_method::from(&sad::animations::ArcMovement::setStartingPoint));
+    c->addMethod("setEndingPoint", sad::dukpp03::bind_method::from(&sad::animations::ArcMovement::setEndingPoint));
+    c->addMethod("setCenterPoint", sad::dukpp03::bind_method::from(&sad::animations::ArcMovement::setCenterPoint));
+    c->addMethod("setClampFloatingPoints", sad::dukpp03::bind_method::from(&sad::animations::ArcMovement::setClampFloatingPoints));
+    c->addMethod("clampFloatingPoints", sad::dukpp03::bind_method::from(&sad::animations::ArcMovement::clampFloatingPoints));
+    c->setPrototypeFunction("SadAnimationsArcMovement");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Animation"));
+
+    ctx->addClassBinding("sad::animations::ArcMovement", c);
+
+    PERFORM_AND_ASSERT("sad.animations.ArcMovement = SadAnimationsArcMovement;");
+}
 
 static void exposeSimpleMovement(sad::dukpp03::Context* ctx)
 {
@@ -918,6 +939,7 @@ void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
 {
     exposeEasingFunction(ctx);
     exposeAnimation(ctx);
+    exposeArcMovement(ctx);
     exposeSimpleMovement(ctx);
     exposeColor(ctx);
     exposeCameraRotation(ctx);

@@ -302,3 +302,59 @@ bool sad::isAABB(const sad::Rect2D& rect)
               && sad::is_fuzzy_equal(rect[2].y() , rect[3].y());
     return valid;
 }
+
+
+sad::Point2D sad::EllipticMovementProperties::compute(double theta) const
+{
+    sad::Point2D kR = R;
+    kR += dR * sin(theta);
+
+    const double dx = kR.x() * cos(theta) + kR.y() * sin(theta);
+    const double dy = kR.x() * sin(theta) * (-1.0) + kR.y() * cos(theta);
+
+    const sad::Point2D result(C.x() + dx, C.y() + dy);
+    return result;
+}
+
+
+sad::EllipticMovementProperties sad::computeEllipticProperties(const sad::Point2D& c, const sad::Point2D& p1, const sad::Point2D& p2, bool exception_on_unsolveable/* = true*/)
+{
+    const sad::Point2D R  = p1 - c;
+    const sad::Point2D R2 = p2 - c;
+    const double R_modulo = sad::p2d::modulo(R);
+    const double R2_modulo = sad::p2d::modulo(R2);
+    if (sad::is_fuzzy_zero(R_modulo))
+    {
+        return { c, R, sad::Point2D(-1* R2.y(), R2.x()), M_PI / 2.0 };
+    }
+    if (sad::is_fuzzy_zero(R2_modulo))
+    {
+        return { c, R, R * (-1.0), M_PI / 2.0 };
+    }
+       
+    const double cos_phi = (R.x() * R2.x() + R.y() * R2.y()) / (R_modulo * R2_modulo);
+    const double phi = acos(cos_phi);
+    const double sin_phi = sin(phi);
+    if (sad::is_fuzzy_zero(sin_phi))
+    {
+       // If R_modulo != R2_modulo this is un-solveable
+        if (!sad::is_fuzzy_equal(R2_modulo, R_modulo))
+        {
+            if (exception_on_unsolveable)
+            {
+                throw std::logic_error("Unable to compute properties for elliptic");
+            }
+        }
+        return  sad::computeEllipticProperties(p1, p1, p2, exception_on_unsolveable);
+    }
+
+    const double x = R2.x() * cos_phi - R2.y() * sin_phi;
+    const double y = R2.y() * cos_phi + R2.x() * sin_phi;
+
+
+    const double dRx = (x - R.x()) / sin_phi;
+    const double dRy = (y - R.y()) / sin_phi;
+
+    return  { c, R, sad::Point2D(dRx, dRy), phi };
+}
+
