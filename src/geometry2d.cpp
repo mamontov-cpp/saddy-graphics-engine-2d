@@ -306,14 +306,16 @@ bool sad::isAABB(const sad::Rect2D& rect)
 
 sad::Point2D sad::EllipticMovementProperties::compute(double theta) const
 {
-    sad::Point2D kR = R;
-    kR += dR * sin(theta);
+    sad::Point2D kR1 = R1;
+    kR1 *= cos(theta);
 
-    const double dx = kR.x() * cos(theta) + kR.y() * sin(theta);
-    const double dy = kR.x() * sin(theta) * (-1.0) + kR.y() * cos(theta);
+    sad::Point2D kR2 = R2;
+    kR2 *= sin(theta);
 
-    const sad::Point2D result(C.x() + dx, C.y() + dy);
-    return result;
+    kR1 += kR2;
+    kR1 += C;
+
+    return kR1;
 }
 
 
@@ -325,18 +327,28 @@ sad::EllipticMovementProperties sad::computeEllipticProperties(const sad::Point2
     const double R2_modulo = sad::p2d::modulo(R2);
     if (sad::is_fuzzy_zero(R_modulo))
     {
-        return { c, R, sad::Point2D(-1* R2.y(), R2.x()), M_PI / 2.0 };
+        return { c, R, R2, M_PI / 2.0 };
     }
     if (sad::is_fuzzy_zero(R2_modulo))
     {
-        return { c, R, R * (-1.0), M_PI / 2.0 };
+        return { c, R, R2, M_PI / 2.0};
     }
-       
+    
     const double cos_phi = (R.x() * R2.x() + R.y() * R2.y()) / (R_modulo * R2_modulo);
     const double phi = acos(cos_phi);
     const double sin_phi = sin(phi);
     if (sad::is_fuzzy_zero(sin_phi))
     {
+        if (sad::is_fuzzy_equal(R.x(), R2.x()) && sad::is_fuzzy_equal(R.y(), R2.y()))
+        {
+            return { c, R, sad::Point2D(0, 0), 0 };
+        }
+        if (sad::is_fuzzy_equal(R.x(), R2.x() * (-1.0)) && sad::is_fuzzy_equal(R.y(), R2.y() * (-1.0)))
+        {
+            return { c, R, sad::Point2D(0, 0), M_PI };
+        }
+
+
        // If R_modulo != R2_modulo this is un-solveable
         if (!sad::is_fuzzy_equal(R2_modulo, R_modulo))
         {
@@ -348,13 +360,9 @@ sad::EllipticMovementProperties sad::computeEllipticProperties(const sad::Point2
         return  sad::computeEllipticProperties(p1, p1, p2, exception_on_unsolveable);
     }
 
-    const double x = R2.x() * cos_phi - R2.y() * sin_phi;
-    const double y = R2.y() * cos_phi + R2.x() * sin_phi;
+    const double RRx = (R2.x() - R.x() * cos_phi) / sin_phi;
+    const double RRy = (R2.y() - R.y() * cos_phi) / sin_phi;
 
-
-    const double dRx = (x - R.x()) / sin_phi;
-    const double dRy = (y - R.y()) / sin_phi;
-
-    return  { c, R, sad::Point2D(dRx, dRy), phi };
+    return  { c, R, sad::Point2D(RRx, RRy), phi };
 }
 

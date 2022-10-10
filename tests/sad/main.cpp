@@ -13,6 +13,6 @@ int main(int argc, char ** argv)
     * all tests are successful, otherwise returns the number
     * of failing assertions.
     */
-   int result = tpunit::Tests::Run();
+   const int result = tpunit::Tests::Run();
    return result;
 }

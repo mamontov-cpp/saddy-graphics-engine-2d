@@ -225,7 +225,6 @@ bool sad::animations::ArcMovement::clampFloatingPoints() const
     return m_clamp_floating_points;
 }
 
-
 // ================================= PRIVATE METHODS =================================
 
 void sad::animations::ArcMovement::recomputeProperties()

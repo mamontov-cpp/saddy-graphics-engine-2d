@@ -84,7 +84,7 @@ struct Geometry2DTest : tpunit::TestFixture
 
 
             const sad::Point2D pp3 = props.compute(props.phi / 2.0);
-            const sad::Point2D p3(2.0994561836898291, 0.86962322489238719);
+            const sad::Point2D p3(2.1647844005847880, 0.54119610014619701);
             const double dist3 = pp3.distance(p3);
             ASSERT_TRUE(sad::is_fuzzy_zero(dist3))
        }
@@ -133,7 +133,7 @@ struct Geometry2DTest : tpunit::TestFixture
 
 
             const sad::Point2D pp3 = props.compute(props.phi / 2.0);
-            const sad::Point2D p3(1.5, 1.5);
+            const sad::Point2D p3(2.1213203435596424, 0);
             const double dist3 = pp3.distance(p3);
             ASSERT_TRUE(sad::is_fuzzy_zero(dist3))
         }

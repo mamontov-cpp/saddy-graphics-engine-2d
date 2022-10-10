@@ -151,29 +151,29 @@ inline bool collides1D(_Numeric x11, _Numeric x12, _Numeric x21, _Numeric x22)
 
 /*! Declares elliptic movement properties,
  *  by following equation
- *   x_c         cos phi  sin phi
- * (     )  + (                   )  (R + dR sin phi)
- *   y_c        -sin  phi cos phi
+ *   C + R1 cos(phi) + R2 * sin( phi)
+ *
  */
 struct EllipticMovementProperties
 {
     sad::Point2D  C;  //!< (x_c, y_c)
-    sad::Point2D  R;  //!<  R
-    sad::Point2D  dR; //!< dR
-    double phi;
+    sad::Point2D  R1;  //!<  R1
+    sad::Point2D  R2;  //!<  R2
+    double phi; // !< Angle for second point reaching
+
     /*! Default properties
      */
-    inline EllipticMovementProperties() : phi(0)
+    inline EllipticMovementProperties() :  phi(0)
     {
         
     }
     /*! Constructs movement properties
      *  \param[in] kC center
-     *  \param[in] kR radius original
-     *  \param[in] kdR delta radius
+     *  \param[in] kR1 radius 1
+     *  \param[in] kR2 radius 2
      *  \param[in] kphi a maximum angle for radius
      */
-    inline EllipticMovementProperties(const sad::Point2D& kC, const sad::Point2D& kR, const sad::Point2D& kdR, double kphi) : C(kC), R(kR), dR(kdR), phi(kphi)
+    inline EllipticMovementProperties(const sad::Point2D& kC, const sad::Point2D& kR1, const sad::Point2D& kR2, double kphi) : C(kC), R1(kR1), R2(kR2), phi(kphi)
     {
         
     }
