@@ -745,6 +745,11 @@ void sad::animations::Instance::restoreObjectState(sad::animations::Animations* 
     }
 }
 
+double sad::animations::Instance::elapsedTime(sad::animations::Animations* animations)
+{
+    return computeTime(animations);
+}
+
 void sad::animations::Instance::clearSetState()
 {
     if (m_state_command_own)

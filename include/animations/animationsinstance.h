@@ -416,6 +416,11 @@ public:
         \param[in] animations animations an animations
      */
     virtual void restoreObjectState(sad::animations::Animations* animations);
+    /*! Returns elapsed time
+     *  \param[in] animations animations for restoring state if needed
+     *  \return value
+     */
+    double elapsedTime(sad::animations::Animations* animations);
 protected:
     /*!  Computes time, which should be used to animate. Finishes
          animations to be finished
