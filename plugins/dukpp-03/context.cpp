@@ -1156,6 +1156,7 @@ void sad::dukpp03::Context::exposeSprite2D()
     c->addMethod("rotate", sad::dukpp03::bind_method::from(&sad::Sprite2D::rotate));
     c->addMethod("setAngle", sad::dukpp03::bind_method::from(&sad::Sprite2D::setAngle));
     c->addMethod("setColor", sad::dukpp03::bind_method::from(&sad::Sprite2D::setColor));
+    c->addMethod("forceInvalidGeometry", sad::dukpp03::bind_method::from(&sad::Sprite2D::forceInvalidGeometry));
 
     c->addMethod("setFlipX", sad::dukpp03::bind_method::from(&sad::Sprite2D::setFlipX));
     c->addMethod("flipX", sad::dukpp03::bind_method::from(&sad::Sprite2D::flipX));

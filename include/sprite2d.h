@@ -167,6 +167,10 @@ public:
         \param[in] a area
      */
     void setArea(const sad::Rect2D & a);
+    /*! Forces invalid geometry quad, making it possible to create non-rectangular shapes
+     *  \param[in] quad quad data
+     */
+    void forceInvalidGeometry(const sad::Rect2D& quad);
     /*! Returns rotated renderable area for a sprite
         \return area for sprite
      */

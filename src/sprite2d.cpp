@@ -476,6 +476,23 @@ void sad::Sprite2D::setArea(const sad::Rect2D & a)
     buildRenderableArea();
 }
 
+void sad::Sprite2D::forceInvalidGeometry(const sad::Rect2D& quad)
+{
+    m_middle = quad.p0();
+    m_middle += quad.p1();
+    m_middle += quad.p2();
+    m_middle += quad.p3();
+
+    m_middle /= 4.0;
+
+    m_size.Width = std::max({quad.p0().x(), quad.p1().x(), quad.p2().x(), quad.p3().x()}) - std::min({ quad.p0().x(), quad.p1().x(), quad.p2().x(), quad.p3().x() });
+    m_size.Height = std::max({ quad.p0().y(), quad.p1().y(), quad.p2().y(), quad.p3().y() }) - std::min({ quad.p0().y(), quad.p1().y(), quad.p2().y(), quad.p3().y() });
+
+    m_vertexes_dirty = true;
+
+    m_renderable_area = quad;
+}
+
 const sad::Rect2D & sad::Sprite2D::renderableArea() const
 {
     return m_renderable_area;
