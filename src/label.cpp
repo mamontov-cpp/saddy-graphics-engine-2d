@@ -420,9 +420,12 @@ void sad::Label::setScene(sad::Scene * scene)
     {
         m_geometries->renderer()->removeFontGeometries(m_geometries);
     }
-    if (scene->renderer())
+    if (scene)
     {
-        scene->renderer()->addFontGeometries(m_geometries);
+        if (scene->renderer())
+        {
+            scene->renderer()->addFontGeometries(m_geometries);
+        }
     }
     m_geometries_dirty = true;
 }
