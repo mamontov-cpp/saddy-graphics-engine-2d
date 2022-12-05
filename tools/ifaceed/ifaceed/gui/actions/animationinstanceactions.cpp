@@ -266,7 +266,7 @@ void gui::actions::AnimationInstanceActions::addInstance()
 
 
             // Set animation from database
-            if (m_blk->rbAnimationInstanceFromDatabase > 0)
+            if (m_blk->rbAnimationInstanceFromDatabase->isChecked())
             {
                 if (m_blk->cmbAnimationInstanceAnimationFromDatabase->currentIndex() > 0)
                 {
