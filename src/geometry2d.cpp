@@ -8,6 +8,7 @@
 #include "p2d/axle.h"
 
 #include <limits>
+#include <stdexcept>
 
 bool sad::projectionIsWithin(const sad::Point2D & test, const sad::Point2D & pivot1, const sad::Point2D & pivot2)
 {
