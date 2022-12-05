@@ -10,7 +10,7 @@ See our [Wiki](https://github.com/mamontov-cpp/saddy-graphics-engine-2d/wiki) fo
 
 Note, that starting from 1.7.0, Saddy will only support compilers, that support C++14.
 
-* **05.02.22** Saddy [1.7.1.1](https://github.com/mamontov-cpp/saddy/releases/tag/1.7.1.1) released!
+* **05.12.22** Saddy [1.7.1.1](https://github.com/mamontov-cpp/saddy/releases/tag/1.7.1.1) released!
 
 * **16.01.20** Saddy [1.7.1](https://github.com/mamontov-cpp/saddy/releases/tag/1.7.1) released!
 
