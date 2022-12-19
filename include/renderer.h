@@ -496,10 +496,6 @@ public:
      *  \return default font  line shader function
      */
     sad::FontShaderFunction* defaultFontLineShaderFunction();
-    /*! Returns camera buffer object
-        \return camera buffer object
-     */
-    sad::os::UBO* cameraObjectBuffer() const;
     /*! Returns new geometry, allocating it or taking from stack
     *  \return value
     */
@@ -548,6 +544,13 @@ public:
      *  \return flag value
      */
     bool shouldFreeTextureBuffersAfterUpload() const;
+    /*! Fetches new camera buffer object
+     */
+    sad::os::UBO* getNewCameraBufferObject();
+    /*! Frees new camera buffer object
+     *  \param[in] ubo an ubo
+     */
+    void freeCameraBufferObject(sad::os::UBO* ubo);
 protected:
     /*! A global instance for renderer, to make it local creation is
         procedures unnecessary. It's not a singleton, but can
@@ -684,14 +687,12 @@ protected:
     /*! Font geometries to cleanup it
      */
     sad::Vector<sad::os::GLFontGeometries*> m_gl_font_geometries;
-
-
+    /*! A list of active UBO objects
+     */
+    sad::Vector<sad::os::UBO*> m_camera_buffer_objects;
     /*! An initialization mutex for shaders
      */
     sad::Mutex   m_shader_init_mutex;
-    /*! Camera buffer object
-     */
-    sad::os::UBO* m_camera_buffer;
     /*! Whether we should free texture buffer after upload
      */
     bool m_free_texture_buffer_after_upload;

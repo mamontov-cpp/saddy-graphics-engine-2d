@@ -22,7 +22,7 @@
 DECLARE_SOBJ(sad::Camera)
 
 sad::Camera::Camera() 
-: m_translation_offset(0,0,0), m_angle(0), m_temporary_rotation_offset(0, 0, 0), m_rotation_vector_direction(0, 0, 0), m_scene(nullptr), m_transform_is_cached(false), m_projection_matrix{0}, m_model_view_matrix{0}
+: m_transform_is_cached(false), m_are_matrices_uploaded(false), m_projection_matrix{0}, m_model_view_matrix{0}, m_translation_offset(0,0,0), m_angle(0), m_temporary_rotation_offset(0, 0, 0), m_rotation_vector_direction(0, 0, 0), m_scene(nullptr)
 {
     m_projection_matrix[0] = 1.0f;
     m_projection_matrix[4] = 0;
@@ -49,6 +49,7 @@ void sad::Camera::setScene(sad::Scene* s)
 {
     m_scene = s;
     m_transform_is_cached = false;
+    m_are_matrices_uploaded = false;
 }
 
 sad::Scene* sad::Camera::scene() const
@@ -60,6 +61,7 @@ void sad::Camera::setTranslationOffset(const sad::Vector3D& v)
 {
     m_translation_offset = v;
     m_transform_is_cached = false;
+    m_are_matrices_uploaded = false;
 }
 
 const sad::Vector3D& sad::Camera::translationOffset() const
@@ -71,6 +73,7 @@ void sad::Camera::setRotationVectorDirection(const sad::Vector3D& v)
 {
     m_rotation_vector_direction = v;
     m_transform_is_cached = false;
+    m_are_matrices_uploaded = false;
 }
 
 
@@ -83,6 +86,7 @@ void sad::Camera::setAngle(double angle)
 {
     m_angle = angle;
     m_transform_is_cached = false;
+    m_are_matrices_uploaded = false;
 }
 
 double sad::Camera::angle() const
@@ -94,6 +98,7 @@ void sad::Camera::setTemporaryRotationOffset(const sad::Vector3D& o)
 {
     m_temporary_rotation_offset = o;
     m_transform_is_cached = false;
+    m_are_matrices_uploaded = false;
 }
 
 const sad::Vector3D& sad::Camera::temporaryRotationOffset() const
@@ -116,10 +121,17 @@ void sad::Camera::apply()
     if (renderer->context()->isOpenGL3compatible())
     {
         forceRecomputeMatrices();
-        sad::os::UBO* ubo = renderer->cameraObjectBuffer();
-        ubo->setSubData(0, 16 * sizeof(float), this->modelViewMatrix());
-        ubo->setSubData(16 * sizeof(float), 16 * sizeof(float), this->projectionMatrix());
-        ubo->setUserData(this);
+        if (m_scene)
+        {
+            sad::os::UBO* ubo = m_scene->cameraBufferObject();
+            if (!m_are_matrices_uploaded || (ubo->userData() != this))
+            {
+                ubo->setSubData(0, 16 * sizeof(float), this->modelViewMatrix());
+                ubo->setSubData(16 * sizeof(float), 16 * sizeof(float), this->projectionMatrix());
+                ubo->setUserData(this);
+                m_are_matrices_uploaded = true;
+            }
+        }
     }
     else
     {
@@ -164,12 +176,15 @@ void sad::Camera::moveMatricesIntoCameraBuffer()
     }
     if (renderer->context()->isOpenGL3compatible())
     {
-        sad::os::UBO* ubo = renderer->cameraObjectBuffer();
-        if (ubo->userData() != this)
+        if (m_scene)
         {
-            ubo->setSubData(0, 16 * sizeof(float), this->modelViewMatrix());
-            ubo->setSubData(16 * sizeof(float), 16 * sizeof(float), this->projectionMatrix());
-            ubo->setUserData(this);
+            sad::os::UBO* ubo = m_scene->cameraBufferObject();
+            if (ubo->userData() != this)
+            {
+                ubo->setSubData(0, 16 * sizeof(float), this->modelViewMatrix());
+                ubo->setSubData(16 * sizeof(float), 16 * sizeof(float), this->projectionMatrix());
+                ubo->setUserData(this);
+            }
         }
     }
 }
@@ -219,6 +234,7 @@ void sad::Camera::forceRecomputeMatrices()
 void sad::Camera::clearTransformCache()
 {
     m_transform_is_cached = false;
+    m_are_matrices_uploaded = false;
 }
 
 void sad::Camera::restore()
@@ -260,7 +276,10 @@ float* sad::Camera::modelViewMatrix()
              sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
              SL_LOCAL_WARNING(error_string, *r);
          }
-         r->cameraObjectBuffer()->setUserData(nullptr);
+         if (m_scene)
+         {
+             m_scene->cameraBufferObject()->setUserData(nullptr);
+         }
          this->m_transform_is_cached = true;
     }
     return &(this->m_model_view_matrix[0]);

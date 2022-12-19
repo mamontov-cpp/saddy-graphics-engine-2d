@@ -15,6 +15,11 @@
 
 namespace sad
 {
+namespace os
+{
+    class UBO;
+}
+
 class Camera;
 
 /*! Scene is a special container, which renders itself, using a renderer
@@ -150,6 +155,13 @@ public:
     {
         this->clear();
     }
+    /*! Returns camera buffer object
+     */
+    sad::os::UBO* cameraBufferObject();
+    /*! Sets buffer object for camera
+     *  \param[in] ubo buffer
+     */
+    void setCameraBufferObject(sad::os::UBO* ubo);
 protected:
     /*! Determines, whether scene is active and should be rendered
      */
@@ -159,13 +171,16 @@ protected:
     unsigned int m_cached_layer;
     /*! A layers, which stores a node 
      */
-    sad::Vector<SceneNode*>   m_layers;   
+    sad::Vector<SceneNode*>   m_layers;
     /*! A camera, to be applied before rendering
      */
-    sad::Camera*        m_camera;       
+    sad::Camera*        m_camera;
     /*! Renderer, which scene belongs to
      */
-    sad::Renderer*        m_renderer;       
+    sad::Renderer*        m_renderer;
+    /*! A camera buffer object
+     */
+    sad::os::UBO*  m_camera_buffer_object;
     /*! Adds an object to scene
         \param[in] node  a node to be added
      */

@@ -101,7 +101,7 @@ void sad::ShaderFunction::apply(sad::Scene* scene, sad::Bindable* tex, const sad
         m_shader->tryLogGlError("sad::ShaderFunction::apply: on start filling data");
         if (m_gl_camera_info_loc_id != GL_INVALID_INDEX)
         {
-            sad::os::UBO* ubo = r->cameraObjectBuffer();
+            sad::os::UBO* ubo = scene->cameraBufferObject();
             m_shader->uniformBlockBinding(m_gl_camera_info_loc_id, 0);
             m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniformBlockBinding(m_gl_camera_info_loc_id, 0)");
 
@@ -180,7 +180,7 @@ void sad::ShaderFunction::apply(sad::Scene* scene, const sad::AColor* clr)
         m_shader->tryLogGlError("sad::ShaderFunction::apply: on start filling data");
         if (m_gl_camera_info_loc_id != GL_INVALID_INDEX)
         {
-            sad::os::UBO* ubo = r->cameraObjectBuffer();
+            sad::os::UBO* ubo = scene->cameraBufferObject();
             m_shader->uniformBlockBinding(m_gl_camera_info_loc_id, 0);
             m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniformBlockBinding(m_gl_camera_info_loc_id, 0)");
 

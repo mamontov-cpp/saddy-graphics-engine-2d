@@ -22,7 +22,7 @@
 #include <ctime>
 
 sad::Scene::Scene()
-: m_active(true), m_cached_layer(0), m_camera(new sad::OrthographicCamera()), m_renderer(nullptr)
+: m_active(true), m_cached_layer(0), m_camera(new sad::OrthographicCamera()), m_renderer(nullptr), m_camera_buffer_object(nullptr)
 {
     m_camera->addRef();
     m_camera->setScene(this);
@@ -213,6 +213,24 @@ static sad::String SceneSerializableName = "sad::Scene";
 const sad::String& sad::Scene::serializableName() const
 {
     return SceneSerializableName;   
+}
+
+sad::os::UBO* sad::Scene::cameraBufferObject()
+{
+    if (m_camera_buffer_object)
+    {
+        return m_camera_buffer_object;
+    }
+    if (m_renderer)
+    {
+        m_camera_buffer_object = m_renderer->getNewCameraBufferObject();
+    }
+    return m_camera_buffer_object;
+}
+
+void sad::Scene::setCameraBufferObject(sad::os::UBO* ubo)
+{
+    m_camera_buffer_object = ubo;
 }
 
 void sad::Scene::addNow(sad::SceneNode * node)

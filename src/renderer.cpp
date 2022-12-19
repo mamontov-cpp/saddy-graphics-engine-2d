@@ -90,8 +90,6 @@ m_free_texture_buffer_after_upload(false)
     m_opengl->setRenderer(this);
     m_main_loop->setRenderer(this);
 
-    m_camera_buffer = new sad::os::UBO(this, 32 * sizeof(GLfloat));
-
     setTextureLoader("BMP", new sad::imageformats::BMPLoader());
     setTextureLoader("TGA", new sad::imageformats::TGALoader());
     setTextureLoader("PNG", new sad::imageformats::PNGLoader());
@@ -157,8 +155,6 @@ void sad::Renderer::reset()
     m_cursor->addRef();
     m_opengl->setRenderer(this);
     m_main_loop->setRenderer(this);
-
-    m_camera_buffer = new sad::os::UBO(this, 32 * sizeof(GLfloat));
 
     setTextureLoader("BMP", new sad::imageformats::BMPLoader());
     setTextureLoader("TGA", new sad::imageformats::TGALoader());
@@ -472,9 +468,12 @@ void sad::Renderer::emergencyShutdown()
     {
         m_gl_font_geometries[i]->unload();
     }
-
-    m_camera_buffer->tryUnload();
-
+    for (size_t i = 0; i < m_camera_buffer_objects.size(); i++)
+    {
+        m_camera_buffer_objects[i]->tryUnload();
+        delete m_camera_buffer_objects[i];
+    }
+    m_camera_buffer_objects.clear();
 
     // Destroy context and window, so nothing could go wrong
     this->context()->destroy();
@@ -1019,12 +1018,6 @@ sad::FontShaderFunction* sad::Renderer::defaultFontLineShaderFunction()
     return m_default_font_line_shader_function;
 }
 
-
-sad::os::UBO* sad::Renderer::cameraObjectBuffer() const
-{
-    return m_camera_buffer;
-}
-
 sad::os::GLTexturedGeometry2D* sad::Renderer::takeTextured2D()  const
 {
     return m_gl_sprite_geometry_storages->takeTextured2D();
@@ -1090,6 +1083,27 @@ void sad::Renderer::setShouldFreeTextureBuffersAfterUpload(bool new_value)
 bool sad::Renderer::shouldFreeTextureBuffersAfterUpload() const
 {
     return m_free_texture_buffer_after_upload;
+}
+
+sad::os::UBO*  sad::Renderer::getNewCameraBufferObject()
+{
+    m_camera_buffer_objects << new sad::os::UBO(this, 32 * sizeof(GLfloat));
+    return m_camera_buffer_objects[m_camera_buffer_objects.size() - 1];
+}
+
+void sad::Renderer::freeCameraBufferObject(sad::os::UBO* ubo)
+{
+    if (!ubo)
+    {
+        return;
+    }
+    const auto it = std::find(m_camera_buffer_objects.begin(), m_camera_buffer_objects.end(), ubo);
+    if (it != m_camera_buffer_objects.end())
+    {
+        ubo->tryUnload();
+        delete ubo;
+        m_camera_buffer_objects.erase(it);
+    }
 }
 
 // ============================================================ PROTECTED METHODS ============================================================
@@ -1165,7 +1179,12 @@ void sad::Renderer::deinitRendererAfterLoop()
     destroy_shader_if_not_nullptr(m_default_no_textures_shader_2d);
     destroy_shader_if_not_nullptr(m_default_font_shader);
     destroy_shader_if_not_nullptr(m_default_font_line_shader);
-    m_camera_buffer->tryUnload();
+    for (size_t i = 0; i < m_camera_buffer_objects.size(); i++)
+    {
+        m_camera_buffer_objects[i]->tryUnload();
+        delete m_camera_buffer_objects[i];
+    }
+    m_camera_buffer_objects.clear();
 
     for (size_t i = 0; i < m_gl_font_geometries.size(); i++)
     {
@@ -1300,8 +1319,11 @@ void sad::Renderer::addNow(sad::Scene * s)
 {
     if (s)
     {
-        s->addRef();
-        m_scenes << s;
+        if (std::find(m_scenes.begin(), m_scenes.end(), s) == m_scenes.end())
+        {
+            s->addRef();
+            m_scenes << s;
+        }
     }
 }
 
@@ -1309,6 +1331,10 @@ void sad::Renderer::removeNow(sad::Scene * s)
 {
     if (s)
     {
+        sad::os::UBO* ubo = s->cameraBufferObject();
+        freeCameraBufferObject(ubo);
+        s->setCameraBufferObject(nullptr);
+
         s->clearRenderer();
         s->delRef();
     }
@@ -1585,7 +1611,11 @@ void sad::Renderer::freeCurrentState()
 
     delete m_animations;
     delete m_primitive_renderer;
-    delete m_camera_buffer;
+    for (size_t i = 0; i < m_camera_buffer_objects.size(); i++)
+    {
+        delete m_camera_buffer_objects[i];
+    }
+    m_camera_buffer_objects.clear();
     m_cursor->delRef();
 
     // Force freeing resources, to make sure, that pointer to context will be valid, when resource

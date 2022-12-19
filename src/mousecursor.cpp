@@ -38,10 +38,7 @@ void sad::MouseCursorSprite::render(sad::Renderer* r)
             }
             if (r->context()->isOpenGL3compatible() && s)
             {
-                if (r->cameraObjectBuffer()->userData() != s->getCamera())
-                {
-                    s->getCamera()->apply();
-                }
+                s->getCamera()->apply();
             }
             m_a->render();
         }

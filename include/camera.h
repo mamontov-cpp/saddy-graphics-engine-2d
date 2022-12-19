@@ -108,6 +108,9 @@ protected:
     /*! Whether transformation is cached
      */
     bool m_transform_is_cached;
+    /*! If UBU data matrixes are uploaded
+     */
+    bool m_are_matrices_uploaded;
     /*! Projection matrix
      */
     float m_projection_matrix[16];
