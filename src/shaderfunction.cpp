@@ -98,7 +98,6 @@ void sad::ShaderFunction::apply(sad::Scene* scene, sad::Bindable* tex, const sad
     this->tryCacheLocations();
     try
     {
-        m_shader->tryLogGlError("sad::ShaderFunction::apply: on start filling data");
         if (m_gl_camera_info_loc_id != GL_INVALID_INDEX)
         {
             sad::os::UBO* ubo = scene->cameraBufferObject();

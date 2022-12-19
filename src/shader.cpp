@@ -586,7 +586,6 @@ void sad::Shader::setUniform(int location, float v0)
 
 void sad::Shader::tryLogGlError(const char* op)
 {
-    sad::Renderer* r = m_renderer;
     GLenum err_code = glGetError();
     if (err_code != GL_NO_ERROR)
     {
@@ -595,6 +594,8 @@ void sad::Shader::tryLogGlError(const char* op)
         sad::String error_data = op;
         error_data += ": ";
         error_data += error_string;
+
+        sad::Renderer* r = m_renderer;
         SL_LOCAL_WARNING(error_data, *r);
     }
 }
