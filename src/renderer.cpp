@@ -526,6 +526,7 @@ void sad::Renderer::insert(sad::Scene* s, size_t position)
     if (s)
     {
         s->setRenderer(this);
+        s->addRef();
         this->sad::TemporarilyImmutableContainer<sad::Scene>::insert(s, position);
     }
 }
@@ -533,7 +534,10 @@ void sad::Renderer::insert(sad::Scene* s, size_t position)
 void sad::Renderer::add(sad::Scene * scene)
 {
     if (scene)
+    {
         scene->setRenderer(this);
+        scene->addRef();
+    }
     this->sad::TemporarilyImmutableContainer<sad::Scene>::add(scene);
 }
 
@@ -1321,8 +1325,14 @@ void sad::Renderer::addNow(sad::Scene * s)
     {
         if (std::find(m_scenes.begin(), m_scenes.end(), s) == m_scenes.end())
         {
-            s->addRef();
             m_scenes << s;
+        }
+        else
+        {
+            if (s)
+            {
+                s->delRef();
+            }
         }
     }
 }
@@ -1345,6 +1355,10 @@ void sad::Renderer::clearNow()
 {
     for(unsigned int i = 0; i < m_scenes.size(); i++)
     {
+        sad::os::UBO* ubo = m_scenes[i]->cameraBufferObject();
+        freeCameraBufferObject(ubo);
+        m_scenes[i]->setCameraBufferObject(nullptr);
+
         m_scenes[i]->clearRenderer();
         m_scenes[i]->delRef();
     }
@@ -1355,8 +1369,14 @@ void sad::Renderer::insertNow(sad::Scene* s, size_t position)
 {
     if (s)
     {
-        s->addRef();
-        m_scenes.insert(s, position);
+        if (std::find(m_scenes.begin(), m_scenes.end(), s) == m_scenes.end())
+        {
+            m_scenes.insert(s, position);
+        }
+        else
+        {
+            s->delRef();
+        }
     }
 }
 

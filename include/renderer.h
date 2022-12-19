@@ -313,7 +313,7 @@ public:
     /*! Adds new scene to scene container
         \param[in] scene a scene to be rendered
      */
-    void add(sad::Scene* scene); // NOLINT(clang-diagnostic-overloaded-virtual)
+    void add(sad::Scene* scene);  // NOLINT(clang-diagnostic-overloaded-virtual)
     /*! Swap layers between two scenes
         \param[in] s1 first scene
         \param[in] s2 second scene
