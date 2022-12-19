@@ -654,6 +654,8 @@ void sad::Sprite2D::set(const sad::Sprite2D::Options & o)
 
 void sad::Sprite2D::set(const sad::String & optionsname)
 {
+    bool was_textured = m_was_textured;
+
     m_explicit_set = true;
     m_options.setPath(optionsname);
     // Make texture render dependent
@@ -664,11 +666,30 @@ void sad::Sprite2D::set(const sad::String & optionsname)
     }
 
     sad::Sprite2D::Options* opts = m_options.get();
+
     if (opts)
     {
         this->onOptionsChange(opts);
     }
-    tryReturnGeometry();
+    bool should_return = true;
+    if ((m_old_renderer == this->renderer()) && (m_old_renderer != nullptr))
+    {
+        sad::Texture* tex = m_texture.get();
+        const bool has_texture = tex != nullptr;
+        if (has_texture == was_textured)
+        {
+            should_return = false;
+        }
+    }
+    if (should_return)
+    {
+        tryReturnGeometry();
+    }
+    else
+    {
+        m_tc_dirty = true;
+        m_vertexes_dirty = true;
+    }
 }
 
 sad::Sprite2D::Options* sad::Sprite2D::getOptions() const
