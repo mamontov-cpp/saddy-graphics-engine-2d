@@ -523,10 +523,17 @@ void gui::actions::DialogueActions::dialogueChanged(int i)
     if (i >= 0)
     {
         QListWidgetItem* item = blk->lstDialogues->item(i);
-        QVariant v = item->data(Qt::UserRole);
-        sad::dialogue::Dialogue* w = v.value<sad::dialogue::Dialogue*>();
-        m_editor->shared()->setSelectedDialogue(w);
-        this->viewDialogue(w);
+        if (item)
+        {
+            QVariant v = item->data(Qt::UserRole);
+            sad::dialogue::Dialogue* w = v.value<sad::dialogue::Dialogue*>();
+            m_editor->shared()->setSelectedDialogue(w);
+            this->viewDialogue(w);
+        }
+        else
+        {
+            m_editor->shared()->setSelectedDialogue(nullptr);
+        }
     }
     else
     {
@@ -538,22 +545,25 @@ void gui::actions::DialogueActions::dialogueChanged(int i)
 void gui::actions::DialogueActions::phraseChanged(int i)
 {
     sad::dialogue::Dialogue* w =  m_editor->shared()->selectedDialogue();
-    if (i >= 0)
+    if (w)
     {
-        sad::dialogue::Phrase* p = w->phrases()[i];
-        this->viewPhrase(p);
+        if (i >= 0 && i < static_cast<int>(w->phrases().size()))
+        {
+            sad::dialogue::Phrase* p = w->phrases()[i];
+            this->viewPhrase(p);
+        }
     }
 }
 
 void gui::actions::DialogueActions::phraseTextChanged()
 {
-    gui::uiblocks::UIPhraseBlock* pblk = m_editor->uiBlocks()->uiPhraseBlock(); 
+    gui::uiblocks::UIPhraseBlock* phrase_block = m_editor->uiBlocks()->uiPhraseBlock(); 
     
-    int row = pblk->lstPhrases->currentRow();
+    const int row = phrase_block->lstPhrases->currentRow();
     sad::dialogue::Dialogue* d = m_editor->shared()->selectedDialogue();
-    if (row >= 0 && row < pblk->lstPhrases->count() && d)
+    if (row >= 0 && row < phrase_block->lstPhrases->count() && d)
     {
-        sad::String new_value = Q2STDSTRING(pblk->txtPhrasePhrase->toPlainText());
+        const sad::String new_value = Q2STDSTRING(phrase_block->txtPhrasePhrase->toPlainText());
         changePhraseText(d, row, new_value, true);
     }
 }
