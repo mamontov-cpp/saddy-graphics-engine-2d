@@ -970,7 +970,10 @@ void sad::dukpp03::Context::exposeSprite3D()
     c->addMethod("alpha", sad::dukpp03::bind_method::from(&sad::Sprite3D::alpha));
     c->addMethod("setAlpha", sad::dukpp03::bind_method::from(&sad::Sprite3D::setAlpha));
     c->addMethod("setTheta", sad::dukpp03::bind_method::from(&sad::Sprite3D::setTheta));
+
+    c->addMethod("color", sad::dukpp03::bind_method::from(&sad::Sprite3D::color));
     c->addMethod("setColor", sad::dukpp03::bind_method::from(&sad::Sprite3D::setColor));
+
     c->addMethod("flipX", sad::dukpp03::bind_method::from(&sad::Sprite3D::flipX));
     c->addMethod("setFlipX", sad::dukpp03::bind_method::from(&sad::Sprite3D::setFlipX));
     c->addMethod("flipY", sad::dukpp03::bind_method::from(&sad::Sprite3D::flipY));
@@ -1155,7 +1158,10 @@ void sad::dukpp03::Context::exposeSprite2D()
     c->addMethod("moveTo", sad::dukpp03::bind_method::from(&sad::Sprite2D::moveTo));
     c->addMethod("rotate", sad::dukpp03::bind_method::from(&sad::Sprite2D::rotate));
     c->addMethod("setAngle", sad::dukpp03::bind_method::from(&sad::Sprite2D::setAngle));
+
+    c->addMethod("color", sad::dukpp03::bind_method::from(&sad::Sprite2D::color));
     c->addMethod("setColor", sad::dukpp03::bind_method::from(&sad::Sprite2D::setColor));
+
     c->addMethod("forceInvalidGeometry", sad::dukpp03::bind_method::from(&sad::Sprite2D::forceInvalidGeometry));
 
     c->addMethod("setFlipX", sad::dukpp03::bind_method::from(&sad::Sprite2D::setFlipX));
