@@ -164,6 +164,21 @@ public:
         return const_iterator(this->std::unordered_map<Key, T>::end());
     }
 
+    /*! Returns a begin iterator
+        \return  an iterator for stating element
+     */
+    const_iterator begin() const
+    {
+        return const_iterator(this->std::unordered_map<Key, T>::begin());
+    }
+    /*! Returns an end iterator
+        \return an iterator for ending element
+     */
+    const_iterator end() const
+    {
+        return const_iterator(this->std::unordered_map<Key, T>::end());
+    }
+
     /*! Init an empty hash
      */
     Hash() //-V730
