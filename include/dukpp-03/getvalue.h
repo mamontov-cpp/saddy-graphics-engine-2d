@@ -858,7 +858,7 @@ public:
                 tryGetPropIndex(r2,c, pos, 1);
                 sad::Maybe<T3> r3;
                 tryGetPropIndex(r3,c, pos, 2);
-                sad::Maybe<T3> r4;
+                sad::Maybe<T4> r4;
                 tryGetPropIndex(r4,c, pos, 3);
                 if (r1.exists() && r2.exists() && r3.exists() && r4.exists())
                 {
