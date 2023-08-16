@@ -803,7 +803,7 @@ public:
         {
             // ReSharper disable once CppInitializedValueIsAlwaysRewritten
             const duk_size_t n = duk_get_length(ctx, pos);
-            if (n == 2)
+            if (n == 3)
             {
                 sad::Maybe<T1> r1;
                 tryGetPropIndex(r1,c, pos, 0);
@@ -850,7 +850,7 @@ public:
         {
             // ReSharper disable once CppInitializedValueIsAlwaysRewritten
             const duk_size_t n = duk_get_length(ctx, pos);
-            if (n == 2)
+            if (n == 4)
             {
                 sad::Maybe<T1> r1;
                 tryGetPropIndex(r1,c, pos, 0);
