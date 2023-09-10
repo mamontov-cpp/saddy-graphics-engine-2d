@@ -38,6 +38,33 @@ void free_values(const sad::Hash<K, V>& v)
     }
 }
 
+/*! Frees referenced resources, stored in vector
+    \param[in] v a vector, whose resources must be freed
+*/
+template<typename T>
+void clear_referenced(sad::Vector<T*>& v)
+{
+    for (size_t i = 0; i < v.size(); i++)
+    {
+        v[i]->delRef();
+    }
+    v.clear();
+}
+
+/*! Frees referenced resources, stored in hash's value
+    \param[in] v a hash, whose values must be freed
+ */
+template<typename K, typename V>
+void clear_referenced_values(sad::Hash<K, V*>& v)
+{
+    for (typename sad::Hash<K, V*>::iterator it = v.begin(); it != v.end(); ++it)
+    {
+        (it->second)->delRef();
+    }
+    v.clear();
+}
+
+
 }
 
 }
