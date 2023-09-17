@@ -129,7 +129,7 @@ public:
         sad::Color result;
         result.m_r = static_cast<unsigned char>(static_cast<double>(this->m_r) + o.R);
         result.m_g = static_cast<unsigned char>(static_cast<double>(this->m_g) + o.G);
-        result.m_b = static_cast<unsigned char>(static_cast<double>(this->m_g) + o.B);
+        result.m_b = static_cast<unsigned char>(static_cast<double>(this->m_b) + o.B);
         return result;
     }
 };
@@ -233,7 +233,7 @@ class AColor: public Color
         sad::AColor result;
         result.m_r = static_cast<unsigned char>(static_cast<double>(this->m_r) + o.R);
         result.m_g = static_cast<unsigned char>(static_cast<double>(this->m_g) + o.G);
-        result.m_b = static_cast<unsigned char>(static_cast<double>(this->m_g) + o.B);
+        result.m_b = static_cast<unsigned char>(static_cast<double>(this->m_b) + o.B);
         result.m_a = static_cast<unsigned char>(static_cast<double>(this->m_a) + o.A);
         return result;
     }
