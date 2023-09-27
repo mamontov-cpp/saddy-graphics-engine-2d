@@ -385,6 +385,7 @@
     <ClInclude Include="include\3rdparty\pugixml\pugixml.hpp" />
     <ClInclude Include="include\3rdparty\stb\stb_image.h" />
     <ClInclude Include="include\3rdparty\tar7z.h" />
+    <ClInclude Include="include\algo.h" />
     <ClInclude Include="include\animations\animationsarcmovement.h" />
     <ClInclude Include="include\animations\animationssavedrenderingstringlimit.h" />
     <ClInclude Include="include\animations\animationssimplemovement.h" />
