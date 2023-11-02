@@ -15,6 +15,8 @@
 #include "folder.h"
 #include "error.h"
 
+#include <functional>
+
 
 namespace tar7z
 {
@@ -46,6 +48,24 @@ public:
     /*! This class can be inherited 
      */
     virtual ~Tree() override;
+    /*! Disabled, tree is un-copyable
+        \param[in] o other tree
+     */
+    Tree(const Tree & o) = delete;
+    /*! Disabled, tree is un-copyable
+        \param[in] o other tree
+        \return self-reference
+     */
+    Tree & operator=(const Tree & o) = delete;
+    /*! Sets callback on loading tree
+     *  \param[in] on_load_started on load started callback
+     *  \param[in] on_load_finished on load finished callback
+     */
+    void setOnLoad(const std::function<void(const sad::String&)>& on_load_started, const std::function<void(const sad::String&)>& on_load_finished);
+    /*! Sets callback, when error occurred
+     *  \param[in] on_error callback, which will be called on loading error
+     */
+    void setOnError(const std::function<void(sad::resource::Error*)>& on_error);
     /*! Loads a tree from a string, adding to existing data new stored resources if new errors
         occurred.
         \param[in] string a string with content
@@ -104,13 +124,13 @@ public:
     /*! Unloads file, removing all resources from it and freeing it's memory. 
         Can fail if some of resources are referenced
         \param[in] file a file to be unloaded
-        \return whether it was successfull
+        \return whether it was successful
      */
     bool unload(const sad::String& file);
     /*! Unloads file, removing all resources from it and freeing it's memory. 
         Can fail if some of resources are referenced
         \param[in] file a file to be unloaded
-        \return whether it was successfull
+        \return whether it was successful
      */
     bool unload(sad::resource::ResourceFile * file);
     /*! A root folder of tree
@@ -154,7 +174,7 @@ public:
         \param[in] l a resource entry list
         \return error list
      */
-    sad::Vector<sad::resource::Error *> duplicatesToErrors(
+    static sad::Vector<sad::resource::Error *> duplicatesToErrors(
         const sad::Vector<sad::String> & l
     );
     /*! Returns resource, casted to type
@@ -181,7 +201,7 @@ public:
     sad::resource::Folder * temporaryRoot() const;
     /*! Forces all resources to unload self from GPU
      */
-    void unloadResourcesFromGPU();
+    void unloadResourcesFromGPU() const;
     /*! Returns archive entry by name. Tries to load archive if need to
         \param[in] archive an archive name
         \param[in] filename a file name
@@ -190,6 +210,10 @@ public:
      */
     tar7z::Entry* archiveEntry(const sad::String& archive, const sad::String& filename, bool load_new = false);
 protected:
+    /*! Fires on error callback
+     *  \param[in] errors on error callback
+     */
+    void fireOnError(const sad::Vector<sad::resource::Error*>& errors) const;
     /*! An archive list
      */
     sad::Vector<tar7z::Archive*> m_archive_list;
@@ -214,6 +238,15 @@ protected:
     /*! Whether we should store links
      */
     bool m_store_links;
+    /*! Called, when file is loaded
+     */
+    std::function<void(const sad::String&)> m_on_load_started;
+    /*! Called, when file is loaded
+     */
+    std::function<void(const sad::String&)> m_on_load_finished;
+    /*! Called on error
+     */
+    std::function<void(sad::resource::Error*)> m_on_error;
 private:
     /*! A current root for loading data
      */
@@ -221,15 +254,6 @@ private:
     /*! A temporary root for loading data
      */
     sad::String m_temporary_root;
-    /*! Disabled, tree is un-copyable
-        \param[in] o other tree
-     */
-    Tree(const Tree & o);
-    /*! Disabled, tree is un-copyable
-        \param[in] o other tree
-        \return self-reference
-     */
-    Tree & operator=(const Tree & o);
 };
 
 }
