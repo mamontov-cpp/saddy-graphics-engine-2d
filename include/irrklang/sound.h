@@ -32,10 +32,16 @@ public:
     /*! Constructs default, invalid source
      */
     Sound();
+    /*! Removes sound
+     */
+    virtual ~Sound() override;
     /*! Returns source for data
         \return wrapped source
      */
     ::irrklang::ISoundSource* s() const;
+    /*! Drops sound
+     */
+    void drop();
     /*! Loads a texture from specified file, using specified renderer for building mip maps.
         \param[in] file a file, via which a resource should be loaded
         \param[in] r  a renderer, which resource should be linked to (nullptr if global renderer)

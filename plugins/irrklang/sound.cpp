@@ -1,15 +1,29 @@
 #include "irrklang/sound.h"
 
-DECLARE_SOBJ_INHERITANCE(sad::irrklang::Sound, sad::resource::Resource);
+DECLARE_SOBJ_INHERITANCE(sad::irrklang::Sound, sad::resource::Resource)
 
 sad::irrklang::Sound::Sound() : m_source(nullptr)
 {
     
 }
 
+sad::irrklang::Sound::~Sound()
+{
+    this->drop();
+}
+
 ::irrklang::ISoundSource* sad::irrklang::Sound::s() const
 {
     return m_source;
+}
+
+void sad::irrklang::Sound::drop()
+{
+    if (m_source)
+    {
+        sad::irrklang::Engine::eref()->removeSoundSource(m_source);
+        m_source = nullptr;
+    }
 }
 
 bool sad::irrklang::Sound::load(
@@ -18,15 +32,15 @@ bool sad::irrklang::Sound::load(
     const picojson::value&
 )
 {
-    ::irrklang::ISoundSource* newsource = sad::irrklang::Engine::ref()->tryLoad(file.name());
+    ::irrklang::ISoundSource* new_source = sad::irrklang::Engine::ref()->tryLoad(file.name());
     bool result = false;
-    if (newsource)
+    if (new_source)
     {
-        if (!m_source)
+        if (m_source)
         {
             sad::irrklang::Engine::eref()->removeSoundSource(m_source);
         }
-        m_source = newsource;
+        m_source = new_source;
         result = true;
     }
     return result;   
