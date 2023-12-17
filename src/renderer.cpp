@@ -1064,18 +1064,28 @@ void sad::Renderer::storeGeometry(sad::os::GLUntexturedGeometry3D* g)
 
 void sad::Renderer::addFontGeometries(sad::os::GLFontGeometries* g)
 {
+    if (!g)
+    {
+        return;
+    }
     if (std::find(m_gl_font_geometries.begin(), m_gl_font_geometries.end(), g) == m_gl_font_geometries.end())
     {
+        g->addRef();
         m_gl_font_geometries.add(g);
     }
 }
 
 void sad::Renderer::removeFontGeometries(sad::os::GLFontGeometries* g)
 {
-    m_gl_font_geometries.removeFirst(g);
-    if (g)
+    if (!g)
     {
+        return;
+    }
+    if (std::find(m_gl_font_geometries.begin(), m_gl_font_geometries.end(), g) != m_gl_font_geometries.end())
+    {
+        m_gl_font_geometries.removeFirst(g);
         g->unload();
+        g->delRef();
     }
 }
 
@@ -1682,6 +1692,10 @@ void sad::Renderer::freeCurrentState()
         it.value()->delRef();
     }
     m_databases.clear();
+    for (sad::os::GLFontGeometries* g : m_gl_font_geometries)
+    {
+        g->delRef();
+    }
     m_gl_font_geometries.clear();
 
     sad::util::free_values(m_sizes_to_textured_geometry_3d);

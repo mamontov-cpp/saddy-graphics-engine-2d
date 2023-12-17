@@ -36,17 +36,17 @@ m_overflow_strategy(sad::Label::OverflowStrategy::LOS_VISIBLE),
 m_break_text(sad::Label::BreakText::LBT_NORMAL),
 m_text_ellipsis_position(sad::Label::TextEllipsisPosition::LTEP_MIDDLE),
 m_maximum_lines(0),
+m_rendered_chars(0),
 m_overflow_strategy_for_lines(sad::Label::OverflowStrategy::LOS_VISIBLE),
 m_text_ellipsis_position_for_lines(sad::Label::TextEllipsisPosition::LTEP_MIDDLE),
 m_formatted(false),
 m_computed_rendering_string(false),
 m_computed_rendering_point(false),
-m_rendered_chars(0),
 m_geometries(new sad::os::GLFontGeometries()),
 m_geometries_dirty(true),
 m_line_shader_function(nullptr)
 {
-    
+    m_geometries->addRef();
 }
 
 sad::Label::Label(
@@ -62,6 +62,7 @@ m_overflow_strategy(sad::Label::OverflowStrategy::LOS_VISIBLE),
 m_break_text(sad::Label::BreakText::LBT_NORMAL),
 m_text_ellipsis_position(sad::Label::TextEllipsisPosition::LTEP_MIDDLE),
 m_maximum_lines(0),
+m_rendered_chars(0),
 m_overflow_strategy_for_lines(sad::Label::OverflowStrategy::LOS_VISIBLE),
 m_text_ellipsis_position_for_lines(sad::Label::TextEllipsisPosition::LTEP_MIDDLE),
 m_formatted(false),
@@ -71,6 +72,7 @@ m_geometries(new sad::os::GLFontGeometries()),
 m_geometries_dirty(true),
 m_line_shader_function(nullptr)
 {
+    m_geometries->addRef();
     m_font.attach(font);
     recomputeRenderedString();
 }
@@ -89,6 +91,7 @@ m_overflow_strategy(sad::Label::OverflowStrategy::LOS_VISIBLE),
 m_break_text(sad::Label::BreakText::LBT_NORMAL),
 m_text_ellipsis_position(sad::Label::TextEllipsisPosition::LTEP_MIDDLE),
 m_maximum_lines(0),
+m_rendered_chars(0),
 m_overflow_strategy_for_lines(sad::Label::OverflowStrategy::LOS_VISIBLE),
 m_text_ellipsis_position_for_lines(sad::Label::TextEllipsisPosition::LTEP_MIDDLE),
 m_formatted(false),
@@ -98,6 +101,7 @@ m_geometries(new sad::os::GLFontGeometries()),
 m_geometries_dirty(true),
 m_line_shader_function(nullptr)
 {
+    m_geometries->addRef();
     m_font.setTree(nullptr, tree);
     m_font.setPath(font);
     recomputeRenderedString();
@@ -405,7 +409,7 @@ sad::Rect2D sad::Label::region() const
 sad::Label::~Label()
 {
     clearFontsCache();
-    delete m_geometries;
+    m_geometries->delRef();
 }
 
 void sad::Label::setScene(sad::Scene * scene)

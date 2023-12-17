@@ -7,6 +7,7 @@
 #include "../sadpoint.h"
 // ReSharper disable once CppUnusedIncludeDirective
 #include "../fontshaderfunction.h"
+#include "../refcountable.h"
 #include "glfontgeometry.h"
 
 namespace sad
@@ -19,7 +20,7 @@ namespace os
 
 /*! Stored geometries list
  */
-class GLFontGeometries
+class GLFontGeometries: public sad::RefCountable
 {
 public:
     /*! Geometries
