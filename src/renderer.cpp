@@ -726,6 +726,21 @@ void sad::Renderer::removeTree(const sad::String & name)
     }   
 }
 
+sad::Vector<sad::String> sad::Renderer::treeNames() const
+{
+    sad::Vector<sad::String> result;
+    for (auto it = m_resource_trees.begin(); it != m_resource_trees.end(); ++it)
+    {
+        result.push_back(it.key());
+    }
+    return result;
+}
+
+const sad::Hash<sad::String, sad::resource::Tree*>& sad::Renderer::trees() const
+{
+    return m_resource_trees;
+}
+
 
 bool sad::Renderer::isOwnThread() const
 {

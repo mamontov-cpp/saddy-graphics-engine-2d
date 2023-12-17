@@ -367,6 +367,14 @@ public:
         \param[in] name a name for a tree
      */
     void removeTree(const sad::String & name);
+    /*! Returns names of all trees
+     *  \returns of all trees
+     */
+    sad::Vector<sad::String> treeNames() const;
+    /*! Returns all trees, registered in renderer
+     *  \return all trees
+     */
+    const sad::Hash<sad::String, sad::resource::Tree*>& trees() const;
     /*! Returns true if current thread is renderer's own thread, where it's performs rendering
         \return whether current thread is renderer's
      */
