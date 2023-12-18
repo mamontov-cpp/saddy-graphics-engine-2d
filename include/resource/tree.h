@@ -32,6 +32,7 @@ class Renderer;
 
 namespace resource
 {
+class Resource;
 
 /*! \class Tree
 
@@ -177,7 +178,7 @@ public:
     static sad::Vector<sad::resource::Error *> duplicatesToErrors(
         const sad::Vector<sad::String> & l
     );
-    /*! Returns resource, casted to type
+    /*! Returns resource, casted to type, searching in subtrees if need to
         \param[in] name a name of resource
         \return result
      */
@@ -192,9 +193,20 @@ public:
         {
             result = r->as<_ResourceType>();
         }
+        if (!result)
+        {
+            for (size_t i = 0; (i < m_subtrees.size()) && (!result); ++i)
+            {
+                result = m_subtrees[i]->get<_ResourceType>(name);
+            }
+        }
         return result;
     }
-
+    /*! Returns resource of specified class, searching in subtrees if need to
+     *  \param[in] name name of class
+     *  \param[in] class_name a class name for resource
+     */
+    sad::resource::Resource* getResourceOfClass(const sad::String& name, const sad::String& class_name);
     /*! Returns a temporary root folder, when loading all files
         \return temporary root folder
      */
@@ -209,6 +221,18 @@ public:
         \return entry if entry exists
      */
     tar7z::Entry* archiveEntry(const sad::String& archive, const sad::String& filename, bool load_new = false);
+    /*! Returns list of subtrees to check for resources
+     *  \return list of subtrees
+     */
+    const sad::Vector<sad::resource::Tree*>& subtrees() const;
+    /*! Adds new subtree for a tree
+     *  \param[in] tree a tree to add
+     */
+    void addSubtree(sad::resource::Tree* tree);
+    /*! Removes subtree from a tree
+     *  \param[in] tree a tree to remove
+     */
+    void removeSubtree(sad::resource::Tree* tree);
 protected:
     /*! Fires on error callback
      *  \param[in] errors on error callback
@@ -247,6 +271,9 @@ protected:
     /*! Called on error
      */
     std::function<void(sad::resource::Error*)> m_on_error;
+    /*! A list of subtrees to check for resources
+     */
+    sad::Vector<sad::resource::Tree*> m_subtrees;
 private:
     /*! A current root for loading data
      */

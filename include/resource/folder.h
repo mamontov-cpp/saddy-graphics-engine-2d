@@ -44,8 +44,8 @@ void free(const sad::resource::ResourceEntryList & list);
     subfolders causes creating new subfolders.
  */
 class Folder  
-{	
-public:	
+{
+public:
     /*! Creates new empty folder.
      */
     Folder();
@@ -64,7 +64,7 @@ public:
         be replaced if it exists, destroying old linked resources.
         \param[in] path	a path to subfolder, including  it's name, using "/" as separator.
         \param[in] folder a subfolder to be added
-        \return whether adding was successfull 
+        \return whether adding was successful
                 (false if name is empty, or  count of separators is bigger than 1024).
      */
     bool addFolder(const sad::String&  path, sad::resource::Folder* folder);

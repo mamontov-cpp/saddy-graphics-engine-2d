@@ -1,16 +1,15 @@
 #include "resource/abstractlink.h"
 #include "resource/resource.h"
 #include "resource/tree.h"
-#include "resource/folder.h"
 
 sad::resource::AbstractLink::AbstractLink(const sad::String & resource_type)
 : 
 m_notify_resource(false), 
-m_resource(nullptr),  
+m_resource_type(resource_type),
+m_resource(nullptr),
 m_tree(nullptr),
 m_renderer(nullptr),
-m_render_dependent(false),
-m_resource_type(resource_type)
+m_render_dependent(false)
 {
     
 }
@@ -27,7 +26,7 @@ void sad::resource::AbstractLink::attach(resource::Resource* r)
 {
     if (m_resource)
     {
-        bool notify_resource = m_resource->shouldStoreLinks();
+        const bool notify_resource = m_resource->shouldStoreLinks();
         if (notify_resource)
         {
             m_resource->removeLink(this);
@@ -39,7 +38,7 @@ void sad::resource::AbstractLink::attach(resource::Resource* r)
         m_notify_resource = m_resource->shouldStoreLinks();
         if (m_notify_resource)
         {
-            m_resource->addLink(this);		
+            m_resource->addLink(this);
         }
     }
 }
@@ -53,25 +52,12 @@ sad::resource::Resource* sad::resource::AbstractLink::resource() const
 {
     if (m_resource == nullptr)
     {
-        sad::resource::Folder * folder = nullptr;
         sad::resource::Tree * tree = this->tree();
         if (tree)
         {
-            folder = tree->root();
-        }
-        sad::resource::Resource * res = nullptr;
-        if (folder)
-        {
-            res = folder->resource(m_path);
-        }
-        if (res)
-        {
-            if (res->metaData()->canBeCastedTo(m_resource_type))
+            sad::resource::Resource* res = tree->getResourceOfClass(m_path, m_resource_type);
+            if (res)
             {
-                // We cannot use checked cast because type stored as string, so we store 
-                // only resource type as string
-                sad::Object * tmp = res->metaData()->castTo(res, m_resource_type);
-                res = static_cast<sad::resource::Resource*>(tmp);
                 const_cast<sad::resource::AbstractLink*>(this)->attach(res);
             }
         }
@@ -79,9 +65,9 @@ sad::resource::Resource* sad::resource::AbstractLink::resource() const
     return m_resource;
 }
 
-void sad::resource::AbstractLink::setPath(sad::String path)
+void sad::resource::AbstractLink::setPath(const sad::String& path)
 {
-    bool changed = m_path != path;
+    const bool changed = m_path != path;
     m_path = path;
     if (changed)
     {
@@ -105,7 +91,7 @@ const sad::String & sad::resource::AbstractLink::treeName() const
 
 void  sad::resource::AbstractLink::setTree(resource::Tree * tree)
 {
-    bool changed = m_tree == nullptr || m_resource == nullptr || tree != m_tree || m_render_dependent;
+    const bool changed = m_tree == nullptr || m_resource == nullptr || tree != m_tree || m_render_dependent;
     m_render_dependent = false;
     m_tree = tree;
     if (changed)

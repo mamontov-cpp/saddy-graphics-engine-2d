@@ -440,7 +440,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        sad::Sprite2D::Options * old = l.get();
 
        sad::resource::Link<sad::Texture> l2;
-       l2.setPath("2");
+       l2.setPath("256dx4");
        l2.setTree(&tree);
        sad::Texture * test = l2.get();
 

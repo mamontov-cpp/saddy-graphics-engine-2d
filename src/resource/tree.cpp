@@ -1,4 +1,5 @@
 #include "resource/tree.h"
+#include "resource/resource.h"
 #include "resource/resourcefile.h"
 
 #include "renderer.h"
@@ -42,9 +43,16 @@ sad::resource::Tree::~Tree()
 {
     delete m_root;
     delete m_factory;
-    for(size_t i = 0; i < m_archive_list.size(); i++)
+    for (size_t i = 0; i < m_archive_list.size(); i++)
     {
         delete m_archive_list[i];
+    }
+    for (sad::resource::Tree* tree  :m_subtrees)
+    {
+        if (tree)
+        {
+            tree->delRef();
+        }
     }
 }
 
@@ -497,11 +505,39 @@ sad::Vector<sad::resource::Error *> sad::resource::Tree::duplicatesToErrors(
 )
 {
     sad::Vector<sad::resource::Error *> result;
-    for(size_t i = 0; i < l.size(); i++)
+    for (size_t i = 0; i < l.size(); i++)
     {
         result << new sad::resource::ResourceAlreadyExists(l[i]);
     }
     return result;
+}
+
+sad::resource::Resource* sad::resource::Tree::getResourceOfClass(const sad::String& name, const sad::String& class_name)
+{
+    sad::resource::Folder * folder = this->root();
+    sad::resource::Resource * res = nullptr;
+    if (folder)
+    {
+        res = folder->resource(name);
+    }
+    if (res)
+    {
+        if (res->metaData()->canBeCastedTo(class_name))
+        {
+            // We cannot use checked cast because type stored as string, so we store 
+            // only resource type as string
+            sad::Object * tmp = res->metaData()->castTo(res, class_name);
+            res = static_cast<sad::resource::Resource*>(tmp);
+        }
+    }
+    if (!res)
+    {
+        for (size_t i = 0; (i < m_subtrees.size()) && (!res); ++i)
+        {
+            res = m_subtrees[i]->getResourceOfClass(name, class_name);
+        }
+    }
+    return res;
 }
 
 sad::resource::Folder * sad::resource::Tree::temporaryRoot() const
@@ -558,6 +594,34 @@ tar7z::Entry* sad::resource::Tree::archiveEntry(const sad::String& archive, cons
     return nullptr;
 }
 
+const sad::Vector<sad::resource::Tree*>& sad::resource::Tree::subtrees() const
+{
+    return m_subtrees;
+}
+
+void sad::resource::Tree::addSubtree(sad::resource::Tree* tree)
+{
+    if (tree)
+    {
+        if (std::find(m_subtrees.begin(), m_subtrees.end(), tree) == m_subtrees.end())
+        {
+            m_subtrees << tree;
+            tree->addRef();
+        }
+    }
+}
+
+void sad::resource::Tree::removeSubtree(sad::resource::Tree* tree)
+{
+    if (tree)
+    {
+        if (std::find(m_subtrees.begin(), m_subtrees.end(), tree) != m_subtrees.end())
+        {
+            m_subtrees.removeFirst(tree);
+            tree->delRef();
+        }
+    }
+}
 
 DECLARE_COMMON_TYPE(sad::resource::Tree)
 

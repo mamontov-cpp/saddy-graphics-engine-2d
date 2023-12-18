@@ -47,7 +47,7 @@ public:
     /*! Sets path to an abstract link
         \param[in] path path to a linked resource
      */
-    void setPath(sad::String path);
+    void setPath(const sad::String& path);
     /*! Returns path to a linked resource
         \return path to a linked resource
      */

@@ -578,10 +578,13 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
         c->addMethod("setRenderer",   sad::dukpp03::bind_method::from(&sad::resource::Tree::setRenderer));
         c->addMethod("shouldStoreLinks",   sad::dukpp03::bind_method::from(&sad::resource::Tree::shouldStoreLinks));
         c->addMethod("setStoreLinks",   sad::dukpp03::bind_method::from(&sad::resource::Tree::setStoreLinks));
+        c->addMethod("subtrees", sad::dukpp03::bind_method::from(&sad::resource::Tree::subtrees));
+        c->addMethod("addSubtree", sad::dukpp03::bind_method::from(&sad::resource::Tree::addSubtree));
+        c->addMethod("removeSubtree", sad::dukpp03::bind_method::from(&sad::resource::Tree::removeSubtree));
 
         c->setPrototypeFunction("SadResourceTree");
 
-        ctx->addClassBinding("sad::resource::Tree", c);        
+        ctx->addClassBinding("sad::resource::Tree", c);
     }
     // Exposing sad::resource::File
     {
