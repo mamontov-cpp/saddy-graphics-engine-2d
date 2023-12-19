@@ -401,7 +401,7 @@ struct SadDbCustomSchemaFileTest : tpunit::TestFixture
 
        sad::resource::Link<sad::db::custom::Schema> link1;
        link1.setTree(&tree);
-       link1.setPath("1");
+       link1.setPath("560dx4");
        ASSERT_TRUE(link1.get() == nullptr);
 
        link1.setPath("myschema");
