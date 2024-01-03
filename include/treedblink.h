@@ -187,19 +187,22 @@ public:
         else
         {
             sad::db::Object* o = me->m_db.get();
-            if (check)
+            if (o)
             {
-                sad::db::TypeName<T>::init();
-                // Base name is intended, nobody shouldn't use it
-                // on pointers
-                if (o->isInstanceOf(sad::db::TypeName<T>::baseName()))
+                if (check)
                 {
-                    result  = static_cast<T*>(o);
+                    sad::db::TypeName<T>::init();
+                    // Base name is intended, nobody shouldn't use it
+                    // on pointers
+                    if (o->isInstanceOf(sad::db::TypeName<T>::baseName()))
+                    {
+                        result = static_cast<T*>(o);
+                    }
                 }
-            }
-            else
-            {
-                result  = static_cast<T*>(o);
+                else
+                {
+                    result = static_cast<T*>(o);
+                }
             }
         }
         if (result && m_referenced == false)
