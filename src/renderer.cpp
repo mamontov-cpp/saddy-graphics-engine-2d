@@ -122,6 +122,7 @@ m_free_texture_buffer_after_upload(false)
 void sad::Renderer::reset()
 {
     freeCurrentState();
+    clearNow();
 
     m_window = new sad::Window();
     m_context = new sad::GLContext();
