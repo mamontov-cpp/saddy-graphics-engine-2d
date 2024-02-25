@@ -132,6 +132,9 @@ public:
     /*! Renders a sprite as a simple quad 
      */
     virtual void render() override;
+    /*! Resets texture and options
+     */
+    void resetTextureAndOptions();
     /*! Called, when renderer for scene is changed
      */
     virtual void rendererChanged() override;

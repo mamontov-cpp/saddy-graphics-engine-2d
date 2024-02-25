@@ -372,6 +372,14 @@ void sad::Sprite2D::render()
     }
 }
 
+void sad::Sprite2D::resetTextureAndOptions()
+{
+    m_texture.detach();
+    m_options.detach();
+    m_tc_dirty = true;
+    m_vertexes_dirty = true;
+}
+
 void sad::Sprite2D::rendererChanged()
 {
     sad::Renderer* new_renderer = this->renderer();
@@ -840,7 +848,7 @@ void sad::Sprite2D::onTextureChange(sad::Texture * tex)
 
 void sad::Sprite2D::reloadTexture()
 {
-    normalizeTextureCoordinates();	
+    normalizeTextureCoordinates();
 }
 
 void sad::Sprite2D::normalizeTextureCoordinates()
@@ -907,7 +915,7 @@ void sad::Sprite2D::onOptionsChange(sad::Sprite2D::Options * opts)
     m_texture.setPath(opts->Texture);
     if (m_loading == false)
     {
-        m_texture_coordinates = opts->TextureRectangle;	
+        m_texture_coordinates = opts->TextureRectangle;
     }
     reloadTexture();
     if (m_loading)
