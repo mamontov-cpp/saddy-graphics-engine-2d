@@ -36,8 +36,8 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::TextureCoordinatesList, sad::animation
 // =============================== PUBLIC METHODS ==========================
 
 sad::animations::TextureCoordinatesList::TextureCoordinatesList() 
-: m_cache_folder(nullptr), 
-m_cache_root_folder(nullptr),
+: m_cache_root_folder(nullptr), 
+m_cache_folder(nullptr),
 m_renderer(nullptr)
 {
     m_creators.pushProperty<sad::Rect2D>("texturecoordinates", "texturecoordinates");

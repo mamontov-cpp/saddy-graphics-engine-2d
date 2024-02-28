@@ -1146,6 +1146,7 @@ void sad::dukpp03::Context::exposeSprite2D()
     set_texture_coordinate->add(sad::dukpp03::bind_method::from(setTextureCoordinated));
     c->addMethod("setTextureCoordinate", set_texture_coordinate);
 
+    c->addMethod("resetTextureAndOptions", sad::dukpp03::bind_method::from(&sad::Sprite2D::resetTextureAndOptions));
     c->addMethod("textureCoordinates", sad::dukpp03::bind_method::from(&sad::Sprite2D::textureCoordinates));
     c->addMethod("setRenderableArea", sad::dukpp03::bind_method::from(&sad::Sprite2D::setRenderableArea));
     c->addMethod("renderableArea", sad::dukpp03::bind_method::from(&sad::Sprite2D::renderableArea));
