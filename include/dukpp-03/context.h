@@ -61,6 +61,19 @@ public:
      *  \param[out] result a result for string
      */
     bool evalAndDumpToString(const std::string& script, std::string& error, std::string& result);
+    /*! Evaluates script and dumps the result into result string, otherwise dumps error to error string. Note that this uses console.dump to dump those, so if anything goes wrong with it - it'll be
+     *  reported here as error and all calls to this function will fail.
+     *  \param[in] script a script data
+     *  \param[in] filename a file name data
+     *  \param[out] error a error result
+     *  \param[out] result a result for string
+     */
+    bool evalAndDumpToString(const std::string& script, const std::string& filename, std::string& error, std::string& result);
+    /*! Dump top to string
+     *  \param[out] error a error result
+     *  \param[out] result a result for string
+     */
+    bool dumpTopToString(std::string& error, std::string& result);
     /*! Sets renderer for context
         \param[in] r renderer
      */ 

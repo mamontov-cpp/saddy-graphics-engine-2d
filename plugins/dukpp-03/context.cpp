@@ -57,18 +57,18 @@ bool sad::dukpp03::Context::evalFromFile(
 )
 {
     // Test if file exists
-    sad::String mpath = path.c_str();
-    if (sad::util::fileExists(mpath.c_str()) == false)
+    sad::String string_path = path.c_str();
+    if (sad::util::fileExists(string_path.c_str()) == false)
     {
         sad::Renderer* r = m_renderer;
         if (!r)
         {
             r = sad::Renderer::ref();
         }
-        if (sad::util::isAbsolutePath(mpath) == false)
+        if (sad::util::isAbsolutePath(string_path) == false)
         {
-             mpath = util::concatPaths(r->executablePath(), mpath);
-             if (sad::util::fileExists(mpath.c_str()) == false)
+             string_path = util::concatPaths(r->executablePath(), string_path);
+             if (sad::util::fileExists(string_path.c_str()) == false)
              {
                 if (error)
                 {
@@ -93,7 +93,7 @@ bool sad::dukpp03::Context::evalFromFile(
     m_running = true;
     startEvaluating();
     bool result = false;
-    if (duk_peval_file(m_context, mpath.c_str()) != 0)
+    if (duk_peval_file(m_context, string_path.c_str()) != 0)
     {
         if (duk_has_prop_string(m_context,  -1, "stack"))
         {
@@ -125,44 +125,56 @@ bool sad::dukpp03::Context::evalFromFile(
 
 bool sad::dukpp03::Context::evalAndDumpToString(const std::string& script, std::string& error, std::string& result)
 {
-    bool result_flag = true;
-
-    if (!this->eval(script, false, &error))
+    bool result_flag = false;
+    if (this->eval(script, false, &error))
     {
-        result_flag = false;
+        result_flag = dumpTopToString(error, result);
     }
-    else
+    this->cleanStack();
+    return result_flag;
+}
+
+bool sad::dukpp03::Context::evalAndDumpToString(const std::string& script, const std::string& filename, std::string& error, std::string& result)
+{
+    bool result_flag = false;
+    if (this->eval(script, filename, false, &error))
     {
-        result_flag = true;
-        result.clear();
-        if (this->getTop() > 0)
+        result_flag = dumpTopToString(error, result);
+    }
+    this->cleanStack();
+    return result_flag;
+}
+
+bool sad::dukpp03::Context::dumpTopToString(std::string& error, std::string& result)
+{
+    bool result_flag = true;
+    result.clear();
+    if (this->getTop() > 0)
+    {
+        duk_context* ctx = this->context();
+        duk_get_global_string(ctx, "console");
+        duk_get_prop_string(ctx, -1, "dump");
+        duk_swap_top(ctx, -2);
+        duk_pop(ctx);
+        duk_swap_top(ctx, -2);
+        if (duk_pcall(ctx, 1) == 0)
         {
-            duk_context* ctx = this->context();
-            duk_get_global_string(ctx, "console");
-            duk_get_prop_string(ctx, -1, "dump");
-            duk_swap_top(ctx, -2);
-            duk_pop(ctx);
-            duk_swap_top(ctx, -2);
-            if (duk_pcall(ctx, 1) == 0)
+            result = duk_safe_to_string(ctx, -1);
+        }
+        else
+        {
+            if (duk_has_prop_string(ctx, -1, "stack"))
             {
-                result = duk_safe_to_string(ctx, -1);
+                duk_get_prop_string(ctx, -1, "stack");
+                error = duk_safe_to_string(ctx, -1);
             }
             else
             {
-                if (duk_has_prop_string(ctx, -1, "stack"))
-                {
-                    duk_get_prop_string(ctx, -1, "stack");
-                    error = duk_safe_to_string(ctx, -1);
-                }
-                else
-                {
-                    error = duk_safe_to_string(ctx, -1);
-                }
-                result_flag = false;
+                error = duk_safe_to_string(ctx, -1);
             }
+            result_flag = false;
         }
     }
-    this->cleanStack();
     return result_flag;
 }
 
