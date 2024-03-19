@@ -33,6 +33,11 @@ void sad::PausableTimer::pause()
     {
         start();
     }
+    // If we are not running, no reason to pause at all
+    if (!m_running)
+    {
+        return;
+    }
     m_timer.stop();
     m_elapsed += m_timer.elapsed();
     m_running = false;
@@ -40,6 +45,11 @@ void sad::PausableTimer::pause()
 
 void sad::PausableTimer::resume()
 {
+    // We are running already, no reason to restart timer, flushing the time
+    if (m_running)
+    {
+        return;
+    }
     m_timer.start();
     m_running = true;
 }
