@@ -512,10 +512,28 @@ sad::Vector<sad::resource::Error *> sad::resource::Tree::duplicatesToErrors(
     return result;
 }
 
+sad::resource::Resource* sad::resource::Tree::resource(const sad::String& name)
+{
+    sad::resource::Folder* root = this->root();
+    sad::resource::Resource* result = nullptr;
+    if (root)
+    {
+        result = root->resource(name);
+    }
+    if (!result)
+    {
+        for (size_t i = 0; (i < m_subtrees.size()) && (!result); ++i)
+        {
+            result = m_subtrees[i]->resource(name);
+        }
+    }
+    return result;
+}
+
 sad::resource::Resource* sad::resource::Tree::getResourceOfClass(const sad::String& name, const sad::String& class_name)
 {
-    sad::resource::Folder * folder = this->root();
-    sad::resource::Resource * res = nullptr;
+    sad::resource::Folder* folder = this->root();
+    sad::resource::Resource* res = nullptr;
     if (folder)
     {
         res = folder->resource(name);

@@ -719,7 +719,7 @@ void sad::db::custom::Object::updateConfiguration(sad::db::custom::Schema * s)
         sad::resource::Resource* resource = nullptr;
         if (tree)
         {
-            resource = tree->root()->resource(s->treeItemName());
+            resource = tree->resource(s->treeItemName());
         }
         if (resource)
         {
@@ -740,7 +740,7 @@ void sad::db::custom::Object::updateConfiguration(sad::db::custom::Schema * s)
 
             // Update props
             sad::Hash<sad::String, sad::db::Property*> hash;
-            sad::Hash<sad::String, sad::db::Property*> propstoberemoved = m_custom_schema->ownProperties();
+            sad::Hash<sad::String, sad::db::Property*> properties_to_be_removed = m_custom_schema->ownProperties();
             
             s->getCustomProperties(hash);
             for(sad::Hash<sad::String, sad::db::Property*>::iterator it = hash.begin(); 
@@ -754,32 +754,32 @@ void sad::db::custom::Object::updateConfiguration(sad::db::custom::Schema * s)
                 }
                 else
                 {
-                    sad::db::Property* myprop = m_custom_schema->getProperty(it.key());
-                    if (myprop != nullptr)
+                    sad::db::Property* my_property = m_custom_schema->getProperty(it.key());
+                    if (my_property != nullptr)
                     {
-                        propstoberemoved.remove(it.key());
-                        if (myprop->hasEqualTypeAs(it.value()))
+                        properties_to_be_removed.remove(it.key());
+                        if (my_property->hasEqualTypeAs(it.value()))
                         {
                             // A fix for https://github.com/mamontov-cpp/saddy-graphics-engine-2d/issues/64
                             // to resolve updating schema
-                            if (myprop->hasDefaultValue() || it.value()->hasDefaultValue())
+                            if (my_property->hasDefaultValue() || it.value()->hasDefaultValue())
                             {
-                                if (myprop->hasDefaultValue())
+                                if (my_property->hasDefaultValue())
                                 {                                    
                                     if (it.value()->hasDefaultValue()) // Replace default value
                                     {
                                         sad::db::Variant* v = it.value()->defaultValue();
-                                        myprop->makeNonRequiredWithDefaultValue( new sad::db::Variant(*v));
+                                        my_property->makeNonRequiredWithDefaultValue( new sad::db::Variant(*v));
                                     }
                                     else
                                     {
-                                        myprop->makeRequired();
+                                        my_property->makeRequired();
                                     }
                                 }
                                 else
                                 {
                                     sad::db::Variant* v = it.value()->defaultValue();
-                                    myprop->makeNonRequiredWithDefaultValue(new sad::db::Variant(*v));
+                                    my_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(*v));
                                 }
                             }
 
@@ -800,8 +800,8 @@ void sad::db::custom::Object::updateConfiguration(sad::db::custom::Schema * s)
                 }
             }
 
-            for(sad::Hash<sad::String, sad::db::Property*>::iterator it = propstoberemoved.begin(); 
-                it != propstoberemoved.end(); 
+            for(sad::Hash<sad::String, sad::db::Property*>::iterator it = properties_to_be_removed.begin(); 
+                it != properties_to_be_removed.end(); 
                 ++it)
             {
                 m_custom_schema->remove(it.key());

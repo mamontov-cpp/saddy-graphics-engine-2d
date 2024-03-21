@@ -202,6 +202,10 @@ public:
         }
         return result;
     }
+    /*! Returns resource of specified name, searching in subtrees if need to
+     *  \param[in] name name of class
+     */
+    sad::resource::Resource* resource(const sad::String& name);
     /*! Returns resource of specified class, searching in subtrees if need to
      *  \param[in] name name of class
      *  \param[in] class_name a class name for resource
