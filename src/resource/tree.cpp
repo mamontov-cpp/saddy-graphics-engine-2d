@@ -35,6 +35,8 @@ m_store_links(false)
     const std::function<void(const sad::String&)> default_on_load = [](const sad::String&) -> void {};
     m_on_load_started = default_on_load;
     m_on_load_finished = default_on_load;
+    const std::function<void(size_t)> default_on_count = [](size_t) -> void {};
+    m_on_count = default_on_count;
     const std::function<void(sad::resource::Error*)> default_on_error = [](sad::resource::Error*) -> void {};
     m_on_error = default_on_error;
 }
@@ -56,8 +58,9 @@ sad::resource::Tree::~Tree()
     }
 }
 
-void sad::resource::Tree::setOnLoad(const std::function<void(const sad::String&)>& on_load_started, const std::function<void(const sad::String&)>& on_load_finished)
+void sad::resource::Tree::setOnLoad(const std::function<void(size_t)>& on_count, const std::function<void(const sad::String&)>& on_load_started, const std::function<void(const sad::String&)>& on_load_finished)
 {
+    m_on_count = on_count;
     m_on_load_started = on_load_started;
     m_on_load_finished = on_load_finished;
 }
@@ -88,6 +91,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad
 
         // Try load data to temporary containers
         picojson::array & resource_list = v.get<picojson::array>();
+        m_on_count(resource_list.size());
         for(size_t i = 0 ; i < resource_list.size() && errors.empty(); i++)
         {
             sad::Maybe<sad::String>  maybe_type = picojson::to_type<sad::String>(

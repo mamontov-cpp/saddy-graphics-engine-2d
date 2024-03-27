@@ -59,10 +59,11 @@ public:
      */
     Tree & operator=(const Tree & o) = delete;
     /*! Sets callback on loading tree
+     *  \param[in] on_count called with amount of entries to load
      *  \param[in] on_load_started on load started callback
      *  \param[in] on_load_finished on load finished callback
      */
-    void setOnLoad(const std::function<void(const sad::String&)>& on_load_started, const std::function<void(const sad::String&)>& on_load_finished);
+    void setOnLoad(const std::function<void(size_t)>& on_count, const std::function<void(const sad::String&)>& on_load_started, const std::function<void(const sad::String&)>& on_load_finished);
     /*! Sets callback, when error occurred
      *  \param[in] on_error callback, which will be called on loading error
      */
@@ -275,6 +276,9 @@ protected:
     /*! Called on error
      */
     std::function<void(sad::resource::Error*)> m_on_error;
+    /*! Called when we have count of loaded entries
+     */
+    std::function<void(size_t)> m_on_count;
     /*! A list of subtrees to check for resources
      */
     sad::Vector<sad::resource::Tree*> m_subtrees;
