@@ -138,18 +138,21 @@ sad::os::ThreadImpl::ThreadImpl(sad::AbstractThreadExecutableFunction * f)
 }
 
 sad::os::ThreadImpl::ThreadImpl(const sad::os::ThreadImpl & o)
-: m_function(o.m_function->clone()), m_handle(o.m_handle)
+    : m_function(o.m_function->clone()), m_handle(o.m_handle)
 {
 #ifdef WIN32
-    // Duplicate handle, for handle closing handle
-    DuplicateHandle(GetCurrentProcess(), 
-                    o.m_handle, 
-                    GetCurrentProcess(),
-                    &m_handle,
-                    0,
-                    TRUE,
-                    DUPLICATE_SAME_ACCESS
-                   );
+    if (m_handle != INVALID_HANDLE_VALUE)
+    {
+        // Duplicate handle, for handle closing handle
+        DuplicateHandle(GetCurrentProcess(),
+            o.m_handle,
+            GetCurrentProcess(),
+            &m_handle,
+            0,
+            TRUE,
+            DUPLICATE_SAME_ACCESS
+        );
+    }
 #endif
 }
 
