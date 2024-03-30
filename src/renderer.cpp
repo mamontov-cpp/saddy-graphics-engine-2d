@@ -646,11 +646,15 @@ const sad::String & sad::Renderer::executablePath() const
     if (m_executable_cached_path.length() == 0)
     {
 #ifdef WIN32
+// WinXP fix for MAX_PATH absence
+#ifndef _MAX_PATH
+    #define MAX_PATH _MAX_PATH
+#endif
         char result[_MAX_PATH+1];
         GetModuleFileNameA(nullptr, result, _MAX_PATH);
         sad::String * path = &(const_cast<sad::Renderer*>(this)->m_executable_cached_path);
         *path =  result;        
-        int pos = path->getLastOccurrence("\\");
+        const int pos = path->getLastOccurrence("\\");
         if (pos > 0)
         {
             *path = path->subString(0, pos);
