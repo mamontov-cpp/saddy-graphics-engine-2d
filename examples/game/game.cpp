@@ -198,7 +198,7 @@ int Game::highscore() const
     return m_highscore;
 }
 
-bool Game::isInPlayingState()
+bool Game::isInPlayingState() const
 {
 	return m_machine->isInState(GameState::PLAYING);
 }
@@ -222,14 +222,14 @@ void Game::tryToggleFullscreen()
 bool Game::trySetup()
 {
     // Init logs with target streams to file  and console
-    sad::log::FileTarget * filetarget = new sad::log::FileTarget();
-    filetarget->open("log.txt");
+    sad::log::FileTarget * file_target = new sad::log::FileTarget();
+    file_target->open("log.txt");
     
     // A format for console is described as {date}: [file and line] [subsystem] message
-    sad::log::ConsoleTarget * consoletarget = new sad::log::ConsoleTarget(
+    sad::log::ConsoleTarget * console_target = new sad::log::ConsoleTarget(
         "{0}: [{1}] {3}{2}{4}", 0, true
     );
-    m_renderer->log()->addTarget(filetarget).addTarget(consoletarget);
+    m_renderer->log()->addTarget(file_target).addTarget(console_target);
     
     // Output executable path
     SL_LOCAL_DEBUG   ("Executable path is ", *m_renderer);
@@ -243,7 +243,7 @@ bool Game::trySetup()
     SL_LOCAL_DEBUG   ("against other smiley faces", *m_renderer);
     SL_LOCAL_USER    ("it\'s sure will be hard for him...", *m_renderer, "END");
 
-    // Inits a renderer as non-fullscreen 640x480 window
+    // Initializes a renderer as non-fullscreen 640x480 window
 
     sad::ObjectDependentFPSInterpolation * fps = new sad::ObjectDependentFPSInterpolation();
     fps->setRenderer(m_renderer);
@@ -252,14 +252,14 @@ bool Game::trySetup()
     m_renderer->init(sad::Settings(640,480,false));
 
     SL_LOCAL_MESSAGE("Renderer successfully initialized!", *m_renderer);	
-    // Inits generator for spawns and random raings
-    srand(static_cast<unsigned int>(time(nullptr)));
+    // Initializes generator for spawns and random
+    srand(static_cast<unsigned int>(time(nullptr)));  // NOLINT(cert-msc51-cpp)
 
     //Loading resources
     bool result = true; 
-    sad::Vector<sad::resource::Error *> errors = m_renderer->loadResources("examples/game/resources.json");
-    sad::String errortext;
-    if (errors.size() != 0)
+    const sad::Vector<sad::resource::Error *> errors = m_renderer->loadResources("examples/game/resources.json");
+    const sad::String error_text;
+    if (!errors.empty())
     {
         result = false;
         SL_LOCAL_FATAL(sad::resource::format(errors), *m_renderer);
@@ -599,7 +599,7 @@ void Game::moveToStartingScreen()
     m_is_paused = false;
     sad::Scene * sc = this->scene();
 
-    // Fill screne with background, label and rain of element (the last object does that).
+    // Fill screen with background, label and rain of element (the last object does that).
     sad::Texture * tex = m_renderer->texture("title");
     sad::Sprite2D * background = new sad::Sprite2D(
         tex, 

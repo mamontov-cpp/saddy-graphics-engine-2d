@@ -13,7 +13,7 @@ Player::Player() : m_stop_keys{sad::KeyboardKey::A, sad::KeyboardKey::A}
     m_score = 0;
     m_hp = 10;
 
-    this->initFromConstants<Player>();
+    initFromConstants(this);
     m_gun = new AutomaticGun<PlayerBullet>();
     m_gun->setAngleDifference(0);
     m_gun->disable();

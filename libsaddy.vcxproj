@@ -580,7 +580,6 @@
     <ClInclude Include="include\p2d\world.h" />
     <ClInclude Include="include\p2d\worldsteptask.h" />
     <ClInclude Include="include\p2d\app\app.h" />
-    <ClInclude Include="include\p2d\app\constants.h" />
     <ClInclude Include="include\p2d\app\object.h" />
     <ClInclude Include="include\p2d\app\objectemitter.h" />
     <ClInclude Include="include\p2d\app\way.h" />

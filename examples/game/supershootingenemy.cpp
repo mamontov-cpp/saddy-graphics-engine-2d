@@ -7,7 +7,7 @@ DECLARE_SOBJ_INHERITANCE(SuperShootingEnemy, GameObject)
 
 SuperShootingEnemy::SuperShootingEnemy()
 {
-    this->initFromConstants<SuperShootingEnemy>();
+    initFromConstants(this);
     m_hp = 3; // Set hp to 3, as tough enemy
 
     // Super shooting enemy will shoot shooting enemies in all four directions

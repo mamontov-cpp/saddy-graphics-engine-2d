@@ -7,7 +7,7 @@ DECLARE_SOBJ_INHERITANCE(ShootingEnemy, GameObject)
 
 ShootingEnemy::ShootingEnemy()
 {
-    this->initFromConstants<ShootingEnemy>();
+    initFromConstants(this);
     this->addGun(new AutomaticGun<EnemyBullet>() );
     this->setAngularVelocity(1.0);
 }

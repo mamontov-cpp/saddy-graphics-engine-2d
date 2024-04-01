@@ -4,6 +4,6 @@ DECLARE_SOBJ_INHERITANCE(Bonus, GameObject)
 
 Bonus::Bonus()
 {
-    this->initFromConstants<Bonus>();
+    initFromConstants(this);
     this->setAngularVelocity(1.0);
 }

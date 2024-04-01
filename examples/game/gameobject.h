@@ -52,7 +52,7 @@ class GameObject: public sad::p2d::app::Object
      /*! Returns a game from game object
          \return game
       */
-     Game * game();
+     Game * game() const;
      /*! Adds a new gun for object
          \param[in] gun a gun
       */

@@ -46,7 +46,7 @@ void GameObject::decrementHP(int count)
     }
 }
 
-Game * GameObject::game()
+Game * GameObject::game() const
 {
     if (m_app == nullptr)
     {

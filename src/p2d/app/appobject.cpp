@@ -171,6 +171,17 @@ void sad::p2d::app::Object::setTangentialVelocity(const sad::p2d::Vector & v)
     this->body()->setCurrentTangentialVelocity(v);
 }
 
+
+void sad::p2d::app::Object::setOptions(sad::Sprite2D::Options* options) const
+{
+    m_sprite->set(*options);
+}
+
+void sad::p2d::app::Object::setShape(sad::p2d::CollisionShape* shape) const
+{
+    m_body->setShape(shape);
+}
+
 void sad::p2d::app::Object::setShaderFunction(sad::ShaderFunction* fun)
 {
     m_sprite->setShaderFunction(fun);

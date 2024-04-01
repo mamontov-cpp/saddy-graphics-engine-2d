@@ -8,8 +8,7 @@
 
 #include "abstractautomaticgun.h"
 #include "gameobject.h"
-
-#include <p2d/app/constants.h>
+#include "constants.h"
 
 /*! An automatic gun, which shoots bullets of specified type
  */
@@ -34,7 +33,7 @@ class AutomaticGun: public AbstractAutomaticGun
       */
      AutomaticGun() : AbstractAutomaticGun()
      {
-         setInterval(sad::p2d::app::Constants<_Bullet>::interval());
+         setInterval(Constants<_Bullet>::interval());
      }
 
      /*! Produces an object
@@ -65,7 +64,7 @@ class AutomaticGun: public AbstractAutomaticGun
      virtual void tangentialVelocity(sad::p2d::Vector & v) override
      {
          const double angle = m_object->angle() + m_dangle;
-         const double speed = sad::p2d::app::Constants<_Bullet>::velocity();
+         const double speed = Constants<_Bullet>::velocity();
          v.setX(speed * cos(angle));
          v.setY(speed * sin(angle));
      }

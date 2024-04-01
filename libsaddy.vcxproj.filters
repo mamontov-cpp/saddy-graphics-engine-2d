@@ -1262,9 +1262,6 @@
     <ClInclude Include="include\p2d\app\app.h">
       <Filter>Заголовочные файлы\p2d\app</Filter>
     </ClInclude>
-    <ClInclude Include="include\p2d\app\constants.h">
-      <Filter>Заголовочные файлы\p2d\app</Filter>
-    </ClInclude>
     <ClInclude Include="include\p2d\app\object.h">
       <Filter>Заголовочные файлы\p2d\app</Filter>
     </ClInclude>

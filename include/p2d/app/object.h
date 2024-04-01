@@ -3,8 +3,6 @@
     Describes main application object, that is basic for all objects in application
  */
 #pragma once
-#include "constants.h"
-
 #include "../body.h"
 
 #include "../../sprite2d.h"
@@ -132,6 +130,14 @@ public:
          \param[in] v velocity
       */
      void setTangentialVelocity(const p2d::Vector & v);
+     /*! Sets object' sprite options
+      *  \param[in] options options to set
+      */
+     void setOptions(sad::Sprite2D::Options* options) const;
+     /*! Sets collision shape
+      *  \param[in] shape a collision shape
+      */
+     void setShape(sad::p2d::CollisionShape* shape) const;
      /*! Sets shader function
       *  \param[in] fun a function
       */
@@ -158,16 +164,6 @@ protected:
      /*! A second listener for movement of body
       */
      p2d::MovementDeltaListener<p2d::app::Object, double> * m_listener2;
-protected:
-     /*! Initializes object parameters from constants of specified type
-      */
-     template<typename T> void initFromConstants()
-     {
-         Sprite2D::Options * o = p2d::app::Constants<T>::sprite();
-         this->m_sprite->set(*o);
-         delete o;
-         this->m_body->setShape(p2d::app::Constants<T>::shape());
-     }
 };
 
 }
