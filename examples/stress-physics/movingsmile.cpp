@@ -3,7 +3,7 @@
 #include <renderer.h>
 #include <p2d/circle.h>
 
-DECLARE_SOBJ_INHERITANCE(MovingSmile, sad::p2d::app::Object)
+DECLARE_SOBJ_INHERITANCE(MovingSmile, sad::phy52d::Object)
 
 MovingSmile::MovingSmile(sad::p2d::app::Way * w) : m_way(w), m_time(0)
 {
@@ -32,6 +32,6 @@ void MovingSmile::step(double time)
 void MovingSmile::render()
 {
     step(this->body()->TimeStep);
-    this->sad::p2d::app::Object::render();
+    this->sad::phy52d::Object::render();
 }
 

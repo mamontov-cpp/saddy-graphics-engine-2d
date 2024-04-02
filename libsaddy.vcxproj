@@ -290,9 +290,6 @@
     <ClCompile Include="src\p2d\weight.cpp" />
     <ClCompile Include="src\p2d\world.cpp" />
     <ClCompile Include="src\p2d\worldsteptask.cpp" />
-    <ClCompile Include="src\p2d\app\app.cpp" />
-    <ClCompile Include="src\p2d\app\appobject.cpp" />
-    <ClCompile Include="src\p2d\app\objectemitter.cpp" />
     <ClCompile Include="src\p2d\app\way.cpp" />
     <ClCompile Include="src\input\controls.cpp" />
     <ClCompile Include="src\input\events.cpp" />
@@ -579,9 +576,6 @@
     <ClInclude Include="include\p2d\weight.h" />
     <ClInclude Include="include\p2d\world.h" />
     <ClInclude Include="include\p2d\worldsteptask.h" />
-    <ClInclude Include="include\p2d\app\app.h" />
-    <ClInclude Include="include\p2d\app\object.h" />
-    <ClInclude Include="include\p2d\app\objectemitter.h" />
     <ClInclude Include="include\p2d\app\way.h" />
     <ClInclude Include="include\input\controls.h" />
     <ClInclude Include="include\input\events.h" />

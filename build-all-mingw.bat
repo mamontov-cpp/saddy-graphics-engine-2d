@@ -47,6 +47,9 @@ cd ../..
 cd plugins/imgui
 call %BatchToRun% || goto :error
 cd ../..
+cd plugins/phy52d
+call %BatchToRun% || goto :error
+cd ../..
 cd plugins/dukpp-03-irrklang
 call %BatchToRun%
 cd ../..

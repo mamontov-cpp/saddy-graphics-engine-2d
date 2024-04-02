@@ -5,12 +5,12 @@
  */
 #pragma once
 #include <p2d/app/way.h>
-#include <p2d/app/object.h>
+#include <phy52d/object.h>
 #pragma once
 
 /*! As a default, grid node is a node
  */
-class MovingSmile: public sad::p2d::app::Object
+class MovingSmile: public sad::phy52d::Object
 {
  SAD_OBJECT
  protected:

@@ -25,7 +25,7 @@ class AutomaticGun: public AbstractAutomaticGun
          // Check paused flag
          if (m_object->game()->isPaused() == false)
          {
-             this->sad::p2d::app::AbstractObjectEmitter::perform();
+             this->sad::phy52d::AbstractObjectEmitter::perform();
          }
      }
  public:
@@ -39,7 +39,7 @@ class AutomaticGun: public AbstractAutomaticGun
      /*! Produces an object
          \return object
       */
-     virtual sad::p2d::app::Object * produce() override
+     virtual sad::phy52d::Object * produce() override
      {
          return new _Bullet();
      }

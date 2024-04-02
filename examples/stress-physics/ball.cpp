@@ -4,7 +4,7 @@
 
 #include <p2d/circle.h>
 
-DECLARE_SOBJ_INHERITANCE(Ball, sad::p2d::app::Object)
+DECLARE_SOBJ_INHERITANCE(Ball, sad::phy52d::Object)
 
 Ball::Ball()
 {
@@ -29,7 +29,7 @@ Ball::Ball()
 #ifdef PHYSICS_ENGINE_DEBUG
 void Ball::render()
 {
-    this->sad::p2d::app::Object::render();
+    this->sad::phy52d::Object::render();
     sad::p2d::Point p = this->body()->position();
     sad::p2d::Point v = this->body()->tangentialVelocity();
     std::string s = str(fmt::Format("{0} {1} {2} {3} {4}") << p.x() << p.y() << v.x() << v.y() << sad::Renderer::ref()->fps());

@@ -7,6 +7,9 @@ set -e
 cd plugins/freetype
 (cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make) || (exit 1)
 cd ../..
+cd plugins/phy52d
+(cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make) || (exit 1)
+cd ../..
 cd tools/ifaceed
 qmake CONFIG+=$QtConfig ifaceed.pro
 make

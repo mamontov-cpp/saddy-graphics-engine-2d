@@ -2,7 +2,7 @@
 
 #include <p2d/rectangle.h>
 
-DECLARE_SOBJ_INHERITANCE(Platform, sad::p2d::app::Object)
+DECLARE_SOBJ_INHERITANCE(Platform, sad::phy52d::Object)
 
 Platform::Platform()
 {

@@ -10,8 +10,8 @@
 #include <orthographiccamera.h>
 #include <keymouseconditions.h>
 #include <p2d/elasticforce.h>
-#include <p2d/app/object.h>
-#include <p2d/app/objectemitter.h>
+#include <phy52d/object.h>
+#include <phy52d/objectemitter.h>
 #include <pipeline/pipeline.h>
 #include <input/controls.h>
 
@@ -186,7 +186,7 @@ void World::run()
     label->argFPS();
     sc->add( label );
 
-    typedef sad::p2d::app::RandomDirectionObjectEmitter<UncoloredBullet> Emitter;
+    typedef sad::phy52d::RandomDirectionObjectEmitter<UncoloredBullet> Emitter;
     Emitter * b = new Emitter(this);
     // Set emitting task at upper middle of screen
     b->setMinPosition(sad::p2d::Vector(400, 570));

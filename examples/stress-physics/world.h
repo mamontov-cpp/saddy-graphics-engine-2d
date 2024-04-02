@@ -11,7 +11,7 @@
 #include <periodicalevent.h>
 // ReSharper disable once CppUnusedIncludeDirective
 #include <scene.h>
-#include <p2d/app/app.h>
+#include <phy52d/app.h>
 #include <p2d/findcontactpoints.h>
 #include <p2d/walls.h>
 #include <p2d/bouncesolver.h>
@@ -27,7 +27,7 @@ class Shooter;
 class ColoredBullet;
 /*! Main class for application
  */
-class World: public sad::p2d::app::App
+class World: public sad::phy52d::App
 {
 protected:
     sad::p2d::FindContactPoints * m_find; //!<  A method for finding contact points

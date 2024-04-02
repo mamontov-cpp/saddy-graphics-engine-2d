@@ -15,6 +15,9 @@ cd ../..
 cd plugins/imgui
 (cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make) || (exit 1)
 cd ../..
+cd plugins/phy52d
+(cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make) || (exit 1)
+cd ../..
 cd examples/game
 (cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make) || (exit 1)
 cd ../..

@@ -5,14 +5,14 @@
 #pragma once
 #include "abstractautomaticgun.h"
 
-#include "p2d/app/object.h"
+#include <phy52d/object.h>
 
 
 class Game;
 /*! Describes a basic in-game object, which provides primitives, needed to 
     describe all in-game objects
  */
-class GameObject: public sad::p2d::app::Object
+class GameObject: public sad::phy52d::Object
 {
     /* Declare metadata, needed to describe inheritance tree, name of class
        This metadata can be used where real type is needed - for most part,

@@ -441,15 +441,6 @@
     <ClCompile Include="src\p2d\worldsteptask.cpp">
       <Filter>Файлы исходного кода\p2d</Filter>
     </ClCompile>
-    <ClCompile Include="src\p2d\app\app.cpp">
-      <Filter>Файлы исходного кода\p2d\app</Filter>
-    </ClCompile>
-    <ClCompile Include="src\p2d\app\appobject.cpp">
-      <Filter>Файлы исходного кода\p2d\app</Filter>
-    </ClCompile>
-    <ClCompile Include="src\p2d\app\objectemitter.cpp">
-      <Filter>Файлы исходного кода\p2d\app</Filter>
-    </ClCompile>
     <ClCompile Include="src\p2d\app\way.cpp">
       <Filter>Файлы исходного кода\p2d\app</Filter>
     </ClCompile>
@@ -1258,15 +1249,6 @@
     </ClInclude>
     <ClInclude Include="include\p2d\worldsteptask.h">
       <Filter>Заголовочные файлы\p2d</Filter>
-    </ClInclude>
-    <ClInclude Include="include\p2d\app\app.h">
-      <Filter>Заголовочные файлы\p2d\app</Filter>
-    </ClInclude>
-    <ClInclude Include="include\p2d\app\object.h">
-      <Filter>Заголовочные файлы\p2d\app</Filter>
-    </ClInclude>
-    <ClInclude Include="include\p2d\app\objectemitter.h">
-      <Filter>Заголовочные файлы\p2d\app</Filter>
     </ClInclude>
     <ClInclude Include="include\p2d\app\way.h">
       <Filter>Заголовочные файлы\p2d\app</Filter>

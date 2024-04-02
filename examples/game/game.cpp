@@ -44,7 +44,7 @@ Game::Game(sad::Renderer* renderer) : m_renderer(renderer)
 
     sad::input::Controls * controls = m_renderer->controls();
     controls->add(*sad::input::EventType::ET_KeyPress & sad::KeyboardKey::F, this, &Game::tryToggleFullscreen);
-    controls->add(*sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc, this, &sad::p2d::app::App::quit);
+    controls->add(*sad::input::EventType::ET_KeyPress & sad::KeyboardKey::Esc, this, &sad::phy52d::App::quit);
 
     // Create a new idle state
     sad::hfsm::State * idleState = new sad::hfsm::State();
@@ -353,7 +353,7 @@ void Game::killEnemies()
         // Remove all of theme at once
         for(size_t i = 0; i < enemies.size(); i++)
         {
-            this->removeObject(static_cast<sad::p2d::app::Object*>(enemies[i]));
+            this->removeObject(static_cast<sad::phy52d::Object*>(enemies[i]));
         }
     }
 }
@@ -441,7 +441,7 @@ void Game::enterPlayingScreen()
     createWalls();
 }
 
-void Game::removeObject(sad::p2d::app::Object *o)
+void Game::removeObject(sad::phy52d::Object *o)
 {
     // If player is dead, no reason to continue playing, 
     // return to start screen
@@ -453,7 +453,7 @@ void Game::removeObject(sad::p2d::app::Object *o)
     {
         --m_registered_super_shooting_enemies_count;
     }
-    this->sad::p2d::app::App::removeObject(o);
+    this->sad::phy52d::App::removeObject(o);
 }
 
 

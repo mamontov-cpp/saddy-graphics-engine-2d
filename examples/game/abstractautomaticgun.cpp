@@ -37,7 +37,7 @@ void AbstractAutomaticGun::tryShoot()
     this->tryPerform();
 }
 
-sad::p2d::app::App * AbstractAutomaticGun::app()
+sad::phy52d::App * AbstractAutomaticGun::app()
 {
     return m_object->app();
 }

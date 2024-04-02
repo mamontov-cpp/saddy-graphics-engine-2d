@@ -4,14 +4,14 @@
     Describes a ball
  */
 #pragma once
-#include <p2d/app/object.h>
+#include <phy52d/object.h>
 // ReSharper disable once CppUnusedIncludeDirective
 #include <log/log.h>
 #include <log/filetarget.h>
 
 /*! A ball is a simple primitive, rendered as sprite
  */
-class Ball: public sad::p2d::app::Object
+class Ball: public sad::phy52d::Object
 {
 SAD_OBJECT
 public:

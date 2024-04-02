@@ -9,7 +9,7 @@
 // ReSharper disable once CppUnusedIncludeDirective
 #include "constants.h"
 
-#include <p2d/app/objectemitter.h>
+#include <phy52d/objectemitter.h>
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include <ctime>
@@ -19,7 +19,7 @@ class GameObject;
 /*! A basic automatic gun can shoot. It's knows about position of object
     and tries to shoot by a bullet every period of time
  */
-class AbstractAutomaticGun: public sad::p2d::app::AbstractObjectEmitter
+class AbstractAutomaticGun: public sad::phy52d::AbstractObjectEmitter
 {
   protected:
       /*! A game object, which has a gun
@@ -41,7 +41,7 @@ class AbstractAutomaticGun: public sad::p2d::app::AbstractObjectEmitter
       /*! Returns an application
             \return application
         */
-      virtual sad::p2d::app::App * app() override;
+      virtual sad::phy52d::App * app() override;
       /*! Sets difference between angle of object and shooting angle
           \param[in] delta delta of angle
        */

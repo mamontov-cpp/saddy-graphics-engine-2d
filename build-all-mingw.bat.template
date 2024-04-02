@@ -41,6 +41,9 @@ REM cd ../..
 cd plugins/dukpp-03
 call %BatchToRun% || goto :error
 cd ../..
+cd plugins/phy52d
+call %BatchToRun% || goto :error
+cd ../..
 cd plugins/irrklang
 call %BatchToRun% || goto :error
 cd ../..

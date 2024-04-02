@@ -1,16 +1,16 @@
 #include "gameobject.h"
 #include "game.h"
 
-DECLARE_SOBJ_INHERITANCE(GameObject, sad::p2d::app::Object);
+DECLARE_SOBJ_INHERITANCE(GameObject, sad::phy52d::Object)
 
-GameObject::GameObject(): sad::p2d::app::Object()
+GameObject::GameObject(): sad::phy52d::Object()
 {
     m_hp = 1;
 }
 
-GameObject::~GameObject()
+GameObject::~GameObject()  // NOLINT(modernize-use-equals-default)
 {
-    for(size_t i = 0; i < m_guns.count(); i++)
+    for (size_t i = 0; i < m_guns.count(); i++)
     {
         delete m_guns[i];
     }
@@ -18,7 +18,7 @@ GameObject::~GameObject()
 
 void GameObject::render()
 {
-    this->sad::p2d::app::Object::render();
+    this->sad::phy52d::Object::render();
     for(size_t i = 0; i < m_guns.count(); i++)
     {
         m_guns[i]->tryShoot();;

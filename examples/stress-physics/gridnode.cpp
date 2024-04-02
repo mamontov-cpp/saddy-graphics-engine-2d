@@ -1,7 +1,7 @@
 #include "gridnode.h"
 #include <p2d/circle.h>
 
-DECLARE_SOBJ_INHERITANCE(GridNode, sad::p2d::app::Object)
+DECLARE_SOBJ_INHERITANCE(GridNode, sad::phy52d::Object)
 
 GridNode::GridNode()
 {

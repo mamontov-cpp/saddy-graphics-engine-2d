@@ -35,12 +35,12 @@ win32 {
 }
 
 CONFIG(debug, debug|release) {
-    LIBS += -L../../lib/ -lsaddy-debug -lsaddy-qt-widget-debug
+    LIBS += -L../../lib/ -lsaddy-debug -lsaddy-phy52d-debug -lsaddy-qt-widget-debug
     TARGET = example-game-in-qt-debug
 }
 
 CONFIG(release, debug|release) {
-    LIBS += -L../../lib/ -lsaddy-release -lsaddy-qt-widget-release
+    LIBS += -L../../lib/ -lsaddy-release -lsaddy-phy52d-release -lsaddy-qt-widget-release
     TARGET = example-game-in-qt-release
 }
 

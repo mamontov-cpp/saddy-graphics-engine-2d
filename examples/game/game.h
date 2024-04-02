@@ -8,7 +8,7 @@
 #include <periodicalevent.h>
 // ReSharper disable once CppUnusedIncludeDirective
 #include <scene.h>
-#include <p2d/app/app.h>
+#include <phy52d/app.h>
 #include <p2d/walls.h>
 
 /*! An enumerations for creating factory objects
@@ -45,7 +45,7 @@ class GameState
 
 /*! A main class of game
  */
-class Game: public sad::p2d::app::App
+class Game: public sad::phy52d::App
 {
 public:
     /*! Creates a new non-paused game with no high score
@@ -123,7 +123,7 @@ public:
     /*! Removes an object
         \param[in] o object
      */
-    void removeObject(sad::p2d::app::Object * o) override;
+    void removeObject(sad::phy52d::Object * o) override;
 protected:
     /*! Create walls for game
      */

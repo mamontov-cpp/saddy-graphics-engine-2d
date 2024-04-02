@@ -13,7 +13,6 @@
 #pragma once
 #include <sprite2d.h>
 #include <p2d/body.h>
-#include <p2d/app/object.h>
 
 class Player;
 class PlayerBullet;

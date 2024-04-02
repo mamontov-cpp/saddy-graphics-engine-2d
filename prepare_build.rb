@@ -66,6 +66,9 @@ replace_in_file("plugins/dukpp-03-irrklang/dukpp-03-irrklang.vcxproj", /<Platfor
 replace_in_file("plugins/dukpp-03/dukpp-03.vcxproj", /<WindowsTargetPlatformVersion>10.0<\/WindowsTargetPlatformVersion>/, "<WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>")
 replace_in_file("plugins/dukpp-03/dukpp-03.vcxproj", /<PlatformToolset>v142<\/PlatformToolset>/, "<PlatformToolset>v141</PlatformToolset>")
 
+replace_in_file("plugins/phy52d/phy52d.vcxproj", /<WindowsTargetPlatformVersion>10.0<\/WindowsTargetPlatformVersion>/, "<WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>")
+replace_in_file("plugins/phy52d/phy52d.vcxproj", /<PlatformToolset>v142<\/PlatformToolset>/, "<PlatformToolset>v141</PlatformToolset>")
+
 replace_in_file("plugins/freetype/saddy-ft.vcxproj", /<WindowsTargetPlatformVersion>10.0<\/WindowsTargetPlatformVersion>/, "<WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>")
 replace_in_file("plugins/freetype/saddy-ft.vcxproj", /<PlatformToolset>v142<\/PlatformToolset>/, "<PlatformToolset>v141</PlatformToolset>")
 

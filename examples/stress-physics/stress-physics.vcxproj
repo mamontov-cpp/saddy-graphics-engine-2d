@@ -99,7 +99,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-debug.lib;..\..\lib\saddy-phy52d-debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
@@ -127,7 +127,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-debug.lib;..\..\lib\saddy-phy52d-debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
@@ -156,7 +156,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-release.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-release.lib;..\..\lib\saddy-phy52d-release.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -183,7 +183,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-release.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-release.lib;..\..\lib\saddy-phy52d-release.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>

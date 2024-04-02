@@ -48,6 +48,9 @@ cd ../..
 cd plugins/imgui
 eval $BatchToRun
 cd ../..
+cd plugins/phy2d
+eval $BatchToRun
+cd ../..
 cd plugins/dukpp-03-irrklang
 eval $BatchToRun
 cd ../..

@@ -4,7 +4,7 @@
 #include <pipeline/pipeline.h>
 #include <p2d/circle.h>
 
-DECLARE_SOBJ_INHERITANCE(Shooter, sad::p2d::app::Object)
+DECLARE_SOBJ_INHERITANCE(Shooter, sad::phy52d::Object)
 
 Shooter::Shooter()
 {
@@ -34,7 +34,7 @@ Shooter::Gun::Gun(Shooter * parent) : m_parent(parent)
     this->setMaxCount(2);
 }
 
-sad::p2d::app::App * Shooter::Gun::app()
+sad::phy52d::App * Shooter::Gun::app()
 {
     return m_parent->app();
 }
@@ -44,7 +44,7 @@ void Shooter::Gun::perform()
     this->setMinPosition(m_parent->position() - sad::p2d::Vector(5, 0));
     this->setMaxPosition(m_parent->position() + sad::p2d::Vector(5, 0));
     this->setInterval(200.0 +  800.0 * this->prand());
-    this->sad::p2d::app::RandomDirectionObjectEmitter<ColoredBullet>::perform();
+    this->sad::phy52d::RandomDirectionObjectEmitter<ColoredBullet>::perform();
 }
 
 

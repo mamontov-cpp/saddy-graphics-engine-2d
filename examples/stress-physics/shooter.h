@@ -4,24 +4,24 @@
     Describes a simple shooter, which shoots object
  */
 #pragma once
-#include <p2d/app/object.h>
-#include <p2d/app/objectemitter.h>
+#include <phy52d/object.h>
+#include <phy52d/objectemitter.h>
 #include "coloredbullet.h"
 #pragma once
 
 /*! A simple default object
  */
-class Shooter: public sad::p2d::app::Object
+class Shooter: public sad::phy52d::Object
 {
  SAD_OBJECT
 
- class Gun: public sad::p2d::app::RandomDirectionObjectEmitter<ColoredBullet>
+ class Gun: public sad::phy52d::RandomDirectionObjectEmitter<ColoredBullet>
  {
   protected:
     Shooter * m_parent;
   public:
      Gun(Shooter * parent);
-     virtual sad::p2d::app::App * app() override;
+     virtual sad::phy52d::App * app() override;
      virtual void perform() override;
  };
  protected:

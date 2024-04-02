@@ -2,7 +2,7 @@
 
 #include <p2d/circle.h>
 
-DECLARE_SOBJ_INHERITANCE(UncoloredBullet, sad::p2d::app::Object)
+DECLARE_SOBJ_INHERITANCE(UncoloredBullet, sad::phy52d::Object)
 
 UncoloredBullet::UncoloredBullet()
 {
