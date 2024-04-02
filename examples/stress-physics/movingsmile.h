@@ -6,8 +6,6 @@
 #pragma once
 #include <p2d/app/way.h>
 #include <p2d/app/object.h>
-// ReSharper disable once CppUnusedIncludeDirective
-#include <p2d/app/constants.h>
 #pragma once
 
 /*! As a default, grid node is a node

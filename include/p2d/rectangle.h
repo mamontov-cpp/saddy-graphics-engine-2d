@@ -18,6 +18,10 @@ class Rectangle: public p2d::CollisionShape
 {
 public:
     inline Rectangle() {}
+    /*! Constructs new rectangle with inner data
+     *  \param[in] rect rectangle
+     */
+    inline Rectangle(const sad::Rect2D& rect) : m_rect(rect) {}
     /*! Sets new inner rectangle
         \param[in] rect rectangle
      */

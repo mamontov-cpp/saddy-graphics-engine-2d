@@ -21,6 +21,10 @@ class Circle: public p2d::CollisionShape
 {
 public:
     inline Circle() : m_radius(0) { m_transformer = nullptr; }
+    /*! Creates circle with specified radius
+     *  \param[in] radius a radius
+     */
+    inline Circle(double radius) : m_radius(radius) { m_transformer = nullptr; }
     /*! Sets new center
         \param[in] p point
      */

@@ -42,10 +42,10 @@ public:
           
           /*! A texture name, that defines a texture in sprite
            */
-          sad::String Texture;       
+          sad::String Texture;
           /*! Stored texture coordinates in pixels
            */
-          sad::Rect2D TextureRectangle;  
+          sad::Rect2D TextureRectangle;
           /*! A rectangle, which defines current quad to be rendered
            */
           sad::Rect2D Rectangle;
@@ -64,11 +64,21 @@ public:
               
           }
 
+          /*! Creates options with specified parameters
+           *  \param[in] texture a source texture
+           *  \param[in] texture_rectangle a rectangle for texture
+           *  \param[in] rectangle an area rectangle
+           */
+          inline Options(const sad::String& texture, const sad::Rect2D& texture_rectangle, const sad::Rect2D& rectangle) : Texture(texture), TextureRectangle(texture_rectangle), Rectangle(rectangle), Transparent(false)
+          {
+              
+          }
+
           /*! Loads an options from specified file, using specified renderer for building mip maps.
               \param[in] file a file, via which a resource should be loaded
               \param[in] r  a renderer, which resource should be linked to (nullptr if global renderer)
               \param[in] options  an options for loading a resource
-              \return whether loading was successfull
+              \return whether loading was successful
            */
            virtual bool load(
                 const sad::resource::ResourceFile & file,
@@ -77,7 +87,7 @@ public:
            ) override;
            /*! Load an options from value
                \param[in] v an options to be loaded
-               \return whether loading was successfull
+               \return whether loading was successful
             */
            virtual bool load(const picojson::value& v) override;
     };

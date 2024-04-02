@@ -21,9 +21,6 @@
     <ClCompile Include="coloredbullet.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="constants.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="gridnode.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -54,9 +51,6 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="coloredbullet.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="constants.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="gridnode.h">

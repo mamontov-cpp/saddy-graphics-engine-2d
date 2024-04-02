@@ -229,7 +229,7 @@ void World::run()
     
     sad::Renderer::ref()->pipeline()->append( new sad::PeriodicalEventPollProcess(b) );
     // Run an engine, starting a main loop
-    SL_MESSAGE("Will start now");	
+    SL_MESSAGE("Will start now");
 
     m_solver->enableDebug();
     sad::Renderer::ref()->run();

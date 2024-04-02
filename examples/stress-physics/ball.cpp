@@ -2,11 +2,19 @@
 #include <renderer.h>
 #include <3rdparty/format/format.h>
 
+#include <p2d/circle.h>
+
 DECLARE_SOBJ_INHERITANCE(Ball, sad::p2d::app::Object)
 
 Ball::Ball()
 {
-    this->initFromConstants<Ball>();
+    sad::Sprite2D::Options options(
+        "objects",
+        sad::Rect2D(sad::Point2D(0, 88), sad::Point2D(88, 174)),
+        sad::Rect2D(sad::Point2D(-11, -11), sad::Point2D(11, 11))
+    );
+    this->setOptions(&options);
+    this->setShape(new sad::p2d::Circle(11));
 
 #ifdef PHYSICS_ENGINE_DEBUG
     sad::log::FileTarget * t = new sad::log::FileTarget();

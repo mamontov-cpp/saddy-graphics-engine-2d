@@ -2,21 +2,27 @@
 #include <renderer.h>
 #include <periodicalevent.h>
 #include <pipeline/pipeline.h>
+#include <p2d/circle.h>
 
 DECLARE_SOBJ_INHERITANCE(Shooter, sad::p2d::app::Object)
 
 Shooter::Shooter()
 {
-    this->initFromConstants<Shooter>();
+    sad::Sprite2D::Options options(
+        "objects",
+        sad::Rect2D(sad::Point2D(177, 0), sad::Point2D(265, 88)),
+        sad::Rect2D(sad::Point2D(-10, -10), sad::Point2D(10, 10))
+    );
+    this->setOptions(&options);
+    this->setShape(new sad::p2d::Circle(20));
     m_gun = new Shooter::Gun(this);
 }
 
 
-void Shooter::startShooting()
+void Shooter::startShooting() const
 {
-    sad::Renderer::ref()->pipeline()->append(
-            new sad::PeriodicalEventPollProcess( m_gun )
-        );
+    sad::pipeline::Pipeline* pipeline = sad::Renderer::ref()->pipeline();
+    pipeline->append(new sad::PeriodicalEventPollProcess( m_gun ));
 }
 
 

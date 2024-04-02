@@ -6,8 +6,6 @@
 #pragma once
 #include <scene.h>
 #include <p2d/body.h>
-// ReSharper disable once CppUnusedIncludeDirective
-#include <p2d/app/constants.h>
 #include <sprite2d.h>
 #pragma once
 

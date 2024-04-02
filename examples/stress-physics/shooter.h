@@ -5,8 +5,6 @@
  */
 #pragma once
 #include <p2d/app/object.h>
-// ReSharper disable once CppUnusedIncludeDirective
-#include <p2d/app/constants.h>
 #include <p2d/app/objectemitter.h>
 #include "coloredbullet.h"
 #pragma once
@@ -30,5 +28,5 @@ class Shooter: public sad::p2d::app::Object
      Gun * m_gun;
  public:
      Shooter();
-     void startShooting();
+     void startShooting() const;
 };
