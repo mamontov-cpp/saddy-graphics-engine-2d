@@ -8,7 +8,7 @@
 
 #include <db/dbdatabase.h>
 
-#include <p2d/app/way.h>
+#include <way.h>
 
 // ================================= scripting::animations::WaySetter =================================
 
@@ -17,7 +17,7 @@ scripting::animations::WaySetter::WaySetter(
 ) :  scripting::animations::Setter<sad::animations::WayMoving, unsigned long long, history::animations::ChangeWayMovingWay>(scripting, "way")
 {
     Converter converter = [](dukpp03::qt::BasicContext* ctx, duk_idx_t pos) {
-        dukpp03::Maybe<sad::p2d::app::Way*> maybe_way = dukpp03::GetValue<sad::p2d::app::Way*, dukpp03::qt::BasicContext>::perform(ctx, pos);
+        dukpp03::Maybe<sad::Way*> maybe_way = dukpp03::GetValue<sad::Way*, dukpp03::qt::BasicContext>::perform(ctx, pos);
         if (maybe_way.exists())
         {
             return  dukpp03::Maybe<unsigned long long>(maybe_way.value()->MajorId);

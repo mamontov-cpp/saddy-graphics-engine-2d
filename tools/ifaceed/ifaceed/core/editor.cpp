@@ -64,7 +64,7 @@
 #include "../gui/actions/scenenodeactions.h"
 
 Q_DECLARE_METATYPE(sad::layouts::Grid*) //-V566
-Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
+Q_DECLARE_METATYPE(sad::Way*) //-V566
 Q_DECLARE_METATYPE(sad::SceneNode*) //-V566
 // =================== PUBLIC METHODS ===================
 
@@ -504,8 +504,8 @@ void core::Editor::tryEnterWayEditingState()
     {
         this->m_machine->enterState("ways/selected");
         int row = m_main_window->UI()->lstWays->currentRow();
-        sad::p2d::app::Way* way = m_main_window->UI()->lstWays->item(row)->data(Qt::UserRole).value<sad::p2d::app::Way*>();
-        m_shared->setSelectedWay(way);	
+        sad::Way* way = m_main_window->UI()->lstWays->item(row)->data(Qt::UserRole).value<sad::Way*>();
+        m_shared->setSelectedWay(way);
         this->actions()->wayActions()->wayChanged(row);
     }
 }

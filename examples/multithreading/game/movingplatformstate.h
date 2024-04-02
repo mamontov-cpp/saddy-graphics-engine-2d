@@ -4,7 +4,7 @@
  */
 #pragma once
 #include <p2d/body.h>
-#include <p2d/app/way.h>
+#include <way.h>
 
 namespace game
 {
@@ -19,7 +19,7 @@ struct MovingPlatformState
     sad::p2d::Body* Platform;
     /*! A way, where should platform go
      */
-    sad::p2d::app::Way* Way;
+    sad::Way* Way;
     /*! A local time for determining new location
      */
     double Time;

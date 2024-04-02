@@ -5,7 +5,7 @@
 
 DECLARE_SOBJ_INHERITANCE(MovingSmile, sad::phy52d::Object)
 
-MovingSmile::MovingSmile(sad::p2d::app::Way * w) : m_way(w), m_time(0)
+MovingSmile::MovingSmile(sad::Way * w) : m_way(w), m_time(0)
 {
     sad::Sprite2D::Options options(
         "objects",

@@ -16,7 +16,7 @@
 #include <log/log.h>
 
 #include <p2d/vector.h>
-#include <p2d/app/way.h>
+#include <way.h>
 
 #include <dialogue/dialogue.h>
 
@@ -139,11 +139,11 @@ public:
     /*! Sets selected way
         \param[in] way a way to be set
      */ 
-    void setSelectedWay(sad::p2d::app::Way* way);
+    void setSelectedWay(sad::Way* way);
     /*! Returns selected way
         \return selected way
      */
-    sad::p2d::app::Way* selectedWay() const;
+    sad::Way* selectedWay() const;
     /*! Sets way point position in way
         \param p position
      */
@@ -284,7 +284,7 @@ private:
     sad::SceneNode* m_active;
     /*! A selected way
      */
-    sad::p2d::app::Way* m_selected_way;
+    sad::Way* m_selected_way;
     /*! A selected dialogue
      */
     sad::dialogue::Dialogue* m_selected_dialogue;

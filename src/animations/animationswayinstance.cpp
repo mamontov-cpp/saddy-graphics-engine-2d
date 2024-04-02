@@ -118,13 +118,13 @@ unsigned long long sad::animations::WayInstance::wayMajorId() const
     return m_way_link.majorId();
 }
 
-void sad::animations::WayInstance::setWay(sad::p2d::app::Way* i)
+void sad::animations::WayInstance::setWay(sad::Way* i)
 {
     m_way_link.setObject(i);
     m_valid = true;
 }
 
-sad::p2d::app::Way* sad::animations::WayInstance::way() const
+sad::Way* sad::animations::WayInstance::way() const
 {
     return m_way_link.get();
 }
@@ -154,7 +154,7 @@ double sad::animations::WayInstance::computeTime(sad::animations::Animations* an
     double elapsed = m_start_time + m_timer.elapsed();
     double result = elapsed;
 
-    sad::p2d::app::Way* w = static_cast<sad::p2d::app::Way*>(m_way_link.get());
+    sad::Way* w = static_cast<sad::Way*>(m_way_link.get());
     // If time is expired, animation is or looped, or should be stopped
     if (elapsed > w->totalTime())
     {
@@ -186,7 +186,7 @@ double sad::animations::WayInstance::computeTime(sad::animations::Animations* an
 
 void sad::animations::WayInstance::processTime(sad::animations::Animations* animations, double time)
 {
-    sad::p2d::app::Way* way = static_cast<sad::p2d::app::Way*>(m_way_link.get());
+    sad::Way* way = static_cast<sad::Way*>(m_way_link.get());
 
     sad::Point2D pos = way->getPointInTime(time - 0.1, 0.1);
 
@@ -199,7 +199,7 @@ void sad::animations::WayInstance::processTime(sad::animations::Animations* anim
 
 void sad::animations::WayInstance::checkIfValid(sad::animations::Animations* animations)
 {
-    sad::p2d::app::Way* w = this->way();
+    sad::Way* w = this->way();
     sad::db::Object* o = this->object();
     
     m_valid = false;

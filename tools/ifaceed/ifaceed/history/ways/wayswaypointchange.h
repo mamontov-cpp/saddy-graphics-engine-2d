@@ -5,7 +5,7 @@
  */
 #pragma once
 #include "../command.h"
-#include <p2d/app/way.h>
+#include <way.h>
 
 namespace history
 {
@@ -26,7 +26,7 @@ public:
         \param[in] new_value new value for point
      */
     WayPointChange(
-        sad::p2d::app::Way* w, 
+        sad::Way* w, 
         int pos, 
         const sad::Point2D& old_value, 
         const sad::Point2D& new_value
@@ -45,7 +45,7 @@ public:
 protected:
     /*! A current selected way
      */
-    sad::p2d::app::Way* m_way;
+    sad::Way* m_way;
     /*! A position for a point in way point list
      */
     int m_position;

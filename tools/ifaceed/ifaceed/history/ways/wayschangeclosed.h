@@ -21,7 +21,7 @@ public:
         \param[in] old_value old time
         \param[in] new_value new time
       */
-    ChangeClosed(sad::p2d::app::Way* d, bool old_value, bool new_value);
+    ChangeClosed(sad::Way* d, bool old_value, bool new_value);
     /*! Erases link to a node
       */
     virtual ~ChangeClosed() override;

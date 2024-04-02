@@ -21,7 +21,7 @@ public:
         \param[in] old_value old text
         \param[in] new_value new text
       */
-    ChangeName(sad::p2d::app::Way* d, const sad::String& old_value, const sad::String& new_value);
+    ChangeName(sad::Way* d, const sad::String& old_value, const sad::String& new_value);
     /*! Erases link to a node
       */
     virtual ~ChangeName() override;

@@ -6,6 +6,7 @@ sad.Point2D = SadPoint2D;
 sad.Point3D = SadPoint3D;
 sad.Point2I = SadPoint2I;
 sad.Point3I = SadPoint3I;
+sad.Way = SadWay;
 
 
 sad.internal.plus = function(a, b) { return a + b; };

@@ -6,7 +6,7 @@
 #pragma once
 #include "abstractbot.h"
 
-#include <p2d/app/way.h>
+#include <way.h>
 
 namespace bots
 {
@@ -40,7 +40,7 @@ private:
     double m_time;
     /*! A way data
      */
-    sad::p2d::app::Way* m_way;
+    sad::Way* m_way;
     /*! A name for floater
      */
     sad::String m_way_name;

@@ -5,7 +5,7 @@
  */
 #pragma once
 #include "../command.h"
-#include <p2d/app/way.h>
+#include <way.h>
 
 namespace history
 {
@@ -24,7 +24,7 @@ public:
         \param[in] pos1 first position
         \param[in] pos2 second position
      */
-    WayPointSwap(sad::p2d::app::Way* w, int pos1, int pos2);
+    WayPointSwap(sad::Way* w, int pos1, int pos2);
     /*! Could be inherited
      */
     virtual ~WayPointSwap() override;
@@ -39,7 +39,7 @@ public:
 protected:
     /*! A current selected way
      */
-    sad::p2d::app::Way* m_way;
+    sad::Way* m_way;
     /*! A first index for a point
      */
     int m_pos1;

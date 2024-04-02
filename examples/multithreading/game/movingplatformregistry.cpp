@@ -32,7 +32,7 @@ void game::MovingPlatformRegistry::setDatabase(Game* game, sad::db::Database* db
     this->m_db = db;
 }
 
-bool game::MovingPlatformRegistry::add(sad::p2d::Body* platform, sad::p2d::app::Way* way)
+bool game::MovingPlatformRegistry::add(sad::p2d::Body* platform, sad::Way* way)
 {
     if ((platform == nullptr) || (way == nullptr))
     {
@@ -58,7 +58,7 @@ bool game::MovingPlatformRegistry::add(sad::p2d::Body* platform, sad::p2d::app::
         m_game->levelStorageLoader()->removeSprite(sprite);
     }
 
-    game::MovingPlatformState state{platform, way, 0.0, false};
+    const game::MovingPlatformState state{platform, way, 0.0, false};
     m_states << state;
     return true;
 }
@@ -69,7 +69,7 @@ bool game::MovingPlatformRegistry::add(const sad::String& platform_name, const s
     {
         return false;
     }
-    sad::p2d::app::Way* way = m_db->objectByName<sad::p2d::app::Way>(way_name);
+    sad::Way* way = m_db->objectByName<sad::Way>(way_name);
     if (!way)
     {
         return false;

@@ -31,7 +31,7 @@ Q_DECLARE_METATYPE(QVector<sad::Point2D>)
 
 QVector<unsigned long long>  scripting::ways::list()
 {
-    return scripting::query_table("ways", "sad::p2d::app::Way");
+    return scripting::query_table("ways", "sad::Way");
 }
 
 unsigned long long scripting::ways::_add(
@@ -44,7 +44,7 @@ unsigned long long scripting::ways::_add(
 {
     core::Editor* e = scripting->editor();
 
-    sad::p2d::app::Way* w = new sad::p2d::app::Way();
+    sad::Way* w = new sad::Way();
     w->setObjectName(name);
     w->setTotalTime(total_time);
     w->setClosed(closed);
@@ -61,18 +61,18 @@ unsigned long long scripting::ways::_add(
     return w->MajorId;
 }
 
-void scripting::ways::remove(scripting::Scripting* scripting, sad::p2d::app::Way* node)
+void scripting::ways::remove(scripting::Scripting* scripting, sad::Way* node)
 {
     core::Editor* e = scripting->editor();
     e->actions()->wayActions()->removeWayFromDatabase(node, false);
 }
 
-unsigned int scripting::ways::length(scripting::Scripting*, sad::p2d::app::Way* way)
+unsigned int scripting::ways::length(scripting::Scripting*, sad::Way* way)
 {
     return way->wayPoints().count();
 }
 
-void scripting::ways::addPoint(scripting::Scripting* scripting, sad::p2d::app::Way* way, sad::Point2D point)
+void scripting::ways::addPoint(scripting::Scripting* scripting, sad::Way* way, sad::Point2D point)
 {
     history::ways::WayPointNew* command = new history::ways::WayPointNew(way);
     command->setPoint(point);
@@ -82,7 +82,7 @@ void scripting::ways::addPoint(scripting::Scripting* scripting, sad::p2d::app::W
     e->currentBatchCommand()->add(command);
 }
 
-bool scripting::ways::removePoint(scripting::Scripting* scripting, sad::p2d::app::Way* way, unsigned int pos)
+bool scripting::ways::removePoint(scripting::Scripting* scripting, sad::Way* way, unsigned int pos)
 {
     if (pos >= way->wayPoints().count())
     {
@@ -97,7 +97,7 @@ bool scripting::ways::removePoint(scripting::Scripting* scripting, sad::p2d::app
     return true;
 }
 
-dukpp03::Maybe<scripting::ways::PointRef*> scripting::ways::point(scripting::Scripting* scripting, sad::p2d::app::Way* way, unsigned int pos)
+dukpp03::Maybe<scripting::ways::PointRef*> scripting::ways::point(scripting::Scripting* scripting, sad::Way* way, unsigned int pos)
 {
     dukpp03::Maybe<scripting::ways::PointRef*> result;
     if (pos >= way->wayPoints().count())
@@ -133,11 +133,11 @@ dukpp03::qt::JSObject* scripting::ways::init(scripting::Scripting* s, dukpp03::q
 
     dukpp03::qt::MultiMethod* get = new dukpp03::qt::MultiMethod();
     {
-        get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, sad::String>("name"));
-        get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, unsigned long long>("majorid"));
-        get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, unsigned long long>("minorid"));
-        get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, double>("totaltime"));
-        get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, bool>("closed"));
+        get->add(new scripting::AbstractGetter<sad::Way*, sad::String>("name"));
+        get->add(new scripting::AbstractGetter<sad::Way*, unsigned long long>("majorid"));
+        get->add(new scripting::AbstractGetter<sad::Way*, unsigned long long>("minorid"));
+        get->add(new scripting::AbstractGetter<sad::Way*, double>("totaltime"));
+        get->add(new scripting::AbstractGetter<sad::Way*, bool>("closed"));
     }
     ways->setProperty("get", static_cast<dukpp03::qt::Callable*>(get)); // E.ways.get
 

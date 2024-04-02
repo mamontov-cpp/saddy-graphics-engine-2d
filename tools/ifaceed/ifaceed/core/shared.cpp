@@ -166,12 +166,12 @@ const sad::Rect2D&  core::Shared::oldRegion() const
 }
 
 
-void core::Shared::setSelectedWay(sad::p2d::app::Way* way)
+void core::Shared::setSelectedWay(sad::Way* way)
 {
     m_selected_way = way;
 }
 
-sad::p2d::app::Way* core::Shared::selectedWay() const
+sad::Way* core::Shared::selectedWay() const
 {
     return m_selected_way;
 }

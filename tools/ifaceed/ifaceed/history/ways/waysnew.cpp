@@ -8,7 +8,7 @@
 #include "../../gui/actions/wayactions.h"
 
 
-history::ways::New::New(sad::p2d::app::Way* w) : m_way(w)
+history::ways::New::New(sad::Way* w) : m_way(w)
 {
     m_way->addRef();
 }

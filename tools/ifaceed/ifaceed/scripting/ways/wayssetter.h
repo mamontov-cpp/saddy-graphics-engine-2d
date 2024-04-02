@@ -10,7 +10,7 @@
 
 #include "../../core/editor.h"
 
-#include <p2d/app/way.h>
+#include <way.h>
 
 namespace scripting
 {
@@ -24,7 +24,7 @@ template<
     typename _PropertyType,
     typename _CommandType
 >
-class Setter: public scripting::AbstractSetter<sad::p2d::app::Way*,_PropertyType>
+class Setter: public scripting::AbstractSetter<sad::Way*,_PropertyType>
 {
 public:	
     /*! Construct new setter for specified property of way
@@ -34,7 +34,7 @@ public:
     Setter(
         scripting::Scripting* scripting,
         const sad::String& name
-    ) : scripting::AbstractSetter<sad::p2d::app::Way*,_PropertyType>(scripting)
+    ) : scripting::AbstractSetter<sad::Way*,_PropertyType>(scripting)
     {
         this->setPropertyName(name);
     }
@@ -60,9 +60,9 @@ public:
         \param[in] old_value old value
         \param[in] new_value new value
      */
-    virtual void callActions(sad::p2d::app::Way* obj, const sad::String& property_name, _PropertyType old_value, _PropertyType new_value) override
+    virtual void callActions(sad::Way* obj, const sad::String& property_name, _PropertyType old_value, _PropertyType new_value) override
     {
-        this->scripting::AbstractSetter<sad::p2d::app::Way*, _PropertyType>::callActions(obj, property_name, old_value, new_value);
+        this->scripting::AbstractSetter<sad::Way*, _PropertyType>::callActions(obj, property_name, old_value, new_value);
         this->setProperty(obj, property_name, old_value, new_value);
     }
 
@@ -72,7 +72,7 @@ public:
         \param[in] old_value old value 
         \param[in] new_value new value
      */
-    virtual void setProperty(sad::p2d::app::Way* obj, const sad::String& property_name, _PropertyType old_value,  _PropertyType new_value)
+    virtual void setProperty(sad::Way* obj, const sad::String& property_name, _PropertyType old_value,  _PropertyType new_value)
     {
         core::Editor* editor = this->m_scripting->editor();
 

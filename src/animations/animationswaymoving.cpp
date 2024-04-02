@@ -110,12 +110,12 @@ bool sad::animations::WayMoving::loadFromValue(const picojson::value& v)
     return flag;
 }
 
-void sad::animations::WayMoving::setWay(sad::p2d::app::Way * way)
+void sad::animations::WayMoving::setWay(sad::Way * way)
 {
     m_way.setObject(way);
 }
 
-sad::p2d::app::Way* sad::animations::WayMoving::way() const
+sad::Way* sad::animations::WayMoving::way() const
 {
     return m_way.get();
 }
@@ -132,7 +132,7 @@ unsigned long long sad::animations::WayMoving::wayObjectId() const
 
 void sad::animations::WayMoving::setState(sad::animations::Instance* i, double time)
 {
-    sad::p2d::app::Way* way = this->way();
+    sad::Way* way = this->way();
 
     // This actually allows easing function to work as identity in case of linear function or do nothing in
     // all other cases

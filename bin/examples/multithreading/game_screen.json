@@ -13008,7 +13008,7 @@
                 "minorid":8.000000,
                 "name":"Way7",
                 "totaltime":4000.000000,
-                "type":"sad::p2d::app::Way",
+                "type":"sad::Way",
                 "waypoints":[
                     {
                         "x":5622.000000,
@@ -13027,7 +13027,7 @@
                 "minorid":7.000000,
                 "name":"Way6",
                 "totaltime":4000.000000,
-                "type":"sad::p2d::app::Way",
+                "type":"sad::Way",
                 "waypoints":[
                     {
                         "x":5476.000000,
@@ -13046,7 +13046,7 @@
                 "minorid":2.000000,
                 "name":"Way2",
                 "totaltime":10000.000000,
-                "type":"sad::p2d::app::Way",
+                "type":"sad::Way",
                 "waypoints":[
                     {
                         "x":2466.000000,
@@ -13065,7 +13065,7 @@
                 "minorid":9.000000,
                 "name":"Way8",
                 "totaltime":2.000000,
-                "type":"sad::p2d::app::Way",
+                "type":"sad::Way",
                 "waypoints":[
                     {
                         "x":8315.500000,
@@ -13084,7 +13084,7 @@
                 "minorid":1.000000,
                 "name":"Way1",
                 "totaltime":3.000000,
-                "type":"sad::p2d::app::Way",
+                "type":"sad::Way",
                 "waypoints":[
                     {
                         "x":506.000002,
@@ -13107,7 +13107,7 @@
                 "minorid":3.000000,
                 "name":"Way3",
                 "totaltime":10000.000000,
-                "type":"sad::p2d::app::Way",
+                "type":"sad::Way",
                 "waypoints":[
                     {
                         "x":2837.000008,
@@ -13126,7 +13126,7 @@
                 "minorid":4.000000,
                 "name":"Way4",
                 "totaltime":10000.000000,
-                "type":"sad::p2d::app::Way",
+                "type":"sad::Way",
                 "waypoints":[
                     {
                         "x":3266.000000,
@@ -13169,7 +13169,7 @@
                 "minorid":5.000000,
                 "name":"LongWay1",
                 "totaltime":50.000000,
-                "type":"sad::p2d::app::Way",
+                "type":"sad::Way",
                 "waypoints":[
                     {
                         "x":5070.000000,
@@ -13188,7 +13188,7 @@
                 "minorid":6.000000,
                 "name":"Way5",
                 "totaltime":4000.000000,
-                "type":"sad::p2d::app::Way",
+                "type":"sad::Way",
                 "waypoints":[
                     {
                         "x":5308.000000,
@@ -13207,7 +13207,7 @@
                 "minorid":10.000000,
                 "name":"Way9",
                 "totaltime":5.000000,
-                "type":"sad::p2d::app::Way",
+                "type":"sad::Way",
                 "waypoints":[
                     {
                         "x":8457.500000,
@@ -13230,7 +13230,7 @@
                 "minorid":11.000000,
                 "name":"Way10",
                 "totaltime":5.000000,
-                "type":"sad::p2d::app::Way",
+                "type":"sad::Way",
                 "waypoints":[
                     {
                         "x":8613.500000,
@@ -13253,7 +13253,7 @@
                 "minorid":12.000000,
                 "name":"Way11",
                 "totaltime":5.000000,
-                "type":"sad::p2d::app::Way",
+                "type":"sad::Way",
                 "waypoints":[
                     {
                         "x":8772.500000,
@@ -13276,7 +13276,7 @@
                 "minorid":13.000000,
                 "name":"Way12",
                 "totaltime":5.000000,
-                "type":"sad::p2d::app::Way",
+                "type":"sad::Way",
                 "waypoints":[
                     {
                         "x":8891.500000,
@@ -13295,7 +13295,7 @@
                 "minorid":14.000000,
                 "name":"Way13",
                 "totaltime":5.000000,
-                "type":"sad::p2d::app::Way",
+                "type":"sad::Way",
                 "waypoints":[
                     {
                         "x":8988.500000,

@@ -14,7 +14,7 @@
 #include <QCheckBox>
 
 history::ways::ChangeClosed::ChangeClosed(
-    sad::p2d::app::Way* d,
+    sad::Way* d,
     bool old_value,
     bool new_value
 

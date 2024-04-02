@@ -6,7 +6,7 @@
 #pragma once
 #include "../command.h"
 
-#include <p2d/app/way.h>
+#include <way.h>
 
 #include <animations/animationswaymoving.h>
 #include <animations/animationswayinstance.h>
@@ -27,7 +27,7 @@ public:
         \param[in] w way
         \param[in] pos a position of way in source list
      */
-    Remove(sad::p2d::app::Way* w, int pos);
+    Remove(sad::Way* w, int pos);
     /*! Could be inherited
      */
     virtual ~Remove() override;
@@ -54,7 +54,7 @@ public:
 protected:
     /*! A current selected way
      */
-    sad::p2d::app::Way* m_way;
+    sad::Way* m_way;
     /*! A position of item in list
      */
     int m_position;

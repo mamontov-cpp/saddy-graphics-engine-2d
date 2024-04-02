@@ -33,7 +33,7 @@ protected:
     sad::p2d::FindContactPoints * m_find; //!<  A method for finding contact points
     sad::p2d::Walls * m_walls;   //!< A walls
     sad::p2d::BounceSolver * m_solver; //!< A solver for bouncing objects
-    sad::p2d::app::Way          * m_way;    //!< A way for moving smiley faces
+    sad::Way          * m_way;    //!< A way for moving smiley faces
 
     int m_hit_count; //!< A hit count
     /*! This callback sets a friction for collision, so ball will lose speed

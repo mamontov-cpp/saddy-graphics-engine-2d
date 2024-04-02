@@ -11,7 +11,7 @@
 #include "scene.h"
 #include "db/custom/customobject.h"
 
-#include "p2d/app/way.h"
+#include "way.h"
 
 #include "dialogue/dialogue.h"
 
@@ -39,10 +39,7 @@
 
 // =========================================== sad::db::ObjectFactory::AbstractDelegate PUBLIC METHODS ===========================================
 
-sad::db::ObjectFactory::AbstractDelegate::~AbstractDelegate()
-{
-    
-}
+sad::db::ObjectFactory::AbstractDelegate::~AbstractDelegate() = default;
 
 // =========================================== PUBLIC METHODS ===========================================
 
@@ -147,7 +144,7 @@ void sad::db::ObjectFactory::initWithDefaultCallbacks()
     // Custom object has no schema at all
     add<sad::db::custom::Object>("sad::db::custom::Object", nullptr, false);
 
-    add<sad::p2d::app::Way>("sad::p2d::app::Way", sad::p2d::app::Way::basicSchema(), false);
+    add<sad::Way>("sad::Way", sad::Way::basicSchema(), false);
 
     add<sad::dialogue::Dialogue>("sad::dialogue::Dialogue", sad::dialogue::Dialogue::basicSchema(), false);
 

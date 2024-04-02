@@ -241,6 +241,7 @@
     <ClCompile Include="src\util\fileistreambuf.cpp" />
     <ClCompile Include="src\util\fontcache.cpp" />
     <ClCompile Include="src\util\markup.cpp" />
+    <ClCompile Include="src\way.cpp" />
     <ClCompile Include="src\window.cpp" />
     <ClCompile Include="src\cli\clioptionvalue.cpp" />
     <ClCompile Include="src\cli\cliparser.cpp" />
@@ -290,7 +291,6 @@
     <ClCompile Include="src\p2d\weight.cpp" />
     <ClCompile Include="src\p2d\world.cpp" />
     <ClCompile Include="src\p2d\worldsteptask.cpp" />
-    <ClCompile Include="src\p2d\app\way.cpp" />
     <ClCompile Include="src\input\controls.cpp" />
     <ClCompile Include="src\input\events.cpp" />
     <ClCompile Include="src\input\handlerconditions.cpp" />
@@ -494,6 +494,7 @@
     <ClInclude Include="include\util\fontcache.h" />
     <ClInclude Include="include\util\markup.h" />
     <ClInclude Include="include\util\texturedefaultimage.h" />
+    <ClInclude Include="include\way.h" />
     <ClInclude Include="include\window.h" />
     <ClInclude Include="include\cli\args.h" />
     <ClInclude Include="include\cli\optiontype.h" />
@@ -576,7 +577,6 @@
     <ClInclude Include="include\p2d\weight.h" />
     <ClInclude Include="include\p2d\world.h" />
     <ClInclude Include="include\p2d\worldsteptask.h" />
-    <ClInclude Include="include\p2d\app\way.h" />
     <ClInclude Include="include\input\controls.h" />
     <ClInclude Include="include\input\events.h" />
     <ClInclude Include="include\input\handlerconditions.h" />

@@ -22,7 +22,7 @@ World::World()
     m_find = new sad::p2d::FindContactPoints();
     m_solver = new sad::p2d::BounceSolver();
     m_hit_count = 0;
-    m_way = new sad::p2d::app::Way();
+    m_way = new sad::Way();
 }
 
 

@@ -9,7 +9,7 @@
 
 #include <input/events.h>
 
-#include <p2d/app/way.h>
+#include <way.h>
 
 #include "abstractactions.h"
 
@@ -51,11 +51,11 @@ public:
         \param[in] from_editor whether it's being removed from editor
         \param[in] row a row to be found in editor
      */
-    void removeWayFromDatabase(sad::p2d::app::Way* w, bool from_editor, int row = -1);
+    void removeWayFromDatabase(sad::Way* w, bool from_editor, int row = -1);
     /*! Adds last way to end of items
         \param[in] way a selected way
      */
-    void addLastWayToEnd(sad::p2d::app::Way* way);
+    void addLastWayToEnd(sad::Way* way);
     /*! Removes last way from way list
      */
     void removeLastWayFromWayList();
@@ -63,7 +63,7 @@ public:
         \param[in] s scene node
         \param[in] position a position in scene list
      */
-    void insertWayToWayList(sad::p2d::app::Way* s, int position);
+    void insertWayToWayList(sad::Way* s, int position);
     /*! Removes way from a way list
         \param[in] position a position, where scene must be removed
      */
@@ -71,16 +71,16 @@ public:
     /*! Removes way from a way list
         \param[in] s way
      */
-    void removeWayFromWayList(sad::p2d::app::Way* s);
+    void removeWayFromWayList(sad::Way* s);
     /*! Finds way in way list
         \param[in] s scene
         \return scene row (-1 if not found)
      */
-    int findWayInList(sad::p2d::app::Way* s);
+    int findWayInList(sad::Way* s);
     /*!  Updates way name in list
         \param[in] s a way
      */
-    void updateWayName(sad::p2d::app::Way* s);
+    void updateWayName(sad::Way* s);
     /*!  Removes row from way point list
          \param[in] row a row index
      */

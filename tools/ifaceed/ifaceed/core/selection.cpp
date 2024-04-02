@@ -23,7 +23,7 @@
 #include <layouts/grid.h>
 #include <geometry2d.h>
 
-Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
+Q_DECLARE_METATYPE(sad::Way*) //-V566
 
 // =========================================== PUBLIC METHODS =========================================== 
 
@@ -485,7 +485,7 @@ void core::Selection::trySelectObject(const sad::input::MousePressEvent& e)
 void core::Selection::trySelectWay(const sad::input::MousePressEvent& e)
 {
     const double radius = 11.0; // Radius of active area for a point
-    sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
+    sad::Way* w = m_editor->shared()->selectedWay();
     gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
     if (w != nullptr)
     {
@@ -504,7 +504,7 @@ void core::Selection::trySelectWay(const sad::input::MousePressEvent& e)
     for(int i = lw->count() - 1; i > -1; i--)
     {
         QVariant v = lw->item(i)->data(Qt::UserRole);
-        sad::p2d::app::Way* local_way = v.value<sad::p2d::app::Way*>();
+        sad::Way* local_way = v.value<sad::Way*>();
         const sad::Vector<sad::Point2D> & pts = local_way->wayPoints();
         for(int j = pts.size() - 1; j > -1; j--)
         {
@@ -539,7 +539,7 @@ void core::Selection::trySelectWay(const sad::input::MousePressEvent& e)
 void core::Selection::tryEnterToMovingStateWithWayObject(const sad::input::MousePressEvent& e)
 {
     gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
-    sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
+    sad::Way* w = m_editor->shared()->selectedWay();
     if (w != nullptr)
     {
         int row = ui_way_block->lstWayPoints->currentRow();

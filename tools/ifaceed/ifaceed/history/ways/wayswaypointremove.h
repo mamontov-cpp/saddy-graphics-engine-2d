@@ -6,7 +6,7 @@
 #pragma once
 #include "../command.h"
 
-#include <p2d/app/way.h>
+#include <way.h>
 
 namespace history
 {
@@ -24,7 +24,7 @@ public:
         \param[in] w way
         \param[in] position a position of point
      */
-    WayPointRemove(sad::p2d::app::Way* w, int position);
+    WayPointRemove(sad::Way* w, int position);
     /*! Could be inherited
      */
     virtual ~WayPointRemove();
@@ -39,7 +39,7 @@ public:
 protected:
     /*! A current selected way
      */
-    sad::p2d::app::Way* m_way;
+    sad::Way* m_way;
     /*! A stored point
      */
     sad::Point2D m_point;

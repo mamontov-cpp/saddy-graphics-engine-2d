@@ -20,7 +20,7 @@
 #include <scene.h>
 #include <scenenode.h>
 #include <layouts/grid.h>
-#include <p2d/app/way.h>
+#include <way.h>
 #include <dialogue/dialogue.h>
 #include <animations/animationsanimation.h>
 #include <animations/animationscomposite.h>
@@ -70,7 +70,7 @@ Q_DUKPP03_DECLARE_METATYPE(sad::db::Object*)
 Q_DUKPP03_DECLARE_METATYPE(sad::Scene*)
 Q_DUKPP03_DECLARE_METATYPE(sad::SceneNode*)
 Q_DUKPP03_DECLARE_METATYPE(sad::layouts::Grid*)
-Q_DUKPP03_DECLARE_METATYPE(sad::p2d::app::Way*)
+Q_DUKPP03_DECLARE_METATYPE(sad::Way*)
 Q_DUKPP03_DECLARE_METATYPE(sad::dialogue::Dialogue*)
 Q_DUKPP03_DECLARE_METATYPE(sad::animations::Animation*)
 Q_DUKPP03_DECLARE_METATYPE(sad::animations::Composite*)
@@ -131,7 +131,7 @@ DEFINE_GET_VALUE_INSTANTIATION(sad::db::Object* )
 DEFINE_GET_VALUE_INSTANTIATION(sad::Scene* )
 DEFINE_GET_VALUE_INSTANTIATION(sad::SceneNode* )
 DEFINE_GET_VALUE_INSTANTIATION(sad::layouts::Grid*)
-DEFINE_GET_VALUE_INSTANTIATION(sad::p2d::app::Way*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::Way*)
 DEFINE_GET_VALUE_INSTANTIATION(sad::dialogue::Dialogue*)
 DEFINE_GET_VALUE_INSTANTIATION(sad::dialogue::Phrase)
 DEFINE_GET_VALUE_INSTANTIATION(sad::animations::Animation*)

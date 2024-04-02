@@ -14,7 +14,7 @@
 #include "../../gui/uiblocks/uiblocks.h"
 #include "../../gui/uiblocks/uianimationblock.h"
 
-Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
+Q_DECLARE_METATYPE(sad::Way*) //-V566
 
 history::animations::ChangeWayMovingWay::ChangeWayMovingWay(
     sad::animations::Animation* d,
@@ -40,7 +40,7 @@ void history::animations::ChangeWayMovingWay::performUpdateUI(core::Editor* e, u
 {
     QComboBox* list = e->uiBlocks()->uiAnimationBlock()->cmbWayAnimationWay;
     gui::actions::AnimationActions* a_actions  = e->actions()->animationActions();
-    invoke_blocked(list, &QComboBox::setCurrentIndex,  a_actions->findInComboBoxByMajorId<sad::p2d::app::Way*>(list,value));
+    invoke_blocked(list, &QComboBox::setCurrentIndex,  a_actions->findInComboBoxByMajorId<sad::Way*>(list,value));
 }
 
 void history::animations::ChangeWayMovingWay::updateUI(core::Editor* e, const unsigned long long& value)

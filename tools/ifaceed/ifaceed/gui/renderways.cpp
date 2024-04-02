@@ -10,7 +10,7 @@
 
 #include <db/dbdatabase.h>
 
-#include <p2d/app/way.h>
+#include <way.h>
 
 #include "uiblocks/uiblocks.h"
 #include "uiblocks/uiwayblock.h"
@@ -68,7 +68,7 @@ void gui::RenderWays::_process()
             t->objects(objects);
             for(size_t i = 0; i < objects.size(); i++)
             {
-                sad::p2d::app::Way* way = static_cast<sad::p2d::app::Way*>(objects[i]);
+                sad::Way* way = static_cast<sad::Way*>(objects[i]);
                 if (way->Active)
                 {
                     sad::Sprite2D * s = m_red_sprite;

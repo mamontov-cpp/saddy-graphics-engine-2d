@@ -8,7 +8,7 @@
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
 
-#include <p2d/app/way.h>
+#include <way.h>
 
 #include "../../gui/actions/actions.h"
 #include "../../gui/actions/animationinstanceactions.h"
@@ -16,7 +16,7 @@
 #include "../../gui/uiblocks/uiblocks.h"
 #include "../../gui/uiblocks/uianimationinstanceblock.h"
 
-Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
+Q_DECLARE_METATYPE(sad::Way*) //-V566
 
 history::instances::ChangeWay::ChangeWay(
     sad::animations::Instance* d,
@@ -43,7 +43,7 @@ void history::instances::ChangeWay::updateItem(core::Editor* e, unsigned long lo
     int pos = 0;
     if (value > 0)
     {
-        pos = e->actions()->instanceActions()->findInComboBoxByMajorId<sad::p2d::app::Way*>(
+        pos = e->actions()->instanceActions()->findInComboBoxByMajorId<sad::Way*>(
             e->uiBlocks()->uiAnimationInstanceBlock()->cmbWayAnimationInstanceWay,
             value
         );

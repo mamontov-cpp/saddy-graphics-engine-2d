@@ -14,7 +14,7 @@
 #include <QDoubleSpinBox>
 
 history::ways::ChangeTotalTime::ChangeTotalTime(
-    sad::p2d::app::Way* d,
+    sad::Way* d,
     double old_value,
     double new_value
 

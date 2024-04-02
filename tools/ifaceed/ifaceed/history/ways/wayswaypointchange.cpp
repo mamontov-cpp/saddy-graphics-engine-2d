@@ -15,7 +15,7 @@
 #include "../../gui/uiblocks/uiwayblock.h"
 
 history::ways::WayPointChange::WayPointChange(
-    sad::p2d::app::Way* w, 
+    sad::Way* w, 
     int pos, 
     const sad::Point2D& old_value, 
     const sad::Point2D& new_value

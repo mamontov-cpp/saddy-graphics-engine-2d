@@ -26,11 +26,11 @@
 #include "timer.h"
 #include "sadthread.h"
 #include "shaderfunction.h"
+#include "way.h"
 
 #include "dialogue/dialogue.h"
 #include "dialogue/phrase.h"
 
-#include "p2d/app/way.h"
 #include "p2d/bounds.h"
 #include "p2d/body.h"
 #include "p2d/line.h"
@@ -274,7 +274,7 @@ DECLARE_COMMON_TYPE(sad::layouts::Cell)
 DECLARE_TYPE_AS_SAD_OBJECT(sad::db::Object)
 DECLARE_TYPE_AS_SAD_OBJECT(sad::Object)
 DECLARE_TYPE_AS_SAD_OBJECT(sad::Scene)
-DECLARE_TYPE_AS_SAD_OBJECT(sad::p2d::app::Way)
+DECLARE_TYPE_AS_SAD_OBJECT(sad::Way)
 DECLARE_TYPE_AS_SAD_OBJECT(sad::dialogue::Dialogue)
 
 DECLARE_COMMON_TYPE(sad::db::Variant)

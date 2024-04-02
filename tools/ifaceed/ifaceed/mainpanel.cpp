@@ -1041,7 +1041,7 @@ void MainPanel::viewDatabase()
     }
 
     // Cleanup a combo for animation way
-    sad::p2d::app::Way* nullway = nullptr;
+    sad::Way* nullway = nullptr;
     QVariant nullwayvariant;
     nullwayvariant.setValue(nullway);
     ui.cmbWayAnimationWay->addItem("Not set", nullwayvariant);
@@ -1052,9 +1052,9 @@ void MainPanel::viewDatabase()
     gui::actions::WayActions* w_actions = m_editor->actions()->wayActions();    
     for(unsigned int i = 0; i < wayslist.size(); i++)
     {
-        if (wayslist[i]->isInstanceOf("sad::p2d::app::Way"))
+        if (wayslist[i]->isInstanceOf("sad::Way"))
         {
-            sad::p2d::app::Way* w = static_cast<sad::p2d::app::Way*>(wayslist[i]);
+            sad::Way* w = static_cast<sad::Way*>(wayslist[i]);
             w_actions->addLastWayToEnd(w);
         }
     }
@@ -1487,7 +1487,7 @@ void MainPanel::fixDatabase()
     {
         db->addTable("scenenodes", new sad::db::Table());
     }
-    // Contains sad::p2d::app::Way
+    // Contains sad::Way
     if (db->table("ways") == nullptr)
     {
         db->addTable("ways", new sad::db::Table());

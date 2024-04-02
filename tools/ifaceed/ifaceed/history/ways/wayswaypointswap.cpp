@@ -14,7 +14,7 @@
 #include "../../gui/uiblocks/uiwayblock.h"
 
 history::ways::WayPointSwap::WayPointSwap(
-    sad::p2d::app::Way* w,
+    sad::Way* w,
     int pos1,
     int pos2
 ) : m_way(w), m_pos1(pos1), m_pos2(pos2)

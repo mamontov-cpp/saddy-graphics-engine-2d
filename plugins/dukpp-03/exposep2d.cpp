@@ -29,7 +29,6 @@
 #include <p2d/broadcollisiondetector.h>
 #include <p2d/collisionevent.h>
 #include <p2d/walls.h>
-#include <p2d/app/way.h>
 
 #include <cassert>
 
@@ -873,50 +872,6 @@ static void exposeWorldStepTask(sad::dukpp03::Context* ctx)
     );
 }
 
-
-void exposeWay(sad::dukpp03::Context* ctx)
-{
-    {
-        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
-
-        c->addObjectConstructor<sad::p2d::app::Way>("SadP2DAppWay");
-
-        c->addMethod("setObjectName", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::setObjectName));
-        c->addMethod("objectName", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::objectName));
-
-        c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::p2d::app::Way::MajorId), sad::dukpp03::setter::from(&sad::p2d::app::Way::MajorId));
-        c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::p2d::app::Way::MinorId), sad::dukpp03::setter::from(&sad::p2d::app::Way::MinorId));
-
-        c->addMethod("getPointInTime", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::getPointInTime));
-        c->addMethod("setPoint", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::setPoint));
-        c->addMethod("addPoint", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::addPoint));
-        c->addMethod("insertPoint", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::insertPoint));
-        c->addMethod("removePoint", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::removePoint));
-        c->addMethod("closed", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::closed));
-        c->addMethod("setClosed", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::setClosed));
-        c->addMethod("makeClosed", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::makeClosed));
-        c->addMethod("makeOpen", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::makeOpen));
-        c->addMethod("setTotalTime", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::setTotalTime));
-        c->addMethod("totalTime", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::totalTime));
-        c->addMethod("wayPoints", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::wayPoints));
-        c->addMethod("construct", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::construct));
-        c->addMethod("startConstruction", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::startConstruction));
-        c->addMethod("serializableName", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::serializableName));
-
-        c->setPrototypeFunction("SadP2DAppWay");
-        
-        ctx->addClassBinding("sad::p2d::app::Way", c);
-
-        PERFORM_AND_ASSERT(
-            "sad.p2d.app = {};"
-            "sad.p2d.app.Way = SadP2DAppWay;"
-        );
-    }
-}
-
-
-
-
 void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
 {
 
@@ -1047,5 +1002,4 @@ void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
     exposeWalls(ctx);
     exposeWorld(ctx);
     exposeWorldStepTask(ctx);
-    exposeWay(ctx);
 }

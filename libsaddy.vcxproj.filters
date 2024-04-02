@@ -26,9 +26,6 @@
     <Filter Include="Файлы исходного кода\p2d">
       <UniqueIdentifier>{9979d7f3-b38f-47c6-8ba5-421a5b7a5be1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы исходного кода\p2d\app">
-      <UniqueIdentifier>{c0182007-4e5d-43f1-ad02-004f0a5cc310}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Файлы исходного кода\input">
       <UniqueIdentifier>{cea34f72-e12a-4f14-98f8-0897e3abf3fc}</UniqueIdentifier>
     </Filter>
@@ -98,9 +95,6 @@
     </Filter>
     <Filter Include="Заголовочные файлы\p2d">
       <UniqueIdentifier>{854b7fb4-0b66-4818-ac3c-0b73d1704c45}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Заголовочные файлы\p2d\app">
-      <UniqueIdentifier>{bffc5670-07e7-430e-b2ee-0e5242a69dd0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Заголовочные файлы\input">
       <UniqueIdentifier>{44918068-6364-4c19-99d9-b2ea3b91403e}</UniqueIdentifier>
@@ -440,9 +434,6 @@
     </ClCompile>
     <ClCompile Include="src\p2d\worldsteptask.cpp">
       <Filter>Файлы исходного кода\p2d</Filter>
-    </ClCompile>
-    <ClCompile Include="src\p2d\app\way.cpp">
-      <Filter>Файлы исходного кода\p2d\app</Filter>
     </ClCompile>
     <ClCompile Include="src\input\controls.cpp">
       <Filter>Файлы исходного кода\input</Filter>
@@ -821,6 +812,9 @@
     </ClCompile>
     <ClCompile Include="src\animations\animationsarcmovement.cpp">
       <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\way.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1249,9 +1243,6 @@
     </ClInclude>
     <ClInclude Include="include\p2d\worldsteptask.h">
       <Filter>Заголовочные файлы\p2d</Filter>
-    </ClInclude>
-    <ClInclude Include="include\p2d\app\way.h">
-      <Filter>Заголовочные файлы\p2d\app</Filter>
     </ClInclude>
     <ClInclude Include="include\input\controls.h">
       <Filter>Заголовочные файлы\input</Filter>
@@ -1749,6 +1740,9 @@
       <Filter>Заголовочные файлы\animations</Filter>
     </ClInclude>
     <ClInclude Include="include\algo.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\way.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

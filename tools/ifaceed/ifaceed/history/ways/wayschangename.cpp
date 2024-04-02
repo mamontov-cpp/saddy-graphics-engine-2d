@@ -20,7 +20,7 @@
 #include "../../gui/uiblocks/uiwayblock.h"
 
 history::ways::ChangeName::ChangeName(
-  sad::p2d::app::Way* d,
+  sad::Way* d,
   const sad::String& old_value,
   const sad::String& new_value
 )

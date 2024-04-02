@@ -16,9 +16,9 @@
 #include "../closuremethodcall.h"
 #include "../blockedclosuremethodcall.h"
 
-Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
+Q_DECLARE_METATYPE(sad::Way*) //-V566
 
-history::ways::Remove::Remove(sad::p2d::app::Way* w, int pos) 
+history::ways::Remove::Remove(sad::Way* w, int pos) 
 : m_way(w), 
 m_position(pos),
 m_position_in_animation_combo(-1),

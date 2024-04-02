@@ -12,7 +12,7 @@
 // ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
 
-#include <p2d/app/way.h>
+#include <way.h>
 
 #include "../../gui/animationprocess.h"
 #include "../../gui/mainpanelproxy.h"
@@ -65,7 +65,7 @@
 #include "../../history/animations/animationschangeeasingperiod.h"
 
 Q_DECLARE_METATYPE(sad::animations::Animation*) //-V566
-Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
+Q_DECLARE_METATYPE(sad::Way*) //-V566
 
 // ===============================  PUBLIC METHODS ===============================
 
@@ -447,7 +447,7 @@ void gui::actions::AnimationActions::addAnimation() const
                 if (index >= 0)
                 {
                     QVariant v = blk->cmbWayAnimationWay->itemData(index, Qt::UserRole);
-                    sad::p2d::app::Way* w = v.value<sad::p2d::app::Way*>();
+                    sad::Way* w = v.value<sad::Way*>();
                     if (w)
                     {
                         selectedid = w->MajorId;
@@ -679,7 +679,7 @@ void gui::actions::AnimationActions::currentAnimationChanged(int row) const
         if (a->isInstanceOf("sad::animations::WayMoving"))
         {
             unsigned long long way = a->getProperty<unsigned long long>("way").value();
-            int pos = this->findInComboBoxByMajorId<sad::p2d::app::Way*>(blk->cmbWayAnimationWay, way);
+            int pos = this->findInComboBoxByMajorId<sad::Way*>(blk->cmbWayAnimationWay, way);
             if (pos >= 0)
             {
                 e->emitClosure( blocked_bind(blk->cmbWayAnimationWay, &QComboBox::setCurrentIndex, pos) );
@@ -1128,7 +1128,7 @@ void gui::actions::AnimationActions::wayMovingChangeWay(int row) const
     if (row != -1)
     {
         QVariant v = m_editor->uiBlocks()->uiAnimationBlock()->cmbWayAnimationWay->itemData(row, Qt::UserRole);
-        sad::p2d::app::Way* w = v.value<sad::p2d::app::Way*>();
+        sad::Way* w = v.value<sad::Way*>();
         unsigned long long new_value = 0;
         if (w)
         {

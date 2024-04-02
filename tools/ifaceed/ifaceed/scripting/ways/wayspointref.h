@@ -10,7 +10,7 @@
 
 #include <sadpoint.h>
 
-#include <p2d/app/way.h>
+#include <way.h>
 
 namespace scripting
 {
@@ -37,7 +37,7 @@ public:
         \param[in] way a way, whose point is referenced
         \param[in] pos a position
      */
-    PointRef(scripting::Scripting* s, sad::p2d::app::Way* way, unsigned int pos);
+    PointRef(scripting::Scripting* s, sad::Way* way, unsigned int pos);
     /*! Could be inherited
      */
     virtual ~PointRef();
@@ -85,7 +85,7 @@ protected:
     scripting::Scripting* m_scripting;
     /*! An inner point wrapper
      */
-    sad::p2d::app::Way* m_way;
+    sad::Way* m_way;
     /*! A position of reference in list
      */
     unsigned int m_pos;

@@ -47,7 +47,7 @@ public:
      *  \param[in] way a way
      *  \return true if added, if something wrong or platform is already exists returns false
      */
-    bool add(sad::p2d::Body* platform, sad::p2d::app::Way* way);
+    bool add(sad::p2d::Body* platform, sad::Way* way);
     /*! Adds a pair to registry to start them moving. Does nothing, if platform already
      *  exists
      *  \param[in] platform_name a platform name from registry

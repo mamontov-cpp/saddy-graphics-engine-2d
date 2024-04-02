@@ -12,7 +12,7 @@
 
 
 history::ways::WayPointRemove::WayPointRemove(
-    sad::p2d::app::Way* w,
+    sad::Way* w,
     int position
 ) : m_way(w), m_position(position)
 {

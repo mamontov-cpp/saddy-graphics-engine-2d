@@ -6,7 +6,7 @@
 #pragma once
 #include "animationsanimation.h"
 
-#include "../p2d/app/way.h"
+#include "../way.h"
 
 #include "../db/dbstronglink.h"
 
@@ -49,11 +49,11 @@ public:
     /*! Sets way for animation
         \param[in] way a way
      */ 
-    void setWay(sad::p2d::app::Way * way);
+    void setWay(sad::Way * way);
     /*! Returns way
         \return way
      */
-    sad::p2d::app::Way* way() const;
+    sad::Way* way() const;
     /*! Sets way object id
         \param[in] id id of way object
      */
@@ -80,7 +80,7 @@ public:
 protected:
     /*! A link for a way
      */
-    sad::db::StrongLink<sad::p2d::app::Way> m_way;
+    sad::db::StrongLink<sad::Way> m_way;
 };
 
 }

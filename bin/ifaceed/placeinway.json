@@ -163,7 +163,7 @@
                 "minorid":1.000000,
                 "name":"way",
                 "totaltime":2500.000000,
-                "type":"sad::p2d::app::Way",
+                "type":"sad::Way",
                 "waypoints":[
                     {
                         "x":58.999992,

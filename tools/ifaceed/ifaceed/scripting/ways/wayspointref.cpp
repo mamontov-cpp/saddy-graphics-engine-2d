@@ -15,7 +15,7 @@ scripting::ways::PointRef::PointRef() : m_way(nullptr), m_pos(0)
     
 }
 
-scripting::ways::PointRef::PointRef(scripting::Scripting* s, sad::p2d::app::Way* way, unsigned int pos)
+scripting::ways::PointRef::PointRef(scripting::Scripting* s, sad::Way* way, unsigned int pos)
 : m_scripting(s), m_way(way), m_pos(pos)
 {
     

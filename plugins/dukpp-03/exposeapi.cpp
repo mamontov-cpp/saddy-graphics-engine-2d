@@ -17,6 +17,7 @@
 #include <mousecursor.h>
 #include <opengl.h>
 #include <sprite2d.h>
+#include <way.h>
 
 #include <renderer.h>
 #include <window.h>
@@ -357,6 +358,8 @@ static void __after_event_delayed(
     step->setSource(sad::pipeline::StepSource::ST_USER);
     r->pipeline()->insertAfter(event_name, step, name);
 }
+
+static void exposeWay(sad::dukpp03::Context* ctx);
 
 void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
 {
@@ -887,7 +890,43 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
             "SadPipelineAfterEventDelayed", 
             sad::dukpp03::make_function::from(__after_event_delayed)
         );
-
     }
+
+    exposeWay(ctx);
 }
 
+
+static void exposeWay(sad::dukpp03::Context* ctx)
+{
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+
+        c->addObjectConstructor<sad::Way>("SadWay");
+
+        c->addMethod("setObjectName", sad::dukpp03::bind_method::from(&sad::Way::setObjectName));
+        c->addMethod("objectName", sad::dukpp03::bind_method::from(&sad::Way::objectName));
+
+        c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::Way::MajorId), sad::dukpp03::setter::from(&sad::Way::MajorId));
+        c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::Way::MinorId), sad::dukpp03::setter::from(&sad::Way::MinorId));
+
+        c->addMethod("getPointInTime", sad::dukpp03::bind_method::from(&sad::Way::getPointInTime));
+        c->addMethod("setPoint", sad::dukpp03::bind_method::from(&sad::Way::setPoint));
+        c->addMethod("addPoint", sad::dukpp03::bind_method::from(&sad::Way::addPoint));
+        c->addMethod("insertPoint", sad::dukpp03::bind_method::from(&sad::Way::insertPoint));
+        c->addMethod("removePoint", sad::dukpp03::bind_method::from(&sad::Way::removePoint));
+        c->addMethod("closed", sad::dukpp03::bind_method::from(&sad::Way::closed));
+        c->addMethod("setClosed", sad::dukpp03::bind_method::from(&sad::Way::setClosed));
+        c->addMethod("makeClosed", sad::dukpp03::bind_method::from(&sad::Way::makeClosed));
+        c->addMethod("makeOpen", sad::dukpp03::bind_method::from(&sad::Way::makeOpen));
+        c->addMethod("setTotalTime", sad::dukpp03::bind_method::from(&sad::Way::setTotalTime));
+        c->addMethod("totalTime", sad::dukpp03::bind_method::from(&sad::Way::totalTime));
+        c->addMethod("wayPoints", sad::dukpp03::bind_method::from(&sad::Way::wayPoints));
+        c->addMethod("construct", sad::dukpp03::bind_method::from(&sad::Way::construct));
+        c->addMethod("startConstruction", sad::dukpp03::bind_method::from(&sad::Way::startConstruction));
+        c->addMethod("serializableName", sad::dukpp03::bind_method::from(&sad::Way::serializableName));
+
+        c->setPrototypeFunction("SadWay");
+
+        ctx->addClassBinding("sad::Way", c);
+    }
+}

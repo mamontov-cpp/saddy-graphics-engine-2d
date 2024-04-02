@@ -48,7 +48,7 @@ unsigned long long scripting::instances::_addWayInstance(
 )
 {
 
-    sad::Maybe<sad::p2d::app::Way*> oway = scripting::query<sad::p2d::app::Way*>(way);
+    sad::Maybe<sad::Way*> oway = scripting::query<sad::Way*>(way);
     if (oway.exists() == false)
     {
         bool converted = false;

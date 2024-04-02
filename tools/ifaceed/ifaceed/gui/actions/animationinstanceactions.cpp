@@ -27,7 +27,7 @@
 
 Q_DECLARE_METATYPE(sad::animations::Animation*) //-V566
 Q_DECLARE_METATYPE(sad::animations::Instance*) //-V566
-Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
+Q_DECLARE_METATYPE(sad::Way*) //-V566
 Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
 // ===============================  PUBLIC METHODS ===============================
@@ -291,7 +291,7 @@ void gui::actions::AnimationInstanceActions::addInstance()
             if (m_blk->cmbWayAnimationInstanceWay->currentIndex() > 0)
             {
                 QVariant v = m_blk->cmbWayAnimationInstanceWay->itemData(m_blk->cmbWayAnimationInstanceWay->currentIndex(), Qt::UserRole);
-                sad::p2d::app::Way* a = v.value<sad::p2d::app::Way*>();
+                sad::Way* a = v.value<sad::Way*>();
                 instance->setProperty("way", a->MajorId);
             }
             else
@@ -354,7 +354,7 @@ void gui::actions::AnimationInstanceActions::currentInstanceChanged(int row)
         if (a->isInstanceOf("sad::animations::WayInstance"))
         {
             unsigned long long wayid = a->getProperty<unsigned long long>("way").value();
-            int pos = this->findInComboBoxByMajorId<sad::p2d::app::Way*>(m_blk->cmbWayAnimationInstanceWay, wayid);
+            int pos = this->findInComboBoxByMajorId<sad::Way*>(m_blk->cmbWayAnimationInstanceWay, wayid);
             if (pos > -1)
             {
                 e->emitClosure( blocked_bind(m_blk->cmbWayAnimationInstanceWay, &QComboBox::setCurrentIndex, pos) );
@@ -635,7 +635,7 @@ void  gui::actions::AnimationInstanceActions::wayChanged(int new_row)
 
         if (a->isInstanceOf("sad::animations::WayInstance"))
         {
-            sad::p2d::app::Way* obj = m_blk->cmbWayAnimationInstanceWay->itemData(new_row, Qt::UserRole).value<sad::p2d::app::Way*>();
+            sad::Way* obj = m_blk->cmbWayAnimationInstanceWay->itemData(new_row, Qt::UserRole).value<sad::Way*>();
             unsigned long long new_value = 0;
             if (obj)
             {

@@ -9,7 +9,7 @@
 
 #include <QVector>
 
-#include <p2d/app/way.h>
+#include <way.h>
 #include "wayspointref.h"
 #include <3rdparty/dukpp-03/include/maybe.h>
 
@@ -46,34 +46,34 @@ unsigned long long _add(
     \param[in] scripting a scripting part
     \param[in] way a way to be removed
  */
-void remove(scripting::Scripting* scripting, sad::p2d::app::Way* way);
+void remove(scripting::Scripting* scripting, sad::Way* way);
 
 /*! Returns length of way in points
     \param[in] scripting a scripting part
     \param[in] way a way to be removed
  */
-unsigned int length(scripting::Scripting* scripting, sad::p2d::app::Way* way);
+unsigned int length(scripting::Scripting* scripting, sad::Way* way);
 
 /*! Adds point to a way
     \param[in] scripting a scripting part
     \param[in] way a way to be removed
     \param[in] point a point to be added
  */
-void addPoint(scripting::Scripting* scripting, sad::p2d::app::Way* way, sad::Point2D point);
+void addPoint(scripting::Scripting* scripting, sad::Way* way, sad::Point2D point);
 
 /*! Removes point from way
     \param[in] scripting a scripting part
     \param[in] way a way to be removed
     \param[in] pos a position
  */
-bool removePoint(scripting::Scripting* scripting, sad::p2d::app::Way* way, unsigned int pos);
+bool removePoint(scripting::Scripting* scripting, sad::Way* way, unsigned int pos);
 
 /*! Fetches point reference from way
     \param[in] scripting a scripting part
     \param[in] way a way to be removed
     \param[in] pos a position
  */
-dukpp03::Maybe<scripting::ways::PointRef*> point(scripting::Scripting* scripting, sad::p2d::app::Way* way, unsigned int pos);
+dukpp03::Maybe<scripting::ways::PointRef*> point(scripting::Scripting* scripting, sad::Way* way, unsigned int pos);
 
 /*! Initializes bindings for ways
     \param[in] s scripting object

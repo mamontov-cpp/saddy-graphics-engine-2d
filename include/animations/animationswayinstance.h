@@ -8,7 +8,7 @@
 
 #include "../db/dbstronglink.h"
 
-#include "../p2d/app/way.h"
+#include "../way.h"
 
 namespace sad
 {
@@ -64,11 +64,11 @@ public:
     /*! Sets way instance
         \param[in] i way
      */
-    void setWay(sad::p2d::app::Way* i);
+    void setWay(sad::Way* i);
     /*! Returns current way
         \return way
      */
-    sad::p2d::app::Way* way() const;
+    sad::Way* way() const;
 protected:
     /*! Starts an animation instance
         \param[in] animations an animations
@@ -99,7 +99,7 @@ protected:
     virtual void restoreObjectState(sad::animations::Animations* animations) override;
     /*! Returns a way link
      */
-    sad::db::StrongLink<sad::p2d::app::Way> m_way_link;
+    sad::db::StrongLink<sad::Way> m_way_link;
 };
     
 }

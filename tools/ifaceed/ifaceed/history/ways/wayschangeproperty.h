@@ -34,7 +34,7 @@ public:
         \param[in] new_value new value of property
       */
     ChangeProperty(
-        sad::p2d::app::Way* d,
+        sad::Way* d,
         const sad::String& property,
         const T& old_value,
         const T& new_value
@@ -74,7 +74,7 @@ public:
 protected:
     /*! A changed way
      */
-    sad::p2d::app::Way* m_way;
+    sad::Way* m_way;
     /*!
      * A name of property, which is changed
      */

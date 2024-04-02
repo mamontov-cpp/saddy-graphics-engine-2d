@@ -45,7 +45,7 @@ namespace Qt
 
 #include <input/events.h>
 // ReSharper disable once CppUnusedIncludeDirective
-#include <p2d/app/way.h>
+#include <way.h>
 // ReSharper disable once CppUnusedIncludeDirective
 #include <dialogue/dialogue.h>
 

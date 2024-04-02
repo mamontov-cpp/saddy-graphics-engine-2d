@@ -5,7 +5,7 @@
  */
 #pragma once
 #include "../command.h"
-#include <p2d/app/way.h>
+#include <way.h>
 
 namespace history
 {
@@ -22,7 +22,7 @@ public:
     /*! Creates new command
         \param[in] w way
      */
-    WayPointNew(sad::p2d::app::Way* w);
+    WayPointNew(sad::Way* w);
     /*! Could be inherited
      */
     virtual ~WayPointNew() override;
@@ -41,7 +41,7 @@ public:
 protected:
     /*! A current selected way
      */
-    sad::p2d::app::Way* m_way;
+    sad::Way* m_way;
     /*! An added point
      */
     sad::Point2D m_point;

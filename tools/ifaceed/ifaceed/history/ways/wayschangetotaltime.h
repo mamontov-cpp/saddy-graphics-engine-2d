@@ -21,7 +21,7 @@ public:
         \param[in] old_value old time
         \param[in] new_value new time
       */
-    ChangeTotalTime(sad::p2d::app::Way* d, double old_value, double new_value);
+    ChangeTotalTime(sad::Way* d, double old_value, double new_value);
     /*! Erases link to a node
       */
     virtual ~ChangeTotalTime() override;

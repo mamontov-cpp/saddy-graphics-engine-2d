@@ -11,7 +11,7 @@
 #include "../../gui/uiblocks/uiwayblock.h"
 
 
-history::ways::WayPointNew::WayPointNew(sad::p2d::app::Way* w) : m_way(w)
+history::ways::WayPointNew::WayPointNew(sad::Way* w) : m_way(w)
 {
     m_way->addRef();
 
