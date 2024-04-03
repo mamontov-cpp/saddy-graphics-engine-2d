@@ -648,7 +648,7 @@ const sad::String & sad::Renderer::executablePath() const
 #ifdef WIN32
 // WinXP fix for MAX_PATH absence
 #ifndef _MAX_PATH
-    #define MAX_PATH _MAX_PATH
+    #define _MAX_PATH MAX_PATH
 #endif
         char result[_MAX_PATH+1];
         GetModuleFileNameA(nullptr, result, _MAX_PATH);
