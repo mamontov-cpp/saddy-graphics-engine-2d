@@ -167,6 +167,7 @@ double sad::animations::WayInstance::computeTime(sad::animations::Animations* an
         {
             m_started = false;
             m_timer.stop();
+            this->processTime(animations, w->totalTime());
             this->markAsFinished();
             if (m_finished)
             {

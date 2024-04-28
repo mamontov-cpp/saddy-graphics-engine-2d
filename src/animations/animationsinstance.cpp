@@ -645,6 +645,8 @@ double sad::animations::Instance::computeTime(
         {
             m_started = false;
             m_timer.stop();
+            // Set final sate to current time
+            this->processTime(animations, a->time());
             this->markAsFinished();
             if (m_finished)
             {

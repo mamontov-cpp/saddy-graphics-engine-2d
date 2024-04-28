@@ -5,11 +5,14 @@
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #include <label.h>
+#include <sprite2d.h>
+#include <animations/animationscolor.h>
 #include <animations/animationsinstance.h>
 #include <animations/animationsanimations.h>
 #include <animations/animationssequential.h>
 #include <db/dbtable.h>
 #include <db/dbdatabase.h>
+#include <sadsleep.h>
 #pragma warning(pop)
 
 int instances_count = 0;
@@ -34,7 +37,8 @@ struct AnimationsTest : tpunit::TestFixture
        TEST(AnimationsTest::testAddRemove),
        TEST(AnimationsTest::testMultipleEdges),
        TEST(AnimationsTest::testComplex),
-       TEST(AnimationsTest::testDatabase)
+       TEST(AnimationsTest::testDatabase),
+       TEST(AnimationsTest::testObjectStateAfterFinishedWithDelay)
    ) {}
    
 
@@ -180,6 +184,48 @@ struct AnimationsTest : tpunit::TestFixture
        db->delRef();
        
        ASSERT_TRUE( instances_count == 0);  
+   }
+
+   void testObjectStateAfterFinishedWithDelay()
+   {
+       sad::Sprite2D* s = new sad::Sprite2D();
+       s->addRef();
+       s->setColor(sad::AColor(255, 255, 255, 0));
+
+       sad::animations::Color* animation_color = new sad::animations::Color();
+       animation_color->addRef();
+       animation_color->setTime(500);
+       animation_color->setLooped(false);
+       animation_color->setMinColor(sad::AColor(128, 0, 0, 128));
+       animation_color->setMaxColor(sad::AColor(128, 0, 0, 255));
+
+       sad::animations::Instance* instance = new sad::animations::Instance();
+       instance->addRef();
+       instance->setAnimation(animation_color);
+       instance->setObject(s);
+       instance->disableStateRestoringOnFinish();
+       instance->clearFinished();
+
+       sad::animations::Animations* anims = new sad::animations::Animations();
+       anims->add(instance);
+       anims->process();
+       ASSERT_TRUE(s->color().a() != 0)
+
+       sad::sleep(200);
+
+       anims->process();
+       ASSERT_TRUE(s->color().a() > 128)
+       ASSERT_TRUE(s->color().a() < 255)
+
+       sad::sleep(600);
+
+       anims->process();
+       ASSERT_TRUE(s->color().a() == 255)
+
+       delete anims;
+       instance->delRef();
+       animation_color->delRef();
+       s->delRef();
    }
 
 } _animations_test;
