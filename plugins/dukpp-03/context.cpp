@@ -727,6 +727,8 @@ void sad::dukpp03::Context::exposeRenderer()
     c->addMethod("treeNames", sad::dukpp03::bind_method::from(&sad::Renderer::treeNames));
     c->addMethod("toggleGlGetErrorDebugCallsDisabled", sad::dukpp03::bind_method::from(&sad::Renderer::toggleGlGetErrorDebugCallsDisabled));
     c->addMethod("isGLGetErrorDebugCallsDisabled", sad::dukpp03::bind_method::from(&sad::Renderer::isGLGetErrorDebugCallsDisabled));
+    c->addMethod("reset", sad::dukpp03::bind_method::from(&sad::Renderer::reset));
+
 
     c->setPrototypeFunction("sad.Renderer");
 
@@ -799,6 +801,7 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("treeNames", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::treeNames));
     cext->addMethod("toggleGlGetErrorDebugCallsDisabled", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::toggleGlGetErrorDebugCallsDisabled));
     cext->addMethod("isGLGetErrorDebugCallsDisabled", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::isGLGetErrorDebugCallsDisabled));
+    cext->addMethod("reset", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::reset));
 
     cext->setPrototypeFunction("sad.Renderer");
 
