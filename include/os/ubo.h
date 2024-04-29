@@ -66,7 +66,7 @@ public:
     /*! Tries to log OpenGL error if occurred
      *  \param[in] op log info
      */
-    void tryLogGlError(const char* op);
+    void tryLogGlError(const char* op) const;
 private:
     /*! A renderer for geometry
      */

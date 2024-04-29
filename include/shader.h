@@ -395,7 +395,7 @@ public:
    void setUniform(int location, float v0);
    /*! Tries to log OpenGL error if occurred
     */
-   void tryLogGlError(const char* op);
+   void tryLogGlError(const char* op) const;
    /*! Returns shader id
        \return shader id
     */

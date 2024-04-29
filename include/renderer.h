@@ -559,6 +559,14 @@ public:
      *  \param[in] ubo an ubo
      */
     void freeCameraBufferObject(sad::os::UBO* ubo);
+    /*! Whether we should disabled glGetError() debug calls enabled by default
+     *  \param[in] disable whether we should disable those
+     */
+    void toggleGlGetErrorDebugCallsDisabled(bool disable);
+    /*! Returns true if glGetError() debug calls are enabled in engine
+     *  \return value for debug calls
+     */
+    bool isGLGetErrorDebugCallsDisabled() const;
 protected:
     /*! A global instance for renderer, to make it local creation is
         procedures unnecessary. It's not a singleton, but can
@@ -704,6 +712,9 @@ protected:
     /*! Whether we should free texture buffer after upload
      */
     bool m_free_texture_buffer_after_upload;
+    /*! Whether we should disable debugging glGetError() calls in engine source code
+     */
+    bool m_disable_gl_get_error_calls;
 
     /*! Copying a renderer, due to held system resources is disabled
         \param[in] o other renderer

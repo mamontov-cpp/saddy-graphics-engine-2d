@@ -106,15 +106,23 @@ sad::os::UBO::~UBO()
     }
 }
 
-void sad::os::UBO::tryLogGlError(const char* op)
+void sad::os::UBO::tryLogGlError(const char* op) const
 {
     sad::Renderer* r = m_renderer;
+    if (!r)
+    {
+        r = sad::Renderer::ref();
+    }
 
-    GLenum err_code = glGetError();
+    if (r->isGLGetErrorDebugCallsDisabled())
+    {
+        return;
+    }
+
+    const GLenum err_code = glGetError();
     if (err_code != GL_NO_ERROR)
     {
-        sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
-        bool handled = false;
+        const sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
         sad::String error_data = op;
         error_data += ": ";
         error_data += error_string;

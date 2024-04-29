@@ -79,7 +79,8 @@ m_default_font_shader_function(nullptr),
 m_default_font_line_shader(nullptr),
 m_default_font_line_shader_function(nullptr),
 m_gl_sprite_geometry_storages(nullptr),
-m_free_texture_buffer_after_upload(false)
+m_free_texture_buffer_after_upload(false),
+m_disable_gl_get_error_calls(false)
 {
 #ifdef X11
     SafeXInitThreads();
@@ -150,6 +151,7 @@ void sad::Renderer::reset()
     m_default_font_line_shader_function = nullptr;
     m_gl_sprite_geometry_storages = nullptr;
     m_free_texture_buffer_after_upload = false;
+    m_disable_gl_get_error_calls = false;
 
     m_window->setRenderer(this);
     m_cursor->setRenderer(this);
@@ -1138,6 +1140,16 @@ void sad::Renderer::freeCameraBufferObject(sad::os::UBO* ubo)
         delete ubo;
         m_camera_buffer_objects.erase(it);
     }
+}
+
+void sad::Renderer::toggleGlGetErrorDebugCallsDisabled(bool disable)
+{
+    m_disable_gl_get_error_calls = disable;
+}
+
+bool sad::Renderer::isGLGetErrorDebugCallsDisabled() const
+{
+    return m_disable_gl_get_error_calls;
 }
 
 // ============================================================ PROTECTED METHODS ============================================================

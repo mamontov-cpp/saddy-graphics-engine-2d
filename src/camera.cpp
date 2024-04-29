@@ -270,11 +270,14 @@ float* sad::Camera::modelViewMatrix()
              r = sad::Renderer::ref();
          }
          glGetFloatv(GL_MODELVIEW_MATRIX, &(this->m_model_view_matrix[0]));
-         GLenum err_code = glGetError();
-         if (err_code != GL_NO_ERROR)
+         if (r->isGLGetErrorDebugCallsDisabled())
          {
-             sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
-             SL_LOCAL_WARNING(error_string, *r);
+             const GLenum err_code = glGetError();
+             if (err_code != GL_NO_ERROR)
+             {
+                 const sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
+                 SL_LOCAL_WARNING(error_string, *r);
+             }
          }
          if (m_scene)
          {
@@ -285,7 +288,4 @@ float* sad::Camera::modelViewMatrix()
     return &(this->m_model_view_matrix[0]);
 }
 
-sad::Camera::~Camera()
-{
-
-}
+sad::Camera::~Camera() = default;

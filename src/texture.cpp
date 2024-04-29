@@ -285,9 +285,10 @@ void sad::Texture::upload()
     }
 
     // Actually upload image to GPU   
-    GLint res;
+    GLint res = 0;
     // ReSharper disable once CppEntityAssignedButNoRead
-    unsigned char const * errorstring;
+    // ReSharper disable once CppInitializedValueIsAlwaysRewritten
+    unsigned char const * errorstring = nullptr;
     sad::Pair<int,int> version = r->opengl()->version();
     if (version.p1() < 3) // In OpenGL 3.0  glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);  is deprecated
     {
@@ -322,23 +323,32 @@ void sad::Texture::upload()
                     SL_COND_LOCAL_INTERNAL(gl_error, r);
             }
             glTexImage2D(GL_TEXTURE_2D, 0, opengl_internalformat, Width, Height, 0, opengl_format, opengl_type, Buffer->buffer());
-            res = glGetError();
-            // ReSharper disable once CppAssignedValueIsNeverUsed
-            errorstring = gluErrorString(res);
+            if (!r->isGLGetErrorDebugCallsDisabled())
+            {
+                res = glGetError();
+                // ReSharper disable once CppAssignedValueIsNeverUsed
+                errorstring = gluErrorString(res);
+            }
         }
     } 
     else
     {
         glTexImage2D(GL_TEXTURE_2D, 0, opengl_internalformat,  Width, Height, 0, opengl_format, opengl_type,  Buffer->buffer());     
         // ReSharper disable once CppAssignedValueIsNeverUsed
-        res = glGetError();
+        if (!r->isGLGetErrorDebugCallsDisabled())
+        {
+            res = glGetError();
+        }
         if (BuildMipMaps)
         {
             sad::os::generateMipMaps30(r, GL_TEXTURE_2D);
-            GLint mipres = glGetError(); //-V519
-            if (mipres)
+            if (!r->isGLGetErrorDebugCallsDisabled())
             {
-                SL_COND_LOCAL_INTERNAL(gluErrorString(mipres), r);
+                const GLint mip_generation_gl_result = glGetError(); //-V519
+                if (mip_generation_gl_result)
+                {
+                    SL_COND_LOCAL_INTERNAL(gluErrorString(mip_generation_gl_result), r);
+                }
             }
         }
     }
@@ -614,9 +624,9 @@ sad::Renderer * sad::Texture::renderer() const
 
 void sad::Texture::convertToPOTTexture()
 {
-    unsigned int  maxside = std::max(Width, Height);
+    const unsigned int  max_side = std::max(Width, Height);
     unsigned int  size = 1;
-    while(size < maxside)
+    while(size < max_side)
     {
         size =  size << 1;
     }
@@ -629,11 +639,11 @@ void sad::Texture::convertToPOTTexture()
     std::fill_n(data.begin(), size * size * Bpp / 8, 0);
 
     // Copy data from old buffer
-    size_t rowsize = Width * (Bpp / 8);
+    const size_t row_size = Width * (Bpp / 8);
     for(unsigned int x = 0; x < Height; x++)
     {
-        sad::uchar* row = this->Buffer->buffer() + rowsize * x;
-        memcpy(&(data[0]) + (size * (Bpp / 8) * x), row, rowsize * sizeof(sad::uchar));
+        sad::uchar* row = this->Buffer->buffer() + row_size * x;
+        memcpy(&(data[0]) + (size * (Bpp / 8) * x), row, row_size * sizeof(sad::uchar));
     }
     Width = size;
     Height = size;
@@ -642,12 +652,21 @@ void sad::Texture::convertToPOTTexture()
     this->Buffer = buffer;
 }
 
-unsigned char const * sad::Texture::getGLError() {
+unsigned char const * sad::Texture::getGLError() const
+{
+    if (!m_renderer)
+    {
+        return nullptr;
+    }
+    if (m_renderer->isGLGetErrorDebugCallsDisabled())
+    {
+        return nullptr;
+    }
     // Get an info about errors during operation
-    GLint errorcode = glGetError();
+    const GLint error_code = glGetError();
     // If there is an error return its description
-    if (errorcode)
-        return gluErrorString(errorcode);
+    if (error_code)
+        return gluErrorString(error_code);
     // Else return nullptr
     return nullptr;
 }

@@ -338,7 +338,7 @@ private:
     /*! Checks for errors in work of OpenGL and converts them into string
         \return string with error description (nullptr if there was no error)
     */
-    unsigned char const * getGLError();
+    unsigned char const * getGLError() const;
 };
 
 }

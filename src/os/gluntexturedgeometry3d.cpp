@@ -191,17 +191,22 @@ void sad::os::GLUntexturedGeometry3D::drawArrays(GLenum mode) const
 
 void sad::os::GLUntexturedGeometry3D::tryLogGlError(const char* op) const
 {
-    GLenum err_code = glGetError();
+    sad::Renderer* r = m_renderer;
+    if (!r)
+    {
+        r = sad::Renderer::ref();
+    }
+
+    if (r->isGLGetErrorDebugCallsDisabled())
+    {
+        return;
+    }
+
+    const GLenum err_code = glGetError();
 
     if (err_code != GL_NO_ERROR)
     {
-        sad::Renderer* r = sad::Renderer::ref();
-        if (m_renderer)
-        {
-            r = m_renderer;
-        }
-
-        sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
+        const sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
         sad::String error_data = op;
         error_data += ": ";
         error_data += error_string;

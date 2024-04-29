@@ -584,13 +584,20 @@ void sad::Shader::setUniform(int location, float v0)
     }
 }
 
-void sad::Shader::tryLogGlError(const char* op)
+void sad::Shader::tryLogGlError(const char* op) const
 {
-    GLenum err_code = glGetError();
+    if (!m_renderer)
+    {
+        return;
+    }
+    if (m_renderer->isGLGetErrorDebugCallsDisabled())
+    {
+        return;
+    }
+    const GLenum err_code = glGetError();
     if (err_code != GL_NO_ERROR)
     {
-        sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
-        bool handled = false;
+        const sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
         sad::String error_data = op;
         error_data += ": ";
         error_data += error_string;
