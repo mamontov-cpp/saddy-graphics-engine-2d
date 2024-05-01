@@ -1,5 +1,4 @@
 #include "../include/3rdparty/tar7z.h"
-#include "opticksupport.h"
 
 // Embed tar7z library, so it would not be required to link against
 
