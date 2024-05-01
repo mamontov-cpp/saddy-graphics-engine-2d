@@ -14,6 +14,7 @@
 #include "db/load.h"
 #include "db/dbfield.h"
 #include "db/dbmethodpair.h"
+#include "opticksupport.h"
 
 
 DECLARE_SOBJ_INHERITANCE(sad::Sprite3D,sad::SceneNode);
@@ -36,6 +37,7 @@ m_geometry_dirty(true),
 m_tc_dirty(true),
 m_vertexes_dirty(true)
 {
+    PROFILER_EVENT;
     m_g.m_textured_geometry = nullptr;
     m_g.m_untextured_geometry = nullptr;
 }
@@ -58,6 +60,7 @@ m_geometry_dirty(true),
 m_tc_dirty(true),
 m_vertexes_dirty(true)
 {
+    PROFILER_EVENT;
     m_texture.attach(texture);
     normalizeTextureCoordinates();
     if (fast)
@@ -94,6 +97,7 @@ m_geometry_dirty(true),
 m_tc_dirty(true),
 m_vertexes_dirty(true)
 {
+    PROFILER_EVENT;
     m_texture.setTree(nullptr, tree);
     m_texture.setPath(texture);
     normalizeTextureCoordinates();
@@ -112,6 +116,7 @@ m_vertexes_dirty(true)
 
 sad::Sprite3D::~Sprite3D()
 {
+    PROFILER_EVENT;
 
 }
 
@@ -121,6 +126,7 @@ static sad::Mutex Sprite3DBasicSchemaInit;
 
 sad::db::schema::Schema* sad::Sprite3D::basicSchema()
 {
+    PROFILER_EVENT;
     if (Sprite3DBasicSchema == nullptr)
     {
         Sprite3DBasicSchemaInit.lock();
@@ -194,11 +200,13 @@ sad::db::schema::Schema* sad::Sprite3D::basicSchema()
 
 sad::db::schema::Schema* sad::Sprite3D::schema() const
 {
+    PROFILER_EVENT;
     return sad::Sprite3D::basicSchema();
 }
 
 void sad::Sprite3D::render()
 {
+    PROFILER_EVENT;
     sad::Scene* scene = this->scene();
     if (!scene)
     {
@@ -303,6 +311,7 @@ void sad::Sprite3D::render()
 
 void sad::Sprite3D::rendererChanged()
 {
+    PROFILER_EVENT;
     if (m_texture.dependsOnRenderer())
     {
         m_texture.setRenderer(this->renderer());
@@ -312,6 +321,7 @@ void sad::Sprite3D::rendererChanged()
 
 void sad::Sprite3D::setTextureCoordinates(const sad::Rect2D & texturecoordinates)
 {
+    PROFILER_EVENT;
     m_texture_coordinates = texturecoordinates;
     normalizeTextureCoordinates();
     m_tc_dirty = true;
@@ -319,6 +329,7 @@ void sad::Sprite3D::setTextureCoordinates(const sad::Rect2D & texturecoordinates
 
 void sad::Sprite3D::setTextureCoordinate(int index, const sad::Point2D & point)
 {
+    PROFILER_EVENT;
     m_texture_coordinates[index] = point;
     // Try  to immediately convert point to normalized if needed
     sad::Texture * tex = m_texture.get();
@@ -358,17 +369,20 @@ void sad::Sprite3D::setTextureCoordinate(int index, const sad::Point2D & point)
 
 void sad::Sprite3D::setTextureCoordinate(int index, double x ,double y)
 {
+    PROFILER_EVENT;
     this->setTextureCoordinate(index, sad::Point2D(x, y));
 }
 
 
 const sad::Rect2D & sad::Sprite3D::textureCoordinates() const
 {
+    PROFILER_EVENT;
     return m_texture_coordinates;
 }
 
 void sad::Sprite3D::setRenderableArea(const sad::Rect<sad::Point3D> & rect)
 {
+    PROFILER_EVENT;
     initFromRectangle(rect);
     buildRenderableArea();
     m_vertexes_dirty = true;
@@ -376,6 +390,7 @@ void sad::Sprite3D::setRenderableArea(const sad::Rect<sad::Point3D> & rect)
 
 sad::Rect<sad::Point3D> sad::Sprite3D::area() const
 {
+    PROFILER_EVENT;
     sad::Rect<sad::Point3D> result(
         m_middle + sad::Point3D(m_size.Width / -2,  m_size.Height / -2 , 0),
         m_middle + sad::Point3D(m_size.Width /  2,  m_size.Height / -2 , 0),
@@ -387,21 +402,25 @@ sad::Rect<sad::Point3D> sad::Sprite3D::area() const
 
 const sad::Rect<sad::Point3D> & sad::Sprite3D::renderableArea() const
 {
+    PROFILER_EVENT;
     return m_renderable_area;
 }
 
 const sad::Point3D & sad::Sprite3D::point(int n) const
 {
+    PROFILER_EVENT;
     return m_renderable_area[n];
 }
 
 const sad::Point3D & sad::Sprite3D::middle() const
 {
+    PROFILER_EVENT;
     return m_middle;
 }
 
 void sad::Sprite3D::setMiddle(const sad::Point3D & p)
 {
+    PROFILER_EVENT;
     m_middle = p;
     m_vertexes_dirty = true;
     buildRenderableArea();
@@ -409,11 +428,13 @@ void sad::Sprite3D::setMiddle(const sad::Point3D & p)
 
 const sad::Size2D &  sad::Sprite3D::size() const
 {
+    PROFILER_EVENT;
     return m_size;	
 }
 
 void sad::Sprite3D::setSize(const sad::Size2D & size)
 {
+    PROFILER_EVENT;
     m_size = size;
     m_vertexes_dirty = true;
     buildRenderableArea();
@@ -421,6 +442,7 @@ void sad::Sprite3D::setSize(const sad::Size2D & size)
 
 void sad::Sprite3D::moveBy(const sad::Point3D & dist)
 {
+    PROFILER_EVENT;
     m_middle += dist;
     for (int i=0;i<4;i++)
     {
@@ -431,6 +453,7 @@ void sad::Sprite3D::moveBy(const sad::Point3D & dist)
 
 void sad::Sprite3D::moveBy(const sad::Point2D& p)
 {
+    PROFILER_EVENT;
     sad::Point3D tmp(p.x(), p.y(), 0);
     m_vertexes_dirty = true;
     moveBy(tmp);
@@ -438,6 +461,7 @@ void sad::Sprite3D::moveBy(const sad::Point2D& p)
 
 void sad::Sprite3D::moveTo(const sad::Point3D & p)
 {
+    PROFILER_EVENT;
     sad::Point3D  dist = p;
     dist -= middle();
     m_vertexes_dirty = true;
@@ -446,16 +470,19 @@ void sad::Sprite3D::moveTo(const sad::Point3D & p)
 
 bool sad::Sprite3D::canBeRotated() const
 {
+    PROFILER_EVENT;
     return true;
 }
 
 void sad::Sprite3D::rotate(double angle)
 {
+    PROFILER_EVENT;
     rotate(angle, 0);
 }
 
 void sad::Sprite3D::rotate(double alpha, double theta)
 {
+    PROFILER_EVENT;
     m_alpha += alpha;
     m_theta += theta;
     m_vertexes_dirty = true;
@@ -464,6 +491,7 @@ void sad::Sprite3D::rotate(double alpha, double theta)
 
 void sad::Sprite3D::setAlpha(double alpha)
 {
+    PROFILER_EVENT;
     m_alpha = alpha;
     m_vertexes_dirty = true;
     buildRenderableArea();
@@ -471,6 +499,7 @@ void sad::Sprite3D::setAlpha(double alpha)
 
 void sad::Sprite3D::setTheta(double theta)
 {
+    PROFILER_EVENT;
     m_theta = theta;
     m_vertexes_dirty = true;
     buildRenderableArea();
@@ -478,26 +507,31 @@ void sad::Sprite3D::setTheta(double theta)
 
 double sad::Sprite3D::alpha() const
 {
+    PROFILER_EVENT;
     return m_alpha;
 }
 
 double sad::Sprite3D::theta() const
 {
+    PROFILER_EVENT;
     return m_theta;
 }
 
 void sad::Sprite3D::setColor(const sad::AColor & clr) 
 {
+    PROFILER_EVENT;
     m_color = clr;
 }
 
 const sad::AColor & sad::Sprite3D::color() const
 {
+    PROFILER_EVENT;
     return m_color;
 }
 
 void sad::Sprite3D::setFlipX(bool flipx)
 {
+    PROFILER_EVENT;
     m_tc_dirty = true;
     bool changed = m_flipx != flipx;
     m_flipx = flipx;
@@ -509,6 +543,7 @@ void sad::Sprite3D::setFlipX(bool flipx)
 
 void sad::Sprite3D::setFlipY(bool flipy)
 {
+    PROFILER_EVENT;
     m_tc_dirty = true;
     bool changed = m_flipy != flipy;
     m_flipy = flipy;
@@ -520,16 +555,19 @@ void sad::Sprite3D::setFlipY(bool flipy)
 
 bool sad::Sprite3D::flipX() const
 {
+    PROFILER_EVENT;
     return m_flipx;
 }
 
 bool sad::Sprite3D::flipY() const
 {
+    PROFILER_EVENT;
     return m_flipy;
 }
 
 void sad::Sprite3D::setTexture(sad::Texture * texture)
 {
+    PROFILER_EVENT;
     m_texture.attach(texture);
     normalizeTextureCoordinates();
 
@@ -538,11 +576,13 @@ void sad::Sprite3D::setTexture(sad::Texture * texture)
 
 sad::Texture * sad::Sprite3D::texture() const
 {
+    PROFILER_EVENT;
     return m_texture.get();
 }
 
 void sad::Sprite3D::setTextureName(const sad::String & name)
 {
+    PROFILER_EVENT;
     m_texture.setPath(name);
 
     tryReturnGeometry();
@@ -551,11 +591,13 @@ void sad::Sprite3D::setTextureName(const sad::String & name)
 
 const sad::String& sad::Sprite3D::textureName()
 {
+    PROFILER_EVENT;
     return m_texture.path();
 }
 
 void sad::Sprite3D::setScene(sad::Scene * scene)
 {
+    PROFILER_EVENT;
     this->sad::SceneNode::setScene(scene);
     if (m_texture.dependsOnRenderer() && scene)
     {
@@ -567,6 +609,7 @@ void sad::Sprite3D::setScene(sad::Scene * scene)
 
 void sad::Sprite3D::setTreeName(const sad::String & tree_name)
 {
+    PROFILER_EVENT;
     m_texture.setTree(m_texture.renderer(), tree_name);
     reloadTexture();
     tryReturnGeometry();
@@ -574,6 +617,7 @@ void sad::Sprite3D::setTreeName(const sad::String & tree_name)
 
 void sad::Sprite3D::setTreeName(sad::Renderer* r, const sad::String & tree_name)
 {
+    PROFILER_EVENT;
     m_texture.setTree(r, tree_name);
     reloadTexture();
     tryReturnGeometry();
@@ -581,11 +625,13 @@ void sad::Sprite3D::setTreeName(sad::Renderer* r, const sad::String & tree_name)
 
 void sad::Sprite3D::onRemovedFromScene()
 {
+    PROFILER_EVENT;
     tryReturnGeometry();
 }
 
 void sad::Sprite3D::initFromRectangleFast(const sad::Rect<sad::Point3D> & rect)
 {
+    PROFILER_EVENT;
     m_alpha = 0;
     m_theta = 0;
 
@@ -601,6 +647,7 @@ void sad::Sprite3D::initFromRectangleFast(const sad::Rect<sad::Point3D> & rect)
 
 void sad::Sprite3D::initFromRectangle(const sad::Rect<sad::Point3D> & rect)
 {
+    PROFILER_EVENT;
     bool error = false;
     sad::Rect<sad::Point3D> baserect;
     sad::getBaseRect(rect, baserect, m_alpha, m_theta, &error);
@@ -616,17 +663,20 @@ void sad::Sprite3D::initFromRectangle(const sad::Rect<sad::Point3D> & rect)
 
 void sad::Sprite3D::buildRenderableArea()
 {
+    PROFILER_EVENT;
     sad::Rect<sad::Point3D> baserect = this->area();
     sad::rotate(baserect, m_renderable_area, m_alpha, m_theta);
 }
 
 void sad::Sprite3D::reloadTexture()
 {
+    PROFILER_EVENT;
     normalizeTextureCoordinates();
 }
 
 void sad::Sprite3D::normalizeTextureCoordinates()
 {
+    PROFILER_EVENT;
     sad::Texture * texture = m_texture.get();
     if (texture)
     {
@@ -651,6 +701,7 @@ void sad::Sprite3D::normalizeTextureCoordinates()
 
 void sad::Sprite3D::tryReturnGeometry()
 {
+    PROFILER_EVENT;
     if (m_old_renderer && !m_geometry_dirty)
     {
         if (m_was_textured)

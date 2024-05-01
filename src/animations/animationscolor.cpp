@@ -26,6 +26,7 @@
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
+#include "opticksupport.h"
 
 
 
@@ -35,11 +36,13 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Color, sad::animations::Animation);
 
 sad::animations::Color::Color()
 {
+    PROFILER_EVENT;
     m_creators.pushProperty<sad::AColor>("color", "color");
 }
 
 sad::animations::Color::~Color()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -50,6 +53,7 @@ static sad::Mutex AnimationColorSchemaInit;
 
 sad::db::schema::Schema* sad::animations::Color::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationColorSchema == nullptr)
     {
         AnimationColorSchemaInit.lock();
@@ -81,6 +85,7 @@ sad::db::schema::Schema* sad::animations::Color::basicSchema()
 
 sad::db::schema::Schema* sad::animations::Color::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::Color::basicSchema();
 }
 
@@ -88,6 +93,7 @@ sad::db::schema::Schema* sad::animations::Color::schema() const
 
 bool sad::animations::Color::loadFromValue(const picojson::value& v)
 {
+    PROFILER_EVENT;
     bool flag = this->sad::animations::Animation::loadFromValue(v);
     if (flag)
     {
@@ -112,21 +118,25 @@ bool sad::animations::Color::loadFromValue(const picojson::value& v)
 
 void sad::animations::Color::setMinColor(const sad::AColor& color)
 {
+    PROFILER_EVENT;
     m_min_color = color;
 }
 
 const sad::AColor& sad::animations::Color::minColor() const
 {
+    PROFILER_EVENT;
     return m_min_color;
 }
 
 void sad::animations::Color::setMaxColor(const sad::AColor& color)
 {
+    PROFILER_EVENT;
     m_max_color = color;
 }
 
 const sad::AColor& sad::animations::Color::maxColor() const
 {
+    PROFILER_EVENT;
     return m_max_color;
 }
 
@@ -141,6 +151,7 @@ void sad::animations::Color::setState(sad::animations::Instance* i, double time)
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::Color::stateCommand(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     if (this->applicableTo(o))
     {
         sad::animations::setstate::AbstractSetStateCommand* c;
@@ -182,6 +193,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::Color::stat
 
 bool sad::animations::Color::applicableTo(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (o && m_valid)
     {

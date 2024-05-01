@@ -6,17 +6,20 @@
 #include "renderer.h"
 
 #include <fstream>
+#include "opticksupport.h"
 
 // ===================================  PUBLIC METHODS ===================================
 
 sad::db::Database::Database() : m_max_major_id(1), m_renderer(nullptr)
 {
+    PROFILER_EVENT;
     m_factory = new sad::db::ObjectFactory();
     m_prop_factory = new sad::db::StoredPropertyFactory();
 }
 
 sad::db::Database::~Database()
 {
+    PROFILER_EVENT;
     delete m_factory;
     delete m_prop_factory;
     for(sad::Hash<sad::String, sad::db::Table*>::iterator it = m_names_to_tables.begin();
@@ -37,6 +40,7 @@ sad::db::Database::~Database()
 
 void sad::db::Database::save(sad::String & output)
 {
+    PROFILER_EVENT;
     picojson::value resultvalue(picojson::object_type, false);
 
     picojson::object propertiesresult;
@@ -60,6 +64,7 @@ void sad::db::Database::save(sad::String & output)
 
 sad::String sad::db::Database::save()
 {
+    PROFILER_EVENT;
     sad::String result;
     this->save(result);
     return result;
@@ -67,6 +72,7 @@ sad::String sad::db::Database::save()
 
 void sad::db::Database::saveToFile(const sad::String& s)
 {
+    PROFILER_EVENT;
     std::ofstream file(s.c_str(), std::ofstream::out);
     if (file.good())
     {
@@ -79,6 +85,7 @@ void sad::db::Database::saveToFile(const sad::String& s)
 
 bool sad::db::Database::load(const sad::String& text)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (text.consistsOfWhitespaceCharacters() == false)
     {
@@ -108,11 +115,13 @@ bool sad::db::Database::load(const sad::String& text)
 
 bool sad::db::Database::tryLoadFrom(const sad::String& name)
 {
+    PROFILER_EVENT;
     return this->loadFromFile(name, sad::Renderer::ref());
 }
 
 bool sad::db::Database::loadFromFile(const sad::String& name, sad::Renderer * r)
 {
+    PROFILER_EVENT;
     bool loadingresult = false;
     sad::Maybe<sad::String> result;
     std::ifstream stream(name.c_str());
@@ -156,6 +165,7 @@ bool sad::db::Database::loadFromFile(const sad::String& name, sad::Renderer * r)
 
 void sad::db::Database::addPropertyOfType(const sad::String & name,  const sad::String& type)
 {
+    PROFILER_EVENT;
     if (m_prop_factory->canCreate(type))
     {
         addProperty(name, m_prop_factory->create(type));
@@ -164,6 +174,7 @@ void sad::db::Database::addPropertyOfType(const sad::String & name,  const sad::
 
 void sad::db::Database::addProperty(const sad::String & name, sad::db::Property * p)
 {
+    PROFILER_EVENT;
     assert( p );
 
     if (m_properties.contains(name))
@@ -179,6 +190,7 @@ void sad::db::Database::addProperty(const sad::String & name, sad::db::Property 
 
 void sad::db::Database::removeProperty(const sad::String & name)
 {
+    PROFILER_EVENT;
     if (m_properties.contains(name))
     {
         delete m_properties[name]; //-V515
@@ -188,6 +200,7 @@ void sad::db::Database::removeProperty(const sad::String & name)
 
 sad::db::Property* sad::db::Database::propertyByName(const sad::String & name) const
 {
+    PROFILER_EVENT;
     sad::db::Property* p = nullptr;
     if (m_properties.contains(name))
     {
@@ -199,6 +212,7 @@ sad::db::Property* sad::db::Database::propertyByName(const sad::String & name) c
 // ReSharper disable once CppMemberFunctionMayBeConst
 bool sad::db::Database::setDBProperty(const sad::String& name, sad::db::Variant& v)
 {
+    PROFILER_EVENT;
     sad::db::Property * prop = this->propertyByName(name);
     bool result = false;
     if (prop)
@@ -210,12 +224,14 @@ bool sad::db::Database::setDBProperty(const sad::String& name, sad::db::Variant&
 
 bool sad::db::Database::hasDBProperty(const sad::String& name) const
 {
+    PROFILER_EVENT;
     return this->propertyByName(name) != nullptr;
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
 sad::Maybe<sad::db::Variant> sad::db::Database::getDBProperty(const sad::String& name)
 {
+    PROFILER_EVENT;
     sad::db::Property * prop = this->propertyByName(name);
     if (prop)
     {
@@ -228,11 +244,13 @@ sad::Maybe<sad::db::Variant> sad::db::Database::getDBProperty(const sad::String&
 
 sad::db::StoredPropertyFactory* sad::db::Database::storedPropertyFactory() const
 {
+    PROFILER_EVENT;
     return m_prop_factory;
 }
 
 void sad::db::Database::setStoredPropertyFactory(sad::db::StoredPropertyFactory * f)
 {
+    PROFILER_EVENT;
     assert( f );
     delete m_prop_factory;
     m_prop_factory = f;
@@ -240,6 +258,7 @@ void sad::db::Database::setStoredPropertyFactory(sad::db::StoredPropertyFactory 
 
 bool sad::db::Database::addTable(const sad::String& name, db::Table* table)
 {
+    PROFILER_EVENT;
     assert( table );
 
     bool result = false;
@@ -255,6 +274,7 @@ bool sad::db::Database::addTable(const sad::String& name, db::Table* table)
 
 void sad::db::Database::removeTable(const sad::String& name)
 {
+    PROFILER_EVENT;
     if (m_names_to_tables.contains(name))
     {
         // Remove major ids, since we need to cleanup them
@@ -272,6 +292,7 @@ void sad::db::Database::removeTable(const sad::String& name)
 
 sad::db::Table* sad::db::Database::table(const sad::String& name)
 {
+    PROFILER_EVENT;
     sad::db::Table* result = nullptr;	
     if (m_names_to_tables.contains(name))
     {
@@ -282,12 +303,14 @@ sad::db::Table* sad::db::Database::table(const sad::String& name)
 
 unsigned long long sad::db::Database::uniqueMajorId(sad::db::Table * t)
 {
+    PROFILER_EVENT;
     m_majorid_to_table.insert(m_max_major_id, t);
     return m_max_major_id++;	
 }
 
 sad::Vector<sad::db::Object *> sad::db::Database::queryByName(const sad::String & name) const
 {
+    PROFILER_EVENT;
     sad::Vector<sad::db::Object *> result;
     for(sad::Hash<sad::String, sad::db::Table*>::const_iterator it = m_names_to_tables.const_begin();
         it != m_names_to_tables.const_end();
@@ -300,6 +323,7 @@ sad::Vector<sad::db::Object *> sad::db::Database::queryByName(const sad::String 
 
 sad::db::Object* sad::db::Database::objectByName(const sad::String & name) const
 {
+    PROFILER_EVENT;
     for(sad::Hash<sad::String, sad::db::Table*>::const_iterator it = m_names_to_tables.const_begin();
         it != m_names_to_tables.const_end();
         ++it)
@@ -315,6 +339,7 @@ sad::db::Object* sad::db::Database::objectByName(const sad::String & name) const
 
 sad::Vector<sad::db::Object *> sad::db::Database::queryByMinorId(unsigned long long id) const
 {
+    PROFILER_EVENT;
     sad::Vector<sad::db::Object *> result;
     for(sad::Hash<sad::String, sad::db::Table*>::const_iterator it = m_names_to_tables.const_begin();
         it != m_names_to_tables.const_end();
@@ -331,6 +356,7 @@ sad::Vector<sad::db::Object *> sad::db::Database::queryByMinorId(unsigned long l
 
 sad::db::Object* sad::db::Database::queryByMajorId(unsigned long long id) const
 {
+    PROFILER_EVENT;
     sad::db::Object* result = nullptr;
     if (m_majorid_to_table.contains(id))
     {
@@ -341,6 +367,7 @@ sad::db::Object* sad::db::Database::queryByMajorId(unsigned long long id) const
 
 void sad::db::Database::getTables(sad::Vector<sad::Pair<sad::String, sad::db::Table*> > & tables) const
 {
+    PROFILER_EVENT;
     for(sad::Hash<sad::String, sad::db::Table*>::const_iterator it = m_names_to_tables.const_begin();
         it != m_names_to_tables.const_end();
         ++it)
@@ -351,6 +378,7 @@ void sad::db::Database::getTables(sad::Vector<sad::Pair<sad::String, sad::db::Ta
 
 sad::Vector<sad::Pair<sad::String, sad::db::Table*> > sad::db::Database::tableList() const
 {
+    PROFILER_EVENT;
     sad::Vector<sad::Pair<sad::String, sad::db::Table*> > tables;
     for(sad::Hash<sad::String, sad::db::Table*>::const_iterator it = m_names_to_tables.const_begin();
         it != m_names_to_tables.const_end();
@@ -363,6 +391,7 @@ sad::Vector<sad::Pair<sad::String, sad::db::Table*> > sad::db::Database::tableLi
 
 sad::Vector<sad::String> sad::db::Database::propertyNames() const
 {
+    PROFILER_EVENT;
     sad::Vector<sad::String> result;
     for(sad::PtrHash<sad::String, sad::db::Property>::const_iterator it = m_properties.const_begin();
         it != m_properties.const_end();
@@ -376,11 +405,13 @@ sad::Vector<sad::String> sad::db::Database::propertyNames() const
 
 sad::db::ObjectFactory* sad::db::Database::factory()
 {
+    PROFILER_EVENT;
     return m_factory;	
 }
 
 void sad::db::Database::setFactory(sad::db::ObjectFactory* f)
 {
+    PROFILER_EVENT;
     assert( f );
     delete m_factory;
     m_factory = f;
@@ -388,6 +419,7 @@ void sad::db::Database::setFactory(sad::db::ObjectFactory* f)
 
 void sad::db::Database::trySetMaxMajorId(unsigned long long v, sad::db::Table * t)
 {
+    PROFILER_EVENT;
     if (v >= m_max_major_id)
     {
         m_max_major_id = v + 1;
@@ -397,16 +429,19 @@ void sad::db::Database::trySetMaxMajorId(unsigned long long v, sad::db::Table * 
 
 void sad::db::Database::removeMajorId(unsigned long long v)
 {
+    PROFILER_EVENT;
     m_majorid_to_table.remove(v);
 }
 
 void sad::db::Database::setRenderer(sad::Renderer * r)
 {
+    PROFILER_EVENT;
     m_renderer = r;
 }
 
 sad::Renderer* sad::db::Database::renderer() const
 {
+    PROFILER_EVENT;
     if (!m_renderer)
     {
         return sad::Renderer::ref();
@@ -416,27 +451,32 @@ sad::Renderer* sad::db::Database::renderer() const
 
 sad::db::Database::Properties::const_iterator sad::db::Database::begin() const
 {
+    PROFILER_EVENT;
     return m_properties.const_begin();
 }
 
 
 sad::db::Database::Properties::const_iterator sad::db::Database::end() const
 {
+    PROFILER_EVENT;
     return m_properties.const_end();
 }
 
 void sad::db::Database::setDefaultTreeName(const sad::String& tree)
 {
+    PROFILER_EVENT;
     m_default_tree_name = tree;
 }
 
 const sad::String& sad::db::Database::defaultTreeName() const
 {
+    PROFILER_EVENT;
     return m_default_tree_name;
 }
 
 void sad::db::Database::saveSnapshot()
 {
+    PROFILER_EVENT;
     sad::db::Database::Snapshot snapshotstub;
     snapshotstub.MaxId = m_max_major_id;
     m_snapshots << snapshotstub;
@@ -463,11 +503,13 @@ void sad::db::Database::saveSnapshot()
 
 unsigned long sad::db::Database::snapshotsCount() const
 {
+    PROFILER_EVENT;
     return m_snapshots.size();
 }
 
 bool sad::db::Database::restoreSnapshot(unsigned long index)
 {
+    PROFILER_EVENT;
     if (index >= m_snapshots.size())
     {
         return false;
@@ -574,6 +616,7 @@ bool sad::db::Database::restoreSnapshot(unsigned long index)
 
 bool sad::db::Database::tablesAreEmpty() const
 {
+    PROFILER_EVENT;
     bool result = true;
     for(sad::Hash<sad::String, sad::db::Table*>::const_iterator it = m_names_to_tables.const_begin();
         it != m_names_to_tables.const_end();
@@ -588,6 +631,7 @@ bool sad::db::Database::tablesAreEmpty() const
 
 void sad::db::Database::clearProperties()
 {
+    PROFILER_EVENT;
     for(sad::Hash<sad::String, sad::db::Property*>::iterator it = m_properties.begin();
             it != m_properties.end();
             ++it)
@@ -602,6 +646,7 @@ void sad::db::Database::clearProperties()
         sad::Hash<sad::String, sad::db::Property*>& new_properties
 )
 {
+    PROFILER_EVENT;
     bool result = true;
     for(picojson::object::const_iterator it = properties.begin();
         it != properties.end();
@@ -656,6 +701,7 @@ void sad::db::Database::clearProperties()
 
 void sad::db::Database::setPropertiesFrom(const sad::Hash<sad::String, sad::db::Property*>& new_properties)
 {
+    PROFILER_EVENT;
     clearProperties();
     for(sad::Hash<sad::String, sad::db::Property*>::const_iterator it = new_properties.const_begin();
         it != new_properties.const_end();
@@ -671,6 +717,7 @@ bool sad::db::Database::loadPropertiesAndTables(
     const picojson::object & tables
 )
 {
+    PROFILER_EVENT;
     sad::Hash<unsigned long long, sad::db::Table*> oldmajoridtotable = m_majorid_to_table;
     unsigned long long oldmaxmajorid = m_max_major_id;
     sad::Hash<sad::String, sad::db::Property*> newproperties;
@@ -741,6 +788,7 @@ bool sad::db::Database::loadPropertiesAndTables(
 
 void sad::db::Database::saveProperties(picojson::object& o)
 {
+    PROFILER_EVENT;
     for(sad::PtrHash<sad::String, sad::db::Property>::iterator it = m_properties.begin();
         it != m_properties.end();
         ++it

@@ -4,6 +4,7 @@
 
 #define PI_OVER_2 M_PI_2
 #define TWO_PI (M_PI * 2.0)
+#include "opticksupport.h"
 
 // Author: Dmitry Mamontov
 // Ported from C# to C++ - 08.02.2016
@@ -48,38 +49,45 @@
 
 static double easeLinear(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     return time / duration;
 }
 
 static double easeInSine(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     return -cos(time / duration * PI_OVER_2) + 1;
 }
 
 static double easeOutSine(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     return sin(time / duration * PI_OVER_2);
 }
 
 static double easeInOutSine(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     return -0.5f * (cos(M_PI * time / duration) - 1);
 }
 
 static double easeInQuad(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     time /= duration;
     return time * time;
 }
 
 static double easeOutQuad(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     time /= duration;
     return -(time) * (time - 2);
 }
 
 static double easeInOutQuad(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     time /= duration * 0.5f;
     if (time < 1) return 0.5f * time * time;
     --time;
@@ -88,18 +96,21 @@ static double easeInOutQuad(double time, double duration, double /*overshootOrAm
 
 static double easeInCubic(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     time /= duration;
     return time * time * time;
 }
 
 static double easeOutCubic(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     time = time / duration - 1;
     return (time * time * time + 1);
 }
 
 static double easeInOutCubic(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     time /= duration * 0.5f;
     if (time < 1) return 0.5f * time * time * time;
     time -= 2;
@@ -108,18 +119,21 @@ static double easeInOutCubic(double time, double duration, double /*overshootOrA
 
 static double easeInQuart(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     time /= duration;
     return  time * time * time * time;
 }
 
 static double easeOutQuart(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     time = time / duration - 1;
     return  -(time * time * time * time - 1);
 }
 
 static double easeInOutQuart(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     time /= duration * 0.5f;
     if (time < 1) return 0.5f * time * time * time * time;
     time -= 2;
@@ -128,18 +142,21 @@ static double easeInOutQuart(double time, double duration, double /*overshootOrA
 
 static double easeInQuint(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     time /= duration;
     return time * time * time * time * time;
 }
 
 static double easeOutQuint(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     time = time / duration - 1;
     return (time * time * time * time * time + 1);;
 }
 
 static double easeInOutQuint(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     time /= duration * 0.5f;
     if (time < 1) return 0.5f * time * time * time * time * time;
     time -= 2;
@@ -148,17 +165,20 @@ static double easeInOutQuint(double time, double duration, double /*overshootOrA
 
 static double easeInExpo(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     return (fabs(time) < 0.001) ? 0 : pow(2, 10 * (time / duration - 1));
 }
 
 static double easeOutExpo(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     if (fabs(time - duration) < 0.001) return 1;
     return (-pow(2, -10 * time / duration) + 1);
 }
 
 static double easeInOutExpo(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     if (fabs(time) < 0.001) return 0;
     if (fabs(time - duration) < 0.001) return 1;
     time /= duration * 0.5f;
@@ -168,18 +188,21 @@ static double easeInOutExpo(double time, double duration, double /*overshootOrAm
 
 static double easeInCirc(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     time /= duration;
    return -(sqrt(1 - time * time) - 1);
 }
 
 static double easeOutCirc(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
    time = time / duration - 1;
    return sqrt(1 - time * time);
 }
 
 static double easeInOutCirc(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     time /= duration * 0.5f;
     if (time < 1) return -0.5f * (sqrt(1 - time * time) - 1);
     time -= 2;
@@ -188,6 +211,7 @@ static double easeInOutCirc(double time, double duration, double /*overshootOrAm
 
 static double easeInElastic(double time, double duration, double overshootOrAmplitude, double period)
 {
+    PROFILER_EVENT;
     float s0;
     if (fabs(time) < 0.001) return 0;
     time /= duration;
@@ -203,6 +227,7 @@ static double easeInElastic(double time, double duration, double overshootOrAmpl
 
 static double easeOutElastic(double time, double duration, double overshootOrAmplitude, double period)
 {
+    PROFILER_EVENT;
     float s1;
     if (fabs(time) < 0.001) return 0;
     time /= duration;
@@ -217,6 +242,7 @@ static double easeOutElastic(double time, double duration, double overshootOrAmp
 
 static double easeInOutElastic(double time, double duration, double overshootOrAmplitude, double period)
 {
+    PROFILER_EVENT;
     float s;
     if (fabs(time) < 0.001) return 0;
     time /= duration * 0.5 - 2;
@@ -234,18 +260,21 @@ static double easeInOutElastic(double time, double duration, double overshootOrA
 
 static double easeInBack(double time, double duration, double overshootOrAmplitude, double /*period*/)
 {
+    PROFILER_EVENT;
     time /= duration;
     return time * time * ((overshootOrAmplitude + 1) * time - overshootOrAmplitude);                       
 }
 
 static double easeOutBack(double time, double duration, double overshootOrAmplitude, double /*period*/)
 {
+    PROFILER_EVENT;
     time = time / duration - 1;
     return (time * time * ((overshootOrAmplitude + 1) * time + overshootOrAmplitude) + 1);                     
 }
 
 static double easeInOutBack(double time, double duration, double overshootOrAmplitude, double /*period*/)
 {
+    PROFILER_EVENT;
     time /= duration * 0.5f;
     if (time < 1) 
     {
@@ -261,6 +290,7 @@ static double easeInOutBack(double time, double duration, double overshootOrAmpl
 
 static double easeOutBounce(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     time /= duration;
     if (time < (1 / 2.75f)) 
     {
@@ -282,11 +312,13 @@ static double easeOutBounce(double time, double duration, double /*overshootOrAm
 
 static double easeInBounce(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     return 1 - easeOutBounce(duration - time, duration, -1, -1);                    
 }
 
 static double easeInOutBounce(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
+    PROFILER_EVENT;
     if (time < duration*0.5f)
     {
         return easeInBounce(time*2, duration, -1, -1) * 0.5f;
@@ -332,10 +364,10 @@ static sad::animations::easing::FunctionCallback callbacks[] = {
 
 sad::animations::easing::FunctionCallback sad::animations::easing::callbackByType(sad::animations::easing::Types t)
 {
+    PROFILER_EVENT;
     if (static_cast<int>(t) < 0 || static_cast<int>(t) > static_cast<int>(sad::animations::easing::Types::ATTT_InOutBounce))
     {
         return easeLinear;
     }
     return callbacks[static_cast<int>(t)];
 }
-

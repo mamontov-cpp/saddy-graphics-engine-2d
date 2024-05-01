@@ -1,5 +1,6 @@
 #include "fpsinterpolation.h"
 #include <iostream>
+#include "opticksupport.h"
 
 const double sad::FPSInterpolation::WarmupTime = 500;
 
@@ -7,6 +8,7 @@ const double sad::FPSInterpolation::RegistrationTime = 500;
 
 sad::FPSInterpolation::FPSInterpolation()
 {
+    PROFILER_EVENT;
     reset();
 }
 
@@ -15,6 +17,7 @@ sad::FPSInterpolation::~FPSInterpolation()
 
 void sad::FPSInterpolation::reset()
 {
+    PROFILER_EVENT;
     m_fps = 75;
     m_is_set_immediately = true;
     m_reset =  false;
@@ -24,6 +27,7 @@ void sad::FPSInterpolation::reset()
 
 void sad::FPSInterpolation::start()
 {
+    PROFILER_EVENT;
     if (m_is_set_immediately)
     {
         m_warmup_timer.start();
@@ -39,6 +43,7 @@ void sad::FPSInterpolation::start()
 
 void sad::FPSInterpolation::stop()
 {
+    PROFILER_EVENT;
     ++m_frames;
     m_timer.stop();
     m_warmup_timer.stop();
@@ -64,11 +69,12 @@ void sad::FPSInterpolation::stop()
 
 void sad::FPSInterpolation::resetTimer()
 {
+    PROFILER_EVENT;
     m_timer.start();
 }
 
 double sad::FPSInterpolation::fps()
 {
+    PROFILER_EVENT;
     return m_fps;
 }
-

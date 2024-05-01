@@ -1,4 +1,5 @@
 #include "layouts/serializablecell.h"
+#include "opticksupport.h"
 
 DECLARE_COMMON_TYPE(sad::layouts::SerializableCell);
 
@@ -15,6 +16,6 @@ PaddingRight(0),
 Row(0),
 Col(0)
 {
+    PROFILER_EVENT;
     
 }
-

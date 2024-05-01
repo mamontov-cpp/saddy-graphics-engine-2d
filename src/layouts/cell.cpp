@@ -7,6 +7,7 @@
 
 
 #include <stdexcept>
+#include "opticksupport.h"
 
 
 // ============================ PUBLIC METHODS ============================
@@ -25,17 +26,20 @@ m_padding_right(0),
 m_grid(nullptr),
 m_db(nullptr)
 {
+    PROFILER_EVENT;
     m_width.Unit = sad::layouts::Unit::LU_Auto;
     m_height.Unit = sad::layouts::Unit::LU_Auto;
 }
 
 sad::layouts::Cell::~Cell()
 {
+    PROFILER_EVENT;
 
 }
 
 sad::db::Variant sad::layouts::Cell::getProperty(const sad::String& prop) const
 {
+    PROFILER_EVENT;
     sad::db::Variant v;
     if (prop == "width")
     {
@@ -78,6 +82,7 @@ sad::db::Variant sad::layouts::Cell::getProperty(const sad::String& prop) const
 
 void sad::layouts::Cell::setProperty(const sad::String& prop, const sad::db::Variant& v, bool update_grid)
 {
+    PROFILER_EVENT;
     if (prop == "width")
     {
         sad::Maybe<sad::layouts::LengthValue> mv = v.get<sad::layouts::LengthValue>();
@@ -154,11 +159,13 @@ void sad::layouts::Cell::setProperty(const sad::String& prop, const sad::db::Var
 
 void sad::layouts::Cell::setGrid(sad::layouts::Grid* g)
 {
+    PROFILER_EVENT;
         m_grid = g;
 }
 
 void sad::layouts::Cell::toSerializable(sad::layouts::SerializableCell& cell) const
 {
+    PROFILER_EVENT;
     cell.Width = m_width;
     cell.Height = m_height;
     cell.RowSpan = m_row_span;
@@ -185,6 +192,7 @@ void sad::layouts::Cell::fromSerializable(
     sad::db::Database* db
 )
 {
+    PROFILER_EVENT;
     this->m_width = cell.Width;
     this->m_height = cell.Height;
     this->m_row_span = cell.RowSpan;
@@ -218,6 +226,7 @@ void sad::layouts::Cell::fromSerializable(
 
 void sad::layouts::Cell::update()
 {
+    PROFILER_EVENT;
     // Compute a normalized area
     sad::layouts::Cell::NormalizedRectangle normalized = this->normalize(this->AssignedArea);
     sad::Point2D& minpoint = normalized._1();
@@ -246,115 +255,136 @@ void sad::layouts::Cell::update()
 
 void sad::layouts::Cell::setWidth(const sad::layouts::LengthValue& width, bool upgrade_grid)
 {
+    PROFILER_EVENT;
     m_width = width;
     tryNotify(upgrade_grid);
 }
 
 const sad::layouts::LengthValue& sad::layouts::Cell::width() const
 {
+    PROFILER_EVENT;
     return m_width;
 }
 
 void sad::layouts::Cell::setHeight(const sad::layouts::LengthValue& height, bool upgrade_grid)
 {
+    PROFILER_EVENT;
     m_height = height;
     tryNotify(upgrade_grid);
 }
 
 const sad::layouts::LengthValue& sad::layouts::Cell::height() const
 {
+    PROFILER_EVENT;
     return m_height;
 }
 
 unsigned int sad::layouts::Cell::rowSpan() const
 {
+    PROFILER_EVENT;
     return m_row_span;
 }
 
 unsigned int sad::layouts::Cell::colSpan() const
 {
+    PROFILER_EVENT;
     return m_col_span;
 }
 
 void sad::layouts::Cell::setVerticalAlignment(sad::layouts::VerticalAlignment align, bool upgrade_grid)
 {
+    PROFILER_EVENT;
     m_valign = align;
     tryNotify(upgrade_grid);
 }
 
 sad::layouts::VerticalAlignment sad::layouts::Cell::verticalAlignment() const
 {
+    PROFILER_EVENT;
     return m_valign;
 }
 
 void sad::layouts::Cell::setHorizontalAlignment(sad::layouts::HorizontalAlignment align, bool upgrade_grid)
 {
+    PROFILER_EVENT;
     m_halign = align;
     tryNotify(upgrade_grid);
 }
 
 sad::layouts::HorizontalAlignment sad::layouts::Cell::horizontalAlignment() const
 {
+    PROFILER_EVENT;
     return m_halign;
 }
 
 void sad::layouts::Cell::setStackingType(sad::layouts::StackingType type, bool upgrade_grid)
 {
+    PROFILER_EVENT;
     m_stacking_type = type;
     tryNotify(upgrade_grid);
 }
 
 sad::layouts::StackingType sad::layouts::Cell::stackingType() const
 {
+    PROFILER_EVENT;
     return m_stacking_type;
 }
 
 void sad::layouts::Cell::setPaddingTop(double value, bool update_grid)
 {
+    PROFILER_EVENT;
     m_padding_top = value;
     tryNotify(update_grid);
 }
 
 double sad::layouts::Cell::paddingTop() const
 {
+    PROFILER_EVENT;
     return m_padding_top;
 }
 
 void sad::layouts::Cell::setPaddingBottom(double value, bool update_grid)
 {
+    PROFILER_EVENT;
     m_padding_bottom = value;
     tryNotify(update_grid);
 }
 
 double sad::layouts::Cell::paddingBottom() const
 {
+    PROFILER_EVENT;
     return m_padding_bottom;
 }
 
 void sad::layouts::Cell::setPaddingLeft(double value, bool update_grid)
 {
+    PROFILER_EVENT;
     m_padding_left = value;
     tryNotify(update_grid);
 }
 
 double sad::layouts::Cell::paddingLeft() const
 {
+    PROFILER_EVENT;
     return m_padding_left;
 }
 
 void sad::layouts::Cell::setPaddingRight(double value, bool update_grid)
 {
+    PROFILER_EVENT;
     m_padding_right = value;
     tryNotify(update_grid);
 }
 
 double sad::layouts::Cell::paddingRight() const
 {
+    PROFILER_EVENT;
     return m_padding_right;
 }
 
 void sad::layouts::Cell::setChildren(const sad::Vector<sad::SceneNode*>& nodes, bool update_grid)
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < m_children.size(); i++)
     {
         delete m_children[i];
@@ -372,6 +402,7 @@ void sad::layouts::Cell::setChildren(const sad::Vector<sad::SceneNode*>& nodes, 
 
 sad::Vector<sad::SceneNode*> sad::layouts::Cell::children() const
 {
+    PROFILER_EVENT;
     sad::Vector<sad::SceneNode*> result;
     for(size_t i = 0; i < m_children.size(); i++)
     {
@@ -382,6 +413,7 @@ sad::Vector<sad::SceneNode*> sad::layouts::Cell::children() const
 
 void sad::layouts::Cell::setChildren(const sad::Vector<unsigned long long>& nodes, bool update_grid)
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < m_children.size(); i++)
     {
         delete m_children[i];
@@ -399,6 +431,7 @@ void sad::layouts::Cell::setChildren(const sad::Vector<unsigned long long>& node
 
 sad::Vector<unsigned long long> sad::layouts::Cell::childrenMajorIds() const
 {
+    PROFILER_EVENT;
     sad::Vector<unsigned long long> result;
     for(size_t i = 0; i < m_children.size(); i++)
     {
@@ -409,6 +442,7 @@ sad::Vector<unsigned long long> sad::layouts::Cell::childrenMajorIds() const
 
 void sad::layouts::Cell::addChild(sad::SceneNode* node, bool update_grid)
 {
+    PROFILER_EVENT;
     sad::db::TypedLink<sad::SceneNode>* link = new sad::db::TypedLink<sad::SceneNode>();
     link->setDatabase(m_db);
     link->setObject(node);
@@ -418,6 +452,7 @@ void sad::layouts::Cell::addChild(sad::SceneNode* node, bool update_grid)
 
 void sad::layouts::Cell::addChild(unsigned long long major_id, bool update_grid)
 {
+    PROFILER_EVENT;
     sad::db::TypedLink<sad::SceneNode>* link = new sad::db::TypedLink<sad::SceneNode>();
     link->setDatabase(m_db);
     link->setMajorId(major_id);
@@ -427,6 +462,7 @@ void sad::layouts::Cell::addChild(unsigned long long major_id, bool update_grid)
 
 void sad::layouts::Cell::insertChild(unsigned int pos, sad::SceneNode* node, bool update_grid)
 {
+    PROFILER_EVENT;
     sad::db::TypedLink<sad::SceneNode>* link = new sad::db::TypedLink<sad::SceneNode>();
     link->setDatabase(m_db);
     link->setObject(node);
@@ -443,6 +479,7 @@ void sad::layouts::Cell::insertChild(unsigned int pos, sad::SceneNode* node, boo
 
 void sad::layouts::Cell::insertChild(unsigned int pos, unsigned long long major_id, bool update_grid)
 {
+    PROFILER_EVENT;
     sad::db::TypedLink<sad::SceneNode>* link = new sad::db::TypedLink<sad::SceneNode>();
     link->setDatabase(m_db);
     link->setMajorId(major_id);
@@ -459,6 +496,7 @@ void sad::layouts::Cell::insertChild(unsigned int pos, unsigned long long major_
 
 void sad::layouts::Cell::removeChild(unsigned int pos, bool update_grid)
 {
+    PROFILER_EVENT;
     if (pos < m_children.size())
     {
         delete m_children[pos];
@@ -469,6 +507,7 @@ void sad::layouts::Cell::removeChild(unsigned int pos, bool update_grid)
 
 void sad::layouts::Cell::clear(bool update_grid)
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < m_children.size(); i++)
     {
         delete m_children[i];
@@ -479,6 +518,7 @@ void sad::layouts::Cell::clear(bool update_grid)
 
 void sad::layouts::Cell::swapChildren(unsigned int pos1, unsigned int pos2, bool update_grid)
 {
+    PROFILER_EVENT;
     if (pos1 < m_children.size() && pos2 < m_children.size())
     {
         sad::db::TypedLink<sad::SceneNode>* node = m_children[pos1];
@@ -490,11 +530,13 @@ void sad::layouts::Cell::swapChildren(unsigned int pos1, unsigned int pos2, bool
 
 size_t sad::layouts::Cell::childrenCount() const
 {
+    PROFILER_EVENT;
     return m_children.size();
 }
 
 sad::SceneNode* sad::layouts::Cell::child(unsigned int pos) const
 {
+    PROFILER_EVENT;
     sad::SceneNode* result = nullptr;
     if (pos < m_children.size())
     {
@@ -505,6 +547,7 @@ sad::SceneNode* sad::layouts::Cell::child(unsigned int pos) const
 
 unsigned long long sad::layouts::Cell::childMajorId(unsigned int pos) const
 {
+    PROFILER_EVENT;
     unsigned long long result = 0;
     if (pos < m_children.size())
     {
@@ -515,6 +558,7 @@ unsigned long long sad::layouts::Cell::childMajorId(unsigned int pos) const
 
 sad::Maybe<size_t> sad::layouts::Cell::find(sad::SceneNode* node) const
 {
+    PROFILER_EVENT;
     sad::Maybe<size_t> result;
     for(size_t i = 0; i < m_children.size(); i++)
     {
@@ -528,6 +572,7 @@ sad::Maybe<size_t> sad::layouts::Cell::find(sad::SceneNode* node) const
 
 sad::Maybe<size_t> sad::layouts::Cell::find(unsigned long long major_id) const
 {
+    PROFILER_EVENT;
     sad::Maybe<size_t> result;
     for(size_t i = 0; i < m_children.size(); i++)
     {
@@ -541,11 +586,13 @@ sad::Maybe<size_t> sad::layouts::Cell::find(unsigned long long major_id) const
 
 sad::db::Database* sad::layouts::Cell::database() const
 {
+    PROFILER_EVENT;
     return m_db;
 }
 
 void sad::layouts::Cell::setDatabase(sad::db::Database* db)
 {
+    PROFILER_EVENT;
     m_db = db;
     for(size_t i = 0; i < m_children.size(); i++)
     {
@@ -555,6 +602,7 @@ void sad::layouts::Cell::setDatabase(sad::db::Database* db)
 
 void sad::layouts::Cell::moveBy(const sad::Point2D& p)
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < 4; i++)
     {
         this->AssignedArea[i] += p;
@@ -571,6 +619,7 @@ void sad::layouts::Cell::moveBy(const sad::Point2D& p)
 
 sad::Size2D sad::layouts::Cell::preferredSize() const
 {
+    PROFILER_EVENT;
     sad::Size2D result(
         this->paddingLeft() + this->paddingRight(),
         this->paddingTop() + this->paddingBottom()
@@ -619,6 +668,7 @@ sad::Size2D sad::layouts::Cell::preferredSize() const
 
 sad::Size2D sad::layouts::Cell::computedSize() const
 {
+    PROFILER_EVENT;
     sad::Size2D result;
     if (m_width.Unit == sad::layouts::Unit::LU_Pixels)
     {
@@ -656,6 +706,7 @@ sad::Size2D sad::layouts::Cell::computedSize() const
 
 sad::Size2D sad::layouts::Cell::maximalSize() const
 {
+    PROFILER_EVENT;
     sad::Size2D result = this->computedSize();
     sad::Size2D clientsize = this->preferredSize();
     result.Width = std::max(result.Width, clientsize.Width);
@@ -665,6 +716,7 @@ sad::Size2D sad::layouts::Cell::maximalSize() const
 
 sad::layouts::Grid* sad::layouts::Cell::grid() const
 {
+    PROFILER_EVENT;
     return m_grid;
 }
 
@@ -672,6 +724,7 @@ sad::layouts::Grid* sad::layouts::Cell::grid() const
 
 void sad::layouts::Cell::setRowSpan(unsigned int rows)
 {
+    PROFILER_EVENT;
     m_row_span = rows;
     if (m_row_span < 1)
     {
@@ -681,6 +734,7 @@ void sad::layouts::Cell::setRowSpan(unsigned int rows)
 
 void sad::layouts::Cell::setColSpan(unsigned int cols)
 {
+    PROFILER_EVENT;
     m_col_span = cols;
     if (m_col_span < 1)
     {
@@ -690,6 +744,7 @@ void sad::layouts::Cell::setColSpan(unsigned int cols)
 
 void sad::layouts::Cell::computeNormalizedChildrenSizes()
 {
+    PROFILER_EVENT;
     m_normalized_children.clear();
     sad::Vector<sad::Rect2D> regions;
     for(size_t i = 0; i < m_children.size(); i++)
@@ -709,6 +764,7 @@ void sad::layouts::Cell::computeNormalizedChildrenSizes()
 
 sad::layouts::Cell::NormalizedRectangle sad::layouts::Cell::normalize(const sad::Rect2D& r)
 {
+    PROFILER_EVENT;
     sad::Pair<sad::Point2D, sad::Point2D> result(r.p0(), r.p0());
     normalize(result, r.p1());
     normalize(result, r.p2());
@@ -718,6 +774,7 @@ sad::layouts::Cell::NormalizedRectangle sad::layouts::Cell::normalize(const sad:
 
 void sad::layouts::Cell::normalize(sad::layouts::Cell::NormalizedRectangle& result, const sad::Point2D& p)
 {
+    PROFILER_EVENT;
     if (p.x() < result._1().x())
     {
         result._1().setX(p.x());
@@ -742,6 +799,7 @@ void sad::layouts::Cell::normalize(sad::layouts::Cell::NormalizedRectangle& resu
 
 void sad::layouts::Cell::tryNotify(bool update_grid)
 {
+    PROFILER_EVENT;
     if (update_grid)
     {
         if (m_grid)
@@ -757,6 +815,7 @@ void sad::layouts::Cell::tryNotify(bool update_grid)
 
 void sad::layouts::Cell::applyHorizontalAlignment(const sad::Point2D& min_point,const sad::Point2D& max_point, double assigned_height, const sad::Size2D& size)
 {
+    PROFILER_EVENT;
     double factor = 1.0;
     // Factoring is disabled - we allow cell to be overflowed
     /*
@@ -807,6 +866,7 @@ void sad::layouts::Cell::applyHorizontalAlignment(const sad::Point2D& min_point,
 
 void sad::layouts::Cell::applyVerticalAlignment(const sad::Point2D& min_point,const sad::Point2D& max_point, double assigned_width,const sad::Size2D& size)
 {
+    PROFILER_EVENT;
     double factor = 1.0;
     // Factoring is disabled - we allow cell to be overflowed
     /*
@@ -857,6 +917,7 @@ void sad::layouts::Cell::applyVerticalAlignment(const sad::Point2D& min_point,co
 
 void sad::layouts::Cell::applyNoStackingAlignment(const sad::Point2D& min_point, const sad::Point2D& max_point, double assigned_width, double assigned_height,  const sad::Size2D& size)
 {
+    PROFILER_EVENT;
     size_t current_rectangle = 0;
     double padx = this->paddingLeft() + this->paddingRight();
     double pady = this->paddingTop() + this->paddingBottom();
@@ -912,13 +973,14 @@ sad::layouts::Cell::Cell(const sad::layouts::Cell& o)
     m_grid(o.m_grid),
     m_db(o.m_db)
 {
+    PROFILER_EVENT;
     throw std::runtime_error("Not implemented");
 }
 
 sad::layouts::Cell& sad::layouts::Cell::operator=(const sad::layouts::Cell& o)
 {
+    PROFILER_EVENT;
     throw std::runtime_error("Not implemented");
     // ReSharper disable once CppUnreachableCode
     return *this;
 }
-

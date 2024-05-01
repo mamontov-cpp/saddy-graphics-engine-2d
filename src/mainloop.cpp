@@ -1,4 +1,5 @@
 ﻿#include "mainloop.h"
+#include "opticksupport.h"
 
 #include "renderer.h"
 #include "window.h"
@@ -32,28 +33,33 @@ m_renderer(nullptr),
 m_running(false),
 m_dispatcher(new sad::os::SystemEventDispatcher())
 {
+    PROFILER_EVENT;
 
 }
 
 sad::MainLoop::~MainLoop()
 {
+    PROFILER_EVENT;
     delete m_dispatcher;
 }
 
 void sad::MainLoop::setRenderer(sad::Renderer * r)
 {
+    PROFILER_EVENT;
     m_renderer = r;
     m_dispatcher->setRenderer(r);
 }
 
 sad::Renderer * sad::MainLoop::renderer() const
 {
+    PROFILER_EVENT;
     return m_renderer;
 }
 
 
 void sad::MainLoop::run(bool once)
 {
+    PROFILER_EVENT;
     m_running = true;
     this->m_renderer->window()->setActive(true);
     if (!once)
@@ -73,6 +79,7 @@ void sad::MainLoop::run(bool once)
 #endif
     while (m_running)
     {
+        PROFILER_MAIN_LOOP;
 #ifdef WIN32
         // There was some kind of bug, when mouse leave was not generated
         // If this occurs one more time try uncommenting this code
@@ -150,17 +157,20 @@ void sad::MainLoop::run(bool once)
 
 void sad::MainLoop::stop()
 {
+    PROFILER_EVENT;
     m_running = false;
 }
 
 
 sad::os::SystemEventDispatcher *  sad::MainLoop::dispatcher()
 {
+    PROFILER_EVENT;
     return m_dispatcher;
 }
 
 bool sad::MainLoop::running() const
 {
+    PROFILER_EVENT;
     return m_running;
 }
 
@@ -168,6 +178,7 @@ bool sad::MainLoop::running() const
 
 void sad::MainLoop::initMainLoop()
 {
+    PROFILER_EVENT;
     tryElevatePriority();
     trySetEmergencyShutdownHandler();
     registerRenderer();
@@ -176,6 +187,7 @@ void sad::MainLoop::initMainLoop()
 
 void sad::MainLoop::deinitMainLoop()
 {
+    PROFILER_EVENT;
     unregisterRenderer();
 }
 
@@ -183,6 +195,7 @@ void sad::MainLoop::deinitMainLoop()
 
 void sad::MainLoop::pushDispatch(const std::function<void()>& f)
 {
+    PROFILER_EVENT;
     this->m_event_dispatches_lock.lock();
     this->m_event_dispatches << f;
     this->m_event_dispatches_lock.unlock();
@@ -190,6 +203,7 @@ void sad::MainLoop::pushDispatch(const std::function<void()>& f)
 
 void sad::MainLoop::runAndCleanDispatches()
 {
+    PROFILER_EVENT;
     this->m_event_dispatches_lock.lock();
     for(size_t i = 0; i < this->m_event_dispatches.size(); i++)
     {
@@ -204,6 +218,7 @@ void sad::MainLoop::runAndCleanDispatches()
 
 void sad::MainLoop::tryElevatePriority()
 {
+    PROFILER_EVENT;
     if (this->renderer() == nullptr) 
     {
         return;
@@ -267,6 +282,7 @@ static  sad::Mutex RegisteredRenderersLock;
 // This function should handle every console close event
 static int WINAPI  handle_console_close_event(DWORD dwCtrlType)
 {
+    PROFILER_EVENT;
     if (dwCtrlType == CTRL_CLOSE_EVENT)
     {
         for(RegisteredRenderersTable::iterator it = RegisteredRenderers.begin();
@@ -283,6 +299,7 @@ static int WINAPI  handle_console_close_event(DWORD dwCtrlType)
 
 void sad::MainLoop::trySetEmergencyShutdownHandler()
 {
+    PROFILER_EVENT;
 #ifdef WIN32
     SetConsoleCtrlHandler(handle_console_close_event, FALSE);
     SetConsoleCtrlHandler(handle_console_close_event, TRUE);
@@ -292,6 +309,7 @@ void sad::MainLoop::trySetEmergencyShutdownHandler()
 
 void sad::MainLoop::registerRenderer()
 {
+    PROFILER_EVENT;
     if (this->renderer() == nullptr) 
     {
         return;
@@ -314,6 +332,7 @@ void sad::MainLoop::registerRenderer()
 
 void sad::MainLoop::unregisterRenderer()
 {
+    PROFILER_EVENT;
     if (this->renderer() == nullptr) 
     {
         return;
@@ -339,6 +358,7 @@ void sad::MainLoop::unregisterRenderer()
 
 void sad::MainLoop::initKeyboardInput()
 {
+    PROFILER_EVENT;
 #ifdef X11
     setlocale(LC_CTYPE, "");
     main_loop_locale_mtx.lock();
@@ -355,6 +375,7 @@ void sad::MainLoop::initKeyboardInput()
 
 void sad::MainLoop::forceSchedulerSwitchToOtherProcesses()
 {
+    PROFILER_EVENT;
 #ifdef WIN32
             sad::sleep(50);
 #endif
@@ -369,6 +390,7 @@ void sad::MainLoop::forceSchedulerSwitchToOtherProcesses()
 
 LRESULT CALLBACK sad_renderer_window_proc (HWND wnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+    PROFILER_EVENT;
     bool handled = false;
     RegisteredRenderersLock.lock();
     sad::os::SystemWindowEventDispatchResult result;
@@ -395,6 +417,7 @@ LRESULT CALLBACK sad_renderer_window_proc (HWND wnd, UINT msg, WPARAM wparam, LP
  */
 static int predicate(Display *, XEvent * e, char *)
 {
+    PROFILER_EVENT;
     return true;
 }
 #endif

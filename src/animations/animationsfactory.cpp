@@ -15,11 +15,13 @@
 #include "animations/animationswaymoving.h"
 #include "animations/animationstexturecoordinatescontinuous.h"
 #include "animations/animationstexturecoordinateslist.h"
+#include "opticksupport.h"
 
 // ======================== PUBLIC METHODS of sad::animations::Factory::AbstractDelegate ========================
 
 sad::animations::Factory::AbstractDelegate::~AbstractDelegate()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -27,6 +29,7 @@ sad::animations::Factory::AbstractDelegate::~AbstractDelegate()
 
 sad::animations::Factory::Factory()
 {
+    PROFILER_EVENT;
     push<sad::animations::Blinking>("sad::animations::Blinking");
     push<sad::animations::CameraRotation>("sad::animations::CameraRotation");
     push<sad::animations::CameraShaking>("sad::animations::CameraShaking");
@@ -47,11 +50,13 @@ sad::animations::Factory::Factory()
 
 sad::animations::Factory::Factory(const sad::animations::Factory& f)
 {
+    PROFILER_EVENT;
     copy(f);
 }
 
 sad::animations::Factory& sad::animations::Factory::operator=(const sad::animations::Factory& f)
 {
+    PROFILER_EVENT;
     clear();
     copy(f);
     return *this;
@@ -59,11 +64,13 @@ sad::animations::Factory& sad::animations::Factory::operator=(const sad::animati
 
 sad::animations::Factory::~Factory()
 {
+    PROFILER_EVENT;
     
 }
 
 sad::animations::Animation* sad::animations::Factory::create(const sad::String& s)
 {
+    PROFILER_EVENT;
     if (m_delegates.contains(s))
     {
         return m_delegates[s]->create();
@@ -73,6 +80,7 @@ sad::animations::Animation* sad::animations::Factory::create(const sad::String& 
 
 void sad::animations::Factory::clear()
 {
+    PROFILER_EVENT;
     for(sad::PtrHash<sad::String, sad::animations::Factory::AbstractDelegate>::const_iterator it = m_delegates.const_begin();
         it != m_delegates.const_end();
         ++it)
@@ -84,6 +92,7 @@ void sad::animations::Factory::clear()
 
 sad::Vector<sad::String> sad::animations::Factory::registeredClasses() const
 {
+    PROFILER_EVENT;
     sad::Vector<sad::String> result;
     for(sad::PtrHash<sad::String, sad::animations::Factory::AbstractDelegate>::const_iterator it = m_delegates.const_begin();
         it != m_delegates.const_end();
@@ -98,6 +107,7 @@ sad::Vector<sad::String> sad::animations::Factory::registeredClasses() const
 
 void sad::animations::Factory::copy(const sad::animations::Factory& f)
 {
+    PROFILER_EVENT;
     for(sad::PtrHash<sad::String, sad::animations::Factory::AbstractDelegate>::const_iterator it = f.m_delegates.const_begin();
         it != f.m_delegates.const_end();
         ++it)
@@ -105,4 +115,3 @@ void sad::animations::Factory::copy(const sad::animations::Factory& f)
         m_delegates.insert(it.key(), it.value()->clone());
     }
 }
-

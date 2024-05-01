@@ -1,5 +1,6 @@
 #include <p2d/elasticforce.h>
 #include <log/log.h>
+#include "opticksupport.h"
 
 DECLARE_SOBJ_INHERITANCE(sad::p2d::ElasticForce, sad::p2d::Force<sad::p2d::Vector>)
 
@@ -11,6 +12,7 @@ sad::p2d::ElasticForce::ElasticForce(
                            double resistance
 )
 {
+    PROFILER_EVENT;
     m_second = second;
     if (m_second)
     {
@@ -24,6 +26,7 @@ sad::p2d::ElasticForce::ElasticForce(
 
 sad::p2d::ElasticForce::~ElasticForce()
 {
+    PROFILER_EVENT;
     if (m_second)
     {
         m_second->delRef();
@@ -32,6 +35,7 @@ sad::p2d::ElasticForce::~ElasticForce()
 
 const sad::p2d::Vector & sad::p2d::ElasticForce::value(sad::p2d::Body* first) const
 {
+    PROFILER_EVENT;
     sad::p2d::ElasticForce * force = const_cast<sad::p2d::ElasticForce *>(this);
     p2d::Point s1 = m_second->currentShape()->center();    
     p2d::Point s2 = first->currentShape()->center();
@@ -59,6 +63,6 @@ const sad::p2d::Vector & sad::p2d::ElasticForce::value(sad::p2d::Body* first) co
 
 sad::p2d::Body* sad::p2d::ElasticForce::dependsFromBody() const
 {
+    PROFILER_EVENT;
     return m_second;
 }
-

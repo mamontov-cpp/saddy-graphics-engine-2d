@@ -29,6 +29,7 @@
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
+#include "opticksupport.h"
 
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::Typing, sad::animations::Animation);
@@ -38,22 +39,26 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Typing, sad::animations::Animation);
 
 sad::animations::Typing::Typing()
 {
+    PROFILER_EVENT;
     m_creators.pushCreator<sad::animations::SavedRenderingStringLimit>("sad::animations::SavedRenderingStringLimit");
 }
 
 sad::animations::Typing::~Typing()
 {
+    PROFILER_EVENT;
     
 }
 
 
 void sad::animations::Typing::start(sad::animations::Instance* i)
 {
+    PROFILER_EVENT;
     // We do not save state, because it could be restored via value
 }
 
 void sad::animations::Typing::setState(sad::animations::Instance* i, double time)
 {
+    PROFILER_EVENT;
     // Make it possible to reach end
     double time_position = m_easing->eval(time + 100, m_time);
     i->stateCommandAs<double>()->call(time_position);
@@ -61,6 +66,7 @@ void sad::animations::Typing::setState(sad::animations::Instance* i, double time
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::Typing::stateCommand(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     if (this->applicableTo(o))
     {
         sad::animations::setstate::AbstractSetStateCommand* c;
@@ -86,6 +92,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::Typing::sta
 
 bool sad::animations::Typing::applicableTo(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (o && m_valid)
     {
@@ -93,4 +100,3 @@ bool sad::animations::Typing::applicableTo(sad::db::Object* o)
     }
     return result;
 }
-

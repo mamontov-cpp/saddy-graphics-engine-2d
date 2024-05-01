@@ -9,9 +9,11 @@
 
 #include <limits>
 #include <stdexcept>
+#include "opticksupport.h"
 
 bool sad::projectionIsWithin(const sad::Point2D & test, const sad::Point2D & pivot1, const sad::Point2D & pivot2)
 {
+    PROFILER_EVENT;
     sad::p2d::Axle axle = sad::p2d::axle(pivot1, pivot2);
     sad::p2d::Cutter1D c1 = p2d::project(test, test, axle); 
     sad::p2d::Cutter1D c2 = p2d::project(pivot1, pivot2, axle); 
@@ -20,6 +22,7 @@ bool sad::projectionIsWithin(const sad::Point2D & test, const sad::Point2D & piv
 
 bool sad::isWithin(const sad::Point2D & p, const sad::Rect2D & r)
 {
+    PROFILER_EVENT;
     bool a1 = sad::projectionIsWithin(p, r[0], r[1]);
     bool a2 = sad::projectionIsWithin(p, r[1], r[2]);
     return a1 && a2; 
@@ -27,6 +30,7 @@ bool sad::isWithin(const sad::Point2D & p, const sad::Rect2D & r)
 
 bool sad::isWithin(const sad::Point2D & p, const sad::Vector<sad::Rect2D> & r)
 {
+    PROFILER_EVENT;
     bool result  = false;
     for(size_t i = 0; i < r.size(); i++)
     {
@@ -37,6 +41,7 @@ bool sad::isWithin(const sad::Point2D & p, const sad::Vector<sad::Rect2D> & r)
 
 void sad::moveBy(const sad::Point2D & dp , sad::Rect2D & r)
 {
+    PROFILER_EVENT;
     for(int i = 0; i < 4; i++)
     {
         r[i] += dp;
@@ -45,6 +50,7 @@ void sad::moveBy(const sad::Point2D & dp , sad::Rect2D & r)
 
 void sad::rotate(sad::Rect2D & r, float angle)
 {
+    PROFILER_EVENT;
     sad::Point2D c = r[0]; c += r[2]; c/=2;
     sad::p2d::Matrix2x2 m = p2d::Matrix2x2::counterclockwise(angle);
     for(int i = 0; i < 4; i++)
@@ -63,12 +69,14 @@ void sad::rotate(sad::Rect2D & r, float angle)
 
 void sad::rotate(sad::Vector2D & v, float angle)
 {
+    PROFILER_EVENT;
     sad::p2d::Matrix2x2 m = p2d::Matrix2x2::counterclockwise(angle);
     v = m * v;
 }
 
 void sad::moveAndRotateNormalized(float angle, sad::Point2D & result, sad::Rect2D & v)
 {
+    PROFILER_EVENT;
     sad::p2d::Matrix2x2 m = sad::p2d::Matrix2x2::counterclockwise(angle);
     for(int i = 0; i < 4; i++) {
         sad::Point2D r = m * v[i];
@@ -78,6 +86,7 @@ void sad::moveAndRotateNormalized(float angle, sad::Point2D & result, sad::Rect2
 
 double sad::angleOf(double x, double y)
 {
+    PROFILER_EVENT;
     if (sad::is_fuzzy_zero(y) && sad::is_fuzzy_zero(x))
     {
         return 0;
@@ -112,6 +121,7 @@ double sad::angleOf(double x, double y)
 
 double sad::acos(double x)
 {
+    PROFILER_EVENT;
     if (sad::is_fuzzy_zero(x))
     {
         return M_PI / 2.0;
@@ -131,6 +141,7 @@ double sad::acos(double x)
 
 double sad::asin(double x)
 {
+    PROFILER_EVENT;
     if (sad::is_fuzzy_equal(x, 1))
     {
         return M_PI / 2.0;
@@ -149,6 +160,7 @@ double sad::asin(double x)
 
 double sad::normalizeAngle(double x)
 {
+    PROFILER_EVENT;
     // Don't handler zero x
     if (sad::is_fuzzy_zero(x))
     {
@@ -171,6 +183,7 @@ double sad::normalizeAngle(double x)
 
 sad::Maybe<double> sad::findAngle(double sina, double cosa)
 {
+    PROFILER_EVENT;
     sad::Maybe<double> result;
     if (sad::is_fuzzy_equal(sina * sina + cosa * cosa, 1.0) == false)
     {
@@ -189,6 +202,7 @@ sad::Maybe<double> sad::findAngle(double sina, double cosa)
 
 bool sad::isValid(const sad::Rect2D & rect)
 {
+    PROFILER_EVENT;
     sad::Point2D middle = rect[0];
     for(int i = 1; i < 4; i++)
     {
@@ -214,6 +228,7 @@ void sad::getBaseRect(
     bool * error
 )
 {
+    PROFILER_EVENT;
 #define SET_ERROR { if (error) *error = true; }
     if (error)
     {
@@ -297,6 +312,7 @@ void sad::getBaseRect(
 
 bool sad::isAABB(const sad::Rect2D& rect)
 {
+    PROFILER_EVENT;
     bool valid = sad::is_fuzzy_equal(rect[0].x() , rect[3].x())
               && sad::is_fuzzy_equal(rect[1].x() , rect[2].x())
               && sad::is_fuzzy_equal(rect[0].y() , rect[1].y())
@@ -307,6 +323,7 @@ bool sad::isAABB(const sad::Rect2D& rect)
 
 sad::Point2D sad::EllipticMovementProperties::compute(double theta) const
 {
+    PROFILER_EVENT;
     sad::Point2D kR1 = R1;
     kR1 *= cos(theta);
 
@@ -322,6 +339,7 @@ sad::Point2D sad::EllipticMovementProperties::compute(double theta) const
 
 sad::EllipticMovementProperties sad::computeEllipticProperties(const sad::Point2D& c, const sad::Point2D& p1, const sad::Point2D& p2, bool exception_on_unsolveable/* = true*/)
 {
+    PROFILER_EVENT;
     const sad::Point2D R  = p1 - c;
     const sad::Point2D R2 = p2 - c;
     const double R_modulo = sad::p2d::modulo(R);
@@ -366,4 +384,3 @@ sad::EllipticMovementProperties sad::computeEllipticProperties(const sad::Point2
 
     return  { c, R, sad::Point2D(RRx, RRy), phi };
 }
-

@@ -1,14 +1,17 @@
 #include "geometry3d.h"
 #include "matrix3x3.h"
 #include <cassert>
+#include "opticksupport.h"
 
 double sad::scalar(const sad::Point3D & p1, const sad::Point3D & p2)
 {
+    PROFILER_EVENT;
     return p1.x() * p2.x() + p1.y() * p2.y() + p1.z() * p2.z();
 }
 
 bool sad::isOnSamePlane(const sad::Rect<sad::Point3D> & rect)
 {
+    PROFILER_EVENT;
     // Compute coefficients for determining plane
     // see http://www.pm298.ru/plosk3.php formula
     // Here second and third determinants are stored
@@ -33,6 +36,7 @@ bool sad::isOnSamePlane(const sad::Rect<sad::Point3D> & rect)
 
 bool sad::isValid(const sad::Rect<sad::Point3D> & rect)
 {
+    PROFILER_EVENT;
     if (!sad::isOnSamePlane(rect))
         return false;
 
@@ -61,6 +65,7 @@ void sad::rotate(
     double theta
 )
 {
+    PROFILER_EVENT;
     sad::Point3D middle = rect[0];
     for(int i = 1; i < 4; i++)
     {
@@ -94,6 +99,7 @@ static inline void chooseOtherThetaInGetBaseRect(
     double y
 )
 {
+    PROFILER_EVENT;
     theta = M_PI - theta;
     theta = sad::normalizeAngle(theta);
     double ys = y * cos(theta);
@@ -120,6 +126,7 @@ void sad::getBaseRect(
     bool   * error
 )
 {
+    PROFILER_EVENT;
 #define SET_ERROR { if (error) *error = true; }
     if (error)
     {

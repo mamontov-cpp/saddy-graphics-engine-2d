@@ -28,6 +28,7 @@
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
+#include "opticksupport.h"
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::OptionList, sad::animations::Animation);
 
@@ -35,12 +36,14 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::OptionList, sad::animations::Animation
 
 sad::animations::OptionList::OptionList()
 {
+    PROFILER_EVENT;
     m_creators.pushProperty<sad::String>("options", "options");
     m_creators.pushProperty<sad::Rect2D>("texturecoordinates", "texturecoordinates");
 }
 
 sad::animations::OptionList::~OptionList()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -50,6 +53,7 @@ static sad::Mutex AnimationOptionListSchemaLock;
 
 sad::db::schema::Schema* sad::animations::OptionList::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationOptionListSchema == nullptr)
     {
         AnimationOptionListSchemaLock.lock();
@@ -75,12 +79,14 @@ sad::db::schema::Schema* sad::animations::OptionList::basicSchema()
 
 sad::db::schema::Schema* sad::animations::OptionList::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::OptionList::basicSchema();
 }
 
 
 bool sad::animations::OptionList::loadFromValue(const picojson::value& v)
 {
+    PROFILER_EVENT;
     bool flag = this->sad::animations::Animation::loadFromValue(v);
     if (flag)
     {
@@ -100,6 +106,7 @@ bool sad::animations::OptionList::loadFromValue(const picojson::value& v)
 
 void sad::animations::OptionList::setList(const sad::Vector<sad::String>& list)
 {
+    PROFILER_EVENT;
     m_list = list;
     m_inner_valid = m_list.size() != 0;
     this->updateValidFlag();
@@ -107,12 +114,14 @@ void sad::animations::OptionList::setList(const sad::Vector<sad::String>& list)
 
 const sad::Vector<sad::String> & sad::animations::OptionList::list() const
 {
+    PROFILER_EVENT;
     return m_list;
 }
 
 
 void sad::animations::OptionList::setState(sad::animations::Instance* i, double time)
 {
+    PROFILER_EVENT;
     double time_position = m_easing->evalBounded(time, m_time);
     double value = static_cast<double>(m_list.size()) * time_position;
     unsigned int kvalue = static_cast<unsigned int>(value);
@@ -125,6 +134,7 @@ void sad::animations::OptionList::setState(sad::animations::Instance* i, double 
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::OptionList::stateCommand(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     if (this->applicableTo(o))
     {
         sad::animations::setstate::AbstractSetStateCommand* c = nullptr;
@@ -158,6 +168,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::OptionList:
 
 bool sad::animations::OptionList::applicableTo(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (o && m_valid)
     {

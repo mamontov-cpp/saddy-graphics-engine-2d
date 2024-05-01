@@ -12,6 +12,7 @@
 
 #include "../sadvector.h"
 #include "../geometry2d.h"
+#include "../opticksupport.h"
 
 #include <algorithm>
 #include <utility>
@@ -85,6 +86,7 @@ public:
      */
     inline ObjectGroupTangentialDeltaListener(const sad::Vector<_Object*>& lst) : m_objects(lst)
     {
+        PROFILER_EVENT;
         for(size_t i = 0; i < m_objects.size(); i++)
         {
             m_objects[i]->addRef();
@@ -103,6 +105,7 @@ public:
      */
     virtual void notify(const sad::p2d::Vector & delta) override
     {
+        PROFILER_EVENT;
         for(size_t i = 0; i < m_objects.size(); i++)
         {
             m_objects[i]->moveBy(delta);
@@ -112,6 +115,7 @@ public:
      */
     virtual ~ObjectGroupTangentialDeltaListener()  override
     {
+        PROFILER_EVENT;
         for(size_t i = 0; i < m_objects.size(); i++)
         {
             m_objects[i]->delRef();
@@ -153,6 +157,7 @@ public:
      */
     virtual void notify(const double & delta) override
     {
+        PROFILER_EVENT;
         for(size_t i = 0; i < m_objects.size(); i++)
         {
             if (m_objects[i]->canBeRotated())
@@ -307,6 +312,7 @@ protected:
       */
      void fireMovement(const _Value & delta)
      {
+         PROFILER_EVENT;
          for(size_t i = 0;  i < m_listeners.count(); i++)
          {
              m_listeners[i]->notify(delta);
@@ -317,6 +323,7 @@ protected:
       */
      void acceleration(_Value & p) const
      {
+         PROFILER_EVENT;
          if (m_acceleration_is_cached)
              p += m_acceleration_cache;
          if (m_weight != nullptr)
@@ -354,6 +361,7 @@ public:
       */
      void cacheAcceleration()
      {
+         PROFILER_EVENT;
          m_acceleration_is_cached = false;
          m_acceleration_cache = p2d::TickableDefaultValue<_Value>::zero();
          this->acceleration(m_acceleration_cache);
@@ -363,6 +371,7 @@ public:
       */
      void clearListeners()
      {
+         PROFILER_EVENT;
         for(size_t i = 0 ; i < m_listeners.count(); i++)
             delete m_listeners[i];
         m_listeners.clear();
@@ -372,6 +381,7 @@ public:
       */ 
      void addListener(listener_t  l)
      {
+         PROFILER_EVENT;
         if (std::find(m_listeners.begin(), m_listeners.end(), l) 
              == m_listeners.end())
             m_listeners << l;
@@ -381,6 +391,7 @@ public:
       */
      void removeListener(listener_t l)
      {
+         PROFILER_EVENT;
         for(size_t i = 0 ; i < m_listeners.count(); i++) {
             if (m_listeners[i] == l) {
                 m_listeners.removeAt(static_cast<unsigned long>(i));
@@ -395,6 +406,7 @@ public:
       */
      void stepForce(double time)
      {
+         PROFILER_EVENT;
          m_force.step(time);
          m_acceleration_cache = false;
          m_position_cache = false;
@@ -411,6 +423,7 @@ public:
       */
      _Value velocityDelta(double time, double step_size)
      {
+         PROFILER_EVENT;
          _Value p = p2d::TickableDefaultValue<_Value>::zero(); 
          if (m_next_velocity.exists())
          {
@@ -440,6 +453,7 @@ public:
       */
      _Value velocityAt(double time, double step_size)
      {
+         PROFILER_EVENT;
          return m_velocity + velocityDelta(time, step_size);
      }
      /*! Returns a position  difference at specified time
@@ -448,7 +462,8 @@ public:
       */
      _Value positionDelta(double time, double step_size)
      {
-	     const bool is_whole_step = sad::is_fuzzy_equal(time, step_size);
+         PROFILER_EVENT;
+         const bool is_whole_step = sad::is_fuzzy_equal(time, step_size);
          if (is_whole_step && m_position_is_cached)
          {
              return m_position_cache;
@@ -505,6 +520,7 @@ public:
       */
      void step(double time, double step_size)
      {
+         PROFILER_EVENT;
          _Value delta = this->positionDelta(time, step_size);
          _Value new_velocity = velocityAt(time, step_size);
          _Value new_position = positionAt(time, step_size);
@@ -557,6 +573,7 @@ public:
       */
      _Value nextVelocity() const 
      {
+         PROFILER_EVENT;
          if (m_next_velocity.exists() == false)
              return p2d::TickableDefaultValue<_Value>::zero();
          return m_next_velocity.value();
@@ -622,6 +639,7 @@ public:
       */
      void setNextPosition(const _Value & v)
      {
+         PROFILER_EVENT;
          m_position_is_cached = false;
          m_next_position.setValue(v);
          m_next_position_time.clear();
@@ -632,6 +650,7 @@ public:
       */
      void setNextPositionAt(const _Value & v, double time)
      {
+         PROFILER_EVENT;
          m_position_is_cached = false;
          m_next_position.setValue(v);
          m_next_position_time.setValue(time);
@@ -644,6 +663,7 @@ public:
       */
      _Value averageChangeIndependentVelocityPer(double  time)
      {
+         PROFILER_EVENT;
          _Value p = p2d::TickableDefaultValue<_Value>::zero(); 
          this->acceleration(p);
          p *= time / 2;

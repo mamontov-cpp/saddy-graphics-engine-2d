@@ -1,6 +1,7 @@
 #include "p2d/simplecollisiondetector.h"
 #include "p2d/broadcollisiondetector.h"
 #include "p2d/collisiontest.h"
+#include "opticksupport.h"
 
 DECLARE_SOBJ_INHERITANCE(sad::p2d::BroadCollisionDetector, sad::p2d::CollisionDetector);
 
@@ -14,6 +15,7 @@ sad::p2d::BroadCollisionDetector::BroadCollisionDetector(
 
 sad::p2d::BroadCollisionDetector::~BroadCollisionDetector()
 {
+    PROFILER_EVENT;
     delete m_tester;
     delete m_detector;
 }
@@ -25,6 +27,7 @@ sad::p2d::MaybeTime sad::p2d::BroadCollisionDetector::collides(
     double limit
 )
 {
+    PROFILER_EVENT;
     sad::p2d::MaybeTime result;
     
     // If we determining a collision with bounds, we could taks simple approach
@@ -80,5 +83,4 @@ sad::p2d::MaybeTime sad::p2d::BroadCollisionDetector::collides(
     }
     return result;
 }
-
 

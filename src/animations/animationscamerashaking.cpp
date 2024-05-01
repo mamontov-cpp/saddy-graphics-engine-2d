@@ -27,6 +27,7 @@
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
+#include "opticksupport.h"
 
 
 
@@ -38,11 +39,13 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::CameraShaking, sad::animations::Animat
 
 sad::animations::CameraShaking::CameraShaking() : m_frequency(0)
 {
+    PROFILER_EVENT;
     m_creators.pushCreator<sad::animations::SavedCameraTranslation>("sad::animations::SavedCameraTranslation");
 }
 
 sad::animations::CameraShaking::~CameraShaking()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -52,6 +55,7 @@ static sad::Mutex AnimationCameraShakingSchemaInit;
 
 sad::db::schema::Schema* sad::animations::CameraShaking::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationCameraShakingSchema == nullptr)
     {
         AnimationCameraShakingSchemaInit.lock();
@@ -83,12 +87,14 @@ sad::db::schema::Schema* sad::animations::CameraShaking::basicSchema()
 
 sad::db::schema::Schema* sad::animations::CameraShaking::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::CameraShaking::basicSchema();
 }
 
 
 bool sad::animations::CameraShaking::loadFromValue(const picojson::value& v)
 {
+    PROFILER_EVENT;
     bool flag = this->sad::animations::Animation::loadFromValue(v);
     if (flag)
     {
@@ -116,16 +122,19 @@ bool sad::animations::CameraShaking::loadFromValue(const picojson::value& v)
 
 void sad::animations::CameraShaking::setOffset(const sad::Point2D& offset)
 {
+    PROFILER_EVENT;
     m_offset = offset;
 }
 
 const sad::Point2D & sad::animations::CameraShaking::offset() const
 {
+    PROFILER_EVENT;
     return m_offset;
 }
 
 void sad::animations::CameraShaking::setFrequency(int freq)
 {
+    PROFILER_EVENT;
     m_frequency = freq;
     m_inner_valid  = m_frequency != 0;
     this->updateValidFlag();
@@ -133,11 +142,13 @@ void sad::animations::CameraShaking::setFrequency(int freq)
 
 int sad::animations::CameraShaking::frequency() const
 {
+    PROFILER_EVENT;
     return m_frequency;
 }
 
 void sad::animations::CameraShaking::setState(sad::animations::Instance* i, double time)
 {
+    PROFILER_EVENT;
     double time_position = m_easing->eval(time, m_time);
     sad::Point2D offset = m_offset * cos(time_position * static_cast<double>(m_frequency));	
     i->stateCommandAs<sad::Point3D>()->call(offset);
@@ -145,6 +156,7 @@ void sad::animations::CameraShaking::setState(sad::animations::Instance* i, doub
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::CameraShaking::stateCommand(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     if (this->applicableTo(o) && o)
     {
         return new sad::animations::setstate::SetCameraTranslation(static_cast<sad::Scene*>(o));
@@ -154,6 +166,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::CameraShaki
 
 bool sad::animations::CameraShaking::applicableTo(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (o && m_valid)
     {

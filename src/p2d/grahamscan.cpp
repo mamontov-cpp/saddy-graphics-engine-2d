@@ -4,6 +4,7 @@
 #include <sadpair.h>
 
 #include <algorithm>
+#include "opticksupport.h"
 
 namespace sad
 {
@@ -13,6 +14,7 @@ namespace p2d
 
 void erase_equal_points(sad::Vector<sad::p2d::Point> & set)
 {
+    PROFILER_EVENT;
     for(unsigned int i = 1; i < set.size(); i++)
     {
         if (sad::equal(set[i], set[i-1]))
@@ -25,6 +27,7 @@ void erase_equal_points(sad::Vector<sad::p2d::Point> & set)
 
 int find_min_point_on_y_axis(const sad::Vector<sad::p2d::Point> & set)
 {
+    PROFILER_EVENT;
     if (set.size() == 0) return -1;
     
     double miny = set[0].y();
@@ -44,11 +47,13 @@ typedef sad::Pair<p2d::Point, double> SetSortingEntry;
 
 bool compare(const sad::p2d::SetSortingEntry & o1, const sad::p2d::SetSortingEntry & o2)
 {
+    PROFILER_EVENT;
     return o1.p2() < o2.p2();
 }
 
 double angle(const sad::p2d::Point & p1, const sad::p2d::Point & p2)
 {
+    PROFILER_EVENT;
     double  result = 0;
     if (!sad::equal(p1, p2))
     {
@@ -64,6 +69,7 @@ double angle(const sad::p2d::Point & p1, const sad::p2d::Point & p2)
 sad::Vector<p2d::Point> build_sorted_set(const sad::Vector<sad::p2d::Point> & set, 
                                          int min_index)
 {
+    PROFILER_EVENT;
     assert( min_index > -1 && min_index < (int)(set.size()) );
 
     sad::Vector<sad::p2d::Point> result;
@@ -97,6 +103,7 @@ bool is_convex(const sad::p2d::Point & prev,
                const sad::p2d::Point & cur,
                const sad::p2d::Point & next)
 {
+    PROFILER_EVENT;
     double clockwiseangle = sad::p2d::angle(cur, prev);
     double counterclockwiseangle = sad::p2d::angle(cur, next);
     
@@ -121,6 +128,7 @@ bool is_convex(const sad::p2d::Point & prev,
 
 bool erase_concave_points(sad::Vector<sad::p2d::Point> & result)
 {
+    PROFILER_EVENT;
     bool erased = false;
     for(unsigned int i = 1; (i < result.size()) && result.size() > 2; i++)
     {
@@ -144,6 +152,7 @@ bool erase_concave_points(sad::Vector<sad::p2d::Point> & result)
 
 sad::Vector<sad::p2d::Point> sad::p2d::graham_scan(const sad::Vector<sad::p2d::Point> & set)
 {
+    PROFILER_EVENT;
     sad::Vector<p2d::Point> result = set;
     sad::p2d::erase_equal_points(result);
     if (result.size() > 2)

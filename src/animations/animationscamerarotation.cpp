@@ -24,6 +24,7 @@
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
+#include "opticksupport.h"
 
 
 
@@ -33,11 +34,13 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::CameraRotation, sad::animations::Anima
 
 sad::animations::CameraRotation::CameraRotation() : m_min_angle(0), m_max_angle(0)
 {
+    PROFILER_EVENT;
     m_creators.pushCreator<sad::animations::SavedCameraRotation>("sad::animations::SavedCameraRotation");
 }
 
 sad::animations::CameraRotation::~CameraRotation()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -47,6 +50,7 @@ static sad::Mutex AnimationCameraRotationSchemaInit;
 
 sad::db::schema::Schema* sad::animations::CameraRotation::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationCameraRotationSchema == nullptr)
     {
         AnimationCameraRotationSchemaInit.lock();
@@ -86,12 +90,14 @@ sad::db::schema::Schema* sad::animations::CameraRotation::basicSchema()
 
 sad::db::schema::Schema* sad::animations::CameraRotation::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::CameraRotation::basicSchema();
 }
 
 
 bool sad::animations::CameraRotation::loadFromValue(const picojson::value& v)
 {
+    PROFILER_EVENT;
     bool flag = this->sad::animations::Animation::loadFromValue(v);
     if (flag)
     {
@@ -119,36 +125,43 @@ bool sad::animations::CameraRotation::loadFromValue(const picojson::value& v)
 
 void sad::animations::CameraRotation::setMinAngle(double angle)
 {
+    PROFILER_EVENT;
     m_min_angle = angle;
 }
 
 double sad::animations::CameraRotation::minAngle() const
 {
+    PROFILER_EVENT;
     return m_min_angle;
 }
 
 void sad::animations::CameraRotation::setMaxAngle(double angle)
 {
+    PROFILER_EVENT;
     m_max_angle = angle;
 }
 
 double sad::animations::CameraRotation::maxAngle() const
 {
+    PROFILER_EVENT;
     return m_max_angle;
 }
 
 void sad::animations::CameraRotation::setPivot(const sad::Point3D& p)
 {
+    PROFILER_EVENT;
     m_pivot = p;	
 }
 
 const sad::Point3D& sad::animations::CameraRotation::pivot() const
 {
+    PROFILER_EVENT;
     return m_pivot;
 }
 
 void sad::animations::CameraRotation::setState(sad::animations::Instance* i, double time)
 {
+    PROFILER_EVENT;
     double time_position = m_easing->eval(time, m_time);
     double angle = m_min_angle + (m_max_angle - m_min_angle) * time_position;
     i->stateCommandAs<double>()->call(angle);
@@ -156,6 +169,7 @@ void sad::animations::CameraRotation::setState(sad::animations::Instance* i, dou
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::CameraRotation::stateCommand(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     if (this->applicableTo(o) && o)
     {
         return new sad::animations::setstate::SetCameraRotation(static_cast<sad::Scene*>(o), m_pivot);
@@ -165,6 +179,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::CameraRotat
 
 bool sad::animations::CameraRotation::applicableTo(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (o && m_valid)
     {

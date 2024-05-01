@@ -1,14 +1,17 @@
 #include "input/controls.h"
+#include "opticksupport.h"
 
 sad::input::Controls::Controls()
 : m_wheel_tick_sensitivity(1), m_double_click_sensitivity(500)
 {
+    PROFILER_EVENT;
 
 }
 
 
 sad::input::Controls::~Controls()
 {
+    PROFILER_EVENT;
     this->performQueuedActions();
     this->clearNow();
 }
@@ -18,6 +21,7 @@ sad::input::AbstractHandler* sad::input::Controls::add(
     sad::input::AbstractHandler * h
 )
 {
+    PROFILER_EVENT;
     this->ControlsImmutableBase::add(sad::Pair<
             sad::input::HandlerTypeAndConditions, 
             sad::input::AbstractHandler*
@@ -28,6 +32,7 @@ sad::input::AbstractHandler* sad::input::Controls::add(
 
 void sad::input::Controls::postEvent(EventType type, const sad::input::AbstractEvent & e)
 {
+    PROFILER_EVENT;
     HandlerList & handlerforevents = m_handlers[(unsigned int)(type)];
     for(unsigned int i = 0; i < handlerforevents.count(); i++)
     {
@@ -38,38 +43,45 @@ void sad::input::Controls::postEvent(EventType type, const sad::input::AbstractE
 
 void sad::input::Controls::startReceivingEvents()
 {
+    PROFILER_EVENT;
     performQueuedActions();
     lockChanges();
 }
 
 void sad::input::Controls::finishReceivingEvents()
 {
+    PROFILER_EVENT;
     unlockChanges();
     performQueuedActions();
 }
 
 void sad::input::Controls::setWheelTickSensitivity(double delta)
 {
+    PROFILER_EVENT;
     m_wheel_tick_sensitivity = delta;
 }
 
 double sad::input::Controls::wheelTickSensitivity() const
 {
+    PROFILER_EVENT;
     return m_wheel_tick_sensitivity;
 }
 
 void sad::input::Controls::setDoubleClickSensitivity(double sensitivity)
 {
+    PROFILER_EVENT;
     m_double_click_sensitivity = sensitivity;
 }
 
 double sad::input::Controls::doubleClickSensitivity() const
 {
+    PROFILER_EVENT;
     return m_double_click_sensitivity;
 }
 
 void sad::input::Controls::clearNow()
 {
+    PROFILER_EVENT;
     for(unsigned int i = 0; i < SAD_INPUT_EVENT_TYPE_COUNT; i++) 
     {
         for(unsigned int j = 0; j < m_handlers[i].size(); j++) 
@@ -87,6 +99,7 @@ void sad::input::Controls::addNow(
         > o
 )
 {
+    PROFILER_EVENT;
     // Get list by type name
     HandlerList & handlerforevents = m_handlers[(unsigned int)(o.p1().p1())];
     sad::input::Controls::HandlerAndConditions a;
@@ -100,6 +113,7 @@ void sad::input::Controls::addNow(
 
 void sad::input::Controls::removeNow(sad::input::AbstractHandler* o)
 {
+    PROFILER_EVENT;
     for(unsigned int i = 0; i < SAD_INPUT_EVENT_TYPE_COUNT; i++) 
     {
         for(unsigned int j = 0; j < m_handlers[i].size(); j++) 
@@ -119,6 +133,7 @@ void sad::input::Controls::removeNow(sad::input::AbstractHandler* o)
 
 void sad::input::Controls::freeHandlerAndConditions(sad::input::Controls::HandlerAndConditions & o)
 {
+    PROFILER_EVENT;
     delete o.p2();
     o.set2(nullptr);
     for(unsigned int i = 0; i < o._1().size(); i++) 
@@ -130,6 +145,7 @@ void sad::input::Controls::freeHandlerAndConditions(sad::input::Controls::Handle
 
 void sad::input::Controls::tryInvokeHandler(const HandlerAndConditions & o, const sad::input::AbstractEvent & e)
 {
+    PROFILER_EVENT;
     bool conditionaremet = true;
     for(unsigned int i = 0; i < o.p1().size(); i++) 
     {

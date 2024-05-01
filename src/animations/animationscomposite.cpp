@@ -21,6 +21,7 @@
 #include <fstream>
 
 #include <cstdio>
+#include "opticksupport.h"
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::Composite, sad::animations::Animation);
 
@@ -28,16 +29,19 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Composite, sad::animations::Animation)
 
 sad::animations::Composite::Composite()
 {
+    PROFILER_EVENT;
 
 }
 
 sad::animations::Composite::Composite(const sad::animations::Composite& a)
 {
+    PROFILER_EVENT;
     copy(a);
 }
 
 sad::animations::Composite& sad::animations::Composite::operator=(const sad::animations::Composite& a)
 {
+    PROFILER_EVENT;
     clear();
     copy(a);
     return *this;
@@ -45,6 +49,7 @@ sad::animations::Composite& sad::animations::Composite::operator=(const sad::ani
 
 sad::animations::Composite::~Composite()
 {
+    PROFILER_EVENT;
     clear();
     for(sad::Hash<sad::db::Object*, Commands>::iterator it = m_commands.begin();
         it != m_commands.end();
@@ -60,6 +65,7 @@ sad::animations::Composite::~Composite()
 
 void sad::animations::Composite::setTable(sad::db::Table* t)
 {
+    PROFILER_EVENT;
     this->sad::resource::Resource::setTable(t);
     m_database.setValue(t->database());
     m_tree.clear();
@@ -71,6 +77,7 @@ void sad::animations::Composite::setTable(sad::db::Table* t)
 
 void sad::animations::Composite::setPhysicalFile(sad::resource::ResourceFile * file)
 {
+    PROFILER_EVENT;
     this->sad::resource::Resource::setPhysicalFile(file);
     m_tree.setValue(file->tree());
     m_database.clear();
@@ -86,6 +93,7 @@ static sad::Mutex AnimationCompositeSchemaInit;
 
 sad::db::schema::Schema* sad::animations::Composite::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationCompositeSchema == nullptr)
     {
         AnimationCompositeSchemaInit.lock();
@@ -111,16 +119,19 @@ sad::db::schema::Schema* sad::animations::Composite::basicSchema()
 
 sad::db::schema::Schema* sad::animations::Composite::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::Composite::basicSchema();
 }
 
 bool sad::animations::Composite::load(const picojson::value & v)
 {
+    PROFILER_EVENT;
     return this->sad::db::Object::load(v);
 }
 
 bool sad::animations::Composite::loadFromValue(const picojson::value& v)
 {
+    PROFILER_EVENT;
     bool result = this->sad::animations::Animation::loadFromValue(v);
     if (result)
     {
@@ -139,6 +150,7 @@ bool sad::animations::Composite::loadFromValue(const picojson::value& v)
 
 void sad::animations::Composite::start(sad::animations::Instance* i)
 {
+    PROFILER_EVENT;
     if (this->applicableTo(i->object()))
     {
         sad::Vector<sad::animations::setstate::AbstractSetStateCommand* > commands;
@@ -169,6 +181,7 @@ void sad::animations::Composite::start(sad::animations::Instance* i)
 
 bool sad::animations::Composite::applicableTo(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (o)
     {
@@ -194,6 +207,7 @@ bool sad::animations::Composite::applicableTo(sad::db::Object* o)
 
 const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& sad::animations::Composite::creators() const
 {
+    PROFILER_EVENT;
     sad::animations::Composite* c = const_cast<sad::animations::Composite*>(this);
     c->m_temp_creators.clear();
     for(size_t ii = 0; ii < m_links.size(); ii++)
@@ -213,6 +227,7 @@ const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& sad::anima
 
 void sad::animations::Composite::add(unsigned long long majorid)
 {
+    PROFILER_EVENT;
     sad::TreeDbLink<sad::animations::Animation>* link = new sad::TreeDbLink<sad::animations::Animation>();
     link->setParent(this);
     if (m_database.exists())
@@ -232,6 +247,7 @@ void sad::animations::Composite::add(unsigned long long majorid)
 
 void sad::animations::Composite::insert(unsigned long long majorid, int pos)
 {
+    PROFILER_EVENT;
     sad::TreeDbLink<sad::animations::Animation>* link = new sad::TreeDbLink<sad::animations::Animation>();
     if (m_database.exists())
     {
@@ -250,6 +266,7 @@ void sad::animations::Composite::insert(unsigned long long majorid, int pos)
 
 void sad::animations::Composite::insert(sad::animations::Animation* o, int pos)
 {
+    PROFILER_EVENT;
     sad::TreeDbLink<sad::animations::Animation>* link = new sad::TreeDbLink<sad::animations::Animation>();
     for (sad::Hash<sad::MRObject*, size_t>::iterator iter = m_parents.begin(); iter != m_parents.end(); ++iter)
     {
@@ -276,6 +293,7 @@ void sad::animations::Composite::insert(sad::animations::Animation* o, int pos)
 
 void sad::animations::Composite::swap(int pos1, int pos2)
 {
+    PROFILER_EVENT;
     if (pos1 >=0 
         && pos2 >= 0 
         && pos1 < static_cast<int>(m_links.size()) 
@@ -289,6 +307,7 @@ void sad::animations::Composite::swap(int pos1, int pos2)
 
 void sad::animations::Composite::add(sad::animations::Animation* o)
 {
+    PROFILER_EVENT;
     sad::TreeDbLink<sad::animations::Animation>* link = new sad::TreeDbLink<sad::animations::Animation>();
     for (sad::Hash<sad::MRObject*, size_t>::iterator iter = m_parents.begin(); iter != m_parents.end(); ++iter)
     {
@@ -315,6 +334,7 @@ void sad::animations::Composite::add(sad::animations::Animation* o)
 
 void sad::animations::Composite::remove(size_t i)
 {
+    PROFILER_EVENT;
     if (i < m_links.size())
     {
         delete m_links[i];
@@ -326,17 +346,20 @@ void sad::animations::Composite::remove(size_t i)
 
 sad::animations::Animation* sad::animations::Composite::animation(size_t i) const
 {
+    PROFILER_EVENT;
     return m_links[i]->object(true);
 }
 
 
 size_t  sad::animations::Composite::size() const
 {
+    PROFILER_EVENT;
     return m_links.size();
 }
 
 void sad::animations::Composite::clear()
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < m_links.size(); i++)
     {
         delete m_links[i];
@@ -348,6 +371,7 @@ void sad::animations::Composite::clear()
 
 void sad::animations::Composite::setAnimationsNames(const sad::Vector<sad::String>& names)
 {
+    PROFILER_EVENT;
     this->clear();
     for(size_t i = 0; i < names.size(); i++)
     {
@@ -369,6 +393,7 @@ void sad::animations::Composite::setAnimationsNames(const sad::Vector<sad::Strin
 
 sad::Vector<sad::String> sad::animations::Composite::animationNames() const
 {
+    PROFILER_EVENT;
     sad::Vector<sad::String> result;
     for(size_t i = 0; i < m_links.size(); i++)
     {
@@ -379,6 +404,7 @@ sad::Vector<sad::String> sad::animations::Composite::animationNames() const
 
 void sad::animations::Composite::setAnimationsMajorId(const sad::Vector<unsigned long long>& ids)
 {
+    PROFILER_EVENT;
     this->clear();
     for(size_t i = 0; i < ids.size(); i++)
     {
@@ -400,6 +426,7 @@ void sad::animations::Composite::setAnimationsMajorId(const sad::Vector<unsigned
 
 sad::Vector<unsigned long long> sad::animations::Composite::animationMajorIds() const
 {
+    PROFILER_EVENT;
     sad::Vector<unsigned long long> result;
     for(size_t i = 0; i < m_links.size(); i++)
     {
@@ -410,6 +437,7 @@ sad::Vector<unsigned long long> sad::animations::Composite::animationMajorIds() 
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::Composite::stateCommand(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     return nullptr;
 }
 
@@ -417,6 +445,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::Composite::
 
 void sad::animations::Composite::copy(const sad::animations::Composite& a)
 {
+    PROFILER_EVENT;
     m_links.clear();
     for(size_t i = 0; i < a.m_links.size(); i++)
     {

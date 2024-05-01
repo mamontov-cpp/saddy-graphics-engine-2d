@@ -12,6 +12,7 @@
 
 #include "db/schema/schema.h"
 #include "db/dbfield.h"
+#include "opticksupport.h"
 // ReSharper disable once CppUnusedIncludeDirective
 #include "db/save.h"
 
@@ -27,6 +28,7 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::SimpleMovement, sad::animations::Anima
 
 sad::animations::SimpleMovement::SimpleMovement() : m_clamp_floating_points(false)
 {
+    PROFILER_EVENT;
     m_creators.pushCreator<sad::animations::SavedObjectPosition>("sad::animations::SavedObjectPosition");
 }
 
@@ -34,21 +36,25 @@ sad::animations::SimpleMovement::~SimpleMovement() = default;
 
 void sad::animations::SimpleMovement::setStartingPoint(const sad::Point2D& p)
 {
+    PROFILER_EVENT;
     m_start_point = p;
 }
 
 void sad::animations::SimpleMovement::setEndingPoint(const sad::Point2D& p)
 {
+    PROFILER_EVENT;
     m_end_point = p;
 }
 
 const sad::Point2D& sad::animations::SimpleMovement::startingPoint() const
 {
+    PROFILER_EVENT;
     return m_start_point;
 }
 
 const sad::Point2D& sad::animations::SimpleMovement::endingPoint() const
 {
+    PROFILER_EVENT;
     return m_end_point;
 }
 
@@ -58,6 +64,7 @@ static sad::Mutex AnimationSimpleMovementInit;  // NOLINT(clang-diagnostic-exit-
 
 sad::db::schema::Schema* sad::animations::SimpleMovement::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationSimpleMovementSchema == nullptr)
     {
         AnimationSimpleMovementInit.lock();
@@ -92,11 +99,13 @@ sad::db::schema::Schema* sad::animations::SimpleMovement::basicSchema()
 
 sad::db::schema::Schema* sad::animations::SimpleMovement::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::SimpleMovement::basicSchema();
 }
 
 bool sad::animations::SimpleMovement::loadFromValue(const picojson::value& v)
 {
+    PROFILER_EVENT;
     bool flag = this->sad::animations::Animation::loadFromValue(v);
     if (flag)
     {
@@ -132,6 +141,7 @@ bool sad::animations::SimpleMovement::loadFromValue(const picojson::value& v)
 
 void sad::animations::SimpleMovement::setState(sad::animations::Instance* i, double time)
 {
+    PROFILER_EVENT;
     const double time_position = m_easing->eval(time, m_time);
     sad::Point2D pos = m_start_point + ((m_end_point - m_start_point) * time_position);
     if (m_clamp_floating_points)
@@ -148,6 +158,7 @@ void sad::animations::SimpleMovement::setState(sad::animations::Instance* i, dou
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::SimpleMovement::stateCommand(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     if (o)
     {
         if (o->isInstanceOf("sad::Sprite2D"))
@@ -172,6 +183,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::SimpleMovem
 
 bool sad::animations::SimpleMovement::applicableTo(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (o)
     {
@@ -183,10 +195,12 @@ bool sad::animations::SimpleMovement::applicableTo(sad::db::Object* o)
 
 void sad::animations::SimpleMovement::setClampFloatingPoints(bool clamp)
 {
+    PROFILER_EVENT;
     m_clamp_floating_points = clamp;
 }
 
 bool sad::animations::SimpleMovement::clampFloatingPoints() const
 {
+    PROFILER_EVENT;
     return m_clamp_floating_points;
 }

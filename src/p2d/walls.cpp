@@ -4,6 +4,7 @@
 #include <p2d/bounds.h>
 #include <p2d/weight.h>
 #include <renderer.h>
+#include "opticksupport.h"
 
 DECLARE_SOBJ(sad::p2d::Walls);
 DECLARE_SOBJ(sad::p2d::Wall);
@@ -13,6 +14,7 @@ DECLARE_SOBJ(sad::p2d::Wall);
 
 sad::p2d::Walls::Walls(double padding) : m_padding(padding)
 {
+    PROFILER_EVENT;
     this->makeWalls(
         sad::Renderer::ref()->settings().width(), 
         sad::Renderer::ref()->settings().height()
@@ -21,11 +23,13 @@ sad::p2d::Walls::Walls(double padding) : m_padding(padding)
 
 sad::p2d::Walls::Walls(double width, double height, double padding) : m_padding(padding)
 {
+    PROFILER_EVENT;
     this->makeWalls(width, height);
 }
 
 void sad::p2d::Walls::makeWalls(double width, double height)
 {
+    PROFILER_EVENT;
     double w = width;
     double h = height;
     
@@ -67,12 +71,14 @@ void sad::p2d::Walls::makeWalls(double width, double height)
 
 sad::Vector<sad::p2d::Body *> sad::p2d::Walls::bodies() const
 {
+    PROFILER_EVENT;
     return m_bodies;
 }
 
 
 sad::p2d::Walls::~Walls()
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < m_walls.count(); i++)
     {
         m_walls[i]->delRef();
@@ -87,12 +93,14 @@ sad::p2d::Walls::~Walls()
 
 sad::p2d::Wall::Wall(double padding) : m_padding(padding)
 {
+    PROFILER_EVENT;
     m_body = nullptr;
     m_opposite_body = nullptr;
 }
 
 void sad::p2d::Wall::tryTeleport(sad::p2d::Body * b)
 {
+    PROFILER_EVENT;
     if (this->m_opposite_body == nullptr)
     {
         return;
@@ -114,6 +122,7 @@ void sad::p2d::Wall::tryTeleport(sad::p2d::Body * b)
 
 void sad::p2d::Wall::setBody(p2d::Body * b)
 {
+    PROFILER_EVENT;
     if (m_body)
     {
         m_body->delRef();
@@ -127,6 +136,7 @@ void sad::p2d::Wall::setBody(p2d::Body * b)
 
 void sad::p2d::Wall::setOppositeBody(p2d::Body * b)
 {
+    PROFILER_EVENT;
     if (m_opposite_body)
     {
         m_opposite_body->delRef();
@@ -140,6 +150,7 @@ void sad::p2d::Wall::setOppositeBody(p2d::Body * b)
 
 sad::p2d::BoundType  sad::p2d::Wall::type() const
 {
+    PROFILER_EVENT;
     if (this->m_body == nullptr)
     {
         return sad::p2d::BoundType::BT_LEFT;
@@ -150,11 +161,13 @@ sad::p2d::BoundType  sad::p2d::Wall::type() const
 
 int sad::p2d::Wall::typeAsIntegralValue() const
 {
+    PROFILER_EVENT;
     return static_cast<int>(this->type());
 }
 
 sad::p2d::Wall::~Wall()
 {
+    PROFILER_EVENT;
     if (m_body)
     {
         m_body->delRef();
@@ -164,4 +177,3 @@ sad::p2d::Wall::~Wall()
         m_opposite_body->delRef();
     }
 }
-

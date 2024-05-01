@@ -38,6 +38,8 @@
 
 #include "fontshaderfunction.h"
 
+#include "opticksupport.h"
+
 #ifdef LINUX
     #include <stdio.h>
     #include <unistd.h>
@@ -82,6 +84,7 @@ m_gl_sprite_geometry_storages(nullptr),
 m_free_texture_buffer_after_upload(false),
 m_disable_gl_get_error_calls(false)
 {
+    PROFILER_EVENT;
 #ifdef X11
     SafeXInitThreads();
 #endif  
@@ -122,6 +125,7 @@ m_disable_gl_get_error_calls(false)
 
 void sad::Renderer::reset()
 {
+    PROFILER_EVENT;
     freeCurrentState();
     clearNow();
 
@@ -190,6 +194,7 @@ void sad::Renderer::reset()
 template<typename T>
 inline void del_ref_if_not_nullptr(T*& obj)
 {
+    PROFILER_EVENT;
     if (obj != nullptr)
     {
         obj->delRef();
@@ -199,6 +204,7 @@ inline void del_ref_if_not_nullptr(T*& obj)
 
 inline void destroy_shader_if_not_nullptr(sad::Shader* shader)
 {
+    PROFILER_EVENT;
     if (shader != nullptr)
     {
         shader->tryDestroy();
@@ -207,23 +213,27 @@ inline void destroy_shader_if_not_nullptr(sad::Shader* shader)
 
 sad::Renderer::~Renderer(void)
 {
+    PROFILER_EVENT;
     freeCurrentState();
 }
 
 void sad::Renderer::setScene(Scene * scene)
 {
+    PROFILER_EVENT;
     clear();
     add(scene);
 }
 
 const sad::Vector<sad::Scene*>& sad::Renderer::scenes() const
 {
+    PROFILER_EVENT;
     return m_scenes;
 }
 
 
 void sad::Renderer::init(const sad::Settings& _settings)
 {
+    PROFILER_EVENT;
     SL_INTERNAL_SCOPE("sad::Renderer::init", (*this));
     m_gl_settings = _settings;
     m_window->setCreationSize(m_gl_settings.width(), m_gl_settings.height());
@@ -231,6 +241,7 @@ void sad::Renderer::init(const sad::Settings& _settings)
 
 bool sad::Renderer::run()
 {
+    PROFILER_EVENT;
     SL_INTERNAL_SCOPE("sad::Renderer::run()", *this);
  
     bool success = this->initRendererBeforeLoop();
@@ -246,6 +257,7 @@ bool sad::Renderer::run()
 
 void sad::Renderer::quit()
 {
+    PROFILER_EVENT;
     if (m_window->valid())
     {
         m_window->close();
@@ -256,6 +268,7 @@ static sad::Mutex sad_renderer_instance_lock;
 
 sad::Renderer* sad::Renderer::ref()
 {
+    PROFILER_EVENT;
     if (sad::Renderer::m_instance == nullptr)
     {
         sad_renderer_instance_lock.lock();
@@ -271,27 +284,32 @@ sad::Renderer* sad::Renderer::ref()
 
 double sad::Renderer::fps() const
 {
+    PROFILER_EVENT;
     return fpsInterpolation()->fps();
 }
 
 void sad::Renderer::setWindowTitle(const sad::String & s)
 {
+    PROFILER_EVENT;
     m_window->setTitle(s);
 }
 
 void sad::Renderer::makeFixedSize()
 {
+    PROFILER_EVENT;
     m_window->makeFixedSize();
 }
 
 void sad::Renderer::makeResizeable()
 {
+    PROFILER_EVENT;
     m_window->makeResizeable();
 }
 
 
 void sad::Renderer::toggleFullscreen()
 {
+    PROFILER_EVENT;
     if (m_window->fullscreen())
     {
         m_window->leaveFullscreen();
@@ -304,60 +322,71 @@ void sad::Renderer::toggleFullscreen()
 
 bool sad::Renderer::running()
 {
+    PROFILER_EVENT;
     return m_main_loop->running();
 }
 
 bool sad::Renderer::hasValidContext()
 {
+    PROFILER_EVENT;
     return m_window->valid() && m_context->valid();
 }
 
 
 sad::MaybePoint3D sad::Renderer::cursorPosition() const
 {
+    PROFILER_EVENT;
     return this->cursor()->position();
 }
 
 void sad::Renderer::setCursorPosition(const sad::Point2D & p)
 {
+    PROFILER_EVENT;
     this->cursor()->setPosition(p);
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
 sad::log::Log * sad::Renderer::log()
 {
+    PROFILER_EVENT;
     return m_log;
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
 sad::Window * sad::Renderer::window()
 {
+    PROFILER_EVENT;
     return m_window;
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
 sad::GLContext * sad::Renderer::context()
 {
+    PROFILER_EVENT;
     return m_context;
 }
 
 sad::Clipboard* sad::Renderer::clipboard()
 {
+    PROFILER_EVENT;
     return &m_clipboard;
 }
 
 const sad::Settings & sad::Renderer::settings() const
 {
+    PROFILER_EVENT;
     return m_gl_settings;
 }
 
 sad::MouseCursor* sad::Renderer::cursor() const
 {
+    PROFILER_EVENT;
     return m_cursor;
 }
 
 void sad::Renderer::setCursor(sad::MouseCursor * cursor)
 {
+    PROFILER_EVENT;
     m_cursor->delRef();
     m_cursor = cursor;
     m_cursor->addRef();
@@ -365,16 +394,19 @@ void sad::Renderer::setCursor(sad::MouseCursor * cursor)
 
 sad::OpenGL * sad::Renderer::opengl() const
 {
+    PROFILER_EVENT;
     return m_opengl;
 }
 
 sad::MainLoop * sad::Renderer::mainLoop() const
 {
+    PROFILER_EVENT;
     return m_main_loop;
 }
 
 void sad::Renderer::setFPSInterpolation(sad::FPSInterpolation * i)
 {
+    PROFILER_EVENT;
     assert( i );
     delete m_fps_interpolation;
     m_fps_interpolation = i;
@@ -382,16 +414,19 @@ void sad::Renderer::setFPSInterpolation(sad::FPSInterpolation * i)
 
 sad::FPSInterpolation * sad::Renderer::fpsInterpolation() const
 {
+    PROFILER_EVENT;
     return m_fps_interpolation;
 }
 
 sad::pipeline::Pipeline* sad::Renderer::pipeline() const
 {
+    PROFILER_EVENT;
     return m_pipeline;
 }
 
 sad::input::Controls* sad::Renderer::controls() const
 {
+    PROFILER_EVENT;
     return m_controls;
 }
 
@@ -400,6 +435,7 @@ sad::Vector<sad::resource::Error *> sad::Renderer::loadResources(
         const sad::String & tree_name
 )
 {
+    PROFILER_EVENT;
     sad::Vector<sad::resource::Error *> result;
     if (m_resource_trees.contains(tree_name))
     {
@@ -418,6 +454,7 @@ sad::Maybe<sad::String> sad::Renderer::tryLoadResources(
     const sad::String & tree_name
 )
 {
+    PROFILER_EVENT;
     return sad::resource::errorsToString(this->loadResources(filename, tree_name));
 }
 
@@ -426,12 +463,14 @@ sad::Texture * sad::Renderer::texture(
     const sad::String & tree_name
 )
 {
+    PROFILER_EVENT;
     return resource<sad::Texture>(resource_name, tree_name);  
 }
 
 template<typename K, typename V>
 inline void unload_resources_from_hash(const sad::Hash<K, V>& resources)
 {
+    PROFILER_EVENT;
     for (auto it = resources.const_begin(); it != resources.const_end(); ++it) 
     {
         it->second->unload();
@@ -440,6 +479,7 @@ inline void unload_resources_from_hash(const sad::Hash<K, V>& resources)
 
 void sad::Renderer::emergencyShutdown()
 {
+    PROFILER_EVENT;
     // Unload all textures, because after shutdown context will be lost
     // and glDeleteTextures could lead to segmentation fault
     for(sad::PtrHash<sad::String, sad::resource::Tree>::iterator it = m_resource_trees.begin();
@@ -487,6 +527,7 @@ void sad::Renderer::emergencyShutdown()
 
 sad::Point3D sad::Renderer::mapToViewport(const sad::Point2D & p)
 {
+    PROFILER_EVENT;
     sad::Point3D result;
     if (window()->valid() && context()->valid())
     {
@@ -498,6 +539,7 @@ sad::Point3D sad::Renderer::mapToViewport(const sad::Point2D & p)
 
 void sad::Renderer::reshape(int width, int height)
 {
+    PROFILER_EVENT;
     SL_INTERNAL_SCOPE(fmt::Format("sad::Renderer::reshape({0}, {1})") << width << height, *this);
 
     if (width == 0) {
@@ -526,6 +568,7 @@ void sad::Renderer::reshape(int width, int height)
 
 void sad::Renderer::insert(sad::Scene* s, size_t position)
 {
+    PROFILER_EVENT;
     if (s)
     {
         s->setRenderer(this);
@@ -536,6 +579,7 @@ void sad::Renderer::insert(sad::Scene* s, size_t position)
 
 void sad::Renderer::add(sad::Scene * scene)
 {
+    PROFILER_EVENT;
     if (scene)
     {
         scene->setRenderer(this);
@@ -546,6 +590,7 @@ void sad::Renderer::add(sad::Scene * scene)
 
 void sad::Renderer::swapLayers(sad::Scene* s1, sad::Scene* s2)
 {
+    PROFILER_EVENT;
     int layer1 = this->layer(s1);
     int layer2 = this->layer(s2);
     if (layer1 != -1 && layer2 != -2)
@@ -557,6 +602,7 @@ void sad::Renderer::swapLayers(sad::Scene* s1, sad::Scene* s2)
 
 int  sad::Renderer::layer(sad::Scene * s)
 {
+    PROFILER_EVENT;
     std::vector<sad::Scene*>::iterator it = std::find(m_scenes.begin(), m_scenes.end(), s);
     if (it == m_scenes.end())
     {
@@ -567,6 +613,7 @@ int  sad::Renderer::layer(sad::Scene * s)
 
 void sad::Renderer::setLayer(sad::Scene * s, unsigned int layer)
 {
+    PROFILER_EVENT;
     int oldlayer = this->layer(s);
     if (s)
     {
@@ -594,6 +641,7 @@ void sad::Renderer::setLayer(sad::Scene * s, unsigned int layer)
 
 unsigned int sad::Renderer::totalSceneObjects() const
 {
+    PROFILER_EVENT;
     unsigned int result = 0;
     for(size_t i = 0; i < m_scenes.size(); i++)
     {
@@ -605,6 +653,7 @@ unsigned int sad::Renderer::totalSceneObjects() const
 // ReSharper disable once CppMemberFunctionMayBeConst
 void sad::Renderer::setPrimitiveRenderer(sad::PrimitiveRenderer * r)
 {
+    PROFILER_EVENT;
     delete m_primitive_renderer; 
     m_primitive_renderer = r;
 }
@@ -612,6 +661,7 @@ void sad::Renderer::setPrimitiveRenderer(sad::PrimitiveRenderer * r)
 
 sad::PrimitiveRenderer * sad::Renderer::render() const
 {
+    PROFILER_EVENT;
     return m_primitive_renderer;
 }
 
@@ -619,6 +669,7 @@ sad::PrimitiveRenderer * sad::Renderer::render() const
 // http://www.gnu.org/software/hurd/user/tlecarrour/porting_guide_for_dummies.html
 static char *readlink_malloc(const char *filename)
 {
+    PROFILER_EVENT;
     int size = 100;
 
     while (1) 
@@ -645,6 +696,7 @@ static char *readlink_malloc(const char *filename)
 
 const sad::String & sad::Renderer::executablePath() const
 {
+    PROFILER_EVENT;
     if (m_executable_cached_path.length() == 0)
     {
 #ifdef WIN32
@@ -685,6 +737,7 @@ const sad::String & sad::Renderer::executablePath() const
 
 sad::resource::Tree * sad::Renderer::tree(const sad::String & name) const
 {
+    PROFILER_EVENT;
     if (m_resource_trees.contains(name))
     {
         return m_resource_trees[name];
@@ -694,6 +747,7 @@ sad::resource::Tree * sad::Renderer::tree(const sad::String & name) const
 
 sad::resource::Tree * sad::Renderer::takeTree(const sad::String & name)
 {
+    PROFILER_EVENT;
     if (m_resource_trees.contains(name))
     {
         sad::resource::Tree * result =  m_resource_trees[name];
@@ -707,6 +761,7 @@ sad::resource::Tree * sad::Renderer::takeTree(const sad::String & name)
 
 void sad::Renderer::addTree(const sad::String & name, sad::resource::Tree * tree)
 {
+    PROFILER_EVENT;
     if (!tree)
     {
         return;
@@ -725,6 +780,7 @@ void sad::Renderer::addTree(const sad::String & name, sad::resource::Tree * tree
 
 void sad::Renderer::removeTree(const sad::String & name)
 {
+    PROFILER_EVENT;
     if (m_resource_trees.contains(name))
     {
         sad::resource::Tree * result =  m_resource_trees[name];
@@ -735,6 +791,7 @@ void sad::Renderer::removeTree(const sad::String & name)
 
 sad::Vector<sad::String> sad::Renderer::treeNames() const
 {
+    PROFILER_EVENT;
     sad::Vector<sad::String> result;
     for (auto it = m_resource_trees.begin(); it != m_resource_trees.end(); ++it)
     {
@@ -745,17 +802,20 @@ sad::Vector<sad::String> sad::Renderer::treeNames() const
 
 const sad::Hash<sad::String, sad::resource::Tree*>& sad::Renderer::trees() const
 {
+    PROFILER_EVENT;
     return m_resource_trees;
 }
 
 
 bool sad::Renderer::isOwnThread() const
 {
+    PROFILER_EVENT;
     return (reinterpret_cast<void*>(sad::os::current_thread_id()) == m_context_thread);
 }
 
 bool sad::Renderer::addDatabase(const sad::String & name, sad::db::Database * database)
 {
+    PROFILER_EVENT;
     sad::ScopedLock lock(&m_database_lock);
     assert( database );
     if (m_databases.contains(name))
@@ -770,6 +830,7 @@ bool sad::Renderer::addDatabase(const sad::String & name, sad::db::Database * da
 
 void sad::Renderer::removeDatabase(const sad::String & name)
 {
+    PROFILER_EVENT;
     sad::ScopedLock lock(&m_database_lock);
     if (m_databases.contains(name))
     {
@@ -780,6 +841,7 @@ void sad::Renderer::removeDatabase(const sad::String & name)
 
 sad::db::Database * sad::Renderer::database(const sad::String & name) const
 {
+    PROFILER_EVENT;
     sad::ScopedLock lock(&(const_cast<sad::Renderer*>(this)->m_database_lock));
     if (m_databases.contains(name))
     {
@@ -790,21 +852,25 @@ sad::db::Database * sad::Renderer::database(const sad::String & name) const
 
 sad::animations::Animations* sad::Renderer::animations() const
 {
+    PROFILER_EVENT;
     return m_animations;
 }
 
 void sad::Renderer::lockRendering()
 {
+    PROFILER_EVENT;
     m_lock_rendering.lock(); 
 }
 
 void sad::Renderer::unlockRendering()
 {
+    PROFILER_EVENT;
     m_lock_rendering.unlock();   
 }
 
 void sad::Renderer::setTextureLoader(const sad::String& format, sad::imageformats::Loader* loader)
 {
+    PROFILER_EVENT;
     if (m_texture_loaders.contains(format))
     {
         delete m_texture_loaders[format]; //-V515
@@ -818,6 +884,7 @@ void sad::Renderer::setTextureLoader(const sad::String& format, sad::imageformat
 
 sad::imageformats::Loader* sad::Renderer::textureLoader(const sad::String& format) const
 {
+    PROFILER_EVENT;
     sad::imageformats::Loader* l = nullptr;
     if (m_texture_loaders.contains(format))
     {
@@ -864,6 +931,7 @@ bool SDL_MessageBoxInformation(
 // ReSharper disable once CppMemberFunctionMayBeConst
 bool sad::Renderer::error(const sad::String& title, const sad::String& message)
 {
+    PROFILER_EVENT;
     // ReSharper disable once CppInitializedValueIsAlwaysRewritten
     bool result = false;
 #ifdef X11
@@ -881,6 +949,7 @@ bool sad::Renderer::error(const sad::String& title, const sad::String& message)
 // ReSharper disable once CppMemberFunctionMayBeConst
 bool sad::Renderer::warning(const sad::String& title, const sad::String& message)
 {
+    PROFILER_EVENT;
     // ReSharper disable once CppInitializedValueIsAlwaysRewritten
     bool result = false;
 #ifdef X11
@@ -898,6 +967,7 @@ bool sad::Renderer::warning(const sad::String& title, const sad::String& message
 // ReSharper disable once CppMemberFunctionMayBeConst
 bool sad::Renderer::information(const sad::String& title, const sad::String& message)
 {
+    PROFILER_EVENT;
     // ReSharper disable once CppInitializedValueIsAlwaysRewritten
     bool result = false;
 #ifdef X11
@@ -912,16 +982,19 @@ bool sad::Renderer::information(const sad::String& title, const sad::String& mes
 
 void sad::Renderer::addEmergencyShutdownCallback(sad::util::PointerCallback<sad::Renderer>* cb)
 {
+    PROFILER_EVENT;
     m_emergency_shutdown_callbacks << cb;
 }
 
 void sad::Renderer::addEmergencyShutdownCallback(void (*cb)())
 {
+    PROFILER_EVENT;
     m_emergency_shutdown_callbacks << new sad::util::FreeZeroArgCallback<sad::Renderer>(cb);
 }
 
 void sad::Renderer::setGlobalTranslationOffset(const sad::Vector3D& v)
 {
+    PROFILER_EVENT;
     m_global_translation_offset = v;
     for(auto scene : m_scenes) {
          if (scene) {
@@ -933,11 +1006,13 @@ void sad::Renderer::setGlobalTranslationOffset(const sad::Vector3D& v)
 
 const sad::Vector3D& sad::Renderer::globalTranslationOffset() const
 {
+    PROFILER_EVENT;
     return m_global_translation_offset;
 }
 
 sad::os::GLTexturedGeometry3D* sad::Renderer::texturedGeometry3DForPoints(unsigned int points)
 {
+    PROFILER_EVENT;
     if (points == 0)
     {
         return nullptr;
@@ -956,6 +1031,7 @@ sad::os::GLTexturedGeometry3D* sad::Renderer::texturedGeometry3DForPoints(unsign
 
 sad::os::GLTexturedGeometry2D* sad::Renderer::texturedGeometry2DForPoints(unsigned int points)
 {
+    PROFILER_EVENT;
     if (points == 0)
     {
         return nullptr;
@@ -974,6 +1050,7 @@ sad::os::GLTexturedGeometry2D* sad::Renderer::texturedGeometry2DForPoints(unsign
 
 sad::os::GLUntexturedGeometry3D* sad::Renderer::untexturedGeometry3DForPoints(unsigned int points)
 {
+    PROFILER_EVENT;
     if (points == 0)
     {
         return nullptr;
@@ -992,6 +1069,7 @@ sad::os::GLUntexturedGeometry3D* sad::Renderer::untexturedGeometry3DForPoints(un
 
 sad::os::GLUntexturedGeometry2D* sad::Renderer::untexturedGeometry2DForPoints(unsigned int points)
 {
+    PROFILER_EVENT;
     if (points == 0)
     {
         return nullptr;
@@ -1010,82 +1088,97 @@ sad::os::GLUntexturedGeometry2D* sad::Renderer::untexturedGeometry2DForPoints(un
 
 sad::ShaderFunction* sad::Renderer::defaultShaderFunctionForTextures3d() 
 {
+    PROFILER_EVENT;
     this->tryInitShaders();
     return m_default_texture_shader_function_3d;
 }
 
 sad::ShaderFunction* sad::Renderer::defaultShaderFunctionWithoutTextures3d()
 {
+    PROFILER_EVENT;
     this->tryInitShaders();
     return m_default_no_textures_shader_function_3d;
 }
 
 sad::ShaderFunction* sad::Renderer::defaultShaderFunctionForTextures2d()
 {
+    PROFILER_EVENT;
     this->tryInitShaders();
     return m_default_texture_shader_function_2d;
 }
 
 sad::ShaderFunction* sad::Renderer::defaultShaderFunctionWithoutTextures2d()
 {
+    PROFILER_EVENT;
     this->tryInitShaders();
     return m_default_no_textures_shader_function_2d;
 }
 
 sad::FontShaderFunction* sad::Renderer::defaultFontShaderFunction()
 {
+    PROFILER_EVENT;
     this->tryInitShaders();
     return m_default_font_shader_function;
 }
 
 sad::FontShaderFunction* sad::Renderer::defaultFontLineShaderFunction()
 {
+    PROFILER_EVENT;
     this->tryInitShaders();
     return m_default_font_line_shader_function;
 }
 
 sad::os::GLTexturedGeometry2D* sad::Renderer::takeTextured2D()  const
 {
+    PROFILER_EVENT;
     return m_gl_sprite_geometry_storages->takeTextured2D();
 }
 
 sad::os::GLTexturedGeometry3D* sad::Renderer::takeTextured3D() const
 {
+    PROFILER_EVENT;
     return m_gl_sprite_geometry_storages->takeTextured3D();
 }
 
 sad::os::GLUntexturedGeometry2D* sad::Renderer::takeUntextured2D() const
 {
+    PROFILER_EVENT;
     return m_gl_sprite_geometry_storages->takeUntextured2D();
 }
 
 sad::os::GLUntexturedGeometry3D* sad::Renderer::takeUntextured3D() const
 {
+    PROFILER_EVENT;
     return m_gl_sprite_geometry_storages->takeUntextured3D();
 }
 
 void sad::Renderer::storeGeometry(sad::os::GLTexturedGeometry2D* g)
 {
+    PROFILER_EVENT;
     m_gl_sprite_geometry_storages->store(g);
 }
 
 void sad::Renderer::storeGeometry(sad::os::GLTexturedGeometry3D* g)
 {
+    PROFILER_EVENT;
     m_gl_sprite_geometry_storages->store(g);
 }
 
 void sad::Renderer::storeGeometry(sad::os::GLUntexturedGeometry2D* g)
 {
+    PROFILER_EVENT;
     m_gl_sprite_geometry_storages->store(g);
 }
 
 void sad::Renderer::storeGeometry(sad::os::GLUntexturedGeometry3D* g)
 {
+    PROFILER_EVENT;
     m_gl_sprite_geometry_storages->store(g);
 }
 
 void sad::Renderer::addFontGeometries(sad::os::GLFontGeometries* g)
 {
+    PROFILER_EVENT;
     if (!g)
     {
         return;
@@ -1099,6 +1192,7 @@ void sad::Renderer::addFontGeometries(sad::os::GLFontGeometries* g)
 
 void sad::Renderer::removeFontGeometries(sad::os::GLFontGeometries* g)
 {
+    PROFILER_EVENT;
     if (!g)
     {
         return;
@@ -1113,22 +1207,26 @@ void sad::Renderer::removeFontGeometries(sad::os::GLFontGeometries* g)
 
 void sad::Renderer::setShouldFreeTextureBuffersAfterUpload(bool new_value)
 {
+    PROFILER_EVENT;
     m_free_texture_buffer_after_upload = new_value;
 }
 
 bool sad::Renderer::shouldFreeTextureBuffersAfterUpload() const
 {
+    PROFILER_EVENT;
     return m_free_texture_buffer_after_upload;
 }
 
 sad::os::UBO*  sad::Renderer::getNewCameraBufferObject()
 {
+    PROFILER_EVENT;
     m_camera_buffer_objects << new sad::os::UBO(this, 32 * sizeof(GLfloat));
     return m_camera_buffer_objects[m_camera_buffer_objects.size() - 1];
 }
 
 void sad::Renderer::freeCameraBufferObject(sad::os::UBO* ubo)
 {
+    PROFILER_EVENT;
     if (!ubo)
     {
         return;
@@ -1144,11 +1242,13 @@ void sad::Renderer::freeCameraBufferObject(sad::os::UBO* ubo)
 
 void sad::Renderer::toggleGlGetErrorDebugCallsDisabled(bool disable)
 {
+    PROFILER_EVENT;
     m_disable_gl_get_error_calls = disable;
 }
 
 bool sad::Renderer::isGLGetErrorDebugCallsDisabled() const
 {
+    PROFILER_EVENT;
     return m_disable_gl_get_error_calls;
 }
 
@@ -1156,6 +1256,7 @@ bool sad::Renderer::isGLGetErrorDebugCallsDisabled() const
 
 bool sad::Renderer::initRendererBeforeLoop()
 {
+    PROFILER_EVENT;
     SL_INTERNAL_SCOPE("sad::Renderer::initRendererBeforeLoop()", *this);
     bool success = true;
     if (m_window->valid() == false)
@@ -1199,6 +1300,7 @@ bool sad::Renderer::initRendererBeforeLoop()
 
 void sad::Renderer::runOnce()
 {
+    PROFILER_EVENT;
     assert(m_window->valid());
     assert(m_context->valid());
 
@@ -1209,6 +1311,7 @@ void sad::Renderer::runOnce()
 
 void sad::Renderer::deinitRendererAfterLoop()
 {
+    PROFILER_EVENT;
     SL_INTERNAL_SCOPE("sad::Renderer::deinitRendererAfterLoop()", *this);
     this->mainLoop()->deinitMainLoop();
     cursor()->removeHandlersIfNeeded();
@@ -1245,11 +1348,13 @@ void sad::Renderer::deinitRendererAfterLoop()
 
 void sad::Renderer::destroyInstance()
 {
+    PROFILER_EVENT;
     delete  sad::Renderer::m_instance;
 }
 
 bool sad::Renderer::initGLRendering()
 {
+    PROFILER_EVENT;
     SL_INTERNAL_SCOPE("sad::Renderer::initGLRendering()", *this);
     glShadeModel(GL_SMOOTH);
     glClearColor(0.0f,0.0f,0.0f,0.0f); 
@@ -1282,6 +1387,7 @@ bool sad::Renderer::initGLRendering()
 
 void sad::Renderer::initPipeline()
 {
+    PROFILER_EVENT;
     if (this->m_added_system_pipeline_tasks == false)
     {
         this->pipeline()
@@ -1316,12 +1422,14 @@ void sad::Renderer::initPipeline()
 
 void sad::Renderer::cleanPipeline()
 {
+    PROFILER_EVENT;
     this->pipeline()->clear();
     this->initPipeline();
 }
 
 void sad::Renderer::startRendering()
 {
+    PROFILER_EVENT;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -1329,6 +1437,7 @@ void sad::Renderer::startRendering()
 
 void sad::Renderer::renderScenes()
 {
+    PROFILER_EVENT;
     this->lockRendering();
     this->performQueuedActions();
     this->lockChanges();
@@ -1355,6 +1464,7 @@ void sad::Renderer::renderScenes()
 
 void sad::Renderer::finishRendering()
 {
+    PROFILER_EVENT;
 #ifndef NO_GL_FINISH 
     glFinish();
 #endif
@@ -1363,6 +1473,7 @@ void sad::Renderer::finishRendering()
 
 void sad::Renderer::addNow(sad::Scene * s)
 {
+    PROFILER_EVENT;
     if (s)
     {
         if (std::find(m_scenes.begin(), m_scenes.end(), s) == m_scenes.end())
@@ -1381,6 +1492,7 @@ void sad::Renderer::addNow(sad::Scene * s)
 
 void sad::Renderer::removeNow(sad::Scene * s)
 {
+    PROFILER_EVENT;
     if (s)
     {
         sad::os::UBO* ubo = s->cameraBufferObject();
@@ -1395,6 +1507,7 @@ void sad::Renderer::removeNow(sad::Scene * s)
 
 void sad::Renderer::clearNow()
 {
+    PROFILER_EVENT;
     for(unsigned int i = 0; i < m_scenes.size(); i++)
     {
         sad::os::UBO* ubo = m_scenes[i]->cameraBufferObject();
@@ -1409,6 +1522,7 @@ void sad::Renderer::clearNow()
 
 void sad::Renderer::insertNow(sad::Scene* s, size_t position)
 {
+    PROFILER_EVENT;
     if (s)
     {
         if (std::find(m_scenes.begin(), m_scenes.end(), s) == m_scenes.end())
@@ -1424,6 +1538,7 @@ void sad::Renderer::insertNow(sad::Scene* s, size_t position)
 
 void sad::Renderer::tryInitShaders()
 {
+    PROFILER_EVENT;
     if (this->m_default_textures_shader_3d == nullptr)
     {
         m_shader_init_mutex.lock();
@@ -1665,6 +1780,7 @@ void sad::Renderer::tryInitShaders()
 
 void sad::Renderer::freeCurrentState()
 {
+    PROFILER_EVENT;
     // Force clearing of scenes, so resource links should be preserved
     for (size_t i = 0; i < m_scenes.size(); i++)
     {

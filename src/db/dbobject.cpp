@@ -10,19 +10,23 @@
 
 #include "sadmutex.h"
 #include "classmetadatacontainer.h"
+#include "opticksupport.h"
 
 sad::db::Object::Object() : m_table(nullptr), MajorId(0), MinorId(0), Active(true)
 {
+    PROFILER_EVENT;
 
 }
 
 sad::db::Object::~Object()
 {
+    PROFILER_EVENT;
 
 }
 
 void sad::db::Object::save(picojson::value & v)
 {
+    PROFILER_EVENT;
     sad::db::schema::Schema * schema = this->schema();
     if (schema)
     {
@@ -32,6 +36,7 @@ void sad::db::Object::save(picojson::value & v)
 
 bool sad::db::Object::load(const picojson::value& v)
 {
+    PROFILER_EVENT;
     sad::db::schema::Schema * schema = this->schema();
     if (schema)
     {
@@ -42,16 +47,19 @@ bool sad::db::Object::load(const picojson::value& v)
 
 void sad::db::Object::reset()
 {
+    PROFILER_EVENT;
 
 }
 
 sad::db::Table* sad::db::Object::table() const
 {
+    PROFILER_EVENT;
     return m_table;
 }
 
 void sad::db::Object::setTable(sad::db::Table* t)
 {
+    PROFILER_EVENT;
     m_table = t;
 }
 
@@ -60,6 +68,7 @@ static sad::db::schema::Schema* DbObjectBasicSchema = nullptr;
 static sad::Mutex DbObjectBasicSchemaInit;
 sad::db::schema::Schema* sad::db::Object::basicSchema()
 {
+    PROFILER_EVENT;
     if (DbObjectBasicSchema == nullptr)
     {
         DbObjectBasicSchemaInit.lock();
@@ -86,6 +95,7 @@ sad::db::schema::Schema* sad::db::Object::basicSchema()
 
 sad::db::schema::Schema * sad::db::Object::schema() const
 {
+    PROFILER_EVENT;
     return  sad::db::Object::basicSchema();
 }
 
@@ -93,16 +103,19 @@ static sad::String DbObjectClassName = "sad::db::Object";
 
 const sad::String& sad::db::Object::serializableName() const
 {
+    PROFILER_EVENT;
     return DbObjectClassName;
 }
 
 const sad::String& sad::db::Object::objectName() const
 {
+    PROFILER_EVENT;
     return this->m_name;
 }
 
 void sad::db::Object::setObjectName(const sad::String & new_name)
 {
+    PROFILER_EVENT;
     if (table())
     {
         this->table()->changeObjectName(this, this->m_name, new_name);
@@ -116,11 +129,13 @@ void sad::db::Object::setTreeName(
     const sad::String& tree_name
 )
 {
+    PROFILER_EVENT;
 
 }
 
 sad::db::Property* sad::db::Object::getObjectProperty(const sad::String& s) const
 {
+    PROFILER_EVENT;
     sad::db::schema::Schema* schema = this->schema();
     sad::db::Property* result = nullptr;
     if (schema)
@@ -132,5 +147,6 @@ sad::db::Property* sad::db::Object::getObjectProperty(const sad::String& s) cons
 
 bool sad::db::Object::isInstanceOf(const sad::String& name)
 {
+    PROFILER_EVENT;
     return this->serializableName() == name || name == "sad::db::Object";
 }

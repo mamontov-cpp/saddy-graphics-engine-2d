@@ -6,15 +6,18 @@
 
 #include <fstream>
 #include <cassert>
+#include "opticksupport.h"
 
 sad::db::custom::SchemaFile::SchemaFile(const sad::String& name) 
 : sad::resource::ResourceFile(name)
 {
+    PROFILER_EVENT;
     m_factory = new sad::db::StoredPropertyFactory();
 }
 
 sad::db::custom::SchemaFile::~SchemaFile()
 {
+    PROFILER_EVENT;
     if (m_factory)
     {
         delete m_factory;
@@ -23,17 +26,20 @@ sad::db::custom::SchemaFile::~SchemaFile()
 
 void sad::db::custom::SchemaFile::setFactory(sad::db::StoredPropertyFactory * factory)
 {
+    PROFILER_EVENT;
     assert( m_factory );
     m_factory = factory->clone();
 }
 
 sad::db::StoredPropertyFactory * sad::db::custom::SchemaFile::factory() const
 {
+    PROFILER_EVENT;
     return m_factory;
 }
 
 sad::Vector<sad::resource::Error*> sad::db::custom::SchemaFile::load(sad::resource::Folder * parent)
 {
+    PROFILER_EVENT;
     sad::Vector<sad::resource::Error*> errors;
     sad::db::custom::SchemaFile::parse_result result;
     this->tryParsePartial(result, errors, parent);
@@ -53,6 +59,7 @@ sad::Vector<sad::resource::Error*> sad::db::custom::SchemaFile::load(sad::resour
 
 sad::Vector<sad::resource::Error*>  sad::db::custom::SchemaFile::reload()
 {
+    PROFILER_EVENT;
     sad::Vector<sad::resource::Error*> errors;
     sad::db::custom::SchemaFile::parse_result result;
     this->tryParsePartial(result, errors, nullptr);
@@ -87,6 +94,7 @@ sad::Vector<sad::resource::Error*>  sad::db::custom::SchemaFile::reload()
 
 bool sad::db::custom::SchemaFile::supportsLoadingFromTar7z() const
 {
+    PROFILER_EVENT;
     return true;
 }
 
@@ -96,6 +104,7 @@ void sad::db::custom::SchemaFile::tryParsePartial(
         sad::resource::Folder * parent
     )
 {
+    PROFILER_EVENT;
     sad::Maybe<sad::String> maybecontent = this->tryReadToString();
     if (maybecontent.exists())
     {
@@ -184,6 +193,7 @@ bool sad::db::custom::SchemaFile::tryParseEntry(
         const picojson::value & v
 )
 {
+    PROFILER_EVENT;
     bool result = false;
     if (v.is<picojson::object>())
     {
@@ -297,6 +307,7 @@ bool sad::db::custom::SchemaFile::validateTreeReferences(
         sad::resource::Folder * parent
 )
 {
+    PROFILER_EVENT;
     bool result = true;
     sad::resource::Resource * resource = nullptr;
     if (this->tree()->temporaryRoot()) 
@@ -331,6 +342,7 @@ void sad::db::custom::SchemaFile::convertNonUniqueResourceNamesToErrors(
         sad::Vector<sad::resource::Error *> & errors
 )
 {
+    PROFILER_EVENT;
     sad::resource::Folder * r = this->tree()->root();
     if (this->tree()->temporaryRoot() != nullptr)
     {
@@ -352,6 +364,7 @@ void sad::db::custom::SchemaFile::fillOptionsList(
         sad::resource::ResourceEntryList & resources
 )
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < parsed.size(); i++)
     {
         sad::db::custom::Schema* schema = new sad::db::custom::Schema();

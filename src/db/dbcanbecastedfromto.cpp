@@ -1,6 +1,7 @@
 #include "db/dbcanbecastedfromto.h"
 #include "db/dbconversiontable.h"
 #include "classmetadatacontainer.h"
+#include "opticksupport.h"
 
 bool sad::db::can_be_casted_from_to(
     const sad::String & from_base_name, 
@@ -11,6 +12,7 @@ bool sad::db::can_be_casted_from_to(
     int to_pointer_star_count
 ) 
 {
+    PROFILER_EVENT;
     bool result  = false;
     if (from_base_name == to_base_name && from_pointer_star_count == to_pointer_star_count)
         return true;

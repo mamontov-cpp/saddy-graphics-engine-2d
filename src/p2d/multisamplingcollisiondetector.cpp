@@ -1,4 +1,5 @@
 #include "p2d/multisamplingcollisiondetector.h"
+#include "opticksupport.h"
 
 DECLARE_SOBJ_INHERITANCE(sad::p2d::MultisamplingCollisionDetector, sad::p2d::CollisionDetector);
 
@@ -7,6 +8,7 @@ sad::p2d::MaybeTime sad::p2d::MultisamplingCollisionDetector::collides(sad::p2d:
                                                                        sad::p2d::Body * b2, 
                                                                        double limit)
 {
+    PROFILER_EVENT;
     sad::p2d::MaybeTime result;
     if (m_tester->invoke(b1->currentShape(), b2->currentShape())) 
     {
@@ -32,11 +34,12 @@ sad::p2d::MaybeTime sad::p2d::MultisamplingCollisionDetector::collides(sad::p2d:
 
 sad::p2d::MultisamplingCollisionDetector::~MultisamplingCollisionDetector()
 {
+    PROFILER_EVENT;
     delete m_tester;
 }
 
 int sad::p2d::MultisamplingCollisionDetector::sampleCount() const
 {
+    PROFILER_EVENT;
     return m_tests;
 }
-

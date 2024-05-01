@@ -1,8 +1,10 @@
 #include "resource/folder.h"
 #include "resource/resource.h"
+#include "opticksupport.h"
 
 void sad::resource::free(const sad::resource::ResourceEntryList & list)
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < list.size(); i++)
     {
         delete list[i].p2();
@@ -11,11 +13,13 @@ void sad::resource::free(const sad::resource::ResourceEntryList & list)
 
 sad::resource::Folder::Folder() : m_parent(nullptr)
 {
+    PROFILER_EVENT;
 
 }
 
 sad::resource::Folder::~Folder()
 {
+    PROFILER_EVENT;
     for(sad::Hash<sad::String, sad::resource::Resource*>::iterator it = m_resources.begin();
         it != m_resources.end();
         ++it)
@@ -27,16 +31,19 @@ sad::resource::Folder::~Folder()
 
 bool sad::resource::Folder::hasFolders() const
 {
+    PROFILER_EVENT;
     return m_subfolders.count() != 0;
 }
 
 bool sad::resource::Folder::hasResources() const
 {
+    PROFILER_EVENT;
     return m_resources.count() != 0;
 }
 
 bool sad::resource::Folder::addFolder(const sad::String& path, sad::resource::Folder* folder)
 {
+    PROFILER_EVENT;
     sad::String foldername;
     sad::resource::Folder * parent = navigateParentFolder(path, true, foldername);
     if (parent == nullptr)
@@ -55,6 +62,7 @@ bool sad::resource::Folder::addFolder(const sad::String& path, sad::resource::Fo
 
 bool sad::resource::Folder::addResources(const sad::resource::ResourceEntryList & list, bool ref)
 {
+    PROFILER_EVENT;
     bool result = true;
     for(size_t i = 0; i < list.size(); i++)
     {
@@ -65,6 +73,7 @@ bool sad::resource::Folder::addResources(const sad::resource::ResourceEntryList 
 
 void sad::resource::Folder::replaceResources(const sad::resource::ResourceEntryList & list)
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < list.size(); i++)
     {
         this->replaceResource(list[i].p1(), list[i].p2());
@@ -76,6 +85,7 @@ void sad::resource::Folder::removeResources(
     bool free
 )
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < list.size(); i++)
     {
         this->removeResource(list[i].p1(), free);
@@ -86,6 +96,7 @@ sad::Vector<sad::String> sad::resource::Folder::duplicatesBetween(
     const sad::resource::ResourceEntryList & list
 )
 {
+    PROFILER_EVENT;
     sad::Vector<sad::String> result;
     for(size_t i = 0; i < list.size(); i++)
     {
@@ -99,6 +110,7 @@ sad::Vector<sad::String> sad::resource::Folder::duplicatesBetween(
 
 bool sad::resource::Folder::addResource(const sad::String & path, sad::resource::Resource* r, bool ref)
 {
+    PROFILER_EVENT;
     sad::String resourcename;
     sad::resource::Folder * parent = navigateParentFolder(path, true, resourcename);
     if (parent == nullptr)
@@ -120,6 +132,7 @@ bool sad::resource::Folder::addResource(const sad::String & path, sad::resource:
 
 void sad::resource::Folder::removeFolder(const sad::String& path, bool free)
 {
+    PROFILER_EVENT;
     sad::String foldername;
     sad::resource::Folder * parent = navigateParentFolder(path, false, foldername);
     if (parent == nullptr)
@@ -139,6 +152,7 @@ void sad::resource::Folder::removeFolder(const sad::String& path, bool free)
 
 void sad::resource::Folder::removeResource(const sad::String& path, bool free)
 {
+    PROFILER_EVENT;
     sad::String resourcename;
     sad::resource::Folder * parent = navigateParentFolder(path, false, resourcename);
     if (parent == nullptr)
@@ -159,6 +173,7 @@ void sad::resource::Folder::removeResource(const sad::String& path, bool free)
 
 sad::resource::Folder* sad::resource::Folder::folder(const sad::String& name)
 {
+    PROFILER_EVENT;
     sad::String foldername;
     resource::Folder * parent = this->navigateParentFolder(name, false, foldername);
     resource::Folder * result = nullptr;
@@ -174,6 +189,7 @@ sad::resource::Folder* sad::resource::Folder::folder(const sad::String& name)
 
 sad::resource::Resource* sad::resource::Folder::resource(const sad::String& name)
 {
+    PROFILER_EVENT;
     sad::String foldername;
     resource::Folder * parent = this->navigateParentFolder(name, false, foldername);
     resource::Resource * result = nullptr;
@@ -189,6 +205,7 @@ sad::resource::Resource* sad::resource::Folder::resource(const sad::String& name
 
 void sad::resource::Folder::replaceResource(const sad::String& path, resource::Resource* r)
 {
+    PROFILER_EVENT;
     sad::resource::Resource * old = resource(path);
     if (old)
     {
@@ -200,46 +217,55 @@ void sad::resource::Folder::replaceResource(const sad::String& path, resource::R
 
 sad::resource::FolderIterator sad::resource::Folder::folderListBegin()
 {
+    PROFILER_EVENT;
     return m_subfolders.begin();
 }
 
 sad::resource::FolderIterator sad::resource::Folder::folderListEnd()
 {
+    PROFILER_EVENT;
     return m_subfolders.end();
 }
 
 sad::resource::ResourceIterator sad::resource::Folder::resourceListBegin()
 {
+    PROFILER_EVENT;
     return m_resources.begin();
 }
 
 sad::resource::ResourceIterator sad::resource::Folder::resourceListEnd()
 {
+    PROFILER_EVENT;
     return m_resources.end();
 }
 
 unsigned int  sad::resource::Folder::foldersCount() const
 {
+    PROFILER_EVENT;
     return m_subfolders.count();
 }
 
 unsigned int  sad::resource::Folder::resourceCount() const
 {
+    PROFILER_EVENT;
     return m_resources.count();
 }
 
 void sad::resource::Folder::setParent(sad::resource::Folder * folder)
 {
+    PROFILER_EVENT;
     m_parent = folder;
 }
 
 sad::resource::Folder * sad::resource::Folder::parent() const
 {
+    PROFILER_EVENT;
     return m_parent;
 }
 
 sad::Maybe<sad::String> sad::resource::Folder::find(sad::resource::Resource * r)
 {
+    PROFILER_EVENT;
     sad::Maybe<sad::String> result;
     for(sad::resource::ResourceIterator it = this->resourceListBegin(); 
         it != this->resourceListEnd(); 
@@ -267,6 +293,7 @@ sad::Maybe<sad::String> sad::resource::Folder::find(sad::resource::Resource * r)
 
 sad::resource::ResourceEntryList sad::resource::Folder::copyAndClear()
 {
+    PROFILER_EVENT;
     sad::resource::ResourceEntryList result;
     for(sad::resource::ResourceIterator it = this->resourceListBegin(); 
         it != this->resourceListEnd(); 
@@ -291,6 +318,7 @@ sad::resource::ResourceEntryList sad::resource::Folder::copyAndClear()
 
 void sad::resource::Folder::unloadResourcesFromGPU()
 {
+    PROFILER_EVENT;
     for(sad::resource::ResourceIterator it = this->resourceListBegin(); it != this->resourceListEnd(); ++it)
     {
         it.value()->unloadFromGPU();
@@ -308,6 +336,7 @@ sad::resource::Folder * sad::resource::Folder::navigateParentFolder(
         sad::String & name
 )
 {
+    PROFILER_EVENT;
     if (path.size() == 0 )
         return nullptr;
     if (path.getOccurrences("/") > 1024)

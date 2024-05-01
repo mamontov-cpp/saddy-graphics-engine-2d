@@ -12,6 +12,7 @@
 
 #include "db/schema/schema.h"
 #include "db/dbfield.h"
+#include "opticksupport.h"
 // ReSharper disable once CppUnusedIncludeDirective
 #include "db/save.h"
 
@@ -27,6 +28,7 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::ArcMovement, sad::animations::Animatio
 
 sad::animations::ArcMovement::ArcMovement() : m_clamp_floating_points(false)
 {
+    PROFILER_EVENT;
     m_creators.pushCreator<sad::animations::SavedObjectPosition>("sad::animations::SavedObjectPosition");
 }
 
@@ -34,35 +36,41 @@ sad::animations::ArcMovement::~ArcMovement() = default;
 
 void sad::animations::ArcMovement::setCenterPoint(const sad::Point2D& p)
 {
+    PROFILER_EVENT;
     m_center_point = p;
     recomputeProperties();
 }
 
 void sad::animations::ArcMovement::setStartingPoint(const sad::Point2D& p)
 {
+    PROFILER_EVENT;
     m_start_point = p;
     recomputeProperties();
 }
 
 void sad::animations::ArcMovement::setEndingPoint(const sad::Point2D& p)
 {
+    PROFILER_EVENT;
     m_end_point = p;
     recomputeProperties();
 }
 
 const sad::Point2D& sad::animations::ArcMovement::centerPoint() const
 {
+    PROFILER_EVENT;
     return m_center_point;
 }
 
 
 const sad::Point2D& sad::animations::ArcMovement::startingPoint() const
 {
+    PROFILER_EVENT;
     return m_start_point;
 }
 
 const sad::Point2D& sad::animations::ArcMovement::endingPoint() const
 {
+    PROFILER_EVENT;
     return m_end_point;
 }
 
@@ -73,6 +81,7 @@ static sad::Mutex AnimationArcMovementInit;  // NOLINT(clang-diagnostic-exit-tim
 
 sad::db::schema::Schema* sad::animations::ArcMovement::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationArcMovementSchema == nullptr)
     {
         AnimationArcMovementInit.lock();
@@ -110,11 +119,13 @@ sad::db::schema::Schema* sad::animations::ArcMovement::basicSchema()
 
 sad::db::schema::Schema* sad::animations::ArcMovement::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::ArcMovement::basicSchema();
 }
 
 bool sad::animations::ArcMovement::loadFromValue(const picojson::value& v)
 {
+    PROFILER_EVENT;
     bool flag = this->sad::animations::Animation::loadFromValue(v);
     if (flag)
     {
@@ -158,6 +169,7 @@ bool sad::animations::ArcMovement::loadFromValue(const picojson::value& v)
 
 void sad::animations::ArcMovement::start(sad::animations::Instance* i)
 {
+    PROFILER_EVENT;
     recomputeProperties();
     this->sad::animations::Animation::start(i);
 }
@@ -165,6 +177,7 @@ void sad::animations::ArcMovement::start(sad::animations::Instance* i)
 
 void sad::animations::ArcMovement::setState(sad::animations::Instance* i, double time)
 {
+    PROFILER_EVENT;
     const double time_position = m_easing->eval(time, m_time);
     const double kphi = m_properties.phi * time_position;
     sad::Point2D pos = m_properties.compute(kphi);
@@ -182,6 +195,7 @@ void sad::animations::ArcMovement::setState(sad::animations::Instance* i, double
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::ArcMovement::stateCommand(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     if (o)
     {
         if (o->isInstanceOf("sad::Sprite2D"))
@@ -206,6 +220,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::ArcMovement
 
 bool sad::animations::ArcMovement::applicableTo(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (o)
     {
@@ -217,11 +232,13 @@ bool sad::animations::ArcMovement::applicableTo(sad::db::Object* o)
 
 void sad::animations::ArcMovement::setClampFloatingPoints(bool clamp)
 {
+    PROFILER_EVENT;
     m_clamp_floating_points = clamp;
 }
 
 bool sad::animations::ArcMovement::clampFloatingPoints() const
 {
+    PROFILER_EVENT;
     return m_clamp_floating_points;
 }
 
@@ -229,6 +246,6 @@ bool sad::animations::ArcMovement::clampFloatingPoints() const
 
 void sad::animations::ArcMovement::recomputeProperties()
 {
+    PROFILER_EVENT;
     m_properties = sad::computeEllipticProperties(m_center_point, m_start_point, m_end_point, false);
 }
-

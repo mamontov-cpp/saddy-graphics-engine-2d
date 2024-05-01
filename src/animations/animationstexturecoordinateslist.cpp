@@ -30,6 +30,7 @@
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
+#include "opticksupport.h"
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::TextureCoordinatesList, sad::animations::Animation);
 
@@ -40,11 +41,13 @@ sad::animations::TextureCoordinatesList::TextureCoordinatesList()
 m_cache_folder(nullptr),
 m_renderer(nullptr)
 {
+    PROFILER_EVENT;
     m_creators.pushProperty<sad::Rect2D>("texturecoordinates", "texturecoordinates");
 }
 
 sad::animations::TextureCoordinatesList::~TextureCoordinatesList()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -53,6 +56,7 @@ static sad::db::schema::Schema* AnimationTextureCoordinatesListSchema = nullptr;
 static sad::Mutex AnimationTextureCoordinatesListSchemaInit;
 sad::db::schema::Schema* sad::animations::TextureCoordinatesList::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationTextureCoordinatesListSchema == nullptr)
     {
         AnimationTextureCoordinatesListSchemaInit.lock();
@@ -78,6 +82,7 @@ sad::db::schema::Schema* sad::animations::TextureCoordinatesList::basicSchema()
 
 sad::db::schema::Schema* sad::animations::TextureCoordinatesList::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::TextureCoordinatesList::basicSchema();
 }
 
@@ -86,12 +91,14 @@ void sad::animations::TextureCoordinatesList::setTreeName(
     const sad::String& tree_name
 )
 {
+    PROFILER_EVENT;
     m_renderer = renderer;
     m_tree_name = tree_name;
 }
 
 bool sad::animations::TextureCoordinatesList::loadFromValue(const picojson::value& v)
 {
+    PROFILER_EVENT;
     bool flag = this->sad::animations::Animation::loadFromValue(v);
     if (flag)
     {
@@ -111,6 +118,7 @@ bool sad::animations::TextureCoordinatesList::loadFromValue(const picojson::valu
 
 void sad::animations::TextureCoordinatesList::setList(const sad::Vector<sad::String>& list)
 {
+    PROFILER_EVENT;
     m_list = list;
     m_inner_valid = m_list.size() != 0;
     this->updateValidFlag();
@@ -118,12 +126,14 @@ void sad::animations::TextureCoordinatesList::setList(const sad::Vector<sad::Str
 
 const sad::Vector<sad::String> & sad::animations::TextureCoordinatesList::list() const
 {
+    PROFILER_EVENT;
     return m_list;
 }
 
 
 void sad::animations::TextureCoordinatesList::setState(sad::animations::Instance* i, double time)
 {
+    PROFILER_EVENT;
     double time_position = m_easing->evalBounded(time, m_time);
     double value = static_cast<double>(m_list.size()) * time_position;
     unsigned int kvalue = static_cast<unsigned int>(value);
@@ -140,6 +150,7 @@ void sad::animations::TextureCoordinatesList::setState(sad::animations::Instance
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::TextureCoordinatesList::stateCommand(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     if (this->applicableTo(o))
     {
         sad::animations::setstate::AbstractSetStateCommand* c;
@@ -171,6 +182,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::TextureCoor
 
 bool sad::animations::TextureCoordinatesList::applicableTo(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (o && m_valid)
     {
@@ -183,6 +195,7 @@ bool sad::animations::TextureCoordinatesList::applicableTo(sad::db::Object* o)
 
 sad::Rect2D* sad::animations::TextureCoordinatesList::coordinates(const sad::String& c)
 {
+    PROFILER_EVENT;
     if (m_folder == nullptr)
     {
         if (m_table && m_renderer == nullptr)

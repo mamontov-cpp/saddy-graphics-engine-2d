@@ -3,14 +3,17 @@
 #include <p2d/infiniteline.h>
 
 #include <geometry2d.h>
+#include "opticksupport.h"
 
 sad::p2d::ConvexHull::ConvexHull()
 {
+    PROFILER_EVENT;
 
 }
 
 sad::p2d::ConvexHull::ConvexHull(const sad::Vector<sad::p2d::Point> & set)
 {
+    PROFILER_EVENT;
     m_set = sad::p2d::graham_scan(set);
 }
 
@@ -18,6 +21,7 @@ sad::p2d::ConvexHull sad::p2d::ConvexHull::uncheckedCreate(
     const sad::Vector<sad::p2d::Point> & set
 )
 {
+    PROFILER_EVENT;
     sad::p2d::ConvexHull  hull;
     hull.m_set = set;
     return hull;
@@ -28,6 +32,7 @@ sad::p2d::ConvexHull sad::p2d::ConvexHull::getUnion(
     const sad::p2d::ConvexHull & o2
 )
 {
+    PROFILER_EVENT;
     sad::Vector<sad::p2d::Point> set = o1.m_set;
     set << o2.m_set;
     return sad::p2d::ConvexHull(set);
@@ -35,17 +40,20 @@ sad::p2d::ConvexHull sad::p2d::ConvexHull::getUnion(
 
 size_t sad::p2d::ConvexHull::sides() const
 {
+    PROFILER_EVENT;
     if (m_set.size() < 2) return 0; 
     return m_set.size();
 }
 
 size_t sad::p2d::ConvexHull::points() const
 {
+    PROFILER_EVENT;
     return m_set.size();
 }
 
 sad::p2d::Cutter2D sad::p2d::ConvexHull::side(int number) const
 {
+    PROFILER_EVENT;
     assert(number > -1 && number < sides() );
     if (number == points() - 1)
     {
@@ -56,6 +64,7 @@ sad::p2d::Cutter2D sad::p2d::ConvexHull::side(int number) const
 
 sad::p2d::Vector  sad::p2d::ConvexHull::normal(int number) const
 {
+    PROFILER_EVENT;
     assert(number > -1 && number < sides() );
     sad::p2d::Cutter2D c = side(number);
     sad::p2d::Point center = (c.p1() + c.p2()) / 2.0;
@@ -87,12 +96,14 @@ sad::p2d::Vector  sad::p2d::ConvexHull::normal(int number) const
 
 sad::p2d::Cutter1D sad::p2d::ConvexHull::project(const sad::p2d::Axle & axle) const
 {
+    PROFILER_EVENT;
     return sad::p2d::projectPointSet(m_set, m_set.size(), axle);
 }
 
 void sad::p2d::ConvexHull::tryInsertAxle(sad::Vector<sad::p2d::Axle> & container, 
                                          const sad::p2d::Axle & axle) const
 {
+    PROFILER_EVENT;
     bool found = false;
     for(size_t i = 0 ; (i < container.size()) && !found; i++)
     {
@@ -110,6 +121,7 @@ void sad::p2d::ConvexHull::appendAxisForSide(
     int number
 ) const
 {
+    PROFILER_EVENT;
     sad::p2d::Cutter2D k = side(number);
     this->tryInsertAxle(container, sad::p2d::axle(k.p1(), k.p2()));
     sad::p2d::Axle ortho =  sad::p2d::ortho(k.p2() - k.p1(), sad::p2d::OrthoVectorIndex::OVI_DEG_90);
@@ -120,6 +132,7 @@ void sad::p2d::ConvexHull::appendAxisForCollision(
     sad::Vector<sad::p2d::Axle> & container
 ) const
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < this->sides(); i++)
     {
         this->appendAxisForSide(container, i);
@@ -127,6 +140,7 @@ void sad::p2d::ConvexHull::appendAxisForCollision(
 }
 bool sad::p2d::ConvexHull::collides(const sad::p2d::ConvexHull & c) const
 {
+    PROFILER_EVENT;
     if (this->points() == 0 || c.points() == 0)
     {
         return false;
@@ -154,6 +168,7 @@ bool sad::p2d::ConvexHull::collides(const sad::p2d::ConvexHull & c) const
 
 sad::p2d::Vector sad::p2d::ConvexHull::getSumOfNormalsFor(const sad::p2d::Point & p) const
 {
+    PROFILER_EVENT;
     sad::p2d::Vector result(0,0);
     double nearest = 0;
     bool nearest_is_found = false;
@@ -188,6 +203,7 @@ sad::p2d::Vector sad::p2d::ConvexHull::getSumOfNormalsFor(const sad::p2d::Point 
 
 sad::p2d::Point sad::p2d::ConvexHull::center() const
 {
+    PROFILER_EVENT;
     sad::p2d::Point result;
     for(size_t i = 0;  i < points(); i++)
     {
@@ -200,12 +216,13 @@ sad::p2d::Point sad::p2d::ConvexHull::center() const
 
 void sad::p2d::ConvexHull::buildHull()
 {
+    PROFILER_EVENT;
     m_set = sad::p2d::graham_scan(m_set);
 }
 
 void sad::p2d::ConvexHull::insertPointsFromShape(sad::p2d::CollisionShape * s)
 {
+    PROFILER_EVENT;
     s->populatePoints(m_set);
 }
-
 

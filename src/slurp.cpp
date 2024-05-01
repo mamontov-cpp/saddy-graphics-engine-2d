@@ -4,11 +4,13 @@
 #include "util/fs.h"
 
 #include <fstream>
+#include "opticksupport.h"
 
 
 
 sad::Maybe<sad::String> sad::slurp(const sad::String& fileName, sad::Renderer* renderer)
 {
+    PROFILER_EVENT;
     if (!renderer)
     {
         renderer = sad::Renderer::ref();

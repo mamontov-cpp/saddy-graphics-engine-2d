@@ -33,6 +33,7 @@
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
+#include "opticksupport.h"
 
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::Resize, sad::animations::Animation);
@@ -42,11 +43,13 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Resize, sad::animations::Animation);
 
 sad::animations::Resize::Resize()
 {
+    PROFILER_EVENT;
     m_creators.pushCreator<sad::animations::SavedObjectSize>("sad::animations::SavedObjectSize");
 }
 
 sad::animations::Resize::~Resize()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -55,6 +58,7 @@ static sad::db::schema::Schema* AnimationResizeSchema = nullptr;
 static sad::Mutex AnimationResizeSchemaLock;
 sad::db::schema::Schema* sad::animations::Resize::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationResizeSchema == nullptr)
     {
         AnimationResizeSchemaLock.lock();
@@ -91,11 +95,13 @@ sad::db::schema::Schema* sad::animations::Resize::basicSchema()
 
 sad::db::schema::Schema* sad::animations::Resize::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::Resize::basicSchema();
 }
 
 bool sad::animations::Resize::loadFromValue(const picojson::value& v)
 {
+    PROFILER_EVENT;
     bool flag = this->sad::animations::Animation::loadFromValue(v);
     if (flag)
     {
@@ -120,44 +126,52 @@ bool sad::animations::Resize::loadFromValue(const picojson::value& v)
 
 void sad::animations::Resize::setStartSize(const sad::Point2D& v)
 {
+    PROFILER_EVENT;
     m_start_size = v;
 }
 
 void sad::animations::Resize::setStartSize(const sad::Size2D& v)
 {
+    PROFILER_EVENT;
     m_start_size.setX(v.Width);
     m_start_size.setY(v.Height);
 }
 
 void sad::animations::Resize::setEndSize(const sad::Point2D& v)
 {
+    PROFILER_EVENT;
     m_end_size = v;
 }
 
 void sad::animations::Resize::setEndSize(const sad::Size2D& v)
 {
+    PROFILER_EVENT;
     m_end_size.setX(v.Width);
     m_end_size.setY(v.Height);
 }
 
 const sad::Point2D& sad::animations::Resize::startSize() const
 {
+    PROFILER_EVENT;
     return m_start_size;
 }
 
 const sad::Point2D& sad::animations::Resize::endSize() const
 {
+    PROFILER_EVENT;
     return m_end_size;    
 }
 
 
 void sad::animations::Resize::start(sad::animations::Instance* i)
 {
+    PROFILER_EVENT;
     i->setBasicArea(i->object()->getProperty<sad::Rect2D>("area").value());
 }
 
 void sad::animations::Resize::setState(sad::animations::Instance* i, double time)
 {
+    PROFILER_EVENT;
     double distx = m_end_size.x() - m_start_size.x();
     double disty = m_end_size.y() - m_start_size.y();
 
@@ -189,6 +203,7 @@ void sad::animations::Resize::setState(sad::animations::Instance* i, double time
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::Resize::stateCommand(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     if (this->applicableTo(o))
     {
         sad::animations::setstate::AbstractSetStateCommand* c = nullptr;
@@ -231,6 +246,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::Resize::sta
 
 bool sad::animations::Resize::applicableTo(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (o && m_valid)
     {
@@ -238,4 +254,3 @@ bool sad::animations::Resize::applicableTo(sad::db::Object* o)
     }
     return result;
 }
-

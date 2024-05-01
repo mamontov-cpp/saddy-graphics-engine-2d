@@ -1,9 +1,11 @@
 #include "p2d/worldsteptask.h"
+#include "opticksupport.h"
 
 
 sad::p2d::WorldStepTask::WorldStepTask(sad::p2d::World * w, sad::Renderer * r)
 : m_renderer(r), m_world(w)
 {
+    PROFILER_EVENT;
     if (w)
     {
         w->addRef();
@@ -12,6 +14,7 @@ sad::p2d::WorldStepTask::WorldStepTask(sad::p2d::World * w, sad::Renderer * r)
 
 void sad::p2d::WorldStepTask::_process()
 {
+    PROFILER_EVENT;
     if (m_enabled)
     {
         if (m_world)
@@ -23,6 +26,7 @@ void sad::p2d::WorldStepTask::_process()
 
 double sad::p2d::WorldStepTask::stepTick() const
 {
+    PROFILER_EVENT;
     if (!m_renderer)
     {
         return 1.0 / 60.0;
@@ -43,6 +47,7 @@ double sad::p2d::WorldStepTask::stepTick() const
 
 void sad::p2d::WorldStepTask::setWorld(sad::p2d::World * world)
 {
+    PROFILER_EVENT;
     if (m_world)
     {
         m_world->delRef();
@@ -56,6 +61,7 @@ void sad::p2d::WorldStepTask::setWorld(sad::p2d::World * world)
 
 sad::p2d::WorldStepTask::~WorldStepTask()
 {
+    PROFILER_EVENT;
     if (m_world)
     {
         m_world->delRef();

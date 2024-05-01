@@ -9,24 +9,29 @@
 #include "input/controls.h"
 
 #include "db/dbtypename.h"
+#include "opticksupport.h"
 
 sad::MouseCursorImage::~MouseCursorImage()
 {
+    PROFILER_EVENT;
 
 }
 
 sad::MouseCursorSprite::MouseCursorSprite(sad::Sprite2D * a): m_a(a)
 {
+    PROFILER_EVENT;
     m_a->addRef();
 }
 
 void sad::MouseCursorSprite::setPos(const sad::Point2D & p)
 {
+    PROFILER_EVENT;
     m_a->moveTo(p);
 }
 
 void sad::MouseCursorSprite::render(sad::Renderer* r)
 {
+    PROFILER_EVENT;
     if (r)
     {
         if (!r->scenes().empty())
@@ -47,16 +52,19 @@ void sad::MouseCursorSprite::render(sad::Renderer* r)
 
 void sad::MouseCursorSprite::setShaderFunction(sad::ShaderFunction* shader_function)
 {
+    PROFILER_EVENT;
     m_a->setShaderFunction(shader_function);
 }
 
 sad::ShaderFunction* sad::MouseCursorSprite::shaderFunction() const
 {
+    PROFILER_EVENT;
     return m_a->shaderFunction();
 }
 
 sad::MouseCursorSprite::~MouseCursorSprite()
 {
+    PROFILER_EVENT;
     if (m_a)
     {
         m_a->delRef();
@@ -73,6 +81,7 @@ m_enter_handler(nullptr),
 m_leave_handler(nullptr),
 m_move_handler(nullptr)
 {
+    PROFILER_EVENT;
 
 }
 
@@ -83,16 +92,19 @@ sad::MouseCursor::~MouseCursor()
 
 void sad::MouseCursor::setRenderer(sad::Renderer * r)
 {
+    PROFILER_EVENT;
     m_renderer = r;
 }
 
 sad::Renderer *  sad::MouseCursor::renderer() const
 {
+    PROFILER_EVENT;
     return m_renderer;
 }
 
 sad::MaybePoint3D  sad::MouseCursor::position() const
 {
+    PROFILER_EVENT;
     sad::MaybePoint3D result;
     if (m_renderer != nullptr)
     {
@@ -154,6 +166,7 @@ sad::MaybePoint3D  sad::MouseCursor::position() const
 
 void sad::MouseCursor::setPosition(const sad::Point2D & p)
 {
+    PROFILER_EVENT;
     if (m_renderer != nullptr)
     {
         if (m_renderer->hasValidContext())
@@ -185,6 +198,7 @@ void sad::MouseCursor::setPosition(const sad::Point2D & p)
 
 void sad::MouseCursor::show()
 {
+    PROFILER_EVENT;
     if (m_use_custom_cursor)
     {
         m_hide_custom_cursor = false;
@@ -197,6 +211,7 @@ void sad::MouseCursor::show()
 
 void sad::MouseCursor::hide()
 {
+    PROFILER_EVENT;
     if (m_use_custom_cursor)
     {
         m_hide_custom_cursor = true;
@@ -209,12 +224,14 @@ void sad::MouseCursor::hide()
 
 sad::MouseCursorImage * sad::MouseCursor::cursorImage() const
 {
+    PROFILER_EVENT;
     return m_cursor;
 }
 
 
 void sad::MouseCursor::setImage(sad::MouseCursorImage * image)
 {
+    PROFILER_EVENT;
     if (image == nullptr)
         return;
 
@@ -231,12 +248,14 @@ void sad::MouseCursor::setImage(sad::MouseCursorImage * image)
 
 void sad::MouseCursor::setImage(Sprite2D * a)
 {
+    PROFILER_EVENT;
     setImage(new sad::MouseCursorSprite(a));
 }
 
 
 void sad::MouseCursor::clearCursorImage()
 {
+    PROFILER_EVENT;
     delete m_cursor;
     m_cursor = nullptr;
     removeHandlersIfNeeded();
@@ -250,6 +269,7 @@ void sad::MouseCursor::clearCursorImage()
 
 void sad::MouseCursor::insertHandlersIfNeeded()
 {
+    PROFILER_EVENT;
     if (m_use_custom_cursor)
     {
         m_enter_handler = m_renderer->controls()->add(
@@ -270,6 +290,7 @@ void sad::MouseCursor::insertHandlersIfNeeded()
 
 void sad::MouseCursor::removeHandlersIfNeeded()
 {
+    PROFILER_EVENT;
     if (m_use_custom_cursor)
     {
         m_renderer->controls()->remove(m_enter_handler);
@@ -284,11 +305,13 @@ void sad::MouseCursor::removeHandlersIfNeeded()
 
 void sad::MouseCursor::applyCursorTransformations()
 {
+    PROFILER_EVENT;
     
 }
 
 void sad::MouseCursor::showDefaultCursor()
 {
+    PROFILER_EVENT;
     if (m_hidden)
     {
         m_hidden = false;
@@ -308,6 +331,7 @@ void sad::MouseCursor::showDefaultCursor()
 
 void sad::MouseCursor::hideDefaultCursor()
 {
+    PROFILER_EVENT;
     if (!m_hidden)
     {
         m_hidden = true;
@@ -353,6 +377,7 @@ void sad::MouseCursor::hideDefaultCursor()
 
 void sad::MouseCursor::renderCursorIfNeedTo()
 {
+    PROFILER_EVENT;
     if (m_use_custom_cursor && m_hidden && !m_hide_custom_cursor && m_cursor != nullptr)
     {
         this->applyCursorTransformations();
@@ -362,6 +387,7 @@ void sad::MouseCursor::renderCursorIfNeedTo()
 
 void sad::MouseCursor::showCustomCursorIfNeedTo(const sad::input::MouseEnterEvent & e)
 {
+    PROFILER_EVENT;
     if (m_use_custom_cursor && m_cursor != nullptr)
     {
         hideDefaultCursor();
@@ -372,6 +398,7 @@ void sad::MouseCursor::showCustomCursorIfNeedTo(const sad::input::MouseEnterEven
 
 void sad::MouseCursor::hideCustomCursorIfNeedTo()
 {
+    PROFILER_EVENT;
     if (m_use_custom_cursor && m_cursor != nullptr)
     {
         showDefaultCursor();
@@ -380,6 +407,7 @@ void sad::MouseCursor::hideCustomCursorIfNeedTo()
 
 void sad::MouseCursor::moveCustomCursor(const sad::input::MouseMoveEvent & e)
 {
+    PROFILER_EVENT;
     if (m_use_custom_cursor && m_cursor != nullptr)
     {
         m_cursor->setPos(e.Point3D);
@@ -387,4 +415,3 @@ void sad::MouseCursor::moveCustomCursor(const sad::input::MouseMoveEvent & e)
 }
 
 DECLARE_COMMON_TYPE(sad::MouseCursor)
-

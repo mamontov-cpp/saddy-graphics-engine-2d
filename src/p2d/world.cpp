@@ -1,5 +1,6 @@
 #include "p2d/world.h"
 #include "collection.h"
+#include "opticksupport.h"
 
 DECLARE_SOBJ(sad::p2d::World);
 
@@ -7,6 +8,7 @@ DECLARE_SOBJ(sad::p2d::World);
 
 void sad::p2d::World::GlobalBodyContainer::performAction(const std::function<void(sad::p2d::Body*)>& f)
 {
+    PROFILER_EVENT;
     size_t size = this->AllBodies.size();
     if (size)
     {
@@ -25,6 +27,7 @@ void sad::p2d::World::GlobalBodyContainer::performAction(const std::function<voi
 
 void sad::p2d::World::GlobalBodyContainer::setSamplingCount(int sample_count)
 {
+    PROFILER_EVENT;
     this->performAction([sample_count](sad::p2d::Body* body) {
          body->setSamplingCount(sample_count);
     });
@@ -32,6 +35,7 @@ void sad::p2d::World::GlobalBodyContainer::setSamplingCount(int sample_count)
 
 void sad::p2d::World::GlobalBodyContainer::trySetTransformer()
 {
+    PROFILER_EVENT;
     this->performAction([](sad::p2d::Body* body) {
         body->trySetTransformer();
     });
@@ -39,6 +43,7 @@ void sad::p2d::World::GlobalBodyContainer::trySetTransformer()
 
 void sad::p2d::World::GlobalBodyContainer::buildBodyCaches(double time_step)
 {
+    PROFILER_EVENT;
    this->performAction([time_step](sad::p2d::Body* body) {
        body->buildCaches(time_step);
    });
@@ -46,6 +51,7 @@ void sad::p2d::World::GlobalBodyContainer::buildBodyCaches(double time_step)
 
 void sad::p2d::World::GlobalBodyContainer::stepDiscreteChangingValues(double time_step)
 {
+    PROFILER_EVENT;
     this->performAction([time_step](sad::p2d::Body* body) {
         body->stepDiscreteChangingValues(time_step);
     });
@@ -53,6 +59,7 @@ void sad::p2d::World::GlobalBodyContainer::stepDiscreteChangingValues(double tim
 
 void sad::p2d::World::GlobalBodyContainer::stepPositionsAndVelocities(double time_step)
 {
+    PROFILER_EVENT;
     this->performAction([time_step](sad::p2d::Body* body) {
         body->stepPositionsAndVelocities(time_step);
     });
@@ -60,6 +67,7 @@ void sad::p2d::World::GlobalBodyContainer::stepPositionsAndVelocities(double tim
 
 sad::p2d::World::BodyLocation& sad::p2d::World::GlobalBodyContainer::add(sad::p2d::Body* b)
 {
+    PROFILER_EVENT;
     if (BodyToLocation.contains(b))
     {
         return BodyToLocation[b];
@@ -92,6 +100,7 @@ sad::p2d::World::BodyLocation& sad::p2d::World::GlobalBodyContainer::add(sad::p2
 
 void sad::p2d::World::GlobalBodyContainer::remove(sad::p2d::Body* b)
 {
+    PROFILER_EVENT;
     if (BodyToLocation.contains(b))
     {
         BodyLocation& bl = BodyToLocation[b];
@@ -110,6 +119,7 @@ static sad::Vector<size_t> __empty_vector;
 
 const sad::Vector<size_t>& sad::p2d::World::GlobalBodyContainer::getGroupLocations(sad::p2d::Body* b)
 {
+    PROFILER_EVENT;
     if (BodyToLocation.contains(b))
     {
         BodyLocation& bl = BodyToLocation[b];
@@ -120,6 +130,7 @@ const sad::Vector<size_t>& sad::p2d::World::GlobalBodyContainer::getGroupLocatio
 
 void sad::p2d::World::GlobalBodyContainer::clear()
 {
+    PROFILER_EVENT;
     size_t size = this->AllBodies.size();
     if (size)
     {
@@ -141,6 +152,7 @@ void sad::p2d::World::GlobalBodyContainer::clear()
 
 void sad::p2d::World::GlobalBodyContainer::removeFromGroup(sad::p2d::Body* b, size_t group_offset)
 {
+    PROFILER_EVENT;
     if (BodyToLocation.contains(b))
     {
         sad::p2d::World::BodyLocation& loc = BodyToLocation[b];
@@ -154,6 +166,7 @@ void sad::p2d::World::GlobalBodyContainer::removeFromGroup(sad::p2d::Body* b, si
 
 size_t sad::p2d::World::GlobalBodyContainer::bodyCount()
 {
+    PROFILER_EVENT;
     size_t size = this->AllBodies.size();
     size_t result = 0;
     if (size)
@@ -173,6 +186,7 @@ size_t sad::p2d::World::GlobalBodyContainer::bodyCount()
 
 sad::Vector<sad::p2d::Body*> sad::p2d::World::GlobalBodyContainer::activeBodies()
 {
+    PROFILER_EVENT;
     size_t size = this->AllBodies.size();
     sad::Vector<sad::p2d::Body*> result;
     if (size)
@@ -194,6 +208,7 @@ sad::Vector<sad::p2d::Body*> sad::p2d::World::GlobalBodyContainer::activeBodies(
 
 size_t sad::p2d::World::Group::add(sad::p2d::Body* b)
 {
+    PROFILER_EVENT;
     if (BodyToLocation.contains(b))
     {
         return BodyToLocation[b];
@@ -225,6 +240,7 @@ size_t sad::p2d::World::Group::add(sad::p2d::Body* b)
 
 void sad::p2d::World::Group::remove(sad::p2d::Body* b)
 {
+    PROFILER_EVENT;
     if (BodyToLocation.contains(b))
     {
         size_t bl = BodyToLocation[b];
@@ -242,11 +258,13 @@ void sad::p2d::World::Group::remove(sad::p2d::Body* b)
 
 const sad::Vector<sad::p2d::World::BodyWithActivityFlag>& sad::p2d::World::Group::bodies() const
 {
+    PROFILER_EVENT;
     return this->Bodies;
 }
 
 sad::Maybe<size_t> sad::p2d::World::Group::getLocation(sad::p2d::Body* b) const
 {
+    PROFILER_EVENT;
     sad::Maybe<size_t> location;
     if (BodyToLocation.contains(b))
     {
@@ -257,6 +275,7 @@ sad::Maybe<size_t> sad::p2d::World::Group::getLocation(sad::p2d::Body* b) const
 
 void sad::p2d::World::Group::clear()
 {
+    PROFILER_EVENT;
     size_t size = this->Bodies.size();
     if (size)
     {
@@ -278,6 +297,7 @@ void sad::p2d::World::Group::clear()
 
 size_t sad::p2d::World::Group::bodyCount()
 {
+    PROFILER_EVENT;
     size_t size = this->Bodies.size();
     size_t result=  0;
     if (size)
@@ -297,6 +317,7 @@ size_t sad::p2d::World::Group::bodyCount()
 
 sad::Vector<sad::p2d::Body*> sad::p2d::World::Group::activeBodies()
 {
+    PROFILER_EVENT;
     size_t size = this->Bodies.size();
     sad::Vector<sad::p2d::Body*>  result;
     if (size)
@@ -320,6 +341,7 @@ sad::Vector<sad::p2d::Body*> sad::p2d::World::Group::activeBodies()
 
 size_t sad::p2d::World::GroupContainer::add(const sad::String& name)
 {
+    PROFILER_EVENT;
     if (GroupToLocation.contains(name))
     {
         return GroupToLocation[name];
@@ -349,6 +371,7 @@ size_t sad::p2d::World::GroupContainer::add(const sad::String& name)
 
 void sad::p2d::World::GroupContainer::remove(const sad::String& name)
 {
+    PROFILER_EVENT;
     if (GroupToLocation.contains(name))
     {
         size_t bl = GroupToLocation[name];
@@ -365,6 +388,7 @@ void sad::p2d::World::GroupContainer::remove(const sad::String& name)
 
 void sad::p2d::World::GroupContainer::clear()
 {
+    PROFILER_EVENT;
     clearBodies();
     GroupToLocation.clear();
     FreePositions.clear();
@@ -373,6 +397,7 @@ void sad::p2d::World::GroupContainer::clear()
 
 void sad::p2d::World::GroupContainer::clearBodies()
 {
+    PROFILER_EVENT;
     size_t size = this->Groups.size();
     if (size)
     {
@@ -390,6 +415,7 @@ void sad::p2d::World::GroupContainer::clearBodies()
 
 void sad::p2d::World::GroupContainer::makeGroupAndAddBody(const sad::String& group_name, sad::p2d::Body* body, sad::p2d::World::BodyLocation& loc)
 {
+    PROFILER_EVENT;
     size_t location = add(group_name);
     sad::p2d::World::Group& group = this->Groups[location].Group;
     if (!group.BodyToLocation.contains(body))
@@ -401,6 +427,7 @@ void sad::p2d::World::GroupContainer::makeGroupAndAddBody(const sad::String& gro
 
 size_t sad::p2d::World::GroupContainer::groupCount()
 {
+    PROFILER_EVENT;
     size_t size = this->Groups.size();
     size_t result = 0;
     if (size)
@@ -420,6 +447,7 @@ size_t sad::p2d::World::GroupContainer::groupCount()
 
 sad::Vector<sad::String> sad::p2d::World::GroupContainer::existingGroups() const
 {
+    PROFILER_EVENT;
     sad::Vector<sad::String> result;
     for(sad::Hash<sad::String, size_t>::const_iterator it = GroupToLocation.const_begin();
         it != GroupToLocation.const_end();
@@ -432,6 +460,7 @@ sad::Vector<sad::String> sad::p2d::World::GroupContainer::existingGroups() const
 
 sad::Maybe<size_t> sad::p2d::World::GroupContainer::getLocation(const sad::String& name) const
 {
+    PROFILER_EVENT;
     sad::Maybe<size_t> location;
     if (GroupToLocation.contains(name))
     {
@@ -444,6 +473,7 @@ sad::Maybe<size_t> sad::p2d::World::GroupContainer::getLocation(const sad::Strin
 
 void sad::p2d::World::GlobalHandlerList::add(size_t i1, size_t i2, sad::p2d::BasicCollisionHandler* h)
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < List.size(); i++)
     {
         if ((List[i].TypeIndex1) == i1 && (List[i].TypeIndex2 == i2))
@@ -469,6 +499,7 @@ void sad::p2d::World::GlobalHandlerList::add(size_t i1, size_t i2, sad::p2d::Bas
 
 void sad::p2d::World::GlobalHandlerList::remove(size_t i1, size_t i2, sad::p2d::BasicCollisionHandler* h)
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < List.size(); i++)
     {
         if ((List[i].TypeIndex1) == i1 && (List[i].TypeIndex2 == i2))
@@ -492,6 +523,7 @@ void sad::p2d::World::GlobalHandlerList::remove(size_t i1, size_t i2, sad::p2d::
 
 void sad::p2d::World::GlobalHandlerList::remove(sad::p2d::BasicCollisionHandler* h)
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < List.size(); i++)
     {
         sad::Vector<sad::p2d::BasicCollisionHandler*>& lst = *(List[i].List);
@@ -514,6 +546,7 @@ void sad::p2d::World::GlobalHandlerList::remove(sad::p2d::BasicCollisionHandler*
 
 void sad::p2d::World::GlobalHandlerList::clear()
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < List.size(); i++)
     {
         const sad::Vector<sad::p2d::BasicCollisionHandler*>& lst = *(List[i].List);
@@ -528,6 +561,7 @@ void sad::p2d::World::GlobalHandlerList::clear()
 
 void sad::p2d::World::GlobalHandlerList::clearForGroups(size_t i1, size_t i2)
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < List.size(); i++)
     {
         if ((List[i].TypeIndex1) == i1 && (List[i].TypeIndex2 == i2))
@@ -546,6 +580,7 @@ void sad::p2d::World::GlobalHandlerList::clearForGroups(size_t i1, size_t i2)
 
 void sad::p2d::World::GlobalHandlerList::removeHandlersFor(size_t location)
 {
+    PROFILER_EVENT;
     for (size_t i = 0; i < List.size(); i++)
     {
         if ((List[i].TypeIndex1 == location) || (List[i].TypeIndex2 == location))
@@ -564,6 +599,7 @@ void sad::p2d::World::GlobalHandlerList::removeHandlersFor(size_t location)
 
 size_t sad::p2d::World::GlobalHandlerList::totalHandlerCount()
 {
+    PROFILER_EVENT;
     size_t result = 0;
     for (size_t i = 0; i < List.size(); i++)
     {
@@ -577,6 +613,7 @@ size_t sad::p2d::World::GlobalHandlerList::totalHandlerCount()
 
 size_t sad::p2d::World::GlobalHandlerList::totalHandlerCount(size_t i1, size_t i2)
 {
+    PROFILER_EVENT;
     size_t result = 0;
 
     for (size_t i = 0; i < List.size(); i++)
@@ -595,6 +632,7 @@ size_t sad::p2d::World::GlobalHandlerList::totalHandlerCount(size_t i1, size_t i
 
 size_t sad::p2d::World::GlobalHandlerList::totalHandlerOccurrences(sad::p2d::BasicCollisionHandler* h)
 {
+    PROFILER_EVENT;
     size_t result = 0;
     for(size_t i = 0; i < List.size(); i++)
     {
@@ -610,6 +648,7 @@ size_t sad::p2d::World::GlobalHandlerList::totalHandlerOccurrences(sad::p2d::Bas
 
 size_t sad::p2d::World::GlobalHandlerList::totalHandlerOccurrences(size_t i1, size_t i2, sad::p2d::BasicCollisionHandler* h)
 {
+    PROFILER_EVENT;
     size_t result = 0;
     for(size_t i = 0; i < List.size(); i++)
     {
@@ -628,6 +667,7 @@ size_t sad::p2d::World::GlobalHandlerList::totalHandlerOccurrences(size_t i1, si
 
 sad::Vector<sad::p2d::BasicCollisionHandler*> sad::p2d::World::GlobalHandlerList::handlers()
 {
+    PROFILER_EVENT;
 
     sad::Vector<sad::p2d::BasicCollisionHandler*> result;
     for (size_t i = 0; i < List.size(); i++)
@@ -642,6 +682,7 @@ sad::Vector<sad::p2d::BasicCollisionHandler*> sad::p2d::World::GlobalHandlerList
 
 sad::Vector<sad::p2d::BasicCollisionHandler*> sad::p2d::World::GlobalHandlerList::handlers(size_t i1, size_t i2)
 {
+    PROFILER_EVENT;
     sad::Vector<sad::p2d::BasicCollisionHandler*> result;
     for (size_t i = 0; i < List.size(); i++)
     {
@@ -661,6 +702,7 @@ sad::Vector<sad::p2d::BasicCollisionHandler*> sad::p2d::World::GlobalHandlerList
 
 sad::p2d::World::World() : m_time_step(1), m_is_locked(false)
 {
+    PROFILER_EVENT;
     m_transformer = new p2d::CircleToHullTransformer(*(p2d::CircleToHullTransformer::ref()));
     m_detector = new p2d::SimpleCollisionDetector();
     m_detector->addRef();
@@ -671,6 +713,7 @@ sad::p2d::World::World() : m_time_step(1), m_is_locked(false)
 
 sad::p2d::World::~World()
 {
+    PROFILER_EVENT;
     delete m_transformer;
     m_detector->delRef();
     m_group_container.clear();
@@ -706,12 +749,14 @@ sad::p2d::World::~World()
 
 sad::p2d::CircleToHullTransformer * sad::p2d::World::transformer() const
 {
+    PROFILER_EVENT;
     return m_transformer;
 }
 
 
 void sad::p2d::World::setDetector(sad::p2d::CollisionDetector * d)
 {
+    PROFILER_EVENT;
     m_detector->delRef();
     m_detector = d;
     m_detector->addRef();
@@ -720,17 +765,20 @@ void sad::p2d::World::setDetector(sad::p2d::CollisionDetector * d)
 
 sad::p2d::CollisionDetector* sad::p2d::World::detector() const
 {
+    PROFILER_EVENT;
     return m_detector;
 }
 
 double sad::p2d::World::timeStep() const
 {
+    PROFILER_EVENT;
     return m_time_step;
 }
 
 
 void sad::p2d::World::setTransformer(sad::p2d::CircleToHullTransformer * t)
 {
+    PROFILER_EVENT;
     delete m_transformer;
     m_transformer = t;
     m_global_body_container.trySetTransformer();
@@ -738,6 +786,7 @@ void sad::p2d::World::setTransformer(sad::p2d::CircleToHullTransformer * t)
 
 void sad::p2d::World::addBody(sad::p2d::Body* b)
 {
+    PROFILER_EVENT;
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
@@ -754,6 +803,7 @@ void sad::p2d::World::addBody(sad::p2d::Body* b)
 
 void sad::p2d::World::removeBody(sad::p2d::Body* b)
 {
+    PROFILER_EVENT;
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
@@ -770,6 +820,7 @@ void sad::p2d::World::removeBody(sad::p2d::Body* b)
 
 void sad::p2d::World::clearBodies()
 {
+    PROFILER_EVENT;
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
@@ -784,6 +835,7 @@ void sad::p2d::World::clearBodies()
 
 void sad::p2d::World::addBodyToGroup(const sad::String& group_name, sad::p2d::Body* b)
 {
+    PROFILER_EVENT;
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
@@ -801,6 +853,7 @@ void sad::p2d::World::addBodyToGroup(const sad::String& group_name, sad::p2d::Bo
 
 void sad::p2d::World::removeBodyFromGroup(const sad::String& group_name, sad::p2d::Body* b)
 {
+    PROFILER_EVENT;
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
@@ -818,6 +871,7 @@ void sad::p2d::World::removeBodyFromGroup(const sad::String& group_name, sad::p2
 
 void sad::p2d::World::clearGroup(const sad::String& group_name)
 {
+    PROFILER_EVENT;
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
@@ -834,6 +888,7 @@ void sad::p2d::World::clearGroup(const sad::String& group_name)
 
 void sad::p2d::World::addGroup(const sad::String& group_name)
 {
+    PROFILER_EVENT;
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
@@ -849,6 +904,7 @@ void sad::p2d::World::addGroup(const sad::String& group_name)
 
 void sad::p2d::World::removeGroup(const sad::String& group_name)
 {
+    PROFILER_EVENT;
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
@@ -865,6 +921,7 @@ void sad::p2d::World::removeGroup(const sad::String& group_name)
 
 void sad::p2d::World::clearGroups()
 {
+    PROFILER_EVENT;
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
@@ -883,6 +940,7 @@ sad::p2d::BasicCollisionHandler* sad::p2d::World::addHandler(
     sad::p2d::BasicCollisionHandler* h
 )
 {
+    PROFILER_EVENT;
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
@@ -902,6 +960,7 @@ sad::p2d::BasicCollisionHandler* sad::p2d::World::addHandler(
 
 void sad::p2d::World::removeHandler(sad::p2d::BasicCollisionHandler *h)
 {
+    PROFILER_EVENT;
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
@@ -922,6 +981,7 @@ void sad::p2d::World::removeHandlerFromGroups(
     sad::p2d::BasicCollisionHandler* h
 )
 {
+    PROFILER_EVENT;
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
@@ -940,6 +1000,7 @@ void sad::p2d::World::removeHandlerFromGroups(
 
 void sad::p2d::World::clearHandlers()
 {
+    PROFILER_EVENT;
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
@@ -954,6 +1015,7 @@ void sad::p2d::World::clearHandlers()
 
 void sad::p2d::World::clearHandlersForGroups(const sad::String& first_group, const sad::String& second_group)
 {
+    PROFILER_EVENT;
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
@@ -970,6 +1032,7 @@ void sad::p2d::World::clearHandlersForGroups(const sad::String& first_group, con
 
 void sad::p2d::World::clear()
 {
+    PROFILER_EVENT;
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
@@ -984,6 +1047,7 @@ void sad::p2d::World::clear()
 
 void sad::p2d::World::step(double time)
 {
+    PROFILER_EVENT;
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
@@ -999,6 +1063,7 @@ void sad::p2d::World::step(double time)
 
 bool sad::p2d::World::isBodyInWorld(sad::p2d::Body* b)
 {
+    PROFILER_EVENT;
     bool result = false;
     m_world_lock.lock();
 
@@ -1014,6 +1079,7 @@ bool sad::p2d::World::isBodyInWorld(sad::p2d::Body* b)
 
 bool sad::p2d::World::isInGroup(const sad::String& group_name, sad::p2d::Body* b)
 {
+    PROFILER_EVENT;
     bool result = false;
     m_world_lock.lock();
 
@@ -1036,6 +1102,7 @@ bool sad::p2d::World::isInGroup(const sad::String& group_name, sad::p2d::Body* b
 
 bool sad::p2d::World::doesGroupExists(const sad::String& group_name)
 {
+    PROFILER_EVENT;
     bool result = false;
     m_world_lock.lock();
 
@@ -1054,6 +1121,7 @@ bool sad::p2d::World::doesGroupExists(const sad::String& group_name)
 
 size_t sad::p2d::World::totalBodyCount()
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
 
     size_t result = m_global_body_container.bodyCount();
@@ -1064,6 +1132,7 @@ size_t sad::p2d::World::totalBodyCount()
 
 size_t sad::p2d::World::totalGroupCount()
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
 
     size_t result = m_group_container.groupCount();
@@ -1074,6 +1143,7 @@ size_t sad::p2d::World::totalGroupCount()
 
 size_t sad::p2d::World::amountOfBodiesInGroup(const sad::String& group_name)
 {
+    PROFILER_EVENT;
     size_t result = 0;
     m_world_lock.lock();
 
@@ -1092,6 +1162,7 @@ size_t sad::p2d::World::amountOfBodiesInGroup(const sad::String& group_name)
 
 sad::Vector<sad::p2d::Body*> sad::p2d::World::allBodies()
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
 
     sad::Vector<sad::p2d::Body*> result = m_global_body_container.activeBodies();
@@ -1102,6 +1173,7 @@ sad::Vector<sad::p2d::Body*> sad::p2d::World::allBodies()
 
 sad::Vector<sad::String> sad::p2d::World::existingGroups()
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
 
     sad::Vector<sad::String> result = m_group_container.existingGroups();
@@ -1112,6 +1184,7 @@ sad::Vector<sad::String> sad::p2d::World::existingGroups()
 
 sad::Vector<sad::p2d::Body*> sad::p2d::World::allBodiesInGroup(const sad::String& group_name)
 {
+    PROFILER_EVENT;
     sad::Vector<sad::p2d::Body*> result;
     m_world_lock.lock();
 
@@ -1130,6 +1203,7 @@ sad::Vector<sad::p2d::Body*> sad::p2d::World::allBodiesInGroup(const sad::String
 
 size_t sad::p2d::World::amountOfHandlers()
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
 
     size_t result = m_global_handler_list.totalHandlerCount();
@@ -1140,6 +1214,7 @@ size_t sad::p2d::World::amountOfHandlers()
 
 size_t sad::p2d::World::amountOfHandlersForGroups(const sad::String& s1, const sad::String& s2)
 {
+    PROFILER_EVENT;
     size_t result = 0;
     m_world_lock.lock();
 
@@ -1157,6 +1232,7 @@ size_t sad::p2d::World::amountOfHandlersForGroups(const sad::String& s1, const s
 
 size_t sad::p2d::World::totalHandlerOccurrences(sad::p2d::BasicCollisionHandler* h)
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
 
     size_t result = m_global_handler_list.totalHandlerOccurrences(h);
@@ -1168,6 +1244,7 @@ size_t sad::p2d::World::totalHandlerOccurrences(sad::p2d::BasicCollisionHandler*
 
 size_t sad::p2d::World::totalHandlerOccurrencesInGroups(const sad::String& s1, const sad::String& s2, sad::p2d::BasicCollisionHandler* h)
 {
+    PROFILER_EVENT;
     size_t result = 0;
     m_world_lock.lock();
 
@@ -1185,16 +1262,19 @@ size_t sad::p2d::World::totalHandlerOccurrencesInGroups(const sad::String& s1, c
 
 bool sad::p2d::World::isHandlerInWorld(sad::p2d::BasicCollisionHandler* h)
 {
+    PROFILER_EVENT;
     return totalHandlerOccurrences(h) != 0;
 }
 
 bool sad::p2d::World::isHandlerInGroups(const sad::String& s1, const sad::String& s2, sad::p2d::BasicCollisionHandler* h)
 {
+    PROFILER_EVENT;
     return totalHandlerOccurrencesInGroups(s1, s2, h) != 0;
 }
 
 sad::Vector<sad::p2d::BasicCollisionHandler*> sad::p2d::World::allHandlers()
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
 
     sad::Vector<sad::p2d::BasicCollisionHandler*> result =  m_global_handler_list.handlers();
@@ -1206,6 +1286,7 @@ sad::Vector<sad::p2d::BasicCollisionHandler*> sad::p2d::World::allHandlers()
 
 sad::Vector<sad::p2d::BasicCollisionHandler*> sad::p2d::World::allHandlersForGroups(const sad::String& s1, const sad::String& s2)
 {
+    PROFILER_EVENT;
     sad::Vector<sad::p2d::BasicCollisionHandler*> result;
     m_world_lock.lock();
 
@@ -1226,6 +1307,7 @@ sad::Vector<sad::p2d::BasicCollisionHandler*> sad::p2d::World::allHandlersForGro
 
 bool sad::p2d::World::isLockedForChanges()
 {
+    PROFILER_EVENT;
     m_is_locked_lock.lock();
     bool result = m_is_locked;
     m_is_locked_lock.unlock();
@@ -1235,6 +1317,7 @@ bool sad::p2d::World::isLockedForChanges()
 
 void sad::p2d::World::setIsLockedFlag(bool is_locked)
 {
+    PROFILER_EVENT;
     m_is_locked_lock.lock();
     m_is_locked = is_locked;
     m_is_locked_lock.unlock();
@@ -1242,6 +1325,7 @@ void sad::p2d::World::setIsLockedFlag(bool is_locked)
 
 void sad::p2d::World::addCommand(const sad::p2d::World::QueuedCommand& c)
 {
+    PROFILER_EVENT;
     m_command_queue_lock.lock();
     *m_command_queue << c;
     m_command_queue_lock.unlock();
@@ -1249,6 +1333,7 @@ void sad::p2d::World::addCommand(const sad::p2d::World::QueuedCommand& c)
 
 void sad::p2d::World::performQueuedCommands()
 {
+    PROFILER_EVENT;
     m_command_queue_lock.lock();
 
     if (!m_command_queue->empty())
@@ -1358,6 +1443,7 @@ void sad::p2d::World::performQueuedCommands()
 
 void sad::p2d::World::addBodyNow(sad::p2d::Body* b)
 {
+    PROFILER_EVENT;
     if (!b)
     {
         return;
@@ -1372,6 +1458,7 @@ void sad::p2d::World::addBodyNow(sad::p2d::Body* b)
 
 void sad::p2d::World::removeBodyNow(sad::p2d::Body* b)
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
     setIsLockedFlag(true);
 
@@ -1391,6 +1478,7 @@ void sad::p2d::World::removeBodyNow(sad::p2d::Body* b)
 
 void sad::p2d::World::clearBodiesNow()
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
     setIsLockedFlag(true);
 
@@ -1403,6 +1491,7 @@ void sad::p2d::World::clearBodiesNow()
 
 void sad::p2d::World::addBodyToGroupNow(const sad::String& group_name, sad::p2d::Body* o)
 {
+    PROFILER_EVENT;
     if (!o)
     {
         return;
@@ -1431,6 +1520,7 @@ void sad::p2d::World::addBodyToGroupNow(const sad::String& group_name, sad::p2d:
 
 void sad::p2d::World::removeBodyFromGroupNow(const sad::String& group_name, sad::p2d::Body* o)
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
     setIsLockedFlag(true);
 
@@ -1451,6 +1541,7 @@ void sad::p2d::World::removeBodyFromGroupNow(const sad::String& group_name, sad:
 
 void sad::p2d::World::addGroupNow(const sad::String& group_name)
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
     setIsLockedFlag(true);
 
@@ -1462,6 +1553,7 @@ void sad::p2d::World::addGroupNow(const sad::String& group_name)
 
 void sad::p2d::World::removeGroupNow(const sad::String& group_name)
 {
+    PROFILER_EVENT;
     clearGroupNow(group_name);
 
     m_world_lock.lock();
@@ -1480,6 +1572,7 @@ void sad::p2d::World::removeGroupNow(const sad::String& group_name)
 
 void sad::p2d::World::clearGroupNow(const sad::String& group_name)
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
     setIsLockedFlag(true);
     
@@ -1513,6 +1606,7 @@ void sad::p2d::World::clearGroupNow(const sad::String& group_name)
 
 void sad::p2d::World::clearGroupsNow()
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
     setIsLockedFlag(true);
 
@@ -1530,6 +1624,7 @@ void sad::p2d::World::addHandlerNow(
     sad::p2d::BasicCollisionHandler* h
 )
 {
+    PROFILER_EVENT;
     addGroupNow(group_name_1);
     addGroupNow(group_name_2);
 
@@ -1551,6 +1646,7 @@ void sad::p2d::World::removeHandlerFromGroupsNow(
     sad::p2d::BasicCollisionHandler* h
 )
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
     setIsLockedFlag(true);
 
@@ -1568,6 +1664,7 @@ void sad::p2d::World::removeHandlerFromGroupsNow(
 
 void sad::p2d::World::removeHandlerNow(sad::p2d::BasicCollisionHandler* h)
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
     setIsLockedFlag(true);
 
@@ -1579,6 +1676,7 @@ void sad::p2d::World::removeHandlerNow(sad::p2d::BasicCollisionHandler* h)
 
 void sad::p2d::World::clearHandlersNow()
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
     setIsLockedFlag(true);
 
@@ -1590,6 +1688,7 @@ void sad::p2d::World::clearHandlersNow()
 
 void sad::p2d::World::clearHandlersForGroupsNow(const sad::String& first_group, const sad::String& second_group)
 {
+    PROFILER_EVENT;
     m_world_lock.lock();
     setIsLockedFlag(true);
 
@@ -1608,12 +1707,14 @@ void sad::p2d::World::clearHandlersForGroupsNow(const sad::String& first_group, 
 
 void sad::p2d::World::clearNow()
 {
+    PROFILER_EVENT;
     // Does all - clears both groups and all other stuff
     clearGroupsNow();
 }
 
 void sad::p2d::World::stepNow(double time)
 {
+    PROFILER_EVENT;
     performQueuedCommands();
 
     m_world_lock.lock();
@@ -1640,6 +1741,7 @@ void sad::p2d::World::stepNow(double time)
 
 void sad::p2d::World::findEvents(sad::p2d::World::EventsWithCallbacks& ewc)
 {
+    PROFILER_EVENT;
     for (size_t i = 0; i < m_global_handler_list.List.size(); i++)
     {
         sad::p2d::World::HandlerList& lst = m_global_handler_list.List[i];
@@ -1651,6 +1753,7 @@ void sad::p2d::World::findEvents(sad::p2d::World::EventsWithCallbacks& ewc)
 }
 void sad::p2d::World::findEvent(sad::p2d::World::EventsWithCallbacks& ewc, sad::p2d::World::HandlerList& lst)
 {
+    PROFILER_EVENT;
     double step = this->timeStep();
     size_t group_index_1 = lst.TypeIndex1;
     size_t group_index_2 = lst.TypeIndex2;

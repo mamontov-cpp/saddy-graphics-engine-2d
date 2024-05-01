@@ -8,6 +8,7 @@
 #include <os/ubo.h>
 
 #ifdef WIN32
+#include "opticksupport.h"
 // ReSharper disable once CppUnusedIncludeDirective
 #include <windows.h>
 #endif
@@ -24,6 +25,7 @@ DECLARE_SOBJ(sad::Camera)
 sad::Camera::Camera() 
 : m_transform_is_cached(false), m_are_matrices_uploaded(false), m_projection_matrix{0}, m_model_view_matrix{0}, m_translation_offset(0,0,0), m_angle(0), m_temporary_rotation_offset(0, 0, 0), m_rotation_vector_direction(0, 0, 0), m_scene(nullptr)
 {
+    PROFILER_EVENT;
     m_projection_matrix[0] = 1.0f;
     m_projection_matrix[4] = 0;
     m_projection_matrix[8] = 0;
@@ -47,6 +49,7 @@ sad::Camera::Camera()
 
 void sad::Camera::setScene(sad::Scene* s)
 {
+    PROFILER_EVENT;
     m_scene = s;
     m_transform_is_cached = false;
     m_are_matrices_uploaded = false;
@@ -54,11 +57,13 @@ void sad::Camera::setScene(sad::Scene* s)
 
 sad::Scene* sad::Camera::scene() const
 {
+    PROFILER_EVENT;
     return m_scene;
 }
 
 void sad::Camera::setTranslationOffset(const sad::Vector3D& v)
 {
+    PROFILER_EVENT;
     m_translation_offset = v;
     m_transform_is_cached = false;
     m_are_matrices_uploaded = false;
@@ -66,11 +71,13 @@ void sad::Camera::setTranslationOffset(const sad::Vector3D& v)
 
 const sad::Vector3D& sad::Camera::translationOffset() const
 {
+    PROFILER_EVENT;
     return m_translation_offset;
 }
 
 void sad::Camera::setRotationVectorDirection(const sad::Vector3D& v)
 {
+    PROFILER_EVENT;
     m_rotation_vector_direction = v;
     m_transform_is_cached = false;
     m_are_matrices_uploaded = false;
@@ -79,11 +86,13 @@ void sad::Camera::setRotationVectorDirection(const sad::Vector3D& v)
 
 const sad::Vector3D& sad::Camera::rotationVectorDirection() const
 {
+    PROFILER_EVENT;
     return m_rotation_vector_direction;
 }
 
 void sad::Camera::setAngle(double angle)
 {
+    PROFILER_EVENT;
     m_angle = angle;
     m_transform_is_cached = false;
     m_are_matrices_uploaded = false;
@@ -91,11 +100,13 @@ void sad::Camera::setAngle(double angle)
 
 double sad::Camera::angle() const
 {
+    PROFILER_EVENT;
     return m_angle;
 }
 
 void sad::Camera::setTemporaryRotationOffset(const sad::Vector3D& o)
 {
+    PROFILER_EVENT;
     m_temporary_rotation_offset = o;
     m_transform_is_cached = false;
     m_are_matrices_uploaded = false;
@@ -103,12 +114,14 @@ void sad::Camera::setTemporaryRotationOffset(const sad::Vector3D& o)
 
 const sad::Vector3D& sad::Camera::temporaryRotationOffset() const
 {
+    PROFILER_EVENT;
     return m_temporary_rotation_offset;
 }
 
 
 void sad::Camera::apply()
 {
+    PROFILER_EVENT;
     sad::Renderer* renderer = sad::Renderer::ref();
     if (m_scene)
     {
@@ -164,6 +177,7 @@ void sad::Camera::apply()
 
 void sad::Camera::moveMatricesIntoCameraBuffer()
 {
+    PROFILER_EVENT;
     sad::Renderer* renderer = sad::Renderer::ref();
     sad::Scene* scene = m_scene;
     if (scene)
@@ -191,6 +205,7 @@ void sad::Camera::moveMatricesIntoCameraBuffer()
 
 void sad::Camera::forceRecomputeMatrices()
 {
+    PROFILER_EVENT;
     sad::Vector3D vector3 = m_translation_offset;
     sad::Scene* scene = m_scene;
     if (scene)
@@ -233,12 +248,14 @@ void sad::Camera::forceRecomputeMatrices()
 
 void sad::Camera::clearTransformCache()
 {
+    PROFILER_EVENT;
     m_transform_is_cached = false;
     m_are_matrices_uploaded = false;
 }
 
 void sad::Camera::restore()
 {
+    PROFILER_EVENT;
     sad::Renderer* renderer = sad::Renderer::ref();
     if (m_scene)
     {
@@ -256,11 +273,13 @@ void sad::Camera::restore()
 
 float* sad::Camera::projectionMatrix()
 {
+    PROFILER_EVENT;
     return &(this->m_projection_matrix[0]);
 }
 
 float* sad::Camera::modelViewMatrix()
 {
+    PROFILER_EVENT;
     if (!this->m_transform_is_cached)
     {
          sad::Scene* localScene = scene();

@@ -4,15 +4,18 @@
 #include "db/dbtypename.h"
 
 #include "renderer.h"
+#include "opticksupport.h"
 
 
 sad::db::Table::Table() : m_max_minor_id(1), m_database(nullptr)
 {
+    PROFILER_EVENT;
     
 }
 
 sad::db::Table::~Table() 
 {
+    PROFILER_EVENT;
     for(sad::Hash<unsigned long long, sad::db::Object*>::iterator it = m_objects_by_minorid.begin(); 
         it != m_objects_by_minorid.end();
         ++it)
@@ -29,6 +32,7 @@ sad::db::Table::~Table()
 
 void sad::db::Table::add(sad::db::Object* a)
 {
+    PROFILER_EVENT;
     LOG_TABLE_ADD_PRINTF("sad::db::Table::add::1\n");
     assert(a);
     LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2\n");
@@ -148,6 +152,7 @@ void sad::db::Table::add(sad::db::Object* a)
 
 void sad::db::Table::remove(sad::db::Object* a)
 {
+    PROFILER_EVENT;
     if (a)
     {
         if (a->objectName().size() != 0)
@@ -181,6 +186,7 @@ void sad::db::Table::remove(sad::db::Object* a)
 
 sad::db::Object* sad::db::Table::queryById(unsigned long long major_id, unsigned long long minor_id)
 {
+    PROFILER_EVENT;
     sad::db::Object* result = nullptr;
     if (m_objects_by_majorid.contains(major_id) && m_objects_by_minorid.contains(minor_id))
     {
@@ -196,6 +202,7 @@ sad::db::Object* sad::db::Table::queryById(unsigned long long major_id, unsigned
 
 sad::db::Object* sad::db::Table::queryByMinorId(unsigned long long minor_id)
 {
+    PROFILER_EVENT;
     sad::db::Object* result = nullptr;
     if (m_objects_by_minorid.contains(minor_id))
     {
@@ -206,6 +213,7 @@ sad::db::Object* sad::db::Table::queryByMinorId(unsigned long long minor_id)
 
 sad::Vector<sad::db::Object*> sad::db::Table::queryByName(const sad::String& name)
 {
+    PROFILER_EVENT;
     sad::Vector<sad::db::Object*> result;
     if (m_object_by_name.contains(name))
     {
@@ -216,6 +224,7 @@ sad::Vector<sad::db::Object*> sad::db::Table::queryByName(const sad::String& nam
 
 sad::db::Object* sad::db::Table::objectByName(const sad::String& name)
 {
+    PROFILER_EVENT;
     sad::Vector<sad::db::Object*> objects = this->queryByName(name);
     if (objects.size())
     {
@@ -226,6 +235,7 @@ sad::db::Object* sad::db::Table::objectByName(const sad::String& name)
 
 sad::db::Object* sad::db::Table::queryByMajorId(unsigned long long major_id)
 {
+    PROFILER_EVENT;
     sad::db::Object* result = nullptr;
     if (m_objects_by_majorid.contains(major_id))
     {
@@ -241,6 +251,7 @@ bool sad::db::Table::load(
     const sad::String& tree_name
 )
 {
+    PROFILER_EVENT;
     if (renderer == nullptr)
     {
         renderer = sad::Renderer::ref();
@@ -295,6 +306,7 @@ bool sad::db::Table::load(
 
 void sad::db::Table::save(picojson::value & v)
 {
+    PROFILER_EVENT;
     if (v.is<picojson::array>() == false)
     {
         v = picojson::value(picojson::array_type, false);
@@ -315,17 +327,20 @@ void sad::db::Table::save(picojson::value & v)
 
 sad::db::Database* sad::db::Table::database() const
 {
+    PROFILER_EVENT;
     return m_database;
 }
 
 void sad::db::Table::setDatabase(sad::db::Database* d)
 {
+    PROFILER_EVENT;
     m_database = d;
 }
 
 
 void sad::db::Table::objects(sad::Vector<sad::db::Object*> & o)
 {
+    PROFILER_EVENT;
     for(sad::Hash<unsigned long long, sad::db::Object*>::iterator it = m_objects_by_minorid.begin(); 
         it != m_objects_by_minorid.end();
         ++it)
@@ -336,6 +351,7 @@ void sad::db::Table::objects(sad::Vector<sad::db::Object*> & o)
 
 sad::Vector<sad::db::Object*> sad::db::Table::objectList()
 {
+    PROFILER_EVENT;
     sad::Vector<sad::db::Object*> result;
     for(sad::Hash<unsigned long long, sad::db::Object*>::iterator it = m_objects_by_minorid.begin(); 
         it != m_objects_by_minorid.end();
@@ -348,6 +364,7 @@ sad::Vector<sad::db::Object*> sad::db::Table::objectList()
 
 sad::Vector<sad::db::Object*>  sad::db::Table::objectListOfType(const sad::String& s)
 {
+    PROFILER_EVENT;
     sad::Vector<sad::db::Object*> result;
     for(sad::Hash<unsigned long long, sad::db::Object*>::iterator it = m_objects_by_minorid.begin(); 
         it != m_objects_by_minorid.end();
@@ -367,6 +384,7 @@ void sad::db::Table::changeObjectName(
         const sad::String & name
     )
 {
+    PROFILER_EVENT;
     // Check, whether we own object
     if (o->table() != this)
     {
@@ -398,6 +416,7 @@ void sad::db::Table::changeObjectName(
 
 void sad::db::Table::clear()
 {
+    PROFILER_EVENT;
     for(sad::Hash<unsigned long long, sad::db::Object*>::iterator it = m_objects_by_minorid.begin(); 
         it != m_objects_by_minorid.end();
         ++it)
@@ -411,6 +430,7 @@ void sad::db::Table::clear()
 
 bool sad::db::Table::empty() const
 {
+    PROFILER_EVENT;
     return m_objects_by_majorid.empty();
 }
 

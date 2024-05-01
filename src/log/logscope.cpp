@@ -1,5 +1,6 @@
 #include <log/logscope.h>
 #include <log/log.h>
+#include "opticksupport.h"
 
 
 sad::log::Scope::Scope(
@@ -11,6 +12,7 @@ sad::log::Scope::Scope(
 )
 : m_saddy_internal(saddy_internal)
 {
+    PROFILER_EVENT;
     if (log == nullptr)
     {
         m_log = sad::log::Log::ref();
@@ -33,6 +35,7 @@ sad::log::Scope::Scope(
 )
 : m_saddy_internal(saddy_internal)
 {
+    PROFILER_EVENT;
     if (log == nullptr)
     {
         m_log = sad::log::Log::ref();
@@ -55,6 +58,7 @@ sad::log::Scope::Scope(
 )
 :m_saddy_internal(saddy_internal)
 {
+    PROFILER_EVENT;
     if (log == nullptr)
     {
         m_log = sad::log::Log::ref();
@@ -77,6 +81,7 @@ sad::log::Scope::Scope(
 )
 :m_saddy_internal(saddy_internal)
 {
+    PROFILER_EVENT;
     if (log == nullptr)
     {
         m_log = sad::log::Log::ref();
@@ -95,6 +100,7 @@ sad::log::Scope::Scope(
 
 sad::log::Scope::~Scope()
 {
+    PROFILER_EVENT;
     if (m_saddy_internal) m_log->setInternalMode(true);
     m_log->popSubsystem();
     if (m_saddy_internal) m_log->setInternalMode(false);

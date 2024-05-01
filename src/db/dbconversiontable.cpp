@@ -18,14 +18,17 @@
 #include "sprite3d.h"
 
 #include <string>
+#include "opticksupport.h"
 
 sad::db::AbstractTypeConverter::~AbstractTypeConverter()
 {
+    PROFILER_EVENT;
     
 }
 
 sad::db::ConversionTable::ConversionTable()
 {
+    PROFILER_EVENT;
     declareImplicit<char, signed char>();
     declareImplicit<signed char, char>();
 
@@ -133,6 +136,7 @@ sad::db::ConversionTable::ConversionTable()
 
 sad::db::ConversionTable::~ConversionTable()
 {
+    PROFILER_EVENT;
     sad::Hash<sad::String, sad::Hash<sad::String, sad::db::AbstractTypeConverter*> >::iterator it = m_converters.begin();
     for(; it != m_converters.end(); ++it)
     {
@@ -152,6 +156,7 @@ void sad::db::ConversionTable::add(
     sad::db::AbstractTypeConverter * c
 )
 {
+    PROFILER_EVENT;
     m_converters_lock.lock();
     sad::Hash<sad::String, sad::db::AbstractTypeConverter*> * h = nullptr;
     if (m_converters.contains(from) == false)
@@ -172,6 +177,7 @@ sad::db::AbstractTypeConverter *   sad::db::ConversionTable::converter(
         const sad::String & to
 )
 {
+    PROFILER_EVENT;
     m_converters_lock.lock();
     sad::db::AbstractTypeConverter * result = nullptr;
     if (m_converters.contains(from))
@@ -190,6 +196,7 @@ static sad::Mutex sad_db_conversion_table_lock;
 
 sad::db::ConversionTable * sad::db::ConversionTable::ref()
 {
+    PROFILER_EVENT;
     if (sad::db::ConversionTable::m_instance == nullptr)
     {
         sad_db_conversion_table_lock.lock();
@@ -206,6 +213,7 @@ sad::db::ConversionTable * sad::db::ConversionTable::ref()
 
 void sad::db::ConversionTable::freeInstance()
 {
+    PROFILER_EVENT;
     delete sad::db::ConversionTable::m_instance;
 }
 

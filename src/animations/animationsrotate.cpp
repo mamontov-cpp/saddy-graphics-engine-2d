@@ -27,6 +27,7 @@
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
+#include "opticksupport.h"
 
 
 
@@ -36,11 +37,13 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Rotate, sad::animations::Animation);
 
 sad::animations::Rotate::Rotate() : m_min_angle(0), m_max_angle(0)
 {
+    PROFILER_EVENT;
     m_creators.pushProperty<double>("angle", "angle");
 }
 
 sad::animations::Rotate::~Rotate()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -50,6 +53,7 @@ static sad::Mutex AnimationRotateSchemaLock;
 
 sad::db::schema::Schema* sad::animations::Rotate::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationRotateSchema == nullptr)
     {
         AnimationRotateSchemaLock.lock();
@@ -81,11 +85,13 @@ sad::db::schema::Schema* sad::animations::Rotate::basicSchema()
 
 sad::db::schema::Schema* sad::animations::Rotate::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::Rotate::basicSchema();
 }
 
 bool sad::animations::Rotate::loadFromValue(const picojson::value& v)
 {
+    PROFILER_EVENT;
     bool flag = this->sad::animations::Animation::loadFromValue(v);
     if (flag)
     {
@@ -110,21 +116,25 @@ bool sad::animations::Rotate::loadFromValue(const picojson::value& v)
 
 void sad::animations::Rotate::setMinAngle(double angle)
 {
+    PROFILER_EVENT;
     m_min_angle = angle;
 }
 
 double sad::animations::Rotate::minAngle() const
 {
+    PROFILER_EVENT;
     return m_min_angle;
 }
 
 void sad::animations::Rotate::setMaxAngle(double angle)
 {
+    PROFILER_EVENT;
     m_max_angle = angle;
 }
 
 double sad::animations::Rotate::maxAngle() const
 {
+    PROFILER_EVENT;
     return m_max_angle;
 }
 
@@ -139,6 +149,7 @@ void sad::animations::Rotate::setState(sad::animations::Instance* i, double time
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::Rotate::stateCommand(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     if (this->applicableTo(o))
     {
         sad::animations::setstate::AbstractSetStateCommand* c;
@@ -180,6 +191,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::Rotate::sta
 
 bool sad::animations::Rotate::applicableTo(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (o && m_valid)
     {

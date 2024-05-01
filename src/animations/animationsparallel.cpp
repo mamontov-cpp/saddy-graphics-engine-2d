@@ -8,6 +8,7 @@
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
+#include "opticksupport.h"
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::Parallel, sad::animations::Composite);
 
@@ -16,16 +17,19 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Parallel, sad::animations::Composite);
 
 sad::animations::Parallel::Parallel()
 {
+    PROFILER_EVENT;
 
 }
 
 sad::animations::Parallel::~Parallel()
 {
+    PROFILER_EVENT;
 
 }
 
 void sad::animations::Parallel::setState(sad::animations::Instance* i, double time)
 {
+    PROFILER_EVENT;
     // Composite functions ignore some easing settings, because we do not want 
     // to have jumps between several animations at the same time
     if (m_commands.contains(i->object()))
@@ -46,6 +50,7 @@ void sad::animations::Parallel::setState(sad::animations::Instance* i, double ti
 
 void sad::animations::Parallel::setTime(double time)
 {
+    PROFILER_EVENT;
     this->sad::animations::Animation::setTime(time);
     for(size_t ii = 0; ii < m_links.size(); ii++)
     {

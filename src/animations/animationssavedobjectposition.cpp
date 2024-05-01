@@ -9,11 +9,13 @@
 
 #include "p2d/body.h"
 #include "p2d/collisionshape.h"
+#include "opticksupport.h"
 
 sad::animations::SavedObjectPosition::SavedObjectPosition(sad::db::Object* o) 
 : sad::animations::SavedObjectState(o),
 m_body(nullptr)
 {
+    PROFILER_EVENT;
     sad::Rect2D old_area = o->getProperty<sad::Rect2D>("area").value();
     m_old_center = (old_area[0] + old_area[2]) / 2.0;
 }
@@ -22,6 +24,7 @@ m_body(nullptr)
 
 sad::animations::SavedObjectPosition::~SavedObjectPosition() 
 {
+    PROFILER_EVENT;
     if (m_body)
     {
         m_body->delRef();
@@ -30,6 +33,7 @@ sad::animations::SavedObjectPosition::~SavedObjectPosition()
 
 void sad::animations::SavedObjectPosition::restore()
 {
+    PROFILER_EVENT;
     sad::Rect2D area =  m_object->getProperty<sad::Rect2D>("area").value();
     const sad::Point2D center = (area[0] + area[2]) / 2.0;
 
@@ -45,6 +49,7 @@ void sad::animations::SavedObjectPosition::restore()
 
 void sad::animations::SavedObjectPosition::storeBodyState(sad::p2d::Body* b)
 {
+    PROFILER_EVENT;
     if (m_body)
     {
         m_body->delRef();

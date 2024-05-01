@@ -7,23 +7,27 @@
 #endif
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include "opticksupport.h"
 
 DECLARE_SOBJ_INHERITANCE(sad::OrthographicCamera, sad::Camera)
 
 sad::OrthographicCamera::OrthographicCamera()
 : m_fetched(false), m_width(1), m_height(1)
 {
+    PROFILER_EVENT;
 
 }
 
 sad::OrthographicCamera::OrthographicCamera(int width, int height)
 : m_fetched(true), m_width(width), m_height(height)
 {
+    PROFILER_EVENT;
     fillProjectionMatrix();
 }
 
 void sad::OrthographicCamera::apply()
 {
+    PROFILER_EVENT;
     if (!m_fetched)
     {
         m_fetched = true;
@@ -56,11 +60,13 @@ void sad::OrthographicCamera::apply()
 
 sad::OrthographicCamera::~OrthographicCamera()
 {
+    PROFILER_EVENT;
 }
 
 
 void sad::OrthographicCamera::fillProjectionMatrix()
 {
+    PROFILER_EVENT;
     float left = 0, right = static_cast<float>(m_width), bottom = 0, top = static_cast<float>(m_height), znear = -1, zfar = 1;
 
     float tx = -1, ty = -1, tz = (zfar + znear) / (zfar - znear);

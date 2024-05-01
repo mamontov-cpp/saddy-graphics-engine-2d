@@ -2,10 +2,12 @@
 #include <os/consoleimpl.h>
 #include <3rdparty/format/format.h>
 #include <db/dbtypename.h>
+#include "opticksupport.h"
 
 sad::log::ConsoleTarget::ConsoleTarget(const sad::String & format, int min_priority,  bool colored , bool allocate_console )
 : m_console(new sad::os::ConsoleImpl())
 {
+    PROFILER_EVENT;
     m_format = format;
     m_min_priority = min_priority;
     if (colored)    this->createColoredOutput(); 
@@ -16,6 +18,7 @@ sad::log::ConsoleTarget::ConsoleTarget(const sad::String & format, int min_prior
 
 void sad::log::ConsoleTarget::receive(const sad::log::Message & message)
 {
+    PROFILER_EVENT;
     if (((int)message.priority()) < m_min_priority)
         return;
     std::string mesg = str(fmt::Format(m_format) 
@@ -31,11 +34,13 @@ void sad::log::ConsoleTarget::receive(const sad::log::Message & message)
 
 void sad::log::ConsoleTarget::setColorForPriorityAndColoredOutput(sad::log::Priority p, sad::log::Color c)
 {
+    PROFILER_EVENT;
     m_coloring[p].set2(c);
 }
 
 sad::log::ConsoleTarget::~ConsoleTarget()
 {
+    PROFILER_EVENT;
     m_console->clearColorMode();
     delete m_console;
 }
@@ -43,6 +48,7 @@ sad::log::ConsoleTarget::~ConsoleTarget()
 
 std::string sad::log::ConsoleTarget::formatSubsystem(const sad::log::Message & message)
 {
+    PROFILER_EVENT;
     if (message.subsystem().length() == 0)
         return "";
     std::string result = message.subsystem().data();
@@ -52,6 +58,7 @@ std::string sad::log::ConsoleTarget::formatSubsystem(const sad::log::Message & m
 
 std::string sad::log::ConsoleTarget::formatFileLine(const sad::log::Message & message)
 {
+    PROFILER_EVENT;
     if (message.fileline().length() == 0)
         return "";
     std::string result = "[";
@@ -62,6 +69,7 @@ std::string sad::log::ConsoleTarget::formatFileLine(const sad::log::Message & me
 
 void sad::log::ConsoleTarget::createColoredOutput()
 {
+    PROFILER_EVENT;
     m_coloring.insert(sad::log::Priority::FATAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::LIGHT_RED));
     m_coloring.insert(sad::log::Priority::CRITICAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::LIGHT_MAGENTA));
     m_coloring.insert(sad::log::Priority::WARNING, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::LIGHT_YELLOW));
@@ -74,6 +82,7 @@ void sad::log::ConsoleTarget::createColoredOutput()
 
 void sad::log::ConsoleTarget::createNormalOutput()
 {
+    PROFILER_EVENT;
     m_coloring.insert(sad::log::Priority::FATAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::NONE));
     m_coloring.insert(sad::log::Priority::CRITICAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::NONE));
     m_coloring.insert(sad::log::Priority::WARNING, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::NONE));

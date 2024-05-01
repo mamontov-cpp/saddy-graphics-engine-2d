@@ -12,19 +12,23 @@
 #include "sprite2d.h"
 
 #include <cassert>
+#include "opticksupport.h"
 
 sad::resource::Creator::~Creator()
 {
+    PROFILER_EVENT;
 
 }
 
 sad::resource::FileCreator::~FileCreator()
 {
+    PROFILER_EVENT;
 
 }
 
 sad::resource::Factory::Factory()
 {
+    PROFILER_EVENT;
     add(sad::Texture::globalMetaData()->name(), new resource::CreatorFor<sad::Texture>());
     add(sad::TextureMappedFont::globalMetaData()->name(), 
         new resource::CreatorFor<sad::TextureMappedFont>());
@@ -36,11 +40,13 @@ sad::resource::Factory::Factory()
 
 sad::resource::Factory::~Factory()
 {
+    PROFILER_EVENT;
     delete m_factory;
 }
 
 void sad::resource::Factory::add(const sad::String & name, resource::Creator * c)
 {
+    PROFILER_EVENT;
     if (c)
     {
         if (m_creators.contains(name))
@@ -53,6 +59,7 @@ void sad::resource::Factory::add(const sad::String & name, resource::Creator * c
 
 sad::resource::Resource* sad::resource::Factory::create(const sad::String& name)
 {
+    PROFILER_EVENT;
     sad::resource::Resource* result = nullptr;
     if (m_creators.contains(name))
     {
@@ -64,6 +71,7 @@ sad::resource::Resource* sad::resource::Factory::create(const sad::String& name)
 
 sad::resource::ResourceFile * sad::resource::Factory::fileByType(const sad::String & type_hint)
 {
+    PROFILER_EVENT;
     if (type_hint == "sad::resource::TextureAtlasFile")
     {
         return new sad::resource::TextureAtlasFile();
@@ -93,6 +101,7 @@ sad::resource::ResourceFile * sad::resource::Factory::fileByType(const sad::Stri
 
 void sad::resource::Factory::setStoredPropertyFactory(sad::db::StoredPropertyFactory * factory)
 {
+    PROFILER_EVENT;
     assert(m_factory);
     delete m_factory;
     m_factory = factory;
@@ -100,6 +109,6 @@ void sad::resource::Factory::setStoredPropertyFactory(sad::db::StoredPropertyFac
 
 sad::db::StoredPropertyFactory* sad::resource::Factory::storedPropertyFactory() const
 {
+    PROFILER_EVENT;
     return m_factory;
 }
-

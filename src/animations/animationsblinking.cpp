@@ -29,6 +29,7 @@
 #include "sadmutex.h"
 
 #include <fstream>
+#include "opticksupport.h"
 
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::Blinking, sad::animations::Animation);
@@ -37,11 +38,13 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Blinking, sad::animations::Animation);
 
 sad::animations::Blinking::Blinking() : m_frequency(1)
 {
+    PROFILER_EVENT;
     m_creators.pushProperty<bool>("visible", "visible");
 }
 
 sad::animations::Blinking::~Blinking()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -52,6 +55,7 @@ static sad::Mutex AnimationsBlinkingSchemaInit;
 
 sad::db::schema::Schema* sad::animations::Blinking::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationBlinkingSchema == nullptr)
     {
         AnimationsBlinkingSchemaInit.lock();
@@ -76,12 +80,14 @@ sad::db::schema::Schema* sad::animations::Blinking::basicSchema()
 
 sad::db::schema::Schema* sad::animations::Blinking::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::Blinking::basicSchema();
 }
 
 
 bool sad::animations::Blinking::loadFromValue(const picojson::value& v)
 {
+    PROFILER_EVENT;
     bool flag = this->sad::animations::Animation::loadFromValue(v);
     if (flag)
     {
@@ -102,6 +108,7 @@ bool sad::animations::Blinking::loadFromValue(const picojson::value& v)
 
 void sad::animations::Blinking::setFrequency(unsigned int freq)
 {
+    PROFILER_EVENT;
     m_frequency = freq;
     m_inner_valid = m_frequency != 0;
     this->updateValidFlag();
@@ -109,6 +116,7 @@ void sad::animations::Blinking::setFrequency(unsigned int freq)
 
 unsigned int sad::animations::Blinking::frequency() const
 {
+    PROFILER_EVENT;
     return m_frequency;
 }
 
@@ -124,6 +132,7 @@ void sad::animations::Blinking::setState(sad::animations::Instance* i, double ti
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::Blinking::stateCommand(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     if (this->applicableTo(o))
     {
         sad::animations::setstate::AbstractSetStateCommand* c;
@@ -145,6 +154,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::Blinking::s
 
 bool sad::animations::Blinking::applicableTo(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (o && m_valid)
     {

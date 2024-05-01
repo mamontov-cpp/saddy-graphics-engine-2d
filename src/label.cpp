@@ -20,6 +20,7 @@
 #endif
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include "opticksupport.h"
 
 DECLARE_SOBJ_INHERITANCE(sad::Label,sad::SceneNode)
 
@@ -46,6 +47,7 @@ m_geometries(new sad::os::GLFontGeometries()),
 m_geometries_dirty(true),
 m_line_shader_function(nullptr)
 {
+    PROFILER_EVENT;
     m_geometries->addRef();
 }
 
@@ -72,6 +74,7 @@ m_geometries(new sad::os::GLFontGeometries()),
 m_geometries_dirty(true),
 m_line_shader_function(nullptr)
 {
+    PROFILER_EVENT;
     m_geometries->addRef();
     m_font.attach(font);
     recomputeRenderedString();
@@ -101,6 +104,7 @@ m_geometries(new sad::os::GLFontGeometries()),
 m_geometries_dirty(true),
 m_line_shader_function(nullptr)
 {
+    PROFILER_EVENT;
     m_geometries->addRef();
     m_font.setTree(nullptr, tree);
     m_font.setPath(font);
@@ -109,6 +113,7 @@ m_line_shader_function(nullptr)
 
 void sad::Label::setTreeName(sad::Renderer* r, const sad::String& tree_name)
 {
+    PROFILER_EVENT;
     m_font.setTree(r, tree_name);
     m_font_cache.setTree(r, tree_name);
     m_geometries_dirty = true;
@@ -116,6 +121,7 @@ void sad::Label::setTreeName(sad::Renderer* r, const sad::String& tree_name)
 
 void sad::Label::regions(sad::Vector<sad::Rect2D> & r)
 {
+    PROFILER_EVENT;
     r << m_cached_region;
 }
 
@@ -125,6 +131,7 @@ static sad::Mutex LabelBasicSchemaInit;
 
 sad::db::schema::Schema* sad::Label::basicSchema()
 {
+    PROFILER_EVENT;
     if (LabelBasicSchema == nullptr)
     {
         LabelBasicSchemaInit.lock();
@@ -250,11 +257,13 @@ sad::db::schema::Schema* sad::Label::basicSchema()
 
 sad::db::schema::Schema* sad::Label::schema() const
 {
+    PROFILER_EVENT;
     return sad::Label::basicSchema();
 }
 
 void sad::Label::render()
 {
+    PROFILER_EVENT;
     sad::ScopedLock recompute_string_lock(&m_recompute_string_lock);
     sad::ScopedLock recompute_point_lock(&m_recompute_point_lock);
 
@@ -353,6 +362,7 @@ void sad::Label::render()
 
 void sad::Label::rendererChanged()
 {
+    PROFILER_EVENT;
     sad::Renderer* new_renderer = this->renderer();
     if (m_font.dependsOnRenderer())
     {
@@ -372,12 +382,14 @@ void sad::Label::rendererChanged()
 
 void sad::Label::setArea(const sad::Rect2D & r)
 {
+    PROFILER_EVENT;
     m_point = r[0];
     recomputeRenderingPoint();
 }
 
 sad::Rect2D sad::Label::area() const
 {
+    PROFILER_EVENT;
     // Preserve linkage to a renderer
     if (m_computed_rendering_point == false)
     {
@@ -399,6 +411,7 @@ sad::Rect2D sad::Label::area() const
 
 sad::Rect2D sad::Label::region() const
 {
+    PROFILER_EVENT;
     sad::Rect2D result = this->area();
     sad::rotate(result, static_cast<float>(m_angle));
     return result;
@@ -408,12 +421,14 @@ sad::Rect2D sad::Label::region() const
 
 sad::Label::~Label()
 {
+    PROFILER_EVENT;
     clearFontsCache();
     m_geometries->delRef();
 }
 
 void sad::Label::setScene(sad::Scene * scene)
 {
+    PROFILER_EVENT;
     this->sad::SceneNode::setScene(scene);
     if (m_font.dependsOnRenderer() && scene)
     {
@@ -436,6 +451,7 @@ void sad::Label::setScene(sad::Scene * scene)
 
 bool sad::Label::canBeRotated() const
 {
+    PROFILER_EVENT;
     return true;
 }
 
@@ -446,18 +462,21 @@ void sad::Label::rotate(double angle)
 
 void sad::Label::setPoint(const sad::Point2D & point)
 {
+    PROFILER_EVENT;
     m_point = point;
     recomputeRenderingPoint();
 }
 
 void sad::Label::setAngle(double angle)
 {
+    PROFILER_EVENT;
     m_angle = angle;
     m_cached_region = this->region();
 }
 
 void sad::Label::setFontName(const sad::String & name)
 {
+    PROFILER_EVENT;
     m_font.setPath(name);
     reloadFont();
     m_geometries_dirty = true;
@@ -465,6 +484,7 @@ void sad::Label::setFontName(const sad::String & name)
 
 void sad::Label::setFont(sad::Font * font)
 {
+    PROFILER_EVENT;
     m_font.attach(font);
     recomputeRenderedString();
     m_geometries_dirty = true;
@@ -472,6 +492,7 @@ void sad::Label::setFont(sad::Font * font)
 
 void sad::Label::setFont(const sad::String & name, sad::Renderer * r, const sad::String & tree)
 {
+    PROFILER_EVENT;
     if (!r)
         r = sad::Renderer::ref();
     m_font.setPath(name);
@@ -482,6 +503,7 @@ void sad::Label::setFont(const sad::String & name, sad::Renderer * r, const sad:
 
 void sad::Label::setString(const sad::String & string)
 {
+    PROFILER_EVENT;
     m_string = string;
     m_geometries_dirty = true;
     recomputeRenderedString();
@@ -489,6 +511,7 @@ void sad::Label::setString(const sad::String & string)
 
 void sad::Label::setSize(unsigned int size)
 {
+    PROFILER_EVENT;
     m_size = size;
     m_geometries_dirty = true;
     recomputeRenderedString();
@@ -496,6 +519,7 @@ void sad::Label::setSize(unsigned int size)
 
 float sad::Label::builtinLineSpacing() const
 {
+    PROFILER_EVENT;
     // 0.1f is placed to avoid division by zero
     sad::Font * font = m_font.get();
     if (!font)
@@ -506,11 +530,13 @@ float sad::Label::builtinLineSpacing() const
 
 void sad::Label::setLineSpacing(float spacing)
 {
+    PROFILER_EVENT;
     setLineSpacingRatio(spacing / this->builtinLineSpacing());
 }
 
 void sad::Label::setLineSpacingRatio(float ratio)
 {
+    PROFILER_EVENT;
     m_linespacing_ratio = ratio;
     m_geometries_dirty = true;
     recomputeRenderedString();
@@ -518,6 +544,7 @@ void sad::Label::setLineSpacingRatio(float ratio)
 
 void sad::Label::setTreeName(const sad::String & tree_name)
 {
+    PROFILER_EVENT;
     m_font.setTree(m_font.renderer(), tree_name);
     m_font_cache.setTree(m_font.renderer(), tree_name);
     m_geometries_dirty = true;
@@ -526,6 +553,7 @@ void sad::Label::setTreeName(const sad::String & tree_name)
 
 void sad::Label::setMaximalLineWidth(unsigned int width)
 {
+    PROFILER_EVENT;
     m_maximal_line_width = width;
     m_geometries_dirty = true;
     recomputeRenderedString();
@@ -533,11 +561,13 @@ void sad::Label::setMaximalLineWidth(unsigned int width)
 
 unsigned int sad::Label::maximalLineWidth() const
 {
+    PROFILER_EVENT;
     return m_maximal_line_width;
 }
 
 void sad::Label::setOverflowStrategy(sad::Label::OverflowStrategy s)
 {
+    PROFILER_EVENT;
     m_overflow_strategy = s;
     m_geometries_dirty = true;
     recomputeRenderedString();
@@ -545,6 +575,7 @@ void sad::Label::setOverflowStrategy(sad::Label::OverflowStrategy s)
 
 void sad::Label::setOverflowStrategyFromIndex(unsigned int s)
 {
+    PROFILER_EVENT;
 	if (s > static_cast<unsigned int>(sad::Label::OverflowStrategy::LOS_ELLIPSIS))
     {
         s = static_cast<unsigned int>(sad::Label::OverflowStrategy::LOS_ELLIPSIS);
@@ -554,16 +585,19 @@ void sad::Label::setOverflowStrategyFromIndex(unsigned int s)
 
 sad::Label::OverflowStrategy sad::Label::overflowStrategy() const
 {
+    PROFILER_EVENT;
     return m_overflow_strategy;
 }
 
 unsigned int sad::Label::overflowStrategyAsIndex() const
 {
+    PROFILER_EVENT;
     return static_cast<unsigned int>(overflowStrategy());
 }
 
 void sad::Label::setBreakText(sad::Label::BreakText value)
 {
+    PROFILER_EVENT;
     m_break_text = value;
     m_geometries_dirty = true;
     recomputeRenderedString();
@@ -572,6 +606,7 @@ void sad::Label::setBreakText(sad::Label::BreakText value)
 
 void sad::Label::setBreakTextFromIndex(unsigned int value)
 {
+    PROFILER_EVENT;
     if (value > static_cast<unsigned int>(sad::Label::BreakText::LBT_BREAK_WORD))
     {
         value = static_cast<unsigned int>(sad::Label::BreakText::LBT_BREAK_WORD);
@@ -581,16 +616,19 @@ void sad::Label::setBreakTextFromIndex(unsigned int value)
 
 sad::Label::BreakText sad::Label::breakText() const
 {
+    PROFILER_EVENT;
     return m_break_text;
 }
 
 unsigned int sad::Label::breakTextAsIndex() const
 {
+    PROFILER_EVENT;
     return static_cast<unsigned int>(breakText());
 }
 
 void sad::Label::setTextEllipsisPosition(sad::Label::TextEllipsisPosition value)
 {
+    PROFILER_EVENT;
     m_text_ellipsis_position = value;
     m_geometries_dirty = true;
     recomputeRenderedString();
@@ -598,6 +636,7 @@ void sad::Label::setTextEllipsisPosition(sad::Label::TextEllipsisPosition value)
 
 void sad::Label::setTextEllipsisPositionAsIndex(unsigned int value)
 {
+    PROFILER_EVENT;
     if (value > static_cast<unsigned int>(sad::Label::TextEllipsisPosition::LTEP_END))
     {
         value = static_cast<unsigned int>(sad::Label::TextEllipsisPosition::LTEP_END);
@@ -608,16 +647,19 @@ void sad::Label::setTextEllipsisPositionAsIndex(unsigned int value)
 
 sad::Label::TextEllipsisPosition sad::Label::textEllipsis() const
 {
+    PROFILER_EVENT;
     return m_text_ellipsis_position;
 }
 
 unsigned int sad::Label::textEllipsisAsIndex() const
 {
+    PROFILER_EVENT;
     return static_cast<unsigned int>(textEllipsis());
 }
 
 void sad::Label::setMaximalLinesCount(unsigned int line_count)
 {
+    PROFILER_EVENT;
     m_maximum_lines = line_count;
     m_geometries_dirty = true;
     recomputeRenderedString();
@@ -625,11 +667,13 @@ void sad::Label::setMaximalLinesCount(unsigned int line_count)
 
 unsigned int sad::Label::maximalLinesCount() const
 {
+    PROFILER_EVENT;
     return m_maximum_lines;
 }
 
 void sad::Label::setOverflowStrategyForLines(sad::Label::OverflowStrategy s)
 {
+    PROFILER_EVENT;
     m_overflow_strategy_for_lines = s;
     m_geometries_dirty = true;
     recomputeRenderedString();
@@ -637,6 +681,7 @@ void sad::Label::setOverflowStrategyForLines(sad::Label::OverflowStrategy s)
 
 void sad::Label::setOverflowStrategyForLinesFromIndex(unsigned int s)
 {
+    PROFILER_EVENT;
     if (s > static_cast<unsigned int>(sad::Label::OverflowStrategy::LOS_ELLIPSIS))
     {
         s = static_cast<unsigned int>(sad::Label::OverflowStrategy::LOS_ELLIPSIS);
@@ -647,16 +692,19 @@ void sad::Label::setOverflowStrategyForLinesFromIndex(unsigned int s)
 
 sad::Label::OverflowStrategy sad::Label::overflowStrategyForLines() const
 {
+    PROFILER_EVENT;
     return m_overflow_strategy_for_lines;
 }
 
 unsigned int sad::Label::overflowStrategyForLinesAsIndex() const
 {
+    PROFILER_EVENT;
     return static_cast<unsigned int>(overflowStrategyForLines());
 }
 
 void sad::Label::setTextEllipsisPositionForLines(sad::Label::TextEllipsisPosition value)
 {
+    PROFILER_EVENT;
     m_text_ellipsis_position_for_lines = value;
     m_geometries_dirty = true;
     recomputeRenderedString();
@@ -664,6 +712,7 @@ void sad::Label::setTextEllipsisPositionForLines(sad::Label::TextEllipsisPositio
 
 void sad::Label::setTextEllipsisPositionForLinesAsIndex(unsigned int value)
 {
+    PROFILER_EVENT;
     if (value > static_cast<unsigned int>(sad::Label::TextEllipsisPosition::LTEP_END))
     {
         value = static_cast<unsigned int>(sad::Label::TextEllipsisPosition::LTEP_END);
@@ -674,21 +723,25 @@ void sad::Label::setTextEllipsisPositionForLinesAsIndex(unsigned int value)
 
 sad::Label::TextEllipsisPosition sad::Label::textEllipsisForLines() const
 {
+    PROFILER_EVENT;
     return m_text_ellipsis_position_for_lines;
 }
 
 unsigned int sad::Label::textEllipsisForLinesAsIndex() const
 {
+    PROFILER_EVENT;
     return static_cast<unsigned int>(textEllipsisForLines());
 }
 
 bool sad::Label::hasFormatting() const
 {
+    PROFILER_EVENT;
     return m_formatted;
 }
 
 void sad::Label::setHasFormatting(bool value)
 {
+    PROFILER_EVENT;
     m_formatted = value;
     m_geometries_dirty = true;
     recomputeRenderedString();
@@ -696,11 +749,13 @@ void sad::Label::setHasFormatting(bool value)
 
 void sad::Label::makeFormatted()
 {
+    PROFILER_EVENT;
     setHasFormatting(true);
 }
 
 void sad::Label::disableFormatting()
 {
+    PROFILER_EVENT;
     setHasFormatting(false);
 }
 
@@ -709,6 +764,7 @@ void sad::Label::makeSpanBetweenPoints(
     const sad::Point2D & p2
 )
 {
+    PROFILER_EVENT;
     sad::Font * font = m_font.get();
     if (font) {
         sad::Size2D  size = font->size(m_rendered_string);
@@ -739,6 +795,7 @@ sad::String sad::Label::makeRenderingString(
     sad::Label::TextEllipsisPosition text_ellipsis_for_lines
 )
 {
+    PROFILER_EVENT;
     sad::String result;
     if (maximal_line_width == 0 && maximum_lines == 0)
     {
@@ -895,6 +952,7 @@ sad::util::Markup::Document sad::Label::makeRenderingString(
     sad::Label::TextEllipsisPosition text_ellipsis_for_lines
 )
 {
+    PROFILER_EVENT;
     if (maximal_line_width == 0 && maximum_lines == 0)
     {
         return string;
@@ -1032,6 +1090,7 @@ sad::util::Markup::Document sad::Label::makeRenderingString(
 
 size_t sad::Label::length(const sad::Vector<sad::util::Markup::Command>& c)
 {
+    PROFILER_EVENT;
     size_t length = 0;
     for (size_t i = 0; i < c.size(); i++)
     {
@@ -1042,6 +1101,7 @@ size_t sad::Label::length(const sad::Vector<sad::util::Markup::Command>& c)
 
 sad::Vector<sad::util::Markup::Command> sad::Label::breakIntoWords(const sad::Vector<sad::util::Markup::Command>& v)
 {
+    PROFILER_EVENT;
     sad::Vector<sad::util::Markup::Command> result;
     for (size_t i = 0; i < v.size(); i++)
     {
@@ -1084,6 +1144,7 @@ sad::String sad::Label::formatTextLine(
     sad::Label::TextEllipsisPosition tep
 )
 {
+    PROFILER_EVENT;
     sad::String result = string;
     if (string.length() > maximal_line_width && s != sad::Label::OverflowStrategy::LOS_VISIBLE && maximal_line_width != 0)
     {
@@ -1163,6 +1224,7 @@ sad::Vector<sad::util::Markup::Command> sad::Label::formatTextLine(
     sad::Label::TextEllipsisPosition tep
 )
 {
+    PROFILER_EVENT;
     sad::Vector<sad::util::Markup::Command> result = string;
     size_t length = sad::Label::length(string);
     if (length > maximal_line_width && s != sad::Label::OverflowStrategy::LOS_VISIBLE && maximal_line_width != 0)
@@ -1288,6 +1350,7 @@ sad::Vector<sad::util::Markup::Command> sad::Label::formatTextLine(
 
 sad::util::Markup::Command sad::Label::firstCommand(const sad::util::Markup::Document& doc)
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < doc.size(); i++)
     {
         if (doc[i].size())
@@ -1300,6 +1363,7 @@ sad::util::Markup::Command sad::Label::firstCommand(const sad::util::Markup::Doc
 
 sad::util::Markup::Command sad::Label::lastCommand(const sad::util::Markup::Document& doc)
 {
+    PROFILER_EVENT;
     for(int i = doc.size() - 1; i > -1; i--)
     {
         if (doc[i].size())
@@ -1312,6 +1376,7 @@ sad::util::Markup::Command sad::Label::lastCommand(const sad::util::Markup::Docu
 
 bool sad::Label::consistsOfWhitespaceCharacters(const sad::Vector<sad::util::Markup::Command>& row)
 {
+    PROFILER_EVENT;
     bool result = false;
     for(size_t i = 0; i < row.size(); i++)
     {
@@ -1322,6 +1387,7 @@ bool sad::Label::consistsOfWhitespaceCharacters(const sad::Vector<sad::util::Mar
 
 void sad::Label::trim(sad::Vector<sad::util::Markup::Command>& row, bool left, bool right)
 {
+    PROFILER_EVENT;
     if (row.size())
     {
         if (left) 
@@ -1337,6 +1403,7 @@ void sad::Label::trim(sad::Vector<sad::util::Markup::Command>& row, bool left, b
 
 sad::Vector<sad::util::Markup::Command> sad::Label::subString(const sad::Vector<sad::util::Markup::Command>& row, int begin, int length)
 {
+    PROFILER_EVENT;
     sad::Vector<sad::util::Markup::Command> result;
     int index = 0;
     int first_index = begin;
@@ -1380,33 +1447,39 @@ sad::Vector<sad::util::Markup::Command> sad::Label::subString(const sad::Vector<
 
 void sad::Label::moveBy(const sad::Point2D& p)
 {
+    PROFILER_EVENT;
     setPoint(point() + p);
 }
 
 unsigned int sad::Label::renderedStringLength() const
 {
+    PROFILER_EVENT;
     return m_rendered_chars;
 }
 
 
 void sad::Label::setRenderingStringLimit(unsigned int limit)
 {
+    PROFILER_EVENT;
     m_geometries_dirty = true;
     m_rendering_character_limit.setValue(limit);
 }
 
 void sad::Label::clearRenderingStringLimit()
 {
+    PROFILER_EVENT;
     m_rendering_character_limit.clear();
 }
 
 void sad::Label::setRenderingStringLimitAsRatioToLength(double limit)
 {
+    PROFILER_EVENT;
     this->setRenderingStringLimit(static_cast<unsigned int>(limit * this->renderedStringLength()));
 }
 
 void sad::Label::onRemovedFromScene()
 {
+    PROFILER_EVENT;
     sad::Renderer* r = m_geometries->renderer();
     if (!r)  r = this->renderer();
     if (r)
@@ -1419,6 +1492,7 @@ void sad::Label::onRemovedFromScene()
 
 void sad::Label::setShaderFunction(sad::ShaderFunction* fun)
 {
+    PROFILER_EVENT;
     if (fun)
     {
         assert(fun->canBeUsedForFonts());
@@ -1428,6 +1502,7 @@ void sad::Label::setShaderFunction(sad::ShaderFunction* fun)
 
 void sad::Label::setLineShaderFunction(sad::FontShaderFunction* fun)
 {
+    PROFILER_EVENT;
     if (m_line_shader_function)
     {
         m_line_shader_function->delRef();
@@ -1441,11 +1516,13 @@ void sad::Label::setLineShaderFunction(sad::FontShaderFunction* fun)
 
 sad::FontShaderFunction* sad::Label::lineShaderFunction() const
 {
+    PROFILER_EVENT;
     return m_line_shader_function;
 }
 
 void sad::Label::reloadFont()
 {
+    PROFILER_EVENT;
     sad::Font * font = m_font.get();
     if (font)
     {
@@ -1456,6 +1533,7 @@ void sad::Label::reloadFont()
 
 void sad::Label::recomputeRenderingPoint(bool lock)
 {
+    PROFILER_EVENT;
     if (lock)
     {
         m_recompute_point_lock.lock();
@@ -1483,11 +1561,13 @@ void sad::Label::recomputeRenderingPoint(bool lock)
 
 sad::Size2D sad::Label::getSizeWithoutFormatting(sad::Font* font)
 {
+    PROFILER_EVENT;
     return font->size(m_rendered_string);   
 }
 
 sad::Size2D sad::Label::getSizeWithFormatting(sad::Font* font)
 {
+    PROFILER_EVENT;
     sad::Size2D result(0, 0);
     m_document_metrics.clear();
     sad::Vector<float> rowmaxs;
@@ -1545,6 +1625,7 @@ sad::Size2D sad::Label::getSizeWithFormatting(sad::Font* font)
 
 void sad::Label::recomputeRenderedString(bool lock)
 {
+    PROFILER_EVENT;
     if (lock)
     {
         m_recompute_string_lock.lock();
@@ -1594,6 +1675,7 @@ void sad::Label::recomputeRenderedString(bool lock)
 
 void sad::Label::recomputeRenderingStringWithoutFormatting()
 {
+    PROFILER_EVENT;
     m_rendered_string = sad::Label::makeRenderingString(
         m_string,
         m_maximal_line_width,
@@ -1617,6 +1699,7 @@ void sad::Label::recomputeRenderingStringWithoutFormatting()
 
 void sad::Label::recomputeRenderingStringWithFormatting()
 {
+    PROFILER_EVENT;
     m_document = sad::util::Markup::parseDocument(m_string, sad::util::Markup::Command());
     m_document = sad::Label::makeRenderingString(
         m_document,
@@ -1641,11 +1724,13 @@ void sad::Label::recomputeRenderingStringWithFormatting()
 
 void sad::Label::clearFontsCache()
 {
+    PROFILER_EVENT;
     m_font_cache.clear();
 }
 
 sad::Pair<sad::Font*, int> sad::Label::applyFontCommand(sad::Font* font, const sad::util::Markup::Command& c)
 {
+    PROFILER_EVENT;
     sad::Font* fnt = font;
     int flags = 0;
     // Apply font
@@ -1701,11 +1786,13 @@ sad::Pair<sad::Font*, int> sad::Label::applyFontCommand(sad::Font* font, const s
 
 sad::Font* sad::Label::getFontForDocument(const sad::String& s)
 {
+    PROFILER_EVENT;
     return m_font_cache.get(s, m_font);
 }
 
 void sad::Label::renderWithoutFormatting(sad::Font* font)
 {
+    PROFILER_EVENT;
     if (m_rendering_character_limit.exists())
     {
         int length = 0;
@@ -1737,6 +1824,7 @@ void sad::Label::renderWithoutFormatting(sad::Font* font)
 
 void sad::Label::buildGeometriesWithoutFormatting(sad::Font* font)
 {
+    PROFILER_EVENT;
     sad::Font::GeometryRenderData geometry_render_data;
     geometry_render_data.Renderer = this->renderer();
     geometry_render_data.Color = m_color;
@@ -1773,6 +1861,7 @@ void sad::Label::buildGeometriesWithoutFormatting(sad::Font* font)
 
 void sad::Label::renderWithFormatting(sad::Font* font)
 {
+    PROFILER_EVENT;
     assert(m_document.size() == m_document_metrics.size());
     sad::Point2D point = m_half_padding;
     sad::Renderer* renderer = this->renderer();
@@ -1871,6 +1960,7 @@ void sad::Label::renderWithFormatting(sad::Font* font)
 
 void sad::Label::buildGeometriesWithFormatting(sad::Font* font)
 {
+    PROFILER_EVENT;
     assert(m_document.size() == m_document_metrics.size());
 
     sad::Point2D point = m_half_padding;

@@ -4,6 +4,7 @@
 #include <fstream>
 
 #include "util/fs.h"
+#include "opticksupport.h"
 
 bool sad::spit(
     const sad::String& fileName, 
@@ -11,6 +12,7 @@ bool sad::spit(
     sad::Renderer* renderer
 )
 {
+    PROFILER_EVENT;
     if (!renderer)
     {
         renderer  = sad::Renderer::ref();

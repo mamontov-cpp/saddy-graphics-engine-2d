@@ -1,6 +1,7 @@
 #include "resource/error.h"
 #include "3rdparty/format/format.h"
 #include "resource/resourcefile.h"
+#include "opticksupport.h"
 
 DECLARE_SOBJ(sad::resource::Error);
 DECLARE_SOBJ_INHERITANCE(sad::resource::FileLoadError, sad::resource::Error);
@@ -56,6 +57,7 @@ sad::String sad::resource::format(
     const sad::String & separator
 )
 {
+    PROFILER_EVENT;
     sad::Vector<sad::String> list;
     for(size_t i = 0; i < errors.size(); i++)
     {
@@ -67,6 +69,7 @@ sad::String sad::resource::format(
 
 sad::Maybe<sad::String> sad::resource::errorsToString(const sad::Vector<sad::resource::Error *>& errors)
 {
+    PROFILER_EVENT;
     if (!errors.empty())
     {
 	    const sad::String result = sad::resource::format(errors);

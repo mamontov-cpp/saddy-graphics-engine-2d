@@ -1,9 +1,11 @@
 #include "slurpjson.h"
 
 #include "3rdparty/picojson/picojson.h"
+#include "opticksupport.h"
 
 sad::Maybe<picojson::value> sad::slurpJson(const sad::String fileName, sad::Renderer* renderer)
 {
+    PROFILER_EVENT;
     sad::Maybe<sad::String> maybetext = sad::slurp(fileName, renderer);
     sad::Maybe<picojson::value> result;
     if (maybetext.exists())

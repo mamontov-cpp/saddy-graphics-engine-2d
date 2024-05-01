@@ -1,9 +1,11 @@
 #include "p2d/collisiontest.h"
 #include "p2d/collides1d.h"
 #include "fuzzyequal.h"
+#include "opticksupport.h"
 
 void sad::p2d::CollisionTest::init()
 {
+    PROFILER_EVENT;
     this->sad::p2d::CollisionMultiMethod<bool>::init();
     add(sad::p2d::CollisionTest::collidesRtoR);
     add(sad::p2d::CollisionTest::collidesRtoC);
@@ -25,6 +27,7 @@ static inline bool fast_collide(
                                 int  size
                                 )
 {
+    PROFILER_EVENT;
     sad::p2d::Axle axle;
     bool collides = true;
     for(size_t i = 0; i < 4 && collides;i++)
@@ -233,6 +236,7 @@ static void (*r_to_r_callbacks[4])(sad::p2d::CollisionShape *, sad::p2d::Collisi
 
 bool sad::p2d::CollisionTest::collidesRtoR(sad::p2d::Rectangle * p1, sad::p2d::Rectangle * p2)
 {
+    PROFILER_EVENT;
     return fast_collide(p1, p2, r_to_r_callbacks, 4);
 }
 
@@ -248,6 +252,7 @@ static void (*r_to_c_callbacks[6])(sad::p2d::CollisionShape *,sad::p2d::Collisio
 
 bool sad::p2d::CollisionTest::collidesRtoC(sad::p2d::Rectangle * p1, sad::p2d::Circle * p2)
 {
+    PROFILER_EVENT;
     return fast_collide(p1, p2, r_to_c_callbacks, 6);
 }
 
@@ -261,11 +266,13 @@ static void (*r_to_l_callbacks[4])(sad::p2d::CollisionShape *, sad::p2d::Collisi
 
 bool sad::p2d::CollisionTest::collidesRtoL(sad::p2d::Rectangle * p1, sad::p2d::Line * p2)
 {
+    PROFILER_EVENT;
     return fast_collide(p1, p2, r_to_l_callbacks, 4);
 }
 
 bool sad::p2d::CollisionTest::collidesCtoC(sad::p2d::Circle * p1, sad::p2d::Circle * p2)
 {
+    PROFILER_EVENT;
     // A small optimization, since distance runs slow
     double dist2 = p1->radius() + p2->radius();
     if ( fabs(p1->centerRef().x() - p2->centerRef().x()) > dist2)
@@ -295,6 +302,7 @@ static void (*c_to_l_callbacks[6])(sad::p2d::CollisionShape *, sad::p2d::Collisi
 
 bool sad::p2d::CollisionTest::collidesCtoL(sad::p2d::Circle * p1, sad::p2d::Line * p2)
 {
+    PROFILER_EVENT;
     return fast_collide(p1, p2, c_to_l_callbacks, 6);
 }
 
@@ -308,12 +316,14 @@ static void (*l_to_l_callbacks[4])(sad::p2d::CollisionShape *, sad::p2d::Collisi
 };
 bool sad::p2d::CollisionTest::collidesLtoL(sad::p2d::Line * p1, sad::p2d::Line * p2)
 {
+    PROFILER_EVENT;
     return fast_collide(p1, p2, l_to_l_callbacks, 4);
 }
 
 
 bool sad::p2d::CollisionTest::collidesBtoB(sad::p2d::Bound * p1, sad::p2d::Bound * p2)
 {
+    PROFILER_EVENT;
     sad::p2d::BoundType bt1 = p1->type();
     sad::p2d::BoundType bt2 = p2->type();
     if (p1->isOrthogonal(p2) || bt1 == bt2)
@@ -337,11 +347,13 @@ bool sad::p2d::CollisionTest::collidesBtoB(sad::p2d::Bound * p1, sad::p2d::Bound
 
 bool sad::p2d::CollisionTest::collidesBtoR(sad::p2d::Bound * p1, sad::p2d::Rectangle * p2)
 {
+    PROFILER_EVENT;
     return sad::p2d::CollisionTest::collidesBtoS(p1, p2);
 }
 
 bool sad::p2d::CollisionTest::collidesBtoC(sad::p2d::Bound * p1, sad::p2d::Circle * p2)
 {
+    PROFILER_EVENT;
     if (p1->type() == sad::p2d::BoundType::BT_LEFT)
     {
         double p = p2->center().x() - p2->radius();
@@ -367,11 +379,13 @@ bool sad::p2d::CollisionTest::collidesBtoC(sad::p2d::Bound * p1, sad::p2d::Circl
 
 bool sad::p2d::CollisionTest::collidesBtoL(sad::p2d::Bound * p1, sad::p2d::Line * p2)
 {
+    PROFILER_EVENT;
     return sad::p2d::CollisionTest::collidesBtoS(p1, p2);
 }
 
 bool sad::p2d::CollisionTest::collidesBtoS(sad::p2d::Bound * p1, sad::p2d::CollisionShape * p2)
 {
+    PROFILER_EVENT;
     if (p1->type() == sad::p2d::BoundType::BT_LEFT)
     {
         sad::p2d::Vector v(1, 0);
@@ -398,4 +412,3 @@ bool sad::p2d::CollisionTest::collidesBtoS(sad::p2d::Bound * p1, sad::p2d::Colli
     }
     return false;
 }
-

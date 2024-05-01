@@ -22,6 +22,7 @@
 #include "db/load.h"
 #include "db/dbfield.h"
 #include "db/dbmethodpair.h"
+#include "opticksupport.h"
 
 
 DECLARE_SOBJ_INHERITANCE(sad::Sprite2D::Options, sad::resource::Resource);
@@ -32,6 +33,7 @@ bool sad::Sprite2D::Options::load(
     const picojson::value& options
 )
 {
+    PROFILER_EVENT;
     std::ifstream stream(file.name().c_str());
     if (stream.bad())
     {
@@ -53,6 +55,7 @@ bool sad::Sprite2D::Options::load(
 
 bool sad::Sprite2D::Options::load(const picojson::value& v)
 {
+    PROFILER_EVENT;
     sad::Maybe<sad::String> texture = picojson::to_type<sad::String>(
                 picojson::get_property(v, "texture")
     );
@@ -94,6 +97,7 @@ m_geometry_dirty(true),
 m_tc_dirty(true),
 m_vertexes_dirty(true)
 {
+    PROFILER_EVENT;
     m_options.add(this, &sad::Sprite2D::onOptionsChange);
     m_texture.add(this, &sad::Sprite2D::onTextureChange);
 
@@ -122,6 +126,7 @@ m_geometry_dirty(true),
 m_tc_dirty(true),
 m_vertexes_dirty(true)
 {
+    PROFILER_EVENT;
     m_texture.attach(texture);
     normalizeTextureCoordinates();
     if (fast)
@@ -162,6 +167,7 @@ m_geometry_dirty(true),
 m_tc_dirty(true),
 m_vertexes_dirty(true)
 {
+    PROFILER_EVENT;
     m_texture.setTree(nullptr, treename);
     m_texture.setPath(texture);
     normalizeTextureCoordinates();
@@ -183,11 +189,13 @@ m_vertexes_dirty(true)
 
 sad::Sprite2D::~Sprite2D()
 {
+    PROFILER_EVENT;
 
 }
 
 void sad::Sprite2D::regions(sad::Vector<sad::Rect2D> & r)
 {
+    PROFILER_EVENT;
     r << this->renderableArea();
 }
 
@@ -197,6 +205,7 @@ static sad::Mutex Sprite2DBasicSchemaInit;
 
 sad::db::schema::Schema* sad::Sprite2D::basicSchema()
 {
+    PROFILER_EVENT;
     if (Sprite2DBasicSchema == nullptr)
     {
         Sprite2DBasicSchemaInit.lock();
@@ -265,11 +274,13 @@ sad::db::schema::Schema* sad::Sprite2D::basicSchema()
 
 sad::db::schema::Schema* sad::Sprite2D::schema() const
 {
+    PROFILER_EVENT;
     return sad::Sprite2D::basicSchema();
 }
 
 void sad::Sprite2D::render()
 {
+    PROFILER_EVENT;
     sad::Scene* scene = this->scene();
     if (!scene)
     {
@@ -374,6 +385,7 @@ void sad::Sprite2D::render()
 
 void sad::Sprite2D::resetTextureAndOptions()
 {
+    PROFILER_EVENT;
     m_texture.detach();
     m_options.detach();
     m_tc_dirty = true;
@@ -382,6 +394,7 @@ void sad::Sprite2D::resetTextureAndOptions()
 
 void sad::Sprite2D::rendererChanged()
 {
+    PROFILER_EVENT;
     sad::Renderer* new_renderer = this->renderer();
     if (m_options.dependsOnRenderer())
     {
@@ -398,6 +411,7 @@ void sad::Sprite2D::rendererChanged()
 
 void sad::Sprite2D::setTextureCoordinates(const sad::Rect2D & texturecoordinates)
 {
+    PROFILER_EVENT;
     m_texture_coordinates = texturecoordinates;
     normalizeTextureCoordinates();
     m_tc_dirty = true;
@@ -405,6 +419,7 @@ void sad::Sprite2D::setTextureCoordinates(const sad::Rect2D & texturecoordinates
 
 void sad::Sprite2D::setTextureCoordinate(int index, const sad::Point2D & point)
 {
+    PROFILER_EVENT;
     sad::Texture * tex = m_texture.get();
     m_texture_coordinates[index] = point;
     // Try  to immediately convert point to normalized if needed
@@ -444,17 +459,20 @@ void sad::Sprite2D::setTextureCoordinate(int index, const sad::Point2D & point)
 
 void sad::Sprite2D::setTextureCoordinate(int index, double x ,double y)
 {
+    PROFILER_EVENT;
     this->setTextureCoordinate(index, sad::Point2D(x, y));
     m_tc_dirty = true;
 }
 
 const sad::Rect2D & sad::Sprite2D::textureCoordinates() const
 {
+    PROFILER_EVENT;
     return m_texture_coordinates;
 }
 
 void sad::Sprite2D::setRenderableArea(const sad::Rect2D & rect)
 {
+    PROFILER_EVENT;
     m_vertexes_dirty = true;
     initFromRectangle(rect);
     buildRenderableArea();
@@ -462,6 +480,7 @@ void sad::Sprite2D::setRenderableArea(const sad::Rect2D & rect)
 
 sad::Rect2D sad::Sprite2D::area() const
 {
+    PROFILER_EVENT;
     sad::Rect2D result(
         m_middle + sad::Point2D(m_size.Width / -2,  m_size.Height / -2),
         m_middle + sad::Point2D(m_size.Width /  2,  m_size.Height / -2),
@@ -473,6 +492,7 @@ sad::Rect2D sad::Sprite2D::area() const
 
 void sad::Sprite2D::setArea(const sad::Rect2D & a)
 {
+    PROFILER_EVENT;
     m_middle = a[0];
     m_middle += a[2];
     m_middle /= 2.0;
@@ -486,6 +506,7 @@ void sad::Sprite2D::setArea(const sad::Rect2D & a)
 
 void sad::Sprite2D::forceInvalidGeometry(const sad::Rect2D& quad)
 {
+    PROFILER_EVENT;
     m_middle = quad.p0();
     m_middle += quad.p1();
     m_middle += quad.p2();
@@ -503,21 +524,25 @@ void sad::Sprite2D::forceInvalidGeometry(const sad::Rect2D& quad)
 
 const sad::Rect2D & sad::Sprite2D::renderableArea() const
 {
+    PROFILER_EVENT;
     return m_renderable_area;
 }
 
 const sad::Point2D & sad::Sprite2D::point(int n) const
 {
+    PROFILER_EVENT;
     return m_renderable_area[n];
 }
 
 const sad::Point2D & sad::Sprite2D::middle() const
 {
+    PROFILER_EVENT;
     return m_middle;
 }
 
 void sad::Sprite2D::setMiddle(const sad::Point2D & p)
 {
+    PROFILER_EVENT;
     m_middle = p;
     m_vertexes_dirty = true;
     buildRenderableArea();
@@ -525,11 +550,13 @@ void sad::Sprite2D::setMiddle(const sad::Point2D & p)
 
 const sad::Size2D &  sad::Sprite2D::size() const
 {
+    PROFILER_EVENT;
     return m_size;	
 }
 
 void sad::Sprite2D::setSize(const sad::Size2D & size, bool reg)
 {
+    PROFILER_EVENT;
     m_size = size;
     m_vertexes_dirty = true;
     buildRenderableArea();
@@ -537,6 +564,7 @@ void sad::Sprite2D::setSize(const sad::Size2D & size, bool reg)
 
 void sad::Sprite2D::moveBy(const sad::Point2D & dist)
 {
+    PROFILER_EVENT;
     m_middle += dist;
     m_vertexes_dirty = true;
     for (int i=0;i<4;i++)
@@ -547,6 +575,7 @@ void sad::Sprite2D::moveBy(const sad::Point2D & dist)
 
 void sad::Sprite2D::moveTo(const sad::Point2D & p)
 {
+    PROFILER_EVENT;
     m_vertexes_dirty = true;
     sad::Point2D  dist = p;
     dist -= middle();
@@ -555,11 +584,13 @@ void sad::Sprite2D::moveTo(const sad::Point2D & p)
 
 bool  sad::Sprite2D::canBeRotated() const
 {
+    PROFILER_EVENT;
     return true;
 }
 
 void sad::Sprite2D::rotate(double angle)
 {
+    PROFILER_EVENT;
     m_vertexes_dirty = true;
     m_angle += angle;
     buildRenderableArea();
@@ -567,6 +598,7 @@ void sad::Sprite2D::rotate(double angle)
 
 void sad::Sprite2D::setAngle(double angle)
 {
+    PROFILER_EVENT;
     m_vertexes_dirty = true;
     m_angle = angle;
     buildRenderableArea();
@@ -574,21 +606,25 @@ void sad::Sprite2D::setAngle(double angle)
 
 double sad::Sprite2D::angle() const
 {
+    PROFILER_EVENT;
     return m_angle;
 }
 
 void sad::Sprite2D::setColor(const sad::AColor & clr) 
 {
+    PROFILER_EVENT;
     m_color = clr;
 }
 
 const sad::AColor & sad::Sprite2D::color() const
 {
+    PROFILER_EVENT;
     return m_color;
 }
 
 void sad::Sprite2D::setFlipX(bool flipx)
 {
+    PROFILER_EVENT;
     m_tc_dirty = true;
     bool changed = m_flipx != flipx;
     m_flipx = flipx;
@@ -600,6 +636,7 @@ void sad::Sprite2D::setFlipX(bool flipx)
 
 void sad::Sprite2D::setFlipY(bool flipy)
 {
+    PROFILER_EVENT;
     m_tc_dirty = true;
     bool changed = m_flipy != flipy;
     m_flipy = flipy;
@@ -611,16 +648,19 @@ void sad::Sprite2D::setFlipY(bool flipy)
 
 bool sad::Sprite2D::flipX() const
 {
+    PROFILER_EVENT;
     return m_flipx;
 }
 
 bool sad::Sprite2D::flipY() const
 {
+    PROFILER_EVENT;
     return m_flipy;
 }
 
 void sad::Sprite2D::setTexture(sad::Texture * texture)
 {
+    PROFILER_EVENT;
     m_texture.attach(texture);
 
     tryReturnGeometry();
@@ -628,11 +668,13 @@ void sad::Sprite2D::setTexture(sad::Texture * texture)
 
 sad::Texture * sad::Sprite2D::texture() const
 {
+    PROFILER_EVENT;
     return m_texture.get();
 }
 
 void sad::Sprite2D::setTexureName(const sad::String & name)
 {
+    PROFILER_EVENT;
     m_texture.setPath(name);
     reloadTexture();
     tryReturnGeometry();
@@ -640,6 +682,7 @@ void sad::Sprite2D::setTexureName(const sad::String & name)
 
 const sad::String& sad::Sprite2D::textureName()
 {
+    PROFILER_EVENT;
     return m_texture.path();
 }
 
@@ -647,6 +690,7 @@ const sad::String& sad::Sprite2D::textureName()
 
 void sad::Sprite2D::set(const sad::Sprite2D::Options & o)
 {
+    PROFILER_EVENT;
     if (!m_loading)
     {
         m_explicit_set = true;
@@ -662,6 +706,7 @@ void sad::Sprite2D::set(const sad::Sprite2D::Options & o)
 
 void sad::Sprite2D::set(const sad::String & optionsname)
 {
+    PROFILER_EVENT;
     bool was_textured = m_was_textured;
 
     m_explicit_set = true;
@@ -702,16 +747,19 @@ void sad::Sprite2D::set(const sad::String & optionsname)
 
 sad::Sprite2D::Options* sad::Sprite2D::getOptions() const
 {
+    PROFILER_EVENT;
     return m_options.get();
 }
 
 const sad::String& sad::Sprite2D::optionsName() const
 {
+    PROFILER_EVENT;
     return m_options.path();
 }
 
 void sad::Sprite2D::setTreeName(const sad::String & treename)
 {
+    PROFILER_EVENT;
     m_options.setTree(m_options.renderer(), treename);
     m_texture.setTree(m_texture.renderer(), treename);
     tryReturnGeometry();
@@ -719,6 +767,7 @@ void sad::Sprite2D::setTreeName(const sad::String & treename)
 
 const sad::String & sad::Sprite2D::treeName() const
 {
+    PROFILER_EVENT;
     return m_texture.treeName();
 }
 
@@ -727,12 +776,14 @@ void sad::Sprite2D::makeSpanBetweenPoints(
     const sad::Point2D & p2
 )
 {
+    PROFILER_EVENT;
     sad::Rect2D area = this->area();
     return makeSpanBetweenPoints(area, p1, p2);
 }
 
 void sad::Sprite2D::makeSpanBetweenPoints(const sad::Rect2D & r, const sad::Point2D & p1, const sad::Point2D & p2)
 {
+    PROFILER_EVENT;
     sad::Rect2D kr(r);
     for(int i = 0; i < 4; i++)
         kr[i].setX(0);
@@ -756,6 +807,7 @@ void sad::Sprite2D::makeSpanBetweenPoints(const sad::Rect2D & r, const sad::Poin
 
 void sad::Sprite2D::setScene(sad::Scene * scene)
 {
+    PROFILER_EVENT;
     this->sad::SceneNode::setScene(scene);
     if (scene)
     {
@@ -773,21 +825,25 @@ void sad::Sprite2D::setScene(sad::Scene * scene)
 
 void sad::Sprite2D::setChangeSizeWhenOptionsAreChanged(bool flag)
 {
+    PROFILER_EVENT;
     m_changesizeifoptionssizechanged = flag;
 }
 
 bool sad::Sprite2D::changeSizeWhenOptionsAreChanged() const
 {
+    PROFILER_EVENT;
     return m_changesizeifoptionssizechanged;
 }
 
 void sad::Sprite2D::toggleLoadingMode(bool on)
 {
+    PROFILER_EVENT;
     m_loading = on;
 }
 
 bool sad::Sprite2D::load(const picojson::value& v)
 {
+    PROFILER_EVENT;
     toggleLoadingMode(true);
     bool result =  this->sad::SceneNode::load(v);
     toggleLoadingMode(false);
@@ -796,6 +852,7 @@ bool sad::Sprite2D::load(const picojson::value& v)
 
 void sad::Sprite2D::setTreeName(sad::Renderer* r, const sad::String & tree_name)
 {
+    PROFILER_EVENT;
     m_options.setTree(r, tree_name);
     m_texture.setTree(r, tree_name);
     tryReturnGeometry();
@@ -803,11 +860,13 @@ void sad::Sprite2D::setTreeName(sad::Renderer* r, const sad::String & tree_name)
 
 void sad::Sprite2D::onRemovedFromScene()
 {
+    PROFILER_EVENT;
     tryReturnGeometry();
 }
 
 void sad::Sprite2D::initFromRectangleFast(const sad::Rect2D& rect)
 {
+    PROFILER_EVENT;
     m_angle = 0;
 
     m_middle = rect[0];
@@ -822,6 +881,7 @@ void sad::Sprite2D::initFromRectangleFast(const sad::Rect2D& rect)
 
 void sad::Sprite2D::initFromRectangle(const sad::Rect2D& rect)
 {
+    PROFILER_EVENT;
     bool error = false;
     sad::Rect2D baserect;
     sad::getBaseRect(rect, baserect, m_angle, &error);
@@ -837,28 +897,33 @@ void sad::Sprite2D::initFromRectangle(const sad::Rect2D& rect)
 
 void sad::Sprite2D::buildRenderableArea()
 {
+    PROFILER_EVENT;
     m_renderable_area = this->area();
     sad::rotate(m_renderable_area, (float)m_angle);
 }
 
 void sad::Sprite2D::onTextureChange(sad::Texture * tex)
 {
+    PROFILER_EVENT;
     normalizeTextureCoordinates(tex);
 }
 
 void sad::Sprite2D::reloadTexture()
 {
+    PROFILER_EVENT;
     normalizeTextureCoordinates();
 }
 
 void sad::Sprite2D::normalizeTextureCoordinates()
 {
+    PROFILER_EVENT;
     sad::Texture * tex = m_texture.get();
     normalizeTextureCoordinates(tex);
 }
 
 void sad::Sprite2D::normalizeTextureCoordinates(sad::Texture * tex)
 {
+    PROFILER_EVENT;
     if (tex)
     {
         for(int i = 0; i < 4; i++)
@@ -882,6 +947,7 @@ void sad::Sprite2D::normalizeTextureCoordinates(sad::Texture * tex)
 
 void sad::Sprite2D::tryReturnGeometry()
 {
+    PROFILER_EVENT;
     if (m_old_renderer && !m_geometry_dirty)
     {
         if (m_was_textured)
@@ -906,6 +972,7 @@ void sad::Sprite2D::tryReturnGeometry()
 
 void sad::Sprite2D::onOptionsChange(sad::Sprite2D::Options * opts)
 {
+    PROFILER_EVENT;
     sad::Renderer* r = this->renderer();
     if (r == nullptr)
     {

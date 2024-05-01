@@ -9,6 +9,7 @@
 
 #include "util/free.h"
 #include "util/fs.h"
+#include "opticksupport.h"
 
 // ReSharper disable once CppInconsistentNaming
 #define TAR7Z_SADDY  // NOLINT(clang-diagnostic-unused-macros)
@@ -27,6 +28,7 @@ m_factory(new sad::resource::Factory()),
 m_renderer(r),
 m_store_links(false)
 {
+    PROFILER_EVENT;
     if (r == nullptr)
     {
         m_renderer = sad::Renderer::ref();
@@ -43,6 +45,7 @@ m_store_links(false)
 
 sad::resource::Tree::~Tree()
 {
+    PROFILER_EVENT;
     delete m_root;
     delete m_factory;
     for (size_t i = 0; i < m_archive_list.size(); i++)
@@ -60,6 +63,7 @@ sad::resource::Tree::~Tree()
 
 void sad::resource::Tree::setOnLoad(const std::function<void(size_t)>& on_count, const std::function<void(const sad::String&)>& on_load_started, const std::function<void(const sad::String&)>& on_load_finished)
 {
+    PROFILER_EVENT;
     m_on_count = on_count;
     m_on_load_started = on_load_started;
     m_on_load_finished = on_load_finished;
@@ -67,11 +71,13 @@ void sad::resource::Tree::setOnLoad(const std::function<void(size_t)>& on_count,
 
 void sad::resource::Tree::setOnError(const std::function<void(sad::resource::Error*)>& on_error)
 {
+    PROFILER_EVENT;
     m_on_error = on_error;
 }
 
 sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad::String & string)
 {
+    PROFILER_EVENT;
     m_temporary_root_folder = nullptr;
     sad::Vector<sad::resource::Error*> errors;
     
@@ -174,11 +180,13 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad
 
 sad::Maybe<sad::String> sad::resource::Tree::tryLoadFromString(const sad::String & string)
 {
+    PROFILER_EVENT;
     return sad::resource::errorsToString(this->loadFromString(string));
 }
 
 sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromFile(const sad::String& string)
 {
+    PROFILER_EVENT;
     std::ifstream stream(string.c_str());
     if (sad::util::isAbsolutePath(string))
     {
@@ -222,6 +230,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromFile(const sad::
 
 sad::Maybe<sad::String> sad::resource::Tree::tryLoadFromFile(const sad::String & string)
 {
+    PROFILER_EVENT;
     return sad::resource::errorsToString(this->loadFromFile(string));
 }
 
@@ -232,6 +241,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
         const sad::Maybe<sad::String>& resource_name
 )
 {
+    PROFILER_EVENT;
     return load(
         type_hint, 
         filename, 
@@ -251,6 +261,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
     sad::Vector<sad::resource::ResourceFile *> & files
 )
 {
+    PROFILER_EVENT;
     sad::resource::Folder * temporary = new sad::resource::Folder();
     sad::Vector<sad::resource::Error*> errors;
     
@@ -391,6 +402,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
 
 bool sad::resource::Tree::unload(const sad::String& file)
 {
+    PROFILER_EVENT;
     sad::resource::ResourceFile * f = this->file(file);
     if (f)
     {
@@ -423,6 +435,7 @@ bool sad::resource::Tree::unload(const sad::String& file)
 
 bool sad::resource::Tree::unload(sad::resource::ResourceFile * file)
 {
+    PROFILER_EVENT;
     sad::resource::ResourceFile * f = file;
     if (f)
     {
@@ -455,11 +468,13 @@ bool sad::resource::Tree::unload(sad::resource::ResourceFile * file)
 
 sad::resource::Folder* sad::resource::Tree::root() const
 {
+    PROFILER_EVENT;
     return m_root;
 }
 
 sad::resource::ResourceFile* sad::resource::Tree::file(const sad::String& name)
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < m_files.size(); i++)
     {
         if (m_files[i]->name() == name)
@@ -470,37 +485,44 @@ sad::resource::ResourceFile* sad::resource::Tree::file(const sad::String& name)
 
 const sad::Vector<sad::resource::ResourceFile*>& sad::resource::Tree::files() const
 {
+    PROFILER_EVENT;
     return m_files;
 }
 
 sad::resource::Factory* sad::resource::Tree::factory() const
 {
+    PROFILER_EVENT;
     return m_factory;
 }
 
 void sad::resource::Tree::setFactory(sad::resource::Factory* factory)
 {
+    PROFILER_EVENT;
     delete m_factory;
     m_factory = factory;
 }
 
 void sad::resource::Tree::setRenderer(sad::Renderer * renderer)
 {
+    PROFILER_EVENT;
     m_renderer = renderer;
 }
 
 sad::Renderer * sad::resource::Tree::renderer() const
 {
+    PROFILER_EVENT;
     return m_renderer;
 }
 
 bool sad::resource::Tree::shouldStoreLinks() const
 {
+    PROFILER_EVENT;
     return m_store_links;
 }
 
 void sad::resource::Tree::setStoreLinks(bool store)
 {
+    PROFILER_EVENT;
     m_store_links = store;
 }
 
@@ -508,6 +530,7 @@ sad::Vector<sad::resource::Error *> sad::resource::Tree::duplicatesToErrors(
         const sad::Vector<sad::String> & l
 )
 {
+    PROFILER_EVENT;
     sad::Vector<sad::resource::Error *> result;
     for (size_t i = 0; i < l.size(); i++)
     {
@@ -518,6 +541,7 @@ sad::Vector<sad::resource::Error *> sad::resource::Tree::duplicatesToErrors(
 
 sad::resource::Resource* sad::resource::Tree::resource(const sad::String& name)
 {
+    PROFILER_EVENT;
     sad::resource::Folder* root = this->root();
     sad::resource::Resource* result = nullptr;
     if (root)
@@ -536,6 +560,7 @@ sad::resource::Resource* sad::resource::Tree::resource(const sad::String& name)
 
 sad::resource::Resource* sad::resource::Tree::getResourceOfClass(const sad::String& name, const sad::String& class_name)
 {
+    PROFILER_EVENT;
     sad::resource::Folder* folder = this->root();
     sad::resource::Resource* res = nullptr;
     if (folder)
@@ -564,16 +589,19 @@ sad::resource::Resource* sad::resource::Tree::getResourceOfClass(const sad::Stri
 
 sad::resource::Folder * sad::resource::Tree::temporaryRoot() const
 {
+    PROFILER_EVENT;
     return m_temporary_root_folder;
 }
 
 void sad::resource::Tree::unloadResourcesFromGPU() const
 {
+    PROFILER_EVENT;
     this->root()->unloadResourcesFromGPU();
 }
 
 tar7z::Entry* sad::resource::Tree::archiveEntry(const sad::String& archive, const sad::String& filename, bool load_new)
 {
+    PROFILER_EVENT;
     if (m_archives.contains(archive) && !load_new)
     {
         return m_archive_list[m_archives[archive]]->file(filename);
@@ -618,11 +646,13 @@ tar7z::Entry* sad::resource::Tree::archiveEntry(const sad::String& archive, cons
 
 const sad::Vector<sad::resource::Tree*>& sad::resource::Tree::subtrees() const
 {
+    PROFILER_EVENT;
     return m_subtrees;
 }
 
 void sad::resource::Tree::addSubtree(sad::resource::Tree* tree)
 {
+    PROFILER_EVENT;
     if (tree)
     {
         if (std::find(m_subtrees.begin(), m_subtrees.end(), tree) == m_subtrees.end())
@@ -635,6 +665,7 @@ void sad::resource::Tree::addSubtree(sad::resource::Tree* tree)
 
 void sad::resource::Tree::removeSubtree(sad::resource::Tree* tree)
 {
+    PROFILER_EVENT;
     if (tree)
     {
         if (std::find(m_subtrees.begin(), m_subtrees.end(), tree) != m_subtrees.end())
@@ -652,6 +683,7 @@ DECLARE_COMMON_TYPE(sad::resource::Tree)
 
 void sad::resource::Tree::fireOnError(const sad::Vector<sad::resource::Error*>& errors) const
 {
+    PROFILER_EVENT;
     if (errors.empty())
     {
         return;

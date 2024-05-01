@@ -1,22 +1,26 @@
 #include "objectdependentfpsinterpolation.h"
 #include "renderer.h"
+#include "opticksupport.h"
 
 
 sad::ObjectDependentFPSInterpolation::ObjectDependentFPSInterpolation(): 
 m_renderer(nullptr),
 m_total_renderer_items(0)
 {
+    PROFILER_EVENT;
     m_interval_per_item.clear();
     reset();
 }
 
 sad::ObjectDependentFPSInterpolation::~ObjectDependentFPSInterpolation()
 {
+    PROFILER_EVENT;
     
 }
 
 void sad::ObjectDependentFPSInterpolation::reset()
 {
+    PROFILER_EVENT;
     m_fps = 75;
     m_is_set_immediately = true;
     m_reset =  false;
@@ -29,6 +33,7 @@ void sad::ObjectDependentFPSInterpolation::reset()
 
 void sad::ObjectDependentFPSInterpolation::start()
 {
+    PROFILER_EVENT;
     if (m_is_set_immediately || m_reset)
     {
         m_timer.start();
@@ -38,6 +43,7 @@ void sad::ObjectDependentFPSInterpolation::start()
 
 void sad::ObjectDependentFPSInterpolation::stop()
 {
+    PROFILER_EVENT;
     ++m_frames;
     m_timer.stop();
     double elapsed = m_timer.elapsed();
@@ -67,11 +73,13 @@ void sad::ObjectDependentFPSInterpolation::stop()
 
 void sad::ObjectDependentFPSInterpolation::resetTimer()
 {
+    PROFILER_EVENT;
     m_timer.start();
 }
 
 double sad::ObjectDependentFPSInterpolation::fps()
 {
+    PROFILER_EVENT;
     if (m_renderer && m_interval_per_item.exists())
     {
         unsigned int totalitems = m_renderer->totalSceneObjects();
@@ -88,5 +96,6 @@ double sad::ObjectDependentFPSInterpolation::fps()
 
 void sad::ObjectDependentFPSInterpolation::setRenderer(sad::Renderer * renderer)
 {
+    PROFILER_EVENT;
     m_renderer = renderer;
 }

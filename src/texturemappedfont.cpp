@@ -6,6 +6,7 @@
 #include "resource/resourcefile.h"
 
 #include "util/fs.h"
+#include "opticksupport.h"
 
 // A tangent for 20 degrees angle
 #define TAN_20_DEGREES  (0.36397023426620234)
@@ -19,11 +20,13 @@ sad::TextureMappedFont::TextureMappedFont()  //-V730
   m_size_ratio(1.0),
   m_ascent(0)
 {
+    PROFILER_EVENT;
 
 }
 
 sad::TextureMappedFont::~TextureMappedFont()
 {
+    PROFILER_EVENT;
     if (m_texture)
     {
         delete m_texture;
@@ -34,6 +37,7 @@ sad::TextureMappedFont::~TextureMappedFont()
 
 sad::Size2D sad::TextureMappedFont::size(const sad::String & str, int flags)
 {
+    PROFILER_EVENT;
     sad::Size2D result;
     // If loading was failed, return (0, 0) as size
     if (m_texture == nullptr)
@@ -92,6 +96,7 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str, int flags)
 
 void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D & p, int flags)
 {
+    PROFILER_EVENT;
     // If loading was failed, do nothing
     if (m_texture == nullptr)
         return;
@@ -273,6 +278,7 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
 
 void sad::TextureMappedFont::fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, int flags)
 {
+    PROFILER_EVENT;
     // If loading was failed, do nothing
     if (m_texture == nullptr)
         return;
@@ -371,6 +377,7 @@ void sad::TextureMappedFont::fillGeometries(const sad::Font::GeometryRenderData&
 
 sad::Texture * sad::TextureMappedFont::renderToTexture(const sad::String & str)
 {
+    PROFILER_EVENT;
     if (m_texture == nullptr)
         return nullptr;
 
@@ -472,6 +479,7 @@ bool sad::TextureMappedFont::load(
         const picojson::value& options
 )
 {
+    PROFILER_EVENT;
     bool result = load(file.name(), r);
     if (!result && !util::isAbsolutePath(file.name()))
     {
@@ -483,6 +491,7 @@ bool sad::TextureMappedFont::load(
 
 bool sad::TextureMappedFont::load(const sad::String & filename, sad::Renderer * r)
 {
+    PROFILER_EVENT;
     return this->load(filename + ".png", filename + ".cfg", r);
 }
 
@@ -492,6 +501,7 @@ bool sad::TextureMappedFont::load(
     sad::Renderer * r
 )
 {
+    PROFILER_EVENT;
     // If renderer is null, set renderer to global
     if (r == nullptr)
         r = sad::Renderer::ref();
@@ -585,6 +595,7 @@ bool sad::TextureMappedFont::load(
 
 void sad::TextureMappedFont::unloadFromGPU()
 {
+    PROFILER_EVENT;
     if (m_texture)
     {
         m_texture->unloadFromGPU();
@@ -593,15 +604,18 @@ void sad::TextureMappedFont::unloadFromGPU()
 
 float sad::TextureMappedFont::builtinLineSpacing() const
 {
+    PROFILER_EVENT;
     return m_builtin_linespacing * m_size_ratio;
 }
 
 float sad::TextureMappedFont::ascent() const
 {
+    PROFILER_EVENT;
     return m_ascent * m_size_ratio;
 }
 
 void sad::TextureMappedFont::setSize(unsigned int size)
 {
+    PROFILER_EVENT;
     m_size_ratio = (float)size / m_builtin_linespacing;
 }

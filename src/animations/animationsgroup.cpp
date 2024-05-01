@@ -22,6 +22,7 @@
 #include "db/dbfield.h"
 #include "db/dbmethodpair.h"
 #include "db/dbtable.h"
+#include "opticksupport.h"
 
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::Group, sad::animations::Process)
@@ -35,16 +36,19 @@ m_parent(nullptr),
 m_sequential(false), 
 m_current_instance(0)
 {
+    PROFILER_EVENT;
     
 }
 
 sad::animations::Group::Group(const sad::animations::Group& g) //-V730
 {
+    PROFILER_EVENT;
     copyState(g);
 }
 
 sad::animations::Group& sad::animations::Group::operator=(const sad::animations::Group& o)
 {
+    PROFILER_EVENT;
     clearLinks();
     copyState(o);
     return *this;
@@ -52,6 +56,7 @@ sad::animations::Group& sad::animations::Group::operator=(const sad::animations:
 
 sad::animations::Group::~Group()
 {
+    PROFILER_EVENT;
     clearLinks();
 }
 
@@ -61,6 +66,7 @@ static sad::Mutex AnimationGroupSchemaInit;
 
 sad::db::schema::Schema* sad::animations::Group::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationGroupSchema == nullptr)
     {
         AnimationGroupSchemaInit.lock();
@@ -101,21 +107,25 @@ sad::db::schema::Schema* sad::animations::Group::basicSchema()
 
 sad::db::schema::Schema* sad::animations::Group::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::Group::basicSchema();
 }
 
 bool sad::animations::Group::isSequential() const
 {
+    PROFILER_EVENT;
     return m_sequential;
 }
 
 void sad::animations::Group::toggleIsSequential(bool flag)
 {
+    PROFILER_EVENT;
     m_sequential = flag;
 }
 
 void sad::animations::Group::clear()
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     for (size_t i = 0; i < m_instances.size(); i++)
     {
@@ -127,6 +137,7 @@ void sad::animations::Group::clear()
 
 void sad::animations::Group::add(sad::animations::Instance* i)
 {
+    PROFILER_EVENT;
     if (!i)
     {
         return;
@@ -150,6 +161,7 @@ void sad::animations::Group::add(sad::animations::Instance* i)
 
 void  sad::animations::Group::insert(int pos, sad::animations::Instance* i)
 {
+    PROFILER_EVENT;
     if (!i)
     {
         return;
@@ -183,6 +195,7 @@ void  sad::animations::Group::insert(int pos, sad::animations::Instance* i)
 
 void sad::animations::Group::remove(sad::animations::Instance* instance)
 {
+    PROFILER_EVENT;
     if (!instance)
     {
         return;
@@ -216,6 +229,7 @@ void sad::animations::Group::remove(sad::animations::Instance* instance)
 
 size_t sad::animations::Group::count()
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     return m_instance_links.size();
 }
@@ -223,6 +237,7 @@ size_t sad::animations::Group::count()
 
 sad::animations::Instance* sad::animations::Group::get(int pos)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     if ((pos < 0) || (pos >= m_instance_links.size()))
     {
@@ -234,6 +249,7 @@ sad::animations::Instance* sad::animations::Group::get(int pos)
 
 unsigned long long sad::animations::Group::getMajorId(int pos)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     if ((pos < 0) || (pos >= m_instance_links.size()))
     {
@@ -244,6 +260,7 @@ unsigned long long sad::animations::Group::getMajorId(int pos)
 
 void sad::animations::Group::setTable(sad::db::Table* t)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     this->sad::db::Object::setTable(t);
     for(size_t i = 0; i < m_instance_links.size(); i++)
@@ -256,11 +273,13 @@ static sad::String AnimationsGroupSerializableName = "sad::animations::Group";
 
 const sad::String& sad::animations::Group::serializableName() const
 {
+    PROFILER_EVENT;
     return AnimationsGroupSerializableName;
 }
 
 void sad::animations::Group::setInstances(const sad::Vector<unsigned long long>& v)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     m_instance_links.clear();
 
@@ -292,6 +311,7 @@ void sad::animations::Group::setInstances(const sad::Vector<unsigned long long>&
 
 sad::Vector<unsigned long long> sad::animations::Group::instances() const
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&(const_cast<sad::animations::Group*>(this)->m_lock));
     sad::Vector<unsigned long long> result;
 
@@ -305,6 +325,7 @@ sad::Vector<unsigned long long> sad::animations::Group::instances() const
 
 int sad::animations::Group::findInstance(unsigned long long id)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     for(size_t i = 0; i < m_instance_links.size(); i++)
     {
@@ -318,17 +339,20 @@ int sad::animations::Group::findInstance(unsigned long long id)
 
 void sad::animations::Group::setLooped(bool looped)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     m_looped = looped;
 }
 
 bool sad::animations::Group::looped() const
 {
+    PROFILER_EVENT;
     return m_looped;
 }
 
 void sad::animations::Group::addAsLink(sad::animations::Instance* i)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     if (i)
     {
@@ -350,6 +374,7 @@ void sad::animations::Group::addAsLink(sad::animations::Instance* i)
 
 void sad::animations::Group::removeAsLink(sad::animations::Instance* inst)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     if (!inst)
     {
@@ -373,6 +398,7 @@ void sad::animations::Group::removeAsLink(sad::animations::Instance* inst)
 
 void sad::animations::Group::insertAsLink(int pos, sad::animations::Instance* i)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     if (i)
     {
@@ -391,6 +417,7 @@ void sad::animations::Group::insertAsLink(int pos, sad::animations::Instance* i)
 
 void sad::animations::Group::restart(sad::animations::Animations* animations)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     if (m_sequential)
     {
@@ -417,6 +444,7 @@ void sad::animations::Group::restart(sad::animations::Animations* animations)
 
 void sad::animations::Group::clearFinished()
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     if (m_instances.size() == 0) 
     {
@@ -442,12 +470,14 @@ void sad::animations::Group::clearFinished()
 
 bool sad::animations::Group::finished() const
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&(const_cast<sad::animations::Group*>(this)->m_lock));
     return m_instances.size() == 0;
 }
 
 void sad::animations::Group::process(sad::animations::Animations* animations)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     if (finished())
     {
@@ -519,6 +549,7 @@ void sad::animations::Group::process(sad::animations::Animations* animations)
 
 void sad::animations::Group::pause()
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     if (m_sequential)
     {
@@ -538,6 +569,7 @@ void sad::animations::Group::pause()
 
 void sad::animations::Group::resume()
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     if (m_sequential)
     {
@@ -557,6 +589,7 @@ void sad::animations::Group::resume()
 
 void sad::animations::Group::cancel(sad::animations::Animations* animations)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     if (m_sequential)
     {
@@ -584,16 +617,19 @@ void sad::animations::Group::cancel(sad::animations::Animations* animations)
 
 void sad::animations::Group::addedToPipeline()
 {
+    PROFILER_EVENT;
      this->clearFinished();
 }
 
 void sad::animations::Group::removedFromPipeline()
 {
+    PROFILER_EVENT;
 
 }
 
 sad::animations::Callback*  sad::animations::Group::addCallbackOnEnd(sad::animations::Callback* c)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     m_callbacks_on_end << c;
     return c;
@@ -601,6 +637,7 @@ sad::animations::Callback*  sad::animations::Group::addCallbackOnEnd(sad::animat
 
 sad::animations::Callback* sad::animations::Group::addCallbackOnStart(sad::animations::Callback* c)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     m_callbacks_on_start << c;
     return c;
@@ -609,6 +646,7 @@ sad::animations::Callback* sad::animations::Group::addCallbackOnStart(sad::anima
 
 void sad::animations::Group::removeCallbackOnStart(sad::animations::Callback* c)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     sad::PtrVector<sad::animations::Callback>::iterator it = std::find(m_callbacks_on_start.begin(), m_callbacks_on_start.end(), c);
     if (it != m_callbacks_on_start.end())
@@ -620,6 +658,7 @@ void sad::animations::Group::removeCallbackOnStart(sad::animations::Callback* c)
 
 void sad::animations::Group::removeCallbackOnEnd(sad::animations::Callback* c)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     sad::PtrVector<sad::animations::Callback>::iterator it = std::find(m_callbacks_on_end.begin(), m_callbacks_on_end.end(), c);
     if (it != m_callbacks_on_end.end())
@@ -631,12 +670,14 @@ void sad::animations::Group::removeCallbackOnEnd(sad::animations::Callback* c)
 
 void sad::animations::Group::removeCallback(sad::animations::Callback* c)
 {
+    PROFILER_EVENT;
     removeCallbackOnStart(c);
     removeCallbackOnEnd(c);
 }
 
 void sad::animations::Group::clearCallbacksOnStart()
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     for (size_t i = 0; i < m_callbacks_on_start.size(); i++)
     {
@@ -647,6 +688,7 @@ void sad::animations::Group::clearCallbacksOnStart()
 
 void sad::animations::Group::clearCallbacksOnEnd()
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     for (size_t i = 0; i < m_callbacks_on_end.size(); i++)
     {
@@ -657,12 +699,14 @@ void sad::animations::Group::clearCallbacksOnEnd()
 
 void sad::animations::Group::clearCallbacks()
 {
+    PROFILER_EVENT;
     clearCallbacksOnStart();
     clearCallbacksOnEnd();
 }
 
 bool sad::animations::Group::isRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f)
 {
+    PROFILER_EVENT;
     bool is_related = false;
     for(size_t i = 0; i < m_instances.size(); i++)
     {
@@ -674,6 +718,7 @@ bool sad::animations::Group::isRelatedToMatchedObject(const std::function<bool(s
 
 void sad::animations::Group::stopInstancesRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f, sad::animations::Animations* a)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     if (m_instances.size() == 0)
     {
@@ -692,6 +737,7 @@ void sad::animations::Group::stopInstancesRelatedToMatchedObject(const std::func
 
 bool sad::animations::Group::isRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     bool is_related = false;
     for(size_t i = 0; i < m_instances.size(); i++)
@@ -704,6 +750,7 @@ bool sad::animations::Group::isRelatedToMatchedAnimation(const std::function<boo
 
 void sad::animations::Group::stopInstancesRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f, sad::animations::Animations* a)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     if (m_instances.size() == 0)
     {
@@ -723,6 +770,7 @@ void sad::animations::Group::stopInstancesRelatedToMatchedAnimation(const std::f
 
 bool sad::animations::Group::isRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     bool is_related = false;
     for(size_t i = 0; i < m_instances.size(); i++)
@@ -735,6 +783,7 @@ bool sad::animations::Group::isRelatedToMatchedProcess(const std::function<bool(
 
 void sad::animations::Group::stopInstancesRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f, sad::animations::Animations* a)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     if (m_instances.size() == 0)
     {
@@ -756,6 +805,7 @@ void sad::animations::Group::stopInstancesRelatedToMatchedProcess(const std::fun
 
 void sad::animations::Group::clearLinks()
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     for(size_t i = 0; i < m_instance_links.size(); i++)
     {
@@ -766,6 +816,7 @@ void sad::animations::Group::clearLinks()
 
 void sad::animations::Group::getInstances(sad::Vector<sad::animations::Instance*> & result)
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     result.clear();
 
@@ -782,6 +833,7 @@ void sad::animations::Group::getInstances(sad::Vector<sad::animations::Instance*
 
 void sad::animations::Group::copyState(const sad::animations::Group& o)
 {
+    PROFILER_EVENT;
     sad::ScopedLock lock(&(const_cast<sad::animations::Group&>(o)).m_lock);
     sad::ScopedLock own_lock(&m_lock);
 
@@ -818,6 +870,7 @@ void sad::animations::Group::copyState(const sad::animations::Group& o)
 
 void sad::animations::Group::fireOnStartCallbacks()
 {
+    PROFILER_EVENT;
     sad::ScopedLock own_lock(&m_lock);
     for(size_t i = 0; i < m_callbacks_on_start.size(); i++)
     {

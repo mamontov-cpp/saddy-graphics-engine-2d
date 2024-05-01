@@ -33,6 +33,7 @@
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
+#include "opticksupport.h"
 
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::WayMoving, sad::animations::Animation);
@@ -41,11 +42,13 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::WayMoving, sad::animations::Animation)
 
 sad::animations::WayMoving::WayMoving()
 {
+    PROFILER_EVENT;
     m_creators.pushCreator<sad::animations::SavedObjectPosition>("sad::animations::SavedObjectPosition");
 }
 
 sad::animations::WayMoving::~WayMoving()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -56,6 +59,7 @@ static sad::Mutex AnimationWayMovingSchemaInit;
 
 sad::db::schema::Schema* sad::animations::WayMoving::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationWayMovingSchema == nullptr)
     {
         AnimationWayMovingSchemaInit.lock();
@@ -81,11 +85,13 @@ sad::db::schema::Schema* sad::animations::WayMoving::basicSchema()
 
 sad::db::schema::Schema* sad::animations::WayMoving::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::WayMoving::basicSchema();
 }
 
 void sad::animations::WayMoving::setTable(sad::db::Table * table)
 {
+    PROFILER_EVENT;
     this->sad::db::Object::setTable(table);
     m_way.setDatabase(table->database());
 }
@@ -93,6 +99,7 @@ void sad::animations::WayMoving::setTable(sad::db::Table * table)
 
 bool sad::animations::WayMoving::loadFromValue(const picojson::value& v)
 {
+    PROFILER_EVENT;
     bool flag = this->sad::animations::Animation::loadFromValue(v);
     if (flag)
     {
@@ -112,26 +119,31 @@ bool sad::animations::WayMoving::loadFromValue(const picojson::value& v)
 
 void sad::animations::WayMoving::setWay(sad::Way * way)
 {
+    PROFILER_EVENT;
     m_way.setObject(way);
 }
 
 sad::Way* sad::animations::WayMoving::way() const
 {
+    PROFILER_EVENT;
     return m_way.get();
 }
 
 void sad::animations::WayMoving::setWayObjectId(unsigned long long id)
 {
+    PROFILER_EVENT;
     m_way.setMajorId(id);
 }
 
 unsigned long long sad::animations::WayMoving::wayObjectId() const
 {
+    PROFILER_EVENT;
     return m_way.majorId();
 }
 
 void sad::animations::WayMoving::setState(sad::animations::Instance* i, double time)
 {
+    PROFILER_EVENT;
     sad::Way* way = this->way();
 
     // This actually allows easing function to work as identity in case of linear function or do nothing in
@@ -148,6 +160,7 @@ void sad::animations::WayMoving::setState(sad::animations::Instance* i, double t
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::WayMoving::stateCommand(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     if (o)
     {
         if (o->isInstanceOf("sad::Sprite2D"))
@@ -172,6 +185,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::WayMoving::
 
 bool sad::animations::WayMoving::applicableTo(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (o && way() != nullptr)
     {

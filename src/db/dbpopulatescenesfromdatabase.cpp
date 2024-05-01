@@ -4,11 +4,13 @@
 #include "renderer.h"
 
 #include <algorithm>
+#include "opticksupport.h"
 
 struct scene_comparator_t
 {
     bool operator()(sad::db::Object* a, sad::db::Object* b) 
     {
+        PROFILER_EVENT;
         sad::Scene * aa = static_cast<sad::Scene*>(a);
         sad::Scene * bb = static_cast<sad::Scene*>(b);
 
@@ -26,6 +28,7 @@ struct scenenodes_comparator_t
 
 void sad::db::populateScenesFromDatabase(sad::Renderer * r, sad::db::Database * db, bool clear)
 {
+    PROFILER_EVENT;
     sad::db::Table* scenes = db->table("scenes");
     sad::db::Table* scenenodes = db->table("scenenodes");
     if (scenes && scenenodes)

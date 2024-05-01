@@ -28,6 +28,7 @@
 
 #include <fstream>
 #include "sadmutex.h"
+#include "opticksupport.h"
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::TextureCoordinatesContinuous, sad::animations::Animation);
 
@@ -35,11 +36,13 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::TextureCoordinatesContinuous, sad::ani
 
 sad::animations::TextureCoordinatesContinuous::TextureCoordinatesContinuous() 
 {
+    PROFILER_EVENT;
     m_creators.pushProperty<sad::Rect2D>("texturecoordinates", "texturecoordinates");	
 }
 
 sad::animations::TextureCoordinatesContinuous::~TextureCoordinatesContinuous()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -49,6 +52,7 @@ static sad::Mutex AnimationTextureCoordinatesContinuousSchemaInit;
 
 sad::db::schema::Schema* sad::animations::TextureCoordinatesContinuous::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationTextureCoordinatesContinuousSchema == nullptr)
     {
         AnimationTextureCoordinatesContinuousSchemaInit.lock();
@@ -81,11 +85,13 @@ sad::db::schema::Schema* sad::animations::TextureCoordinatesContinuous::basicSch
 
 sad::db::schema::Schema* sad::animations::TextureCoordinatesContinuous::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::TextureCoordinatesContinuous::basicSchema();
 }
 
 bool sad::animations::TextureCoordinatesContinuous::loadFromValue(const picojson::value& v)
 {
+    PROFILER_EVENT;
     bool flag = this->sad::animations::Animation::loadFromValue(v);
     if (flag)
     {
@@ -109,27 +115,32 @@ bool sad::animations::TextureCoordinatesContinuous::loadFromValue(const picojson
 
 void sad::animations::TextureCoordinatesContinuous::setStartRect(const sad::Rect2D& rect)
 {
+    PROFILER_EVENT;
     m_start_rect = rect;
 }
 
 const sad::Rect2D& sad::animations::TextureCoordinatesContinuous::startRect() const
 {
+    PROFILER_EVENT;
     return m_start_rect;
 }
 
 void sad::animations::TextureCoordinatesContinuous::setEndRect(const sad::Rect2D& rect)
 {
+    PROFILER_EVENT;
     m_end_rect = rect;
 }
 
 const sad::Rect2D& sad::animations::TextureCoordinatesContinuous::endRect() const
 {
+    PROFILER_EVENT;
     return m_end_rect;
 }
 
 
 void sad::animations::TextureCoordinatesContinuous::setState(sad::animations::Instance* i, double time)
 {
+    PROFILER_EVENT;
     double time_position = m_easing->eval(time, m_time);
     sad::Rect2D r;
     for(size_t ii = 0; ii < 4; ii++)
@@ -142,6 +153,7 @@ void sad::animations::TextureCoordinatesContinuous::setState(sad::animations::In
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::TextureCoordinatesContinuous::stateCommand(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     if (this->applicableTo(o))
     {
         sad::animations::setstate::AbstractSetStateCommand* c;
@@ -173,6 +185,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::TextureCoor
 
 bool sad::animations::TextureCoordinatesContinuous::applicableTo(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (o && m_valid)
     {

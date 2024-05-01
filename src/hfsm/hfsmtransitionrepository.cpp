@@ -1,12 +1,15 @@
 #include "hfsm/hfsmtransitionrepository.h"
+#include "opticksupport.h"
 
 sad::hfsm::TransitionRepository::TransitionRepository()
 : m_machine(nullptr)
 {
+    PROFILER_EVENT;
 }
 
 sad::hfsm::TransitionRepository::~TransitionRepository()
 {
+    PROFILER_EVENT;
     for(TransitionMap::iterator it = m_transitions.begin(); it != m_transitions.end(); it++)
     {
         clearTransitions(it.value());
@@ -15,11 +18,13 @@ sad::hfsm::TransitionRepository::~TransitionRepository()
 
 void sad::hfsm::TransitionRepository::setMachine(sad::hfsm::Machine * machine)
 {
+    PROFILER_EVENT;
     m_machine = machine;
 }
 
 sad::hfsm::Machine * sad::hfsm::TransitionRepository::machine() const
 {
+    PROFILER_EVENT;
     return m_machine;
 }
 
@@ -27,6 +32,7 @@ void sad::hfsm::TransitionRepository::clearTransitions(
     const sad::Hash<sad::String, sad::hfsm::Transition *> & t
 )
 {
+    PROFILER_EVENT;
     for(sad::Hash<sad::String, sad::hfsm::Transition *>::const_iterator it = t.const_begin(); 
         it != t.const_end(); 
         it++)
@@ -41,6 +47,7 @@ void sad::hfsm::TransitionRepository::addTransition(
         sad::hfsm::Transition * t
 )
 {
+    PROFILER_EVENT;
     if (m_transitions.contains(from) == false)
     {
         m_transitions.insert(from, sad::Hash<sad::String, sad::hfsm::Transition *>());
@@ -84,6 +91,7 @@ sad::hfsm::Transition * sad::hfsm::TransitionRepository::transition(
         const sad::String & to
 )
 {
+    PROFILER_EVENT;
     if (m_transitions.contains(from))
     {
         sad::Hash<sad::String, sad::hfsm::Transition *> & c = m_transitions[from];
@@ -100,6 +108,7 @@ void sad::hfsm::TransitionRepository::invoke(
         const sad::String & to
 )
 {
+    PROFILER_EVENT;
     sad::hfsm::Transition * t = transition(from, to);
     if (t)
         t->invoke();
@@ -110,6 +119,7 @@ void sad::hfsm::TransitionRepository::removeStateMentions(
         const sad::String & state
 )
 {
+    PROFILER_EVENT;
     if (m_transitions.contains(state))
     {
         clearTransitions(m_transitions[state]);

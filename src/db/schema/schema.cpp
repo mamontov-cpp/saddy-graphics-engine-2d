@@ -1,9 +1,11 @@
 #include "db/schema/schema.h"
 
 #include "sadscopedlock.h"
+#include "opticksupport.h"
 
 sad::db::schema::Schema::Schema(sad::db::schema::Schema* parent) : m_already_locked(false)
 {
+    PROFILER_EVENT;
     if (parent)
     {
         addParent(parent);
@@ -12,11 +14,13 @@ sad::db::schema::Schema::Schema(sad::db::schema::Schema* parent) : m_already_loc
 
 sad::db::schema::Schema::~Schema()
 {
+    PROFILER_EVENT;
 
 }
 
 bool sad::db::schema::Schema::add(const sad::String& s, sad::db::Property* prop)
 {
+    PROFILER_EVENT;
     bool ok = false;
     m_lock.lock();
     m_already_locked = true;
@@ -32,6 +36,7 @@ bool sad::db::schema::Schema::add(const sad::String& s, sad::db::Property* prop)
 
 void sad::db::schema::Schema::remove(const sad::String & s)
 {
+    PROFILER_EVENT;
     if (m_properties.contains(s))
     {
         delete m_properties[s]; //-V515
@@ -41,6 +46,7 @@ void sad::db::schema::Schema::remove(const sad::String & s)
 
 sad::db::Property* sad::db::schema::Schema::getProperty(const sad::String& s) const
 {
+    PROFILER_EVENT;
     sad::db::schema::Schema* me = const_cast<sad::db::schema::Schema*>(this);
     if (!m_already_locked)
     {
@@ -68,6 +74,7 @@ sad::db::Property* sad::db::schema::Schema::getProperty(const sad::String& s) co
 
 bool sad::db::schema::Schema::check(const picojson::value& v)
 {
+    PROFILER_EVENT;
     sad::ScopedLock locallock(&m_lock);
 
     if (m_parent.size()) 
@@ -92,6 +99,7 @@ bool sad::db::schema::Schema::check(const picojson::value& v)
 
 bool sad::db::schema::Schema::load(sad::db::Object * o, const picojson::value& v)
 {
+    PROFILER_EVENT;
     sad::ScopedLock locallock(&m_lock);
 
     if (!o || v.is<picojson::object>() == false)
@@ -141,6 +149,7 @@ bool sad::db::schema::Schema::load(sad::db::Object * o, const picojson::value& v
 
 void sad::db::schema::Schema::save(sad::db::Object * linked, picojson::value & v)
 {
+    PROFILER_EVENT;
     sad::ScopedLock locallock(&m_lock);
 
     if (!linked)
@@ -177,22 +186,26 @@ void sad::db::schema::Schema::save(sad::db::Object * linked, picojson::value & v
 
 const sad::Vector<sad::db::schema::Schema*>& sad::db::schema::Schema::parent() const
 {
+    PROFILER_EVENT;
     return m_parent;
 }
 
 void sad::db::schema::Schema::addParent(sad::db::schema::Schema* parent)
 {
+    PROFILER_EVENT;
     sad::ScopedLock locallock(&m_lock);
     m_parent << parent;
 }
 
 const sad::Hash<sad::String, sad::db::Property*>& sad::db::schema::Schema::ownProperties() const
 {
+    PROFILER_EVENT;
     return m_properties;
 }
 
 void sad::db::schema::Schema::getPropertyNames(sad::Vector<sad::String>& list) const
 {
+    PROFILER_EVENT;
     for(sad::PtrHash<sad::String, sad::db::Property>::const_iterator it = m_properties.const_begin();
         it != m_properties.const_end();
         ++it)

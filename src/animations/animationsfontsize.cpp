@@ -26,6 +26,7 @@
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
+#include "opticksupport.h"
 
 
 
@@ -35,11 +36,13 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::FontSize, sad::animations::Animation);
 
 sad::animations::FontSize::FontSize() : m_min_size(0), m_max_size(0)
 {
+    PROFILER_EVENT;
     m_creators.pushProperty<unsigned int>("fontsize", "fontsize");
 }
 
 sad::animations::FontSize::~FontSize()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -49,6 +52,7 @@ static sad::Mutex AnimationFontSizeSchemaInit;
 
 sad::db::schema::Schema* sad::animations::FontSize::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationFontSizeSchema == nullptr)
     {
         AnimationFontSizeSchemaInit.lock();
@@ -81,12 +85,14 @@ sad::db::schema::Schema* sad::animations::FontSize::basicSchema()
 
 sad::db::schema::Schema* sad::animations::FontSize::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::FontSize::basicSchema();
 }
 
 
 bool sad::animations::FontSize::loadFromValue(const picojson::value& v)
 {
+    PROFILER_EVENT;
     bool flag = this->sad::animations::Animation::loadFromValue(v);
     if (flag)
     {
@@ -111,21 +117,25 @@ bool sad::animations::FontSize::loadFromValue(const picojson::value& v)
 
 void sad::animations::FontSize::setMinSize(unsigned int size)
 {
+    PROFILER_EVENT;
     m_min_size = size;
 }
 
 unsigned int sad::animations::FontSize::minSize() const
 {
+    PROFILER_EVENT;
     return m_min_size;
 }
 
 void sad::animations::FontSize::setMaxSize(unsigned int size)
 {
+    PROFILER_EVENT;
     m_max_size = size;
 }
 
 unsigned int sad::animations::FontSize::maxSize() const
 {
+    PROFILER_EVENT;
     return m_max_size;
 }
 
@@ -143,6 +153,7 @@ void sad::animations::FontSize::setState(sad::animations::Instance* i, double ti
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::FontSize::stateCommand(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     if (this->applicableTo(o))
     {
         sad::animations::setstate::AbstractSetStateCommand* c = nullptr;
@@ -174,6 +185,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::FontSize::s
 
 bool sad::animations::FontSize::applicableTo(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (o && m_valid)
     {

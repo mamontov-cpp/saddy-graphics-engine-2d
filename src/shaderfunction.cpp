@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "os/extensionfunctions.h"
 #include "os/ubo.h"
+#include "opticksupport.h"
 
 sad::ShaderFunction::ShaderFunction() 
 : m_shader(nullptr), 
@@ -12,6 +13,7 @@ m_gl_camera_info_loc_id(-1),
 m_tex_loc_id(-1),
 m_clr_loc_id(-1)
 {
+    PROFILER_EVENT;
     
 }
 
@@ -22,6 +24,7 @@ m_gl_camera_info_loc_id(-1),
 m_tex_loc_id(-1),
 m_clr_loc_id(-1)// NOLINT(bugprone-copy-constructor-init)
 {
+    PROFILER_EVENT;
     if (m_shader)
     {
         m_shader->addRef();
@@ -30,6 +33,7 @@ m_clr_loc_id(-1)// NOLINT(bugprone-copy-constructor-init)
 
 sad::ShaderFunction& sad::ShaderFunction::operator=(const sad::ShaderFunction& fun)
 {
+    PROFILER_EVENT;
     if (m_shader)
     {
         m_shader->delRef();
@@ -48,6 +52,7 @@ sad::ShaderFunction& sad::ShaderFunction::operator=(const sad::ShaderFunction& f
 
 void sad::ShaderFunction::setShader(sad::Shader* shader)
 {
+    PROFILER_EVENT;
     if (m_shader)
     {
         m_shader->delRef();
@@ -64,6 +69,7 @@ void sad::ShaderFunction::setShader(sad::Shader* shader)
 
 sad::Shader* sad::ShaderFunction::shader() const
 {
+    PROFILER_EVENT;
     return m_shader;
 }
 
@@ -71,6 +77,7 @@ sad::Shader* sad::ShaderFunction::shader() const
 
 void sad::ShaderFunction::apply(sad::SceneNode* node, sad::Bindable* tex, const sad::AColor* clr)
 {
+    PROFILER_EVENT;
     if (!node || !m_shader)
     {
         return;
@@ -84,6 +91,7 @@ void sad::ShaderFunction::apply(sad::SceneNode* node, sad::Bindable* tex, const 
 
 void sad::ShaderFunction::apply(sad::Scene* scene, sad::Bindable* tex, const sad::AColor* clr)
 {
+    PROFILER_EVENT;
     if (!scene || !m_shader)
     {
         return;
@@ -133,6 +141,7 @@ void sad::ShaderFunction::apply(sad::Scene* scene, sad::Bindable* tex, const sad
 
 void sad::ShaderFunction::setColor(const sad::AColor& clr) const
 {
+    PROFILER_EVENT;
     sad::Renderer* r = sad::Renderer::ref();
     if (m_shader->renderer())
     {
@@ -148,6 +157,7 @@ void sad::ShaderFunction::setColor(const sad::AColor& clr) const
 
 void sad::ShaderFunction::apply(sad::SceneNode* node, const sad::AColor* clr)
 {
+    PROFILER_EVENT;
     if (!node || !m_shader)
     {
         return;
@@ -162,6 +172,7 @@ void sad::ShaderFunction::apply(sad::SceneNode* node, const sad::AColor* clr)
 
 void sad::ShaderFunction::apply(sad::Scene* scene, const sad::AColor* clr)
 {
+    PROFILER_EVENT;
     if (!scene || !m_shader)
     {
         return;
@@ -202,16 +213,19 @@ void sad::ShaderFunction::apply(sad::Scene* scene, const sad::AColor* clr)
 
 void sad::ShaderFunction::disable()
 {
+    PROFILER_EVENT;
     m_shader->disable();
 }
 
 bool sad::ShaderFunction::canBeUsedForFonts() const
 {
+    PROFILER_EVENT;
     return false;
 }
 
 sad::ShaderFunction::~ShaderFunction()
 {
+    PROFILER_EVENT;
     if (m_shader)
     {
         m_shader->delRef();
@@ -221,6 +235,7 @@ sad::ShaderFunction::~ShaderFunction()
 
 void sad::ShaderFunction::tryCacheLocations()
 {
+    PROFILER_EVENT;
     if (!m_locations_are_cached)
     {
         m_locations_are_cached = true;

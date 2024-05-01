@@ -1,8 +1,10 @@
 #include "pausabletimer.h"
+#include "opticksupport.h"
 
 sad::PausableTimer::PausableTimer() 
 : m_running(false), m_has_called_start(false), m_elapsed(0)
 {
+    PROFILER_EVENT;
 
 }
 
@@ -10,6 +12,7 @@ sad::PausableTimer::~PausableTimer() = default;
 
 void sad::PausableTimer::start()
 {
+    PROFILER_EVENT;
     m_elapsed = 0;
     m_timer.start();
     m_has_called_start = true;
@@ -18,6 +21,7 @@ void sad::PausableTimer::start()
 
 void sad::PausableTimer::stop()
 {
+    PROFILER_EVENT;
     if (!m_has_called_start)
     {
         start();
@@ -29,6 +33,7 @@ void sad::PausableTimer::stop()
 
 void sad::PausableTimer::pause()
 {
+    PROFILER_EVENT;
     if (!m_has_called_start)
     {
         start();
@@ -45,6 +50,7 @@ void sad::PausableTimer::pause()
 
 void sad::PausableTimer::resume()
 {
+    PROFILER_EVENT;
     // We are running already, no reason to restart timer, flushing the time
     if (m_running)
     {
@@ -56,6 +62,7 @@ void sad::PausableTimer::resume()
 
 double sad::PausableTimer::elapsed() const
 {
+    PROFILER_EVENT;
     double elapsed = 0;
     sad::PausableTimer* me = const_cast<sad::PausableTimer*>(this);
     if (m_running)

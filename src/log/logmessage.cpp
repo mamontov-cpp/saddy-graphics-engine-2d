@@ -1,4 +1,5 @@
 #include <log/logmessage.h>
+#include "opticksupport.h"
 
 static const char * logmesgs[7] = {
     "SADDY",
@@ -12,6 +13,7 @@ static const char * logmesgs[7] = {
 
 const char * sad::log::Message::priorityAsString() const
 {
+    PROFILER_EVENT;
     if (m_priority != sad::log::Priority::USER || m_user_priority.length() == 0)
     {
         return logmesgs[(int)m_priority];
@@ -22,6 +24,7 @@ const char * sad::log::Message::priorityAsString() const
 
 const char * sad::log::Message::timeAsString() const
 {
+    PROFILER_EVENT;
     tm * time = localtime(&m_time);
     sad::log::Message * m = const_cast<sad::log::Message *>(this);
     strftime((char *)m->m_buffer, 30, "%Y-%m-%d %H:%M:%S", time);
@@ -31,6 +34,7 @@ const char * sad::log::Message::timeAsString() const
 
 sad::String sad::log::Message::fileline() const
 {
+    PROFILER_EVENT;
     if (!m_file)
         return sad::String();
     sad::String o;

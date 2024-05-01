@@ -26,6 +26,7 @@
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
+#include "opticksupport.h"
 
 
 
@@ -36,11 +37,13 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::FontList, sad::animations::Animation);
 
 sad::animations::FontList::FontList()
 {
+    PROFILER_EVENT;
     m_creators.pushProperty<sad::String>("font", "font");
 }
 
 sad::animations::FontList::~FontList()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -50,6 +53,7 @@ static sad::Mutex AnimationFontListSchemaInit;
 
 sad::db::schema::Schema* sad::animations::FontList::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationFontListSchema == nullptr)
     {
         AnimationFontListSchemaInit.lock();
@@ -75,12 +79,14 @@ sad::db::schema::Schema* sad::animations::FontList::basicSchema()
 
 sad::db::schema::Schema* sad::animations::FontList::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::FontList::basicSchema();
 }
 
 
 bool sad::animations::FontList::loadFromValue(const picojson::value& v)
 {
+    PROFILER_EVENT;
     bool flag = this->sad::animations::Animation::loadFromValue(v);
     if (flag)
     {
@@ -100,6 +106,7 @@ bool sad::animations::FontList::loadFromValue(const picojson::value& v)
 
 void sad::animations::FontList::setFonts(const sad::Vector<sad::String>& fonts)
 {
+    PROFILER_EVENT;
     m_fonts = fonts;
     m_inner_valid = m_fonts.size() != 0;
     this->updateValidFlag();
@@ -107,11 +114,13 @@ void sad::animations::FontList::setFonts(const sad::Vector<sad::String>& fonts)
 
 const sad::Vector<sad::String> & sad::animations::FontList::fonts() const
 {
+    PROFILER_EVENT;
     return m_fonts;
 }
 
 void sad::animations::FontList::setState(sad::animations::Instance* i, double time)
 {
+    PROFILER_EVENT;
     double time_position = m_easing->evalBounded(time, m_time);
     double value = static_cast<double>(m_fonts.size()) * time_position;
     unsigned int kvalue = static_cast<unsigned int>(value);
@@ -123,6 +132,7 @@ void sad::animations::FontList::setState(sad::animations::Instance* i, double ti
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::FontList::stateCommand(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     if (this->applicableTo(o))
     {
         sad::animations::setstate::AbstractSetStateCommand* c = nullptr;
@@ -155,6 +165,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::FontList::s
 
 bool sad::animations::FontList::applicableTo(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     bool result = false;
     if (o && m_valid)
     {

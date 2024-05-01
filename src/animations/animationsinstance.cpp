@@ -19,6 +19,7 @@
 #include "db/dbfield.h"
 #include "db/dbmethodpair.h"
 #include "db/dbtable.h"
+#include "opticksupport.h"
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::Instance, sad::animations::Process)
 
@@ -36,6 +37,7 @@ m_tree_link_active(true),
 m_object_referenced(false),
 m_restore_on_finished(true)
 {
+    PROFILER_EVENT;
 
 }
 
@@ -60,12 +62,14 @@ m_basic_string(o.m_basic_string),
 m_object_referenced(o.m_object_referenced),
 m_restore_on_finished(o.m_restore_on_finished)
 {
+    PROFILER_EVENT;
     copyState(o);
 }
 
 
 sad::animations::Instance& sad::animations::Instance::operator=(const sad::animations::Instance& o)
 {
+    PROFILER_EVENT;
     m_object = o.m_object;
     m_animation = o.m_animation;
     m_animation_db_link = o.m_animation_db_link;
@@ -91,6 +95,7 @@ sad::animations::Instance& sad::animations::Instance::operator=(const sad::anima
 
 sad::animations::Instance::~Instance()
 {
+    PROFILER_EVENT;
     if (m_object_referenced)
     {
         sad::db::Object* o = m_object.get();
@@ -120,6 +125,7 @@ static sad::Mutex AnimationInstanceSchemaLock;
 
 sad::db::schema::Schema* sad::animations::Instance::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationInstanceSchema == nullptr)
     {
         AnimationInstanceSchemaLock.lock();
@@ -166,17 +172,20 @@ sad::db::schema::Schema* sad::animations::Instance::basicSchema()
 
 sad::db::schema::Schema* sad::animations::Instance::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::Instance::basicSchema();
 }
 
 void sad::animations::Instance::setTreeName(sad::Renderer* r, const sad::String & tree_name)
 {
+    PROFILER_EVENT;
     this->sad::Object::setTreeName(r, tree_name);
     m_animation.setTree(r, tree_name);
 }
 
 void sad::animations::Instance::setTable(sad::db::Table *t)
 {
+    PROFILER_EVENT;
     this->sad::Object::setTable(t);
     m_object.setDatabase(t->database());
     m_animation_db_link.setTable(t);
@@ -187,11 +196,13 @@ static sad::String AnimationsInstanceSerializableName = "sad::animations::Instan
 
 const sad::String& sad::animations::Instance::serializableName() const
 {
+    PROFILER_EVENT;
     return AnimationsInstanceSerializableName;
 }
 
 void sad::animations::Instance::setAnimation(sad::animations::Animation* o)
 {
+    PROFILER_EVENT;
     m_animation.attach(o);
     this->clearSetState();
     m_tree_link_active = true;
@@ -199,6 +210,7 @@ void sad::animations::Instance::setAnimation(sad::animations::Animation* o)
 
 sad::animations::Animation* sad::animations::Instance::animation() const
 {
+    PROFILER_EVENT;
     sad::animations::Animation* result;
     if (m_tree_link_active)
     {
@@ -213,6 +225,7 @@ sad::animations::Animation* sad::animations::Instance::animation() const
 
 void sad::animations::Instance::setObject(sad::db::Object* o)
 {
+    PROFILER_EVENT;
     if (m_object_referenced)
     {
         m_object.get()->delRef();
@@ -230,6 +243,7 @@ void sad::animations::Instance::setObject(sad::db::Object* o)
 
 sad::db::Object* sad::animations::Instance::object() const
 {
+    PROFILER_EVENT;
     sad::animations::Instance* i = const_cast<sad::animations::Instance*>(this);
     sad::db::Object* result = i->m_object.get();
     if (m_object_referenced == false && result)
@@ -242,6 +256,7 @@ sad::db::Object* sad::animations::Instance::object() const
 
 void sad::animations::Instance::setAnimationName(const sad::String& name)
 {
+    PROFILER_EVENT;
     m_animation.setPath(name);
     this->clearSetState();
     m_tree_link_active = name.size() != 0;
@@ -249,6 +264,7 @@ void sad::animations::Instance::setAnimationName(const sad::String& name)
 
 const sad::String& sad::animations::Instance::animationName() const
 {
+    PROFILER_EVENT;
     if (m_tree_link_active == false)
     {
         const_cast<sad::animations::Instance*>(this)->m_animation.setPath("");
@@ -259,6 +275,7 @@ const sad::String& sad::animations::Instance::animationName() const
 
 void sad::animations::Instance::setAnimationMajorId(unsigned long long majorid)
 {
+    PROFILER_EVENT;
     m_animation_db_link.setMajorId(majorid);
     if (majorid > 0)
     {
@@ -268,6 +285,7 @@ void sad::animations::Instance::setAnimationMajorId(unsigned long long majorid)
 
 unsigned long long sad::animations::Instance::animationMajorId()
 {
+    PROFILER_EVENT;
     if (m_tree_link_active == false)
     {
         return m_animation_db_link.majorId();
@@ -277,6 +295,7 @@ unsigned long long sad::animations::Instance::animationMajorId()
 
 void sad::animations::Instance::setObjectId(unsigned long long id)
 {
+    PROFILER_EVENT;
     if (m_object_referenced)
     {
         m_object.get()->delRef();
@@ -288,33 +307,39 @@ void sad::animations::Instance::setObjectId(unsigned long long id)
 
 unsigned long long sad::animations::Instance::objectId() const
 {
+    PROFILER_EVENT;
     return m_object.majorId();
 }
 
 void sad::animations::Instance::setStartTime(double time)
 {
+    PROFILER_EVENT;
     m_start_time = time;
 }
 
 double sad::animations::Instance::startTime() const
 {
+    PROFILER_EVENT;
     return m_start_time;
 }
 
 sad::animations::Callback* sad::animations::Instance::addCallbackOnStart(sad::animations::Callback* c)
 {
+    PROFILER_EVENT;
     m_callbacks_on_start << c;
     return c;
 }
 
 sad::animations::Callback* sad::animations::Instance::addCallbackOnEnd(sad::animations::Callback* c)
 {
+    PROFILER_EVENT;
     m_callbacks_on_end << c;
     return c;
 }
 
 void sad::animations::Instance::removeCallbackOnStart(sad::animations::Callback* c)
 {
+    PROFILER_EVENT;
     sad::PtrVector<sad::animations::Callback>::iterator it = std::find(m_callbacks_on_start.begin(), m_callbacks_on_start.end(), c);
     if (it != m_callbacks_on_start.end())
     {
@@ -325,6 +350,7 @@ void sad::animations::Instance::removeCallbackOnStart(sad::animations::Callback*
 
 void sad::animations::Instance::removeCallbackOnEnd(sad::animations::Callback* c)
 {
+    PROFILER_EVENT;
     sad::PtrVector<sad::animations::Callback>::iterator it = std::find(m_callbacks_on_end.begin(), m_callbacks_on_end.end(), c);
     if (it != m_callbacks_on_end.end())
     {
@@ -335,12 +361,14 @@ void sad::animations::Instance::removeCallbackOnEnd(sad::animations::Callback* c
 
 void sad::animations::Instance::removeCallback(sad::animations::Callback* c)
 {
+    PROFILER_EVENT;
     removeCallbackOnStart(c);
     removeCallbackOnEnd(c);
 }
 
 void sad::animations::Instance::clearCallbacksOnStart()
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < m_callbacks_on_start.size(); i++)
     {
         delete m_callbacks_on_start[i];
@@ -350,6 +378,7 @@ void sad::animations::Instance::clearCallbacksOnStart()
 
 void sad::animations::Instance::clearCallbacksOnEnd()
 {
+    PROFILER_EVENT;
     for (size_t i = 0; i < m_callbacks_on_end.size(); i++)
     {
         delete m_callbacks_on_end[i];
@@ -359,12 +388,14 @@ void sad::animations::Instance::clearCallbacksOnEnd()
 
 void sad::animations::Instance::clearCallbacks()
 {
+    PROFILER_EVENT;
     clearCallbacksOnStart();
     clearCallbacksOnEnd();
 }
 
 void sad::animations::Instance::restart(sad::animations::Animations* animations)
 {
+    PROFILER_EVENT;
     m_timer.stop();
     if (m_started && !m_finished)
     {
@@ -378,34 +409,40 @@ void sad::animations::Instance::restart(sad::animations::Animations* animations)
 
 void sad::animations::Instance::clearFinished()
 {
+    PROFILER_EVENT;
     m_finished = false;
     markAsValid();
 }
 
 bool sad::animations::Instance::finished() const
 {
+    PROFILER_EVENT;
     return m_finished;
 }
 
 
 void sad::animations::Instance::disableStateRestoringOnFinish()
 {
+    PROFILER_EVENT;
     m_restore_on_finished = false;
 }
 
 void sad::animations::Instance::enableStateRestoringOnFinish()
 {
+    PROFILER_EVENT;
     m_restore_on_finished = true;
 }
 
 
 void sad::animations::Instance::process(sad::animations::Animations* animations)
 {
+    PROFILER_EVENT;
     this->process(animations, true);
 }
 
 void sad::animations::Instance::process(sad::animations::Animations* animations, bool restore)
 {
+    PROFILER_EVENT;
     if (m_paused == false)
     {
         if (m_started == false)
@@ -433,6 +470,7 @@ void sad::animations::Instance::process(sad::animations::Animations* animations,
 
 void sad::animations::Instance::pause()
 {
+    PROFILER_EVENT;
     if (m_started)
     {
         m_paused = true;
@@ -443,6 +481,7 @@ void sad::animations::Instance::pause()
 
 void sad::animations::Instance::resume()
 {
+    PROFILER_EVENT;
     if (m_started)
     {
         m_paused = false;
@@ -453,6 +492,7 @@ void sad::animations::Instance::resume()
 
 void sad::animations::Instance::cancel(sad::animations::Animations* animations)
 {
+    PROFILER_EVENT;
     if (m_started && m_valid)
     {
         m_paused = false;
@@ -465,6 +505,7 @@ void sad::animations::Instance::cancel(sad::animations::Animations* animations)
 
 void sad::animations::Instance::addedToPipeline()
 {
+    PROFILER_EVENT;
     // NOTE: That should fix https://github.com/mamontov-cpp/saddy-graphics-engine-2d/issues/60
     // that instances could not be restarted without explicit calls
     this->clearFinished();
@@ -480,6 +521,7 @@ void sad::animations::Instance::setStateCommand(
     bool own
 )
 {
+    PROFILER_EVENT;
     if (m_state_command_own)
     {
         delete m_state_command;
@@ -490,11 +532,13 @@ void sad::animations::Instance::setStateCommand(
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::Instance::stateCommand() const
 {
+    PROFILER_EVENT;
     return m_state_command;
 }
 
 void sad::animations::Instance::setCollisionShape(sad::p2d::CollisionShape* shape)
 {
+    PROFILER_EVENT;
     delete m_shape;
     m_shape = shape;
     if (m_shape)
@@ -506,11 +550,13 @@ void sad::animations::Instance::setCollisionShape(sad::p2d::CollisionShape* shap
 
 sad::p2d::CollisionShape* sad::animations::Instance::shape()
 {
+    PROFILER_EVENT;
     return m_shape;
 }
 
 void sad::animations::Instance::setBody(sad::p2d::Body* body)
 {
+    PROFILER_EVENT;
     if (m_body)
     {
         m_body->delRef();
@@ -534,32 +580,38 @@ void sad::animations::Instance::setBody(sad::p2d::Body* body)
 
 sad::p2d::Body* sad::animations::Instance::body() const
 {
+    PROFILER_EVENT;
     return m_body;
 }
 
 void sad::animations::Instance::setBasicArea(const sad::Rect2D& r)
 {
+    PROFILER_EVENT;
     m_basic_area = r;
     m_basic_center = (r[0] + r[2]) / 2.0;
 }
 
 const sad::Rect2D& sad::animations::Instance::basicArea() const
 {
+    PROFILER_EVENT;
     return m_basic_area;
 }
 
 const sad::Point2D& sad::animations::Instance::basicCenter() const
 {
+    PROFILER_EVENT;
     return m_basic_center;
 }
 
 void  sad::animations::Instance::setBasicString(const sad::String& s)
 {
+    PROFILER_EVENT;
     m_basic_string = s;
 }
 
 const sad::String& sad::animations::Instance::basicString() const
 {
+    PROFILER_EVENT;
     return m_basic_string;
 }
 
@@ -567,6 +619,7 @@ void sad::animations::Instance::setStateCommands(
     const sad::Vector<sad::animations::setstate::AbstractSetStateCommand*>& c
 )
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < m_state_commands.size(); i++)
     {
         delete m_state_commands[i];
@@ -578,16 +631,19 @@ const sad::Vector<sad::animations::setstate::AbstractSetStateCommand*>&
 sad::animations::Instance::stateCommands() 
 const
 {
+    PROFILER_EVENT;
     return m_state_commands;
 }
 
 bool sad::animations::Instance::isRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f)
 {
+    PROFILER_EVENT;
     return f(m_object.get());
 }
 
 void sad::animations::Instance::stopInstancesRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f, sad::animations::Animations* a)
 {
+    PROFILER_EVENT;
     if (f(m_object.get()))
     {
         a->notifyProcessRemoval(this);
@@ -596,11 +652,13 @@ void sad::animations::Instance::stopInstancesRelatedToMatchedObject(const std::f
 
 bool sad::animations::Instance::isRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f)
 {
+    PROFILER_EVENT;
     return f(this->animation());
 }
 
 void sad::animations::Instance::stopInstancesRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f, sad::animations::Animations* a)
 {
+    PROFILER_EVENT;
     if (f(this->animation()))
     {
         a->notifyProcessRemoval(this);
@@ -609,12 +667,14 @@ void sad::animations::Instance::stopInstancesRelatedToMatchedAnimation(const std
 
 bool sad::animations::Instance::isRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f)
 {
+    PROFILER_EVENT;
     return f(this);
 }
 
 
 void sad::animations::Instance::stopInstancesRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f, sad::animations::Animations* a)
 {
+    PROFILER_EVENT;
     if (f(this))
     {
         a->notifyProcessRemoval(this);
@@ -629,6 +689,7 @@ double sad::animations::Instance::computeTime(
     bool restoreOnFinish
 )
 {
+    PROFILER_EVENT;
     double elapsed = m_start_time + m_timer.elapsed();
     double result = elapsed;
 
@@ -666,12 +727,14 @@ double sad::animations::Instance::computeTime(
 
 void sad::animations::Instance::processTime(sad::animations::Animations*, double time)
 {
+    PROFILER_EVENT;
     sad::animations::Animation* a =  this->animation();
     a->setState(this, time);
 }
 
 void sad::animations::Instance::start(sad::animations::Animations* animations)
 {
+    PROFILER_EVENT;
     this->checkIfValid(animations);
     if (m_valid)
     {
@@ -691,6 +754,7 @@ void sad::animations::Instance::start(sad::animations::Animations* animations)
 
 void sad::animations::Instance::markAsFinished()
 {
+    PROFILER_EVENT;
     m_finished = true;
     for(size_t i = 0; i < m_callbacks_on_end.size(); i++)
     {
@@ -700,6 +764,7 @@ void sad::animations::Instance::markAsFinished()
 
 void sad::animations::Instance::checkIfValid(sad::animations::Animations*)
 {
+    PROFILER_EVENT;
     sad::animations::Animation* a = this->animation();
     sad::db::Object* o = this->object();
 
@@ -713,6 +778,7 @@ void sad::animations::Instance::checkIfValid(sad::animations::Animations*)
 
 void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations* animations)
 {
+    PROFILER_EVENT;
     sad::animations::Animation* a = this->animation();
     sad::db::Object* o = this->object();
 
@@ -738,6 +804,7 @@ void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations*
 
 void sad::animations::Instance::restoreObjectState(sad::animations::Animations* animations)
 {
+    PROFILER_EVENT;
     if (m_restore_on_finished) 
     {
         const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators = this->animation()->creators();
@@ -749,11 +816,13 @@ void sad::animations::Instance::restoreObjectState(sad::animations::Animations* 
 
 double sad::animations::Instance::elapsedTime(sad::animations::Animations* animations)
 {
+    PROFILER_EVENT;
     return computeTime(animations);
 }
 
 void sad::animations::Instance::clearSetState()
 {
+    PROFILER_EVENT;
     if (m_state_command_own)
     {
         delete m_state_command;
@@ -763,6 +832,7 @@ void sad::animations::Instance::clearSetState()
 
 void sad::animations::Instance::copyState(const sad::animations::Instance& o)
 {
+    PROFILER_EVENT;
     if (o.m_shape)
     {
         m_shape = o.m_shape->clone(1);
@@ -804,6 +874,7 @@ void sad::animations::Instance::copyState(const sad::animations::Instance& o)
 
 void sad::animations::Instance::fireOnStartCallbacks()
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < m_callbacks_on_start.size(); i++)
     {
         m_callbacks_on_start[i]->invoke();

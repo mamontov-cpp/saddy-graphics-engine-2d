@@ -32,6 +32,7 @@
 #include "db/dbfield.h"
 #include "db/dbmethodpair.h"
 #include "db/dbtable.h"
+#include "opticksupport.h"
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::WayInstance, sad::animations::Instance)
 
@@ -39,6 +40,7 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::WayInstance, sad::animations::Instance
 
 sad::animations::WayInstance::WayInstance()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -46,11 +48,13 @@ sad::animations::WayInstance::WayInstance(const sad::animations::WayInstance& o)
 : sad::animations::Instance(o),
 m_way_link(o.m_way_link)
 {
+    PROFILER_EVENT;
     
 }
 
 sad::animations::WayInstance& sad::animations::WayInstance::operator=(const sad::animations::WayInstance& o)
 {
+    PROFILER_EVENT;
     this->sad::animations::Instance::operator=(o);
     m_way_link = o.m_way_link;
     return *this;
@@ -58,6 +62,7 @@ sad::animations::WayInstance& sad::animations::WayInstance::operator=(const sad:
 
 sad::animations::WayInstance::~WayInstance()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -67,6 +72,7 @@ static sad::Mutex WayAnimationInstanceSchemaInit;
 
 sad::db::schema::Schema* sad::animations::WayInstance::basicSchema()
 {
+    PROFILER_EVENT;
 if (WayAnimationInstanceSchema == nullptr)
     {
         WayAnimationInstanceSchemaInit.lock();
@@ -92,11 +98,13 @@ if (WayAnimationInstanceSchema == nullptr)
 
 sad::db::schema::Schema* sad::animations::WayInstance::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::WayInstance::basicSchema();
 }
 
 void sad::animations::WayInstance::setTable(sad::db::Table* t)
 {
+    PROFILER_EVENT;
     this->sad::animations::Instance::setTable(t);
     m_way_link.setDatabase(t->database());
 }
@@ -104,28 +112,33 @@ void sad::animations::WayInstance::setTable(sad::db::Table* t)
 sad::String AnimationsWayInstanceName = "sad::animations::WayInstance"; 
 const sad::String& sad::animations::WayInstance::serializableName() const
 {
+    PROFILER_EVENT;
     return AnimationsWayInstanceName;
 }
 
 void sad::animations::WayInstance::setWayMajorId(unsigned long long majorid)
 {
+    PROFILER_EVENT;
     m_way_link.setMajorId(majorid);
     m_valid = true;
 }
 
 unsigned long long sad::animations::WayInstance::wayMajorId() const
 {
+    PROFILER_EVENT;
     return m_way_link.majorId();
 }
 
 void sad::animations::WayInstance::setWay(sad::Way* i)
 {
+    PROFILER_EVENT;
     m_way_link.setObject(i);
     m_valid = true;
 }
 
 sad::Way* sad::animations::WayInstance::way() const
 {
+    PROFILER_EVENT;
     return m_way_link.get();
 }
 
@@ -134,6 +147,7 @@ sad::Way* sad::animations::WayInstance::way() const
 
 void sad::animations::WayInstance::start(sad::animations::Animations* animations)
 {
+    PROFILER_EVENT;
     this->checkIfValid(animations);
     if (m_valid)
     {
@@ -151,6 +165,7 @@ void sad::animations::WayInstance::start(sad::animations::Animations* animations
 
 double sad::animations::WayInstance::computeTime(sad::animations::Animations* animations, bool restoreOnFinish)
 {
+    PROFILER_EVENT;
     double elapsed = m_start_time + m_timer.elapsed();
     double result = elapsed;
 
@@ -187,6 +202,7 @@ double sad::animations::WayInstance::computeTime(sad::animations::Animations* an
 
 void sad::animations::WayInstance::processTime(sad::animations::Animations* animations, double time)
 {
+    PROFILER_EVENT;
     sad::Way* way = static_cast<sad::Way*>(m_way_link.get());
 
     sad::Point2D pos = way->getPointInTime(time - 0.1, 0.1);
@@ -200,6 +216,7 @@ void sad::animations::WayInstance::processTime(sad::animations::Animations* anim
 
 void sad::animations::WayInstance::checkIfValid(sad::animations::Animations* animations)
 {
+    PROFILER_EVENT;
     sad::Way* w = this->way();
     sad::db::Object* o = this->object();
     
@@ -216,6 +233,7 @@ void sad::animations::WayInstance::checkIfValid(sad::animations::Animations* ani
 
 void sad::animations::WayInstance::saveStateAndCompile(sad::animations::Animations* animations)
 {
+    PROFILER_EVENT;
     // Save state
     sad::db::Object* o = this->object();
     sad::String name = "sad::animations::SavedObjectSize";
@@ -263,6 +281,7 @@ void sad::animations::WayInstance::saveStateAndCompile(sad::animations::Animatio
 
 void sad::animations::WayInstance::restoreObjectState(sad::animations::Animations* animations)
 {
+    PROFILER_EVENT;
     sad::String name = "sad::animations::SavedObjectSize";
     animations->cache().restore(m_object.get(), name);
 }

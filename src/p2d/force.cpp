@@ -2,6 +2,7 @@
 #include <p2d/angularforce.h>
 
 #include <db/dbtypename.h>
+#include "opticksupport.h"
 
 
 DECLARE_SOBJ(sad::p2d::Force<double>)
@@ -25,11 +26,13 @@ void sad::p2d::Force<double>::setValue(double value)
 
 void sad::p2d::Force<double>::step(sad::p2d::Body* body, double time)
 {
+    PROFILER_EVENT;
 
 }
 
 sad::p2d::Body* sad::p2d::Force<double>::dependsFromBody() const
 {
+    PROFILER_EVENT;
     return nullptr;
 }
 
@@ -37,4 +40,3 @@ void sad::p2d::ImpulseForce<double>::step(sad::p2d::Body* body, double time)
 { 
     die(); 
 }
-

@@ -2,9 +2,11 @@
 
 #include <cstdlib>
 #include <string>
+#include "opticksupport.h"
 
 int sad::openInBrowser(const char* url)
 {
+    PROFILER_EVENT;
     if (!url)
     {
         return 0;

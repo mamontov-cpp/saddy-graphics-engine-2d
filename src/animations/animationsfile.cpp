@@ -1,4 +1,5 @@
 #include "animations/animationsfile.h"
+#include "opticksupport.h"
 
 
 // =================================== PUBLIC METHODS  ===================================
@@ -6,11 +7,13 @@
 sad::animations::File::File(const sad::String& name)
 : sad::resource::ResourceFile(name)
 {
+    PROFILER_EVENT;
     
 }
 
 sad::animations::File::~File()
 {
+    PROFILER_EVENT;
 
 }
 
@@ -18,16 +21,19 @@ sad::Vector<sad::resource::Error*> sad::animations::File::load(
     sad::resource::Folder * parent
 )
 {
+    PROFILER_EVENT;
     return load(parent, false);
 }
 
 sad::Vector<sad::resource::Error*> sad::animations::File::reload()
 {
+    PROFILER_EVENT;
     return load(this->tree()->root(), true);
 }
 
 bool sad::animations::File::supportsLoadingFromTar7z() const
 {
+    PROFILER_EVENT;
     return true;
 }
 
@@ -36,6 +42,7 @@ bool sad::animations::File::supportsLoadingFromTar7z() const
 
 sad::Vector<sad::resource::Error*> sad::animations::File::load(sad::resource::Folder * parent, bool force_reload)
 {
+    PROFILER_EVENT;
     sad::Vector<sad::resource::Error*> errors;
     sad::Vector<sad::animations::File::parse_result> parseresult;
     this->tryParsePartial(parseresult, errors, force_reload);
@@ -109,6 +116,7 @@ void sad::animations::File::tryParsePartial(
         bool force_reload
 ) const
 {
+    PROFILER_EVENT;
     sad::Maybe<sad::String> maybecontent = this->tryReadToString(force_reload);
     if (maybecontent.exists())
     {

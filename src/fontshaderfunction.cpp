@@ -2,27 +2,32 @@
 #include "renderer.h"
 #include "opengl.h"
 #include "os/extensionfunctions.h"
+#include "opticksupport.h"
 
 // =============================== PUBLIC METHODS ===============================
 
 sad::FontShaderFunction::FontShaderFunction() : ShaderFunction(), m_center_loc_id(-1), m_angle_loc_id(-1)
 {
+    PROFILER_EVENT;
 
 }
 
 sad::FontShaderFunction::FontShaderFunction(const sad::ShaderFunction& fun) : ShaderFunction(fun), m_center_loc_id(-1), m_angle_loc_id(-1)
 {
+    PROFILER_EVENT;
 
 }
 
 sad::FontShaderFunction& sad::FontShaderFunction::operator=(const sad::FontShaderFunction& fun)
 {
+    PROFILER_EVENT;
     this->sad::ShaderFunction::operator=(fun);
     return *this;
 }
 
 void sad::FontShaderFunction::apply(sad::SceneNode* node, sad::Bindable* tex, const sad::AColor* clr, const sad::Point2D& center, double angle)
 {
+    PROFILER_EVENT;
     this->sad::ShaderFunction::apply(node, tex, clr);
     sad::Renderer* r = sad::Renderer::ref();
     if (m_shader->renderer())
@@ -51,6 +56,7 @@ void sad::FontShaderFunction::apply(sad::SceneNode* node, sad::Bindable* tex, co
 
 void sad::FontShaderFunction::apply(sad::SceneNode* node, const sad::AColor* clr, const sad::Point2D& center, double angle)
 {
+    PROFILER_EVENT;
     this->sad::ShaderFunction::apply(node, clr);
     sad::Renderer* r = sad::Renderer::ref();
     if (m_shader->renderer())
@@ -79,11 +85,13 @@ void sad::FontShaderFunction::apply(sad::SceneNode* node, const sad::AColor* clr
 
 bool sad::FontShaderFunction::canBeUsedForFonts() const
 {
+    PROFILER_EVENT;
     return true;
 }
 
 sad::FontShaderFunction::~FontShaderFunction()
 {
+    PROFILER_EVENT;
 
 }
 
@@ -91,6 +99,7 @@ sad::FontShaderFunction::~FontShaderFunction()
 
 void sad::FontShaderFunction::tryCacheLocations()
 {
+    PROFILER_EVENT;
     if (!m_locations_are_cached)
     {
         m_locations_are_cached = true;

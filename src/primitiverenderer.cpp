@@ -10,14 +10,17 @@
 #include "renderer.h"
 #include "glcontext.h"
 #include "camera.h"
+#include "opticksupport.h"
 
 sad::PrimitiveRenderer::PrimitiveRenderer()
 {
+    PROFILER_EVENT;
     
 }
 
 sad::PrimitiveRenderer::~PrimitiveRenderer()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -30,6 +33,7 @@ void sad::PrimitiveRenderer::line(
     bool no_shader_fun
 )
 {
+    PROFILER_EVENT;
     if (!scene)
     {
         return;
@@ -84,6 +88,7 @@ void sad::PrimitiveRenderer::rectangle(
     sad::ShaderFunction* fun
 )
 {
+    PROFILER_EVENT;
     if (!scene)
     {
         return;
@@ -142,6 +147,7 @@ void sad::PrimitiveRenderer::circle(
     sad::ShaderFunction* fun
 )
 {
+    PROFILER_EVENT;
     if (!scene || (segments < 3))
     {
         return;

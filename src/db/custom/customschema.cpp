@@ -6,22 +6,26 @@
 
 #include <fstream>
 #include <cassert>
+#include "opticksupport.h"
 
 DECLARE_SOBJ_INHERITANCE(sad::db::custom::Schema, sad::resource::Resource);
 
 sad::db::custom::Schema::Schema()
 {
+    PROFILER_EVENT;
     // TODO: Add new properties, same as Sprite2D
     m_factory = new sad::db::StoredPropertyFactory();
 }
 
 sad::db::custom::Schema::~Schema()
 {
+    PROFILER_EVENT;
     delete m_factory;
 }
 
 void sad::db::custom::Schema::setFactory(sad::db::StoredPropertyFactory * factory)
 {
+    PROFILER_EVENT;
     m_factory_lock.lock();
 
     assert(factory);
@@ -33,16 +37,19 @@ void sad::db::custom::Schema::setFactory(sad::db::StoredPropertyFactory * factor
 
 sad::db::StoredPropertyFactory* sad::db::custom::Schema::factory() const
 {
+    PROFILER_EVENT;
     return m_factory;   
 }
 
 void sad::db::custom::Schema::setTreeItemName(const sad::String & item)
 {
+    PROFILER_EVENT;
     m_tree_item = item;
 }
 
 const sad::String& sad::db::custom::Schema::treeItemName() const
 {
+    PROFILER_EVENT;
     return m_tree_item; 
 }
 
@@ -52,6 +59,7 @@ bool sad::db::custom::Schema::load(
         const picojson::value& options
 )
 {
+    PROFILER_EVENT;
     std::ifstream stream(file.name().c_str());
     if (stream.bad())
     {
@@ -96,6 +104,7 @@ namespace custom
  */
 bool is_not_inherited(const sad::String & prop)
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i <  Sprite2DPropertiesLength; i++)
     {
         if (Sprite2DOwnProperties[i] == prop)
@@ -112,6 +121,7 @@ bool is_not_inherited(const sad::String & prop)
 
 bool sad::db::custom::Schema::load(const picojson::value& v)
 {
+    PROFILER_EVENT;
     m_properties_lock.lock();
     bool result = false;
     if (v.is<picojson::object>())
@@ -215,6 +225,7 @@ bool sad::db::custom::Schema::load(const picojson::value& v)
 
 void sad::db::custom::Schema::getCustomProperties(sad::Hash<sad::String, sad::db::Property*>& props)
 {
+    PROFILER_EVENT;
     m_properties_lock.lock();
     for (sad::PtrHash<sad::String, sad::db::Property>::const_iterator it = m_properties.const_begin(); 
          it != m_properties.const_end(); 
@@ -240,6 +251,7 @@ void sad::db::custom::Schema::getCustomProperties(sad::Hash<sad::String, sad::db
 
 void sad::db::custom::Schema::getNamesOfCustomProperties(sad::Vector<sad::String>& names)
 {
+    PROFILER_EVENT;
     m_properties_lock.lock();
     for (sad::PtrHash<sad::String, sad::db::Property>::const_iterator it = m_properties.const_begin();
          it != m_properties.const_end();
@@ -263,11 +275,13 @@ void sad::db::custom::Schema::getNamesOfCustomProperties(sad::Vector<sad::String
 
 sad::db::custom::Schema::Schema(const sad::db::custom::Schema& s) : m_factory(nullptr)
 {
+    PROFILER_EVENT;
     throw std::logic_error("Not implemented!");
 }
 
 sad::db::custom::Schema& sad::db::custom::Schema::operator=(const sad::db::custom::Schema& s)
 {
+    PROFILER_EVENT;
     throw std::logic_error("Not implemented!");
     return *this;
 }

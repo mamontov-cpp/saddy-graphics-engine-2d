@@ -7,14 +7,17 @@
 #include "sadrect.h"
 #include "sadpoint.h"
 #include "sadsize.h"
+#include "opticksupport.h"
 
 sad::db::StoredPropertyFactory::AbstractDelegate::~AbstractDelegate()
 {
+    PROFILER_EVENT;
     
 }
 
 sad::db::StoredPropertyFactory::StoredPropertyFactory()
 {
+    PROFILER_EVENT;
     add<bool>("bool");
     add<char>("char");
     add<unsigned char>("unsigned char");
@@ -46,6 +49,7 @@ sad::db::StoredPropertyFactory::StoredPropertyFactory()
 
 sad::db::StoredPropertyFactory::~StoredPropertyFactory()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -54,6 +58,7 @@ void sad::db::StoredPropertyFactory::add(
     sad::db::StoredPropertyFactory::AbstractDelegate * d
 )
 {
+    PROFILER_EVENT;
     if (m_delegates.contains(name))
     {
         delete m_delegates[name]; //-V515
@@ -67,6 +72,7 @@ void sad::db::StoredPropertyFactory::add(
 
  sad::db::Property *  sad::db::StoredPropertyFactory::create(const sad::String & name) const
 {
+    PROFILER_EVENT;
     sad::db::Property* p = nullptr;
     if (m_delegates.contains(name))
     {
@@ -78,11 +84,13 @@ void sad::db::StoredPropertyFactory::add(
 
 bool sad::db::StoredPropertyFactory::canCreate(const sad::String & name) const
 {
+    PROFILER_EVENT;
     return m_delegates.contains(name);
 }
 
 sad::db::StoredPropertyFactory* sad::db::StoredPropertyFactory::clone() const
 {
+    PROFILER_EVENT;
     sad::db::StoredPropertyFactory* result = new sad::db::StoredPropertyFactory();
     for(sad::PtrHash<sad::String, sad::db::StoredPropertyFactory::AbstractDelegate>::const_iterator it 
         = m_delegates.const_begin();

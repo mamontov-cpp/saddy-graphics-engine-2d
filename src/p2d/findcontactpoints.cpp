@@ -8,21 +8,25 @@
 
 
 #define EXCEPTION_MESSAGE (const char*)"Cannot determine contact points for given arguments"
+#include "opticksupport.h"
 
 sad::p2d::CannotDetermineContactPoints::CannotDetermineContactPoints()
 : std::logic_error(EXCEPTION_MESSAGE)
 {
+    PROFILER_EVENT;
 
 }
 
 
 void sad::p2d::FindContactPoints::reverse(sad::p2d::SetOfPointsPair & pairs)
 {
+    PROFILER_EVENT;
     sad::p2d::swap(pairs);
 }
 
 void sad::p2d::FindContactPoints::init()
 {
+    PROFILER_EVENT;
     this->sad::p2d::CollisionMultiMethodWithArg<sad::p2d::SetOfPointsPair, 
                                                 sad::p2d::Vector
                                                >::init();
@@ -45,6 +49,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getRtoR(
          const sad::p2d::Vector & v2
 )
 {
+    PROFILER_EVENT;
     return sad::p2d::FindContactPoints::exec(s1->toHull(), v1, s2->toHull(), v2);
 }
 
@@ -55,6 +60,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getRtoC(
          const sad::p2d::Vector & v2
 )
 {
+    PROFILER_EVENT;
     return sad::p2d::FindContactPoints::exec(s1->toHull(), v1, s2, v2);
 }
 
@@ -65,6 +71,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getRtoL(
          const sad::p2d::Vector & v2
 )
 {
+    PROFILER_EVENT;
     return sad::p2d::FindContactPoints::exec(s1->toHull(), v1, s2->toHull(), v2);
 }
 
@@ -75,6 +82,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getCtoC(
          const sad::p2d::Vector & v2
 )
 {
+    PROFILER_EVENT;
     return sad::p2d::FindContactPoints::exec(s1, v1, s2, v2);
 }
 
@@ -87,6 +95,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getLtoC(
          const sad::p2d::Vector & v2
 )
 {
+    PROFILER_EVENT;
     return sad::p2d::FindContactPoints::exec(s1->toHull(), v1, s2, v2);
 }
 
@@ -97,6 +106,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getLtoL(
          const sad::p2d::Vector & v2
 )
 {
+    PROFILER_EVENT;
     return sad::p2d::FindContactPoints::exec(s1->toHull(), v1, s2->toHull(), v2);
 }
 
@@ -106,6 +116,7 @@ void sad::p2d::insertUnique(
     const sad::p2d::Point & p2
 )
 {
+    PROFILER_EVENT;
     sad::p2d::insertUnique(set, sad::p2d::PointsPair(p1, p2));
 }
 
@@ -114,6 +125,7 @@ void sad::p2d::insertUnique(
     const sad::p2d::PointsPair & pair
 )
 {
+    PROFILER_EVENT;
     bool found = false;
     for(size_t i = 0; i < set.size(); i++)
     {
@@ -130,6 +142,7 @@ void sad::p2d::insertUnique(
 
 void sad::p2d::merge(sad::p2d::SetOfPointsPair & set1, const sad::p2d::SetOfPointsPair & set2)
 {
+    PROFILER_EVENT;
     for (size_t i = 0 ; i < set2.size(); i++)
     {
         sad::p2d::insertUnique(set1, set2[i]);
@@ -138,6 +151,7 @@ void sad::p2d::merge(sad::p2d::SetOfPointsPair & set1, const sad::p2d::SetOfPoin
 
 void sad::p2d::filterOptimalSet(sad::p2d::SetOfPointsPair & set, const sad::p2d::Vector & v)
 {
+    PROFILER_EVENT;
     double vm = sad::p2d::modulo(v);
     if (fabs(vm) < 0.0001)
         set.clear();
@@ -169,6 +183,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::exec(
          const sad::p2d::Vector & v2
 )
 {
+    PROFILER_EVENT;
     sad::p2d::Vector v = v1 - v2;
     sad::p2d::SetOfPointsPair result;
     bool xlessthanzero = (v.x() < 0 && sad::non_fuzzy_zero(v.x()));
@@ -205,6 +220,7 @@ sad::p2d::Point sad::p2d::intersectionWithNormalFrom(
     const sad::p2d::Cutter2D & c
 )
 {
+    PROFILER_EVENT;
     sad::p2d::InfiniteLine l1 = sad::p2d::InfiniteLine::fromCutter(c);
     sad::p2d::Vector v = sad::p2d::ortho(l1.direction(), sad::p2d::OrthoVectorIndex::OVI_DEG_90);
     sad::p2d::InfiniteLine l2 = sad::p2d::InfiniteLine::appliedVector(p, v);
@@ -216,6 +232,7 @@ sad::Vector<sad::p2d::Point> sad::p2d::intersection(
     const sad::p2d::Circle * ci
 )
 {
+    PROFILER_EVENT;
     sad::Vector<sad::p2d::Point> result;
     double R = ci->radius();
     if (sad::is_fuzzy_zero(l.kx()) && sad::non_fuzzy_zero(l.ky()))
@@ -283,6 +300,7 @@ sad::p2d::SetOfPointsPair sad::p2d::findContacts(
     const sad::p2d::Circle * ci
 )
 {
+    PROFILER_EVENT;
     sad::p2d::SetOfPointsPair result;
     if (sad::is_fuzzy_zero(sad::p2d::modulo(v))) 
         return result;
@@ -390,6 +408,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::exec(
          const sad::p2d::Vector & v2
 )
 {
+    PROFILER_EVENT;
     sad::p2d::SetOfPointsPair result;
     sad::p2d::Vector v = v1 - v2;
     sad::p2d::Point  dp = c2->center() - c1.center();
@@ -416,6 +435,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::exec(
          const sad::p2d::Vector & v2
 )
 {
+    PROFILER_EVENT;
     sad::p2d::SetOfPointsPair result;
     sad::p2d::Vector v = v1 - v2;
     bool xlessthanzero = (v.x() < 0 && sad::non_fuzzy_zero(v.x()));
@@ -512,6 +532,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getBtoB(
          const sad::p2d::Vector & v2
 )
 {
+    PROFILER_EVENT;
     // In this cases, bounds are always colliding, so we should test a bounds for collision
     if (s1->isOrthogonal(s2) || s1->type() == s2->type())
     {
@@ -555,6 +576,7 @@ bool sad::p2d::hasPair(const sad::p2d::SetOfPointsPair & set,
                        double x1, double y1,
                        double x2, double y2)
 {
+    PROFILER_EVENT;
     sad::p2d::Point p1(x1, y1);
     sad::p2d::Point p2(x2, y2);
     bool exists = false;
@@ -578,6 +600,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getBtoP(
          const sad::p2d::Vector & v2
 )
 {
+    PROFILER_EVENT;
     sad::p2d::Vector v = v2 - v1;
 
     sad::Vector<sad::p2d::Point> p2 = s2->points();
@@ -633,6 +656,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getBtoC(
          const sad::p2d::Vector & v2	
 )
 {
+    PROFILER_EVENT;
     sad::p2d::Vector v = v2 - v1;
 
     sad::p2d::SetOfPointsPair result;

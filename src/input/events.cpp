@@ -1,30 +1,36 @@
 #include "input/events.h"
 #include "db/dbtypename.h"
+#include "opticksupport.h"
 
 
 
 sad::input::AbstractEvent::~AbstractEvent()
 {
+    PROFILER_EVENT;
 
 }
 
 sad::input::NullEvent::NullEvent()
 {
+    PROFILER_EVENT;
 
 }
 
 sad::input::NullEvent::~NullEvent()
 {
+    PROFILER_EVENT;
 
 }
 
 sad::input::KeyEvent::~KeyEvent()
 {
+    PROFILER_EVENT;
 
 }
 
 sad::Maybe<sad::String> sad::input::KeyEvent::toWin1251Key() const
 {
+    PROFILER_EVENT;
     if (!ReadableKey.exists())
     {
         return sad::Maybe<sad::String>();
@@ -72,21 +78,25 @@ sad::Maybe<sad::String> sad::input::KeyEvent::toWin1251Key() const
 
 sad::input::MouseCursorEvent::~MouseCursorEvent()
 {
+    PROFILER_EVENT;
 
 }
 
 sad::input::MouseEvent::~MouseEvent()
 {
+    PROFILER_EVENT;
 
 }
 
 sad::input::MouseWheelEvent::~MouseWheelEvent()
 {
+    PROFILER_EVENT;
 
 }
 
 sad::input::ResizeEvent::~ResizeEvent()
 {
+    PROFILER_EVENT;
 
 }
 

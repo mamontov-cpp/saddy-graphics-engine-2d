@@ -3,6 +3,7 @@
 #include "renderer.h"
 #include "orthographiccamera.h"
 #include "sadmutex.h"
+#include "opticksupport.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include "os/glheaders.h"
@@ -24,12 +25,14 @@
 sad::Scene::Scene()
 : m_active(true), m_cached_layer(0), m_camera(new sad::OrthographicCamera()), m_renderer(nullptr), m_camera_buffer_object(nullptr)
 {
+    PROFILER_EVENT;
     m_camera->addRef();
     m_camera->setScene(this);
 }
 
 sad::Scene::~Scene()
 {
+    PROFILER_EVENT;
     for (unsigned long i = 0; i < this->m_layers.count(); i++)
         m_layers[i]->delRef();
     m_camera->delRef();
@@ -37,6 +40,7 @@ sad::Scene::~Scene()
 
 void sad::Scene::reset()
 {
+    PROFILER_EVENT;
     this->clear();
 }
 
@@ -46,6 +50,7 @@ static sad::Mutex SadSceneSchemaInit;
 
 sad::db::schema::Schema* sad::Scene::basicSchema()
 {
+    PROFILER_EVENT;
     if (SadSceneSchema == nullptr)
     {
         SadSceneSchemaInit.lock();
@@ -71,12 +76,14 @@ sad::db::schema::Schema* sad::Scene::basicSchema()
 
 sad::db::schema::Schema* sad::Scene::schema() const
 {
+    PROFILER_EVENT;
     return sad::Scene::basicSchema();
 }
 
 
 void sad::Scene::setRenderer(sad::Renderer * renderer)
 {
+    PROFILER_EVENT;
     m_renderer = renderer;
     for (unsigned long i = 0; i < this->m_layers.count(); i++)
         m_layers[i]->rendererChanged();
@@ -84,16 +91,19 @@ void sad::Scene::setRenderer(sad::Renderer * renderer)
 
 void sad::Scene::clearRenderer()
 {
+    PROFILER_EVENT;
     m_renderer = nullptr;
 }
 
 sad::Camera* sad::Scene::getCamera() const
 {
+    PROFILER_EVENT;
     return m_camera;
 }
 
 sad::Camera & sad::Scene::camera() const
 {
+    PROFILER_EVENT;
     return *m_camera;
 }
 
@@ -113,6 +123,7 @@ void sad::Scene::setCamera(sad::Camera * camera)
 
 int sad::Scene::findLayer(sad::SceneNode * node)
 {
+    PROFILER_EVENT;
     for (unsigned int i = 0; i < m_layers.count();i++) 
     {
         if (m_layers[i] == node)
@@ -123,6 +134,7 @@ int sad::Scene::findLayer(sad::SceneNode * node)
 
 void sad::Scene::setLayer(sad::SceneNode * node, unsigned int layer)
 {
+    PROFILER_EVENT;
     int oldlayer = findLayer(node); 
     if (oldlayer!=-1)
     {
@@ -140,6 +152,7 @@ void sad::Scene::setLayer(sad::SceneNode * node, unsigned int layer)
 
 void sad::Scene::swapLayers(sad::SceneNode * node1, sad::SceneNode * node2)
 {
+    PROFILER_EVENT;
     int pos1 = findLayer(node1);
     int pos2 = findLayer(node2);
     if (pos1 != -1 && pos2 != -1)
@@ -192,6 +205,7 @@ unsigned int sad::Scene::cachedSceneLayer() const
 
 unsigned int sad::Scene::sceneLayer() const
 {
+    PROFILER_EVENT;
     if (m_renderer)
     {
         return m_renderer->layer(const_cast<sad::Scene*>(this));
@@ -201,6 +215,7 @@ unsigned int sad::Scene::sceneLayer() const
 
 void sad::Scene::setSceneLayer(unsigned int layer)
 {
+    PROFILER_EVENT;
     if (m_renderer)
     {
         m_renderer->setLayer(this, layer);
@@ -212,11 +227,13 @@ static sad::String SceneSerializableName = "sad::Scene";
 
 const sad::String& sad::Scene::serializableName() const
 {
+    PROFILER_EVENT;
     return SceneSerializableName;   
 }
 
 sad::os::UBO* sad::Scene::cameraBufferObject()
 {
+    PROFILER_EVENT;
     if (m_camera_buffer_object)
     {
         return m_camera_buffer_object;
@@ -230,11 +247,13 @@ sad::os::UBO* sad::Scene::cameraBufferObject()
 
 void sad::Scene::setCameraBufferObject(sad::os::UBO* ubo)
 {
+    PROFILER_EVENT;
     m_camera_buffer_object = ubo;
 }
 
 void sad::Scene::addNow(sad::SceneNode * node)
 {
+    PROFILER_EVENT;
     node->addRef();
     bool mustchangerenderer = (node->renderer() == nullptr) || (m_renderer != node->renderer());
     node->setScene(this);
@@ -251,6 +270,7 @@ void sad::Scene::addNow(sad::SceneNode * node)
 
 void sad::Scene::removeNow(sad::SceneNode * node)
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < m_layers.count(); i++)
     {
         if (node == m_layers[i])
@@ -268,6 +288,7 @@ void sad::Scene::removeNow(sad::SceneNode * node)
 
 void sad::Scene::clearNow()
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < m_layers.count(); i++)
     {
         if (m_layers[i])

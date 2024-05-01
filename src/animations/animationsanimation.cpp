@@ -23,6 +23,7 @@
 #include <fstream>
 
 #include <sadmutex.h>
+#include "opticksupport.h"
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::Animation, sad::resource::Resource);
 
@@ -30,12 +31,14 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Animation, sad::resource::Resource);
 
 sad::animations::Animation::Animation() : m_looped(false), m_time(0), m_inner_valid(true), m_valid(true)
 {
+    PROFILER_EVENT;
     m_easing = new sad::animations::easing::Function();
     m_easing->addRef();
 }
 
 sad::animations::Animation::~Animation()
 {
+    PROFILER_EVENT;
     m_easing->delRef();
 }
 
@@ -45,6 +48,7 @@ static sad::Mutex AnimationAnimationSchemaInitLock;
 
 sad::db::schema::Schema* sad::animations::Animation::basicSchema()
 {
+    PROFILER_EVENT;
     if (AnimationAnimationSchema == nullptr)
     {
         AnimationAnimationSchemaInitLock.lock();
@@ -84,32 +88,38 @@ sad::db::schema::Schema* sad::animations::Animation::basicSchema()
 
 sad::db::schema::Schema* sad::animations::Animation::schema() const
 {
+    PROFILER_EVENT;
     return sad::animations::Animation::basicSchema();
 }
 
 void sad::animations::Animation::setLooped(bool looped)
 {
+    PROFILER_EVENT;
     m_looped = looped;
 }
 
 bool sad::animations::Animation::looped() const
 {
+    PROFILER_EVENT;
     return m_looped;
 }
 
 void sad::animations::Animation::setTime(double time)
 {
+    PROFILER_EVENT;
     m_time = time;
     this->updateValidFlag();	
 }
 
 double sad::animations::Animation::time() const
 {
+    PROFILER_EVENT;
     return m_time;
 }
 
 void sad::animations::Animation::setEasing(sad::animations::easing::Function* f)
 {
+    PROFILER_EVENT;
     m_easing->delRef();
     m_easing = f;
     if (m_easing)
@@ -120,16 +130,19 @@ void sad::animations::Animation::setEasing(sad::animations::easing::Function* f)
 
 sad::animations::easing::Function* sad::animations::Animation::easing() const
 {
+    PROFILER_EVENT;
     return m_easing;
 }
 
 void sad::animations::Animation::start(sad::animations::Instance* i)
 {
+    PROFILER_EVENT;
 
 }
 
 bool sad::animations::Animation::loadFromValue(const picojson::value& v)
 {
+    PROFILER_EVENT;
     sad::Maybe<bool> looped = picojson::to_type<bool>(
                 picojson::get_property(v, "looped")
     );
@@ -166,11 +179,13 @@ bool sad::animations::Animation::loadFromValue(const picojson::value& v)
 
 const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& sad::animations::Animation::creators() const
 {
+    PROFILER_EVENT;
     return m_creators;
 }
 
 void sad::animations::Animation::updateBeforePlaying()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -178,6 +193,7 @@ void sad::animations::Animation::updateBeforePlaying()
 
 void sad::animations::Animation::updateValidFlag()
 {
+    PROFILER_EVENT;
     m_valid = m_inner_valid && !sad::is_fuzzy_zero(m_time);
 }
 
@@ -187,6 +203,7 @@ bool sad::animations::Animation::load(
     const picojson::value& options
 )
 {
+    PROFILER_EVENT;
     std::ifstream stream(file.name().c_str());
     if (stream.bad())
     {
@@ -215,12 +232,14 @@ m_time(a.m_time),
 m_inner_valid(a.m_inner_valid),
 m_valid(a.m_valid)
 {
+    PROFILER_EVENT;
     m_easing = a.m_easing->clone();
 }
 
 
 sad::animations::Animation& sad::animations::Animation::operator=(const sad::animations::Animation& a)
 {
+    PROFILER_EVENT;
     return *this;
 }
 
@@ -240,17 +259,20 @@ public:
         &sad::animations::Animation::setEasing
     )
     {
+        PROFILER_EVENT;
         m_default_easing = new sad::animations::easing::Function();
         this->makeNonRequiredWithDefaultValue(new sad::db::Variant(m_default_easing));
     }
 
     virtual ~EasingProperty()
     {
+        PROFILER_EVENT;
         delete m_default_easing;
     }
 
     virtual bool copyAndSet(sad::db::Object * o, const sad::db::Variant & v)
     {
+        PROFILER_EVENT;
         sad::Maybe<sad::animations::easing::Function*> maybefn = v.get<sad::animations::easing::Function*>();
         if (maybefn.exists())
         {
@@ -262,6 +284,7 @@ public:
 
     virtual sad::db::Variant* defaultValue() const
     {
+        PROFILER_EVENT;
         sad::db::Variant* v = new sad::db::Variant(m_default_easing->clone());
         const_cast<sad::animations::EasingProperty*>(this)->m_variants.push_back(v);
         return v;
@@ -277,5 +300,6 @@ protected:
 
 sad::db::Property* sad::animations::Animation::easingProperty()
 {
+    PROFILER_EVENT;
     return new sad::animations::EasingProperty();
 }

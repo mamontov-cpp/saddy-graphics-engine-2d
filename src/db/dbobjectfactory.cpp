@@ -36,6 +36,7 @@
 #include "animations/animationstexturecoordinateslist.h"
 
 #include "layouts/grid.h"
+#include "opticksupport.h"
 
 // =========================================== sad::db::ObjectFactory::AbstractDelegate PUBLIC METHODS ===========================================
 
@@ -45,11 +46,13 @@ sad::db::ObjectFactory::AbstractDelegate::~AbstractDelegate() = default;
 
 sad::db::ObjectFactory::ObjectFactory()
 {
+    PROFILER_EVENT;
     initWithDefaultCallbacks();
 }
 
 sad::db::ObjectFactory::ObjectFactory(bool empty)
 {
+    PROFILER_EVENT;
     if (!empty)
     {
         initWithDefaultCallbacks();        
@@ -72,6 +75,7 @@ void sad::db::ObjectFactory::add(
 
 sad::db::schema::Schema* sad::db::ObjectFactory::schema(const sad::String& name)
 {
+    PROFILER_EVENT;
     sad::ScopedLock lock(&m_lock);
     sad::db::schema::Schema* result = nullptr;
     if (m_metadata_container.contains(name))
@@ -83,6 +87,7 @@ sad::db::schema::Schema* sad::db::ObjectFactory::schema(const sad::String& name)
 
 sad::db::Object* sad::db::ObjectFactory::create(const sad::String& name)
 {
+    PROFILER_EVENT;
     sad::ScopedLock lock(&m_lock);
     sad::db::Object* result = nullptr;
     if (m_metadata_container.contains(name))
@@ -94,6 +99,7 @@ sad::db::Object* sad::db::ObjectFactory::create(const sad::String& name)
 
 sad::db::Object* sad::db::ObjectFactory::createFromEntry(const picojson::value & v)
 {
+    PROFILER_EVENT;
     sad::ScopedLock lock(&m_lock);
     const picojson::value * type = picojson::get_property(v, "type");
     const picojson::value * name = picojson::get_property(v, "name");
@@ -128,6 +134,7 @@ sad::db::Object* sad::db::ObjectFactory::createFromEntry(const picojson::value &
 
 sad::db::ObjectFactory::~ObjectFactory()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -135,6 +142,7 @@ sad::db::ObjectFactory::~ObjectFactory()
 
 void sad::db::ObjectFactory::initWithDefaultCallbacks()
 {
+    PROFILER_EVENT;
     // A scene objects
     add<sad::Label>("sad::Label", sad::Label::basicSchema(), false);
     add<sad::Scene>("sad::Scene", sad::Scene::basicSchema(), false);
@@ -179,6 +187,7 @@ void sad::db::ObjectFactory::initWithDefaultCallbacks()
 
 sad::db::ObjectFactory::Entry::~Entry()
 {
+    PROFILER_EVENT;
     if (OwnsSchema)
     {
         delete Schema;

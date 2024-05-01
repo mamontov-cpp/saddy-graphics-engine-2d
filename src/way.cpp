@@ -3,6 +3,7 @@
 #include <geometry2d.h>
 
 #include "db/schema/schema.h"
+#include "opticksupport.h"
 // ReSharper disable once CppUnusedIncludeDirective
 #include "db/dbproperty.h"
 #include "db/save.h"
@@ -14,6 +15,7 @@
 
 sad::Way::Way() : m_constructed(true), m_closed(false), m_total_time(100)
 {
+    PROFILER_EVENT;
 
 }
 
@@ -21,6 +23,7 @@ sad::Way::~Way() = default;
 
 sad::Point2D sad::Way::getPointInTime(double current_time, double step)
 {
+    PROFILER_EVENT;
     if (!m_constructed)
     {
         construct();
@@ -67,6 +70,7 @@ sad::Point2D sad::Way::getPointInTime(double current_time, double step)
 
 void sad::Way::setPoint(int i,  const sad::WayPoint & p)
 {
+    PROFILER_EVENT;
     m_way_points[i] = p;
     if (m_constructed)
     {
@@ -76,6 +80,7 @@ void sad::Way::setPoint(int i,  const sad::WayPoint & p)
 
 void sad::Way::addPoint(const sad::WayPoint & p)
 {
+    PROFILER_EVENT;
     m_way_points << p;
     if (m_constructed)
     {
@@ -85,6 +90,7 @@ void sad::Way::addPoint(const sad::WayPoint & p)
 
 void sad::Way::insertPoint(int i, const sad::WayPoint& p)
 {
+    PROFILER_EVENT;
     m_way_points.insert(p, i);
     if (m_constructed)
     {
@@ -94,6 +100,7 @@ void sad::Way::insertPoint(int i, const sad::WayPoint& p)
 
 void sad::Way::removePoint(int i)
 {
+    PROFILER_EVENT;
     m_way_points.removeAt(i);
     if (m_constructed)
     {
@@ -103,11 +110,13 @@ void sad::Way::removePoint(int i)
 
 bool sad::Way::closed() const
 {
+    PROFILER_EVENT;
     return m_closed;
 }
 
 void sad::Way::setClosed(bool b)
 {
+    PROFILER_EVENT;
     m_closed = b;
     if (m_constructed)
     {
@@ -117,6 +126,7 @@ void sad::Way::setClosed(bool b)
 
 void sad::Way::makeClosed()
 {
+    PROFILER_EVENT;
     m_closed = true;
     if (m_constructed)
     {
@@ -126,6 +136,7 @@ void sad::Way::makeClosed()
 
 void sad::Way::makeOpen()
 {
+    PROFILER_EVENT;
     m_closed = false;
     if (m_constructed)
     {
@@ -135,6 +146,7 @@ void sad::Way::makeOpen()
 
 void sad::Way::setTotalTime(double time)
 {
+    PROFILER_EVENT;
     m_total_time = time;
     if (m_constructed)
     {
@@ -144,17 +156,20 @@ void sad::Way::setTotalTime(double time)
 
 double sad::Way::totalTime() const
 {
+    PROFILER_EVENT;
     return m_total_time;
 }
 
 void sad::Way::startConstruction()
 {
+    PROFILER_EVENT;
     m_constructed = false;
 }
 
 
 void sad::Way::construct()
 {
+    PROFILER_EVENT;
     m_constructed = true;
     if (m_way_points.size() <= 1 || sad::is_fuzzy_zero(m_total_time))
     {
@@ -190,6 +205,7 @@ static sad::String SadWayName = "sad::Way";  // NOLINT(clang-diagnostic-exit-tim
 
 const sad::String&  sad::Way::serializableName() const
 {
+    PROFILER_EVENT;
     return SadWayName;
 }
 
@@ -197,6 +213,7 @@ static sad::db::schema::Schema* SadWaySchema = nullptr;
 
 sad::db::schema::Schema* sad::Way::basicSchema()
 {
+    PROFILER_EVENT;
     if (SadWaySchema == nullptr)
     {
         SadWaySchema = new sad::db::schema::Schema();
@@ -228,11 +245,13 @@ sad::db::schema::Schema* sad::Way::basicSchema()
 
 sad::db::schema::Schema* sad::Way::schema() const
 {
+    PROFILER_EVENT;
     return sad::Way::basicSchema();
 }
 
 bool sad::Way::load(const picojson::value& v)
 {
+    PROFILER_EVENT;
     const bool result = this->sad::db::Object::load(v);
     if (result)
     {

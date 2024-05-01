@@ -14,12 +14,14 @@
 #define TAR7Z_SADDY
 
 #include <3rdparty/tar7z/include/archive.h>
+#include "opticksupport.h"
 
 
 // ================================== sad::resource::ResourceFileIdentifier ==================================
 
 void sad::resource::ResourceFileIdentifier::parse(const sad::String& string, sad::resource::ResourceFileIdentifier& ri)
 {
+    PROFILER_EVENT;
     const int tar7zlength = 6;
     if (string.startsWith("tar7z:", tar7zlength))
     {
@@ -64,6 +66,7 @@ void sad::resource::ResourceFileIdentifier::parse(const sad::String& string, sad
 sad::resource::ResourceFile::ResourceFile(const sad::String & name) 
 : m_name(name), m_tree(nullptr)
 {
+    PROFILER_EVENT;
     if (m_name.size())
     {
         sad::resource::ResourceFileIdentifier::parse(m_name, m_type);         
@@ -73,28 +76,33 @@ sad::resource::ResourceFile::ResourceFile(const sad::String & name)
 
 sad::resource::ResourceFile::~ResourceFile()
 {
+    PROFILER_EVENT;
 
 }
 
 
 bool sad::resource::ResourceFile::isAnonymous() const
 {
+    PROFILER_EVENT;
     return m_name.length() != 0;    
 }
 
 const sad::String & sad::resource::ResourceFile::name() const
 {
+    PROFILER_EVENT;
     return m_name;  
 }
 
 void sad::resource::ResourceFile::setName(const sad::String & name)
 {
+    PROFILER_EVENT;
     m_name = name;
     sad::resource::ResourceFileIdentifier::parse(m_name, m_type);
 }
 
 sad::Vector<sad::resource::Error*> sad::resource::ResourceFile::load(sad::resource::Folder * parent)
 {
+    PROFILER_EVENT;
     sad::Vector<sad::resource::Error*>  result;
     result << new sad::resource::FileLoadingNotImplemented(m_name);
     return result;
@@ -102,6 +110,7 @@ sad::Vector<sad::resource::Error*> sad::resource::ResourceFile::load(sad::resour
 
 sad::Vector<sad::resource::Error*> sad::resource::ResourceFile::reload()
 {
+    PROFILER_EVENT;
     sad::Vector<sad::resource::Error*> errors;
 
     sad::resource::ResourceEntryList list;
@@ -164,6 +173,7 @@ sad::Vector<sad::resource::Error*> sad::resource::ResourceFile::reload()
 
 sad::Maybe<sad::String> sad::resource::ResourceFile::tryLoad(sad::resource::Tree* tree)
 {
+    PROFILER_EVENT;
     sad::resource::Folder* folder = tree->root();
     sad::Vector<sad::resource::Error*> data = this->load(folder);
     return sad::resource::errorsToString(data);    
@@ -171,12 +181,14 @@ sad::Maybe<sad::String> sad::resource::ResourceFile::tryLoad(sad::resource::Tree
 
 sad::Maybe<sad::String> sad::resource::ResourceFile::tryReload()
 {
+    PROFILER_EVENT;
     sad::Vector<sad::resource::Error*> data = this->reload();
     return sad::resource::errorsToString(data);    
 }
 
 void sad::resource::ResourceFile::add(sad::resource::Resource * r)
 {
+    PROFILER_EVENT;
     if (r && std::find(m_resources.begin(), m_resources.end(), r) == m_resources.end())
     {
         m_resources << r;
@@ -185,21 +197,25 @@ void sad::resource::ResourceFile::add(sad::resource::Resource * r)
 
 void sad::resource::ResourceFile::remove(sad::resource::Resource * r)
 {
+    PROFILER_EVENT;
     m_resources.removeAll(r);
 }
 
 void sad::resource::ResourceFile::setTree(sad::resource::Tree * tree)
 {
+    PROFILER_EVENT;
     m_tree = tree;
 }
 
 sad::resource::Tree * sad::resource::ResourceFile::tree() const
 {
+    PROFILER_EVENT;
     return m_tree;
 }
 
 const sad::Vector<sad::resource::Resource*> & sad::resource::ResourceFile::resources() const
 {
+    PROFILER_EVENT;
     return m_resources; 
 }
 
@@ -208,6 +224,7 @@ void sad::resource::ResourceFile::replace(
     sad::resource::Resource * to
 )
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < m_resources.size(); i++)
     {
         if (m_resources[i] == from)
@@ -219,17 +236,20 @@ void sad::resource::ResourceFile::replace(
 
 const sad::resource::ResourceFileIdentifier& sad::resource::ResourceFile::rfi() const
 {
+    PROFILER_EVENT;
     return m_type;
 }
 
 bool sad::resource::ResourceFile::supportsLoadingFromTar7z() const
 {
+    PROFILER_EVENT;
     return false;
 }
 
 
 sad::Maybe<sad::String> sad::resource::ResourceFile::tryReadToString(bool force_reload) const
 {
+    PROFILER_EVENT;
     sad::Maybe<sad::String> result;
     if (m_type.Valid)
     {
@@ -279,6 +299,7 @@ void sad::resource::ResourceFile::replaceResources(
         const sad::resource::ResourceEntryList & resource_list
 )
 {
+    PROFILER_EVENT;
     m_resources.clear();
     for(size_t i = 0 ; i < resource_list.size(); i++)
     {
@@ -291,6 +312,7 @@ void sad::resource::ResourceFile::createOldResourceList(
     sad::resource::ResourceEntryList & resources
 )
 {
+    PROFILER_EVENT;
     for(size_t i = 0; i < m_resources.size(); i++)
     {
         sad::Maybe<sad::String> name = this->tree()->root()->find(m_resources[i]);
@@ -309,6 +331,7 @@ void sad::resource::ResourceFile::diffResourcesLists(
         sad::resource::ResourceEntryList & toberemoved
 )
 {
+    PROFILER_EVENT;
     sad::resource::ResourceEntryList noldlist = oldlist;
     for(size_t i = 0 ; i < newlist.size(); i++)
     {
@@ -338,6 +361,7 @@ void sad::resource::ResourceFile::convertReferencedOptionsToBeRemovedToErrors(
     sad::Vector<sad::resource::Error *> & errors
 )
 {
+    PROFILER_EVENT;
     for(size_t i = 0 ; i < toberemoved.size(); i++)
     {
         if (toberemoved[i].p2()->referenced())

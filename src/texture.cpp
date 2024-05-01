@@ -23,6 +23,7 @@
 #include <util/texturedefaultimage.h>
 
 #include <3rdparty/picojson/valuetotype.h>
+#include "opticksupport.h"
 
 // ================================ sad::Texture::Buffer implementation ================================
 
@@ -30,6 +31,7 @@ sad::Texture::Buffer::~Buffer() = default;
 
 void sad::Texture::Buffer::free()
 {
+    PROFILER_EVENT;
     
 }
 
@@ -39,11 +41,13 @@ sad::Texture::DefaultBuffer::DefaultBuffer() = default;
 
 sad::uchar* sad::Texture::DefaultBuffer::buffer() const
 {
+    PROFILER_EVENT;
     return Data.data();
 }
 
 void sad::Texture::DefaultBuffer::free()
 {
+    PROFILER_EVENT;
     Data.clear();
 }
 
@@ -54,11 +58,13 @@ sad::Texture::DefaultBuffer::~DefaultBuffer() = default;
 
 sad::Texture::PointerBuffer::PointerBuffer(sad::uchar* p) : Data(p)
 {
+    PROFILER_EVENT;
 
 }
 
 sad::uchar* sad::Texture::PointerBuffer::buffer() const
 {
+    PROFILER_EVENT;
     return Data;
 }
 
@@ -66,12 +72,14 @@ sad::uchar* sad::Texture::PointerBuffer::buffer() const
  */
 void sad::Texture::PointerBuffer::free()
 {
+    PROFILER_EVENT;
     delete Data;
     Data = nullptr;
 }
 
 sad::Texture::PointerBuffer::~PointerBuffer()
 {
+    PROFILER_EVENT;
     delete Data;
 }
 
@@ -79,11 +87,13 @@ sad::Texture::PointerBuffer::~PointerBuffer()
 
 sad::Texture::Tar7zArchiveBuffer::Tar7zArchiveBuffer() : Archive(nullptr), Offset(0)
 {
+    PROFILER_EVENT;
     
 }
 
 sad::uchar* sad::Texture::Tar7zArchiveBuffer::buffer() const
 {
+    PROFILER_EVENT;
     if (!Archive)
     {
         return nullptr;
@@ -99,6 +109,7 @@ sad::Texture::DefaultImageBuffer::DefaultImageBuffer() = default;
 
 sad::uchar* sad::Texture::DefaultImageBuffer::buffer() const
 {
+    PROFILER_EVENT;
     return const_cast<sad::uchar*>(sad::util::DefaultImage::Data);
 }
 
@@ -112,11 +123,13 @@ DECLARE_SOBJ_INHERITANCE(sad::Texture, sad::resource::Resource);
 sad::Texture::Texture() 
 : BuildMipMaps(true), Buffer(new sad::Texture::DefaultBuffer()), Bpp(32), Format(sad::Texture::InternalFormat::SFT_R8_G8_B8_A8), Width(0), Height(0), Id(0), OnGPU(false), m_renderer(nullptr)
 {
+    PROFILER_EVENT;
 
 }
 
 sad::Texture::~Texture()
 {
+    PROFILER_EVENT;
 #ifndef TEXTURE_LOADER_TEST 
     if (this->renderer() && OnGPU)
     {
@@ -149,6 +162,7 @@ sad::Texture::~Texture()
 
 void sad::Texture::upload()
 {
+    PROFILER_EVENT;
 #ifndef TEXTURE_LOADER_TEST 
     // We must not upload on our own to not cause
     // undefined behaviour
@@ -371,6 +385,7 @@ void sad::Texture::upload()
 
 void sad::Texture::loadDefaultTexture()
 {
+    PROFILER_EVENT;
     Bpp = 32;
     Width = 64;
     Height = 64;
@@ -381,11 +396,13 @@ void sad::Texture::loadDefaultTexture()
 
 bool sad::Texture::supportsLoadingFromTar7z() const
 {
+    PROFILER_EVENT;
     return true;
 }
 
 void sad::Texture::unloadFromGPU()
 {
+    PROFILER_EVENT;
     this->unload();
 }
 
@@ -397,6 +414,7 @@ bool sad::Texture::load(
         const picojson::value& options
 )
 {
+    PROFILER_EVENT;
     const sad::resource::ResourceFileIdentifier& ri  = file.rfi();
     bool result = false;
     if (ri.Valid)
@@ -444,6 +462,7 @@ bool sad::Texture::load(
 
 bool sad::Texture::load(tar7z::Entry* e, sad::Renderer* r)
 {
+    PROFILER_EVENT;
     if (!r)
     {
         r = sad::Renderer::ref();
@@ -459,6 +478,7 @@ bool sad::Texture::load(tar7z::Entry* e, sad::Renderer* r)
 
 bool sad::Texture::load(const sad::String & filename, sad::Renderer * r)
 {
+    PROFILER_EVENT;
     if (!r)
     {
         r = sad::Renderer::ref();
@@ -484,6 +504,7 @@ bool sad::Texture::load(const sad::String & filename, sad::Renderer * r)
 
 bool sad::Texture::load(const sad::WString & filename, sad::Renderer * r)
 {
+    PROFILER_EVENT;
     if (!r)
     {
         r = sad::Renderer::ref();
@@ -500,6 +521,7 @@ bool sad::Texture::load(const sad::WString & filename, sad::Renderer * r)
 
 void sad::Texture::bind()
 {
+    PROFILER_EVENT;
 #ifndef TEXTURE_LOADER_TEST
     if (!OnGPU)
         upload();
@@ -513,6 +535,7 @@ void sad::Texture::bind()
 
 void sad::Texture::unload()
 {
+    PROFILER_EVENT;
 #ifndef TEXTURE_LOADER_TEST
     if (OnGPU)
     {
@@ -529,6 +552,7 @@ void sad::Texture::unload()
 
 void sad::Texture::setRepeat(bool repeat_x, bool repeat_y)
 {
+    PROFILER_EVENT;
     sad::Renderer* r = this->renderer();
     if (!r)
     {
@@ -552,6 +576,7 @@ void sad::Texture::setRepeat(bool repeat_x, bool repeat_y)
 
 void sad::Texture::setAlpha(sad::uchar a) const
 {
+    PROFILER_EVENT;
     assert(Bpp == 32);
     size_t buffersize = Width * Height * (Bpp / 8);
     sad::uchar* bufbegin = Buffer->buffer();
@@ -563,6 +588,7 @@ void sad::Texture::setAlpha(sad::uchar a) const
 
 void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr) const
 {
+    PROFILER_EVENT;
     assert(Bpp == 32);
     size_t buffersize = Width * Height * (Bpp / 8);
     sad::uchar* bufbegin = Buffer->buffer();
@@ -580,6 +606,7 @@ void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr) const
 
 void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect2D & rect) const
 {
+    PROFILER_EVENT;
     sad::Rect2I tmp = sad::_(rect);
     for (int i=0;i<4;i++)
     {
@@ -619,11 +646,13 @@ void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect
 
 sad::Renderer * sad::Texture::renderer() const
 {
+    PROFILER_EVENT;
     return m_renderer;
 }
 
 void sad::Texture::convertToPOTTexture()
 {
+    PROFILER_EVENT;
     const unsigned int  max_side = std::max(Width, Height);
     unsigned int  size = 1;
     while(size < max_side)
@@ -654,6 +683,7 @@ void sad::Texture::convertToPOTTexture()
 
 unsigned char const * sad::Texture::getGLError() const
 {
+    PROFILER_EVENT;
     if (!m_renderer)
     {
         return nullptr;

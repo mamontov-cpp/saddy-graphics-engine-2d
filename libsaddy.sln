@@ -1,18 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.34526.175
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsaddy", "libsaddy.vcxproj", "{4F41A547-C004-4A32-A69A-36EBAFA5EB93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Optick|Win32 = Debug Optick|Win32
+		Debug Optick|x64 = Debug Optick|x64
 		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
 		Release|Win32 = Release|Win32
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F41A547-C004-4A32-A69A-36EBAFA5EB93}.Debug Optick|Win32.ActiveCfg = Debug Optick|Win32
+		{4F41A547-C004-4A32-A69A-36EBAFA5EB93}.Debug Optick|Win32.Build.0 = Debug Optick|Win32
+		{4F41A547-C004-4A32-A69A-36EBAFA5EB93}.Debug Optick|x64.ActiveCfg = Debug Optick|x64
+		{4F41A547-C004-4A32-A69A-36EBAFA5EB93}.Debug Optick|x64.Build.0 = Debug Optick|x64
 		{4F41A547-C004-4A32-A69A-36EBAFA5EB93}.Debug|Win32.ActiveCfg = Debug|Win32
 		{4F41A547-C004-4A32-A69A-36EBAFA5EB93}.Debug|Win32.Build.0 = Debug|Win32
 		{4F41A547-C004-4A32-A69A-36EBAFA5EB93}.Debug|x64.ActiveCfg = Debug|x64
@@ -24,5 +30,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6E33338D-6403-4196-9086-B5DC329FCF7B}
 	EndGlobalSection
 EndGlobal

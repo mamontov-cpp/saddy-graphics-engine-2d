@@ -12,15 +12,18 @@
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
+#include "opticksupport.h"
 
 sad::resource::TextureAtlasFile::TextureAtlasFile(const sad::String& name) 
 : sad::resource::ResourceFile(name), m_my_texture(nullptr)
 {
+    PROFILER_EVENT;
     
 }
 
 sad::resource::TextureAtlasFile::~TextureAtlasFile()
 {
+    PROFILER_EVENT;
     if (m_my_texture)
     {
         delete m_my_texture;
@@ -31,6 +34,7 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::load(
     sad::resource::Folder * parent
 )
 {
+    PROFILER_EVENT;
     sad::Vector<sad::resource::Error*> errors;
     sad::resource::TextureAtlasFile::parse_result result;
     this->tryParsePartial(result, errors);
@@ -112,6 +116,7 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::load(
 
 sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::reload()
 {
+    PROFILER_EVENT;
     sad::Vector<sad::resource::Error*> errors;
     sad::resource::TextureAtlasFile::parse_result result;
     this->tryParsePartial(result, errors, true);
@@ -161,6 +166,7 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::reload()
 
 bool sad::resource::TextureAtlasFile::supportsLoadingFromTar7z() const
 {
+    PROFILER_EVENT;
     return true;
 }
 
@@ -171,6 +177,7 @@ void sad::resource::TextureAtlasFile::tryParsePartial(
         bool force_reload
 ) const
 {
+    PROFILER_EVENT;
     sad::Maybe<sad::String> maybecontent = this->tryReadToString(force_reload);
     if (maybecontent.exists())
     {
@@ -268,6 +275,7 @@ void sad::resource::TextureAtlasFile::tryLoadNewTexture(
     bool force_reload
 ) const
 {
+    PROFILER_EVENT;
     result.OldTexture = this->tree()->root()->resource(parsed.ResourceName);
     result.NewTexture = new sad::Texture();
     sad::resource::ResourceFile * file  = nullptr;
@@ -328,6 +336,7 @@ void sad::resource::TextureAtlasFile::commit(
     const sad::resource::TextureAtlasFile::TextureLoadResult & result
 )
 {
+    PROFILER_EVENT;
     if (result.OldTexture)
     {
         sad::resource::ResourceFile* oldfile = result.OldTexture->file();
@@ -360,6 +369,7 @@ void sad::resource::TextureAtlasFile::free(
     const sad::resource::TextureAtlasFile::TextureLoadResult & result
 )
 {
+    PROFILER_EVENT;
     if (result.NewTexture)
     {
         delete result.NewTexture;
@@ -376,6 +386,7 @@ void sad::resource::TextureAtlasFile::fillOptionsList(
     sad::resource::Resource * texture
 ) const
 {
+    PROFILER_EVENT;
     const picojson::array & list = parsed.EntryList;
     for(size_t i = 0; i < list.size(); i++)
     {

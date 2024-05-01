@@ -1,31 +1,37 @@
 #include "animations/animationssavedobjectstatecache.h"
+#include "opticksupport.h"
 
 // ========================== PUBLIC METHODS ==========================
 
 sad::animations::SavedObjectStateCache::SavedObjectStateCache()
 {
+    PROFILER_EVENT;
     
 }
 
 sad::animations::SavedObjectStateCache::SavedObjectStateCache(const sad::animations::SavedObjectStateCache& s)
 {
+    PROFILER_EVENT;
     
 }
 
 
 sad::animations::SavedObjectStateCache& sad::animations::SavedObjectStateCache::operator=(const sad::animations::SavedObjectStateCache& s)
 {
+    PROFILER_EVENT;
     clear();
     return *this;
 }
 
 sad::animations::SavedObjectStateCache::~SavedObjectStateCache()
 {
+    PROFILER_EVENT;
     clear();
 }
 
 bool sad::animations::SavedObjectStateCache::lookup(sad::db::Object* o, const sad::String& name) const
 {
+    PROFILER_EVENT;
     bool result = false;
     if (m_cache.contains(o))
     {
@@ -36,6 +42,7 @@ bool sad::animations::SavedObjectStateCache::lookup(sad::db::Object* o, const sa
 
 void sad::animations::SavedObjectStateCache::increment(sad::db::Object* o, const sad::String& name) const
 {
+    PROFILER_EVENT;
     if (m_cache.contains(o))
     {
         const sad::Hash<sad::String, sad::animations::SavedObjectState*> &c = m_cache[o];
@@ -48,6 +55,7 @@ void sad::animations::SavedObjectStateCache::increment(sad::db::Object* o, const
 
 void sad::animations::SavedObjectStateCache::saveState(sad::db::Object* o, const sad::String& name, sad::animations::SavedObjectState* state)
 {
+    PROFILER_EVENT;
     if (m_cache.contains(o))
     {
         sad::Hash<sad::String, sad::animations::SavedObjectState*> &c = m_cache[o];
@@ -70,6 +78,7 @@ void sad::animations::SavedObjectStateCache::saveState(sad::db::Object* o, const
 
 void sad::animations::SavedObjectStateCache::restore(sad::db::Object* o, const sad::String& name)
 {
+    PROFILER_EVENT;
     if (m_cache.contains(o))
     {
         sad::Hash<sad::String, sad::animations::SavedObjectState*> &c = m_cache[o];
@@ -89,6 +98,7 @@ void sad::animations::SavedObjectStateCache::restore(sad::db::Object* o, const s
 
 void sad::animations::SavedObjectStateCache::clear()
 {
+    PROFILER_EVENT;
     for (sad::Hash<sad::db::Object*, sad::Hash<sad::String, sad::animations::SavedObjectState*> >::iterator ii = m_cache.begin();
          ii != m_cache.end();
          ++ii)
