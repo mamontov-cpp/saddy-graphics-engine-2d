@@ -707,15 +707,17 @@ void sad::Sprite2D::set(const sad::Sprite2D::Options & o)
 void sad::Sprite2D::set(const sad::String & optionsname)
 {
     PROFILER_EVENT;
-    bool was_textured = m_was_textured;
+    const bool was_textured = m_was_textured;
 
     m_explicit_set = true;
     m_options.setPath(optionsname);
+
+    sad::Renderer* my_renderer = this->renderer();
     // Make texture render dependent
-    if (this->renderer() != nullptr)
+    if (my_renderer != nullptr)
     {
-        m_options.setRenderer(this->renderer());
-        m_texture.setRenderer(this->renderer());
+        m_options.setRenderer(my_renderer);
+        m_texture.setRenderer(my_renderer);
     }
 
     sad::Sprite2D::Options* opts = m_options.get();
@@ -725,7 +727,7 @@ void sad::Sprite2D::set(const sad::String & optionsname)
         this->onOptionsChange(opts);
     }
     bool should_return = true;
-    if ((m_old_renderer == this->renderer()) && (m_old_renderer != nullptr))
+    if ((m_old_renderer == my_renderer) && (m_old_renderer != nullptr))
     {
         sad::Texture* tex = m_texture.get();
         const bool has_texture = tex != nullptr;

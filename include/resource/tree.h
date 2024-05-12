@@ -40,8 +40,8 @@ class Resource;
     have at least one.
  */
 class Tree: public sad::RefCountable  
-{	
-public:	
+{
+public:
     /*! Constructs a new empty tree
         \param[in] r used renderer (nullptr for global)
      */
@@ -243,6 +243,9 @@ protected:
      *  \param[in] errors on error callback
      */
     void fireOnError(const sad::Vector<sad::resource::Error*>& errors) const;
+    /*! Clears caches
+     */
+    void clearCache();
     /*! An archive list
      */
     sad::Vector<tar7z::Archive*> m_archive_list;
@@ -289,6 +292,12 @@ private:
     /*! A temporary root for loading data
      */
     sad::String m_temporary_root;
+    /*! A cache data
+     */
+    sad::Hash<sad::String, sad::resource::Resource*> m_resource_cache;
+    /*! A class resource data cache
+     */
+    sad::Hash<sad::String, sad::Hash<sad::String, sad::resource::Resource*> > m_class_resource_cache;
 };
 
 }

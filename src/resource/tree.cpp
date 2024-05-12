@@ -78,6 +78,7 @@ void sad::resource::Tree::setOnError(const std::function<void(sad::resource::Err
 sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad::String & string)
 {
     PROFILER_EVENT;
+    clearCache();
     m_temporary_root_folder = nullptr;
     sad::Vector<sad::resource::Error*> errors;
     
@@ -383,6 +384,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
         {
             files << file;
             store->addResources(list, false);
+            clearCache();
             delete temporary;
         }
         else
@@ -426,6 +428,7 @@ bool sad::resource::Tree::unload(const sad::String& file)
                 delete list[i];
             }
         }
+        clearCache();
         m_files.removeAll(f);
         delete f;
         return true;
@@ -459,6 +462,7 @@ bool sad::resource::Tree::unload(sad::resource::ResourceFile * file)
                 delete list[i];
             }
         }
+        clearCache();
         m_files.removeAll(f);
         delete f;
         return true;
@@ -530,7 +534,7 @@ sad::Vector<sad::resource::Error *> sad::resource::Tree::duplicatesToErrors(
         const sad::Vector<sad::String> & l
 )
 {
-    PROFILER_EVENT;
+    PROFILER_EVENT
     sad::Vector<sad::resource::Error *> result;
     for (size_t i = 0; i < l.size(); i++)
     {
@@ -541,7 +545,12 @@ sad::Vector<sad::resource::Error *> sad::resource::Tree::duplicatesToErrors(
 
 sad::resource::Resource* sad::resource::Tree::resource(const sad::String& name)
 {
-    PROFILER_EVENT;
+    PROFILER_EVENT
+    const auto iterator = m_resource_cache.find(name);
+    if (iterator != m_resource_cache.end())
+    {
+        return iterator->second;
+    }
     sad::resource::Folder* root = this->root();
     sad::resource::Resource* result = nullptr;
     if (root)
@@ -555,12 +564,24 @@ sad::resource::Resource* sad::resource::Tree::resource(const sad::String& name)
             result = m_subtrees[i]->resource(name);
         }
     }
+    m_resource_cache.insert(name, result);
     return result;
 }
 
 sad::resource::Resource* sad::resource::Tree::getResourceOfClass(const sad::String& name, const sad::String& class_name)
 {
-    PROFILER_EVENT;
+    PROFILER_EVENT
+    auto iterator = m_class_resource_cache.find(class_name);
+    if (iterator == m_class_resource_cache.end())
+    {
+        m_class_resource_cache.insert(class_name, sad::Hash<sad::String, sad::resource::Resource*>());
+        iterator = m_class_resource_cache.find(class_name);
+    }
+    const auto inner_iterator = iterator->second.find(name);
+    if (inner_iterator != iterator->second.end())
+    {
+        return inner_iterator->second;
+    }
     sad::resource::Folder* folder = this->root();
     sad::resource::Resource* res = nullptr;
     if (folder)
@@ -584,24 +605,25 @@ sad::resource::Resource* sad::resource::Tree::getResourceOfClass(const sad::Stri
             res = m_subtrees[i]->getResourceOfClass(name, class_name);
         }
     }
+    iterator->second.insert(name, res);
     return res;
 }
 
 sad::resource::Folder * sad::resource::Tree::temporaryRoot() const
 {
-    PROFILER_EVENT;
+    PROFILER_EVENT
     return m_temporary_root_folder;
 }
 
 void sad::resource::Tree::unloadResourcesFromGPU() const
 {
-    PROFILER_EVENT;
+    PROFILER_EVENT
     this->root()->unloadResourcesFromGPU();
 }
 
 tar7z::Entry* sad::resource::Tree::archiveEntry(const sad::String& archive, const sad::String& filename, bool load_new)
 {
-    PROFILER_EVENT;
+    PROFILER_EVENT
     if (m_archives.contains(archive) && !load_new)
     {
         return m_archive_list[m_archives[archive]]->file(filename);
@@ -636,7 +658,7 @@ tar7z::Entry* sad::resource::Tree::archiveEntry(const sad::String& archive, cons
     if (ok)
     {
         m_archive_list << ar;
-        m_archives.insert(archive, m_archive_list.size() - 1);
+        m_archives.insert(archive, static_cast<unsigned int>(m_archive_list.size()) - 1u);
         return ar->file(filename);
     }
     
@@ -646,32 +668,34 @@ tar7z::Entry* sad::resource::Tree::archiveEntry(const sad::String& archive, cons
 
 const sad::Vector<sad::resource::Tree*>& sad::resource::Tree::subtrees() const
 {
-    PROFILER_EVENT;
+    PROFILER_EVENT
     return m_subtrees;
 }
 
 void sad::resource::Tree::addSubtree(sad::resource::Tree* tree)
 {
-    PROFILER_EVENT;
+    PROFILER_EVENT
     if (tree)
     {
         if (std::find(m_subtrees.begin(), m_subtrees.end(), tree) == m_subtrees.end())
         {
             m_subtrees << tree;
             tree->addRef();
+            clearCache();
         }
     }
 }
 
 void sad::resource::Tree::removeSubtree(sad::resource::Tree* tree)
 {
-    PROFILER_EVENT;
+    PROFILER_EVENT
     if (tree)
     {
         if (std::find(m_subtrees.begin(), m_subtrees.end(), tree) != m_subtrees.end())
         {
             m_subtrees.removeFirst(tree);
             tree->delRef();
+            clearCache();
         }
     }
 }
@@ -683,7 +707,7 @@ DECLARE_COMMON_TYPE(sad::resource::Tree)
 
 void sad::resource::Tree::fireOnError(const sad::Vector<sad::resource::Error*>& errors) const
 {
-    PROFILER_EVENT;
+    PROFILER_EVENT
     if (errors.empty())
     {
         return;
@@ -692,4 +716,12 @@ void sad::resource::Tree::fireOnError(const sad::Vector<sad::resource::Error*>& 
     {
         m_on_error(error);
     }
+}
+
+
+void sad::resource::Tree::clearCache()
+{
+    PROFILER_EVENT
+    m_resource_cache.clear();
+    m_class_resource_cache.clear();
 }
