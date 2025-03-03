@@ -611,7 +611,8 @@ bool sad::layouts::Grid::merge(size_t row, size_t col, size_t row_span, size_t c
     
     CellComparator less;
 
-    std::unique(to_be_erased.begin(), to_be_erased.end()); //-V530
+    sad::Vector<sad::layouts::Cell*>::iterator erase_begin_it = std::unique(to_be_erased.begin(), to_be_erased.end());
+    to_be_erased.erase(erase_begin_it, to_be_erased.end());
     std::sort(to_be_erased.begin(), to_be_erased.end(), less);
     for(size_t i = 0; i < to_be_erased.size(); i++)
     {
@@ -969,7 +970,7 @@ void sad::layouts::Grid::expandRows(size_t old_rows, size_t new_rows)
 void sad::layouts::Grid::shrinkRows(size_t old_rows, size_t new_rows)
 {
     PROFILER_EVENT;
-    sad::Vector<sad::layouts::Cell*> toberemoved;
+    sad::Vector<sad::layouts::Cell*> to_be_removed;
     for(size_t row = old_rows - 1; row >= new_rows; row--)
     {
         for(size_t col = 0; col < m_cols; col++)
@@ -983,17 +984,18 @@ void sad::layouts::Grid::shrinkRows(size_t old_rows, size_t new_rows)
                 }
                 else
                 {
-                    toberemoved << oldcell;
+                    to_be_removed << oldcell;
                 }
             }
         }
     }
 
-    std::unique(toberemoved.begin(), toberemoved.end()); //-V530
-    for(size_t i = 0; i < toberemoved.size(); i++)
+    sad::Vector<sad::layouts::Cell*>::iterator erase_begin_it =  std::unique(to_be_removed.begin(), to_be_removed.end());
+    to_be_removed.erase(erase_begin_it, to_be_removed.end());
+    for(size_t i = 0; i < to_be_removed.size(); i++)
     {
-        delete toberemoved[i];
-        m_cells.removeAll(toberemoved[i]);
+        delete to_be_removed[i];
+        m_cells.removeAll(to_be_removed[i]);
     }
     CellComparator less;
     std::sort(m_cells.begin(), m_cells.end(), less);
@@ -1033,7 +1035,7 @@ void sad::layouts::Grid::expandColumns(size_t old_cols, size_t new_cols)
 void sad::layouts::Grid::shrinkColumns(size_t old_cols, size_t new_cols)
 {
     PROFILER_EVENT;
-    sad::Vector<sad::layouts::Cell*> toberemoved;
+    sad::Vector<sad::layouts::Cell*> to_be_removed;
     for(size_t col = old_cols - 1; col >= new_cols; col--)
     {
         for(size_t row = 0; row < m_rows; row++)
@@ -1047,17 +1049,18 @@ void sad::layouts::Grid::shrinkColumns(size_t old_cols, size_t new_cols)
                 }
                 else
                 {
-                    toberemoved << oldcell;
+                    to_be_removed << oldcell;
                 }
             }
         }
     }
 
-    std::unique(toberemoved.begin(), toberemoved.end()); //-V530
-    for(size_t i = 0; i < toberemoved.size(); i++)
+    sad::Vector<sad::layouts::Cell*>::iterator erase_begin_it = std::unique(to_be_removed.begin(), to_be_removed.end()); //-V530
+    to_be_removed.erase(erase_begin_it, to_be_removed.end());
+    for(size_t i = 0; i < to_be_removed.size(); i++)
     {
-        delete toberemoved[i];
-        m_cells.removeAll(toberemoved[i]);
+        delete to_be_removed[i];
+        m_cells.removeAll(to_be_removed[i]);
     }
     CellComparator less;
     std::sort(m_cells.begin(), m_cells.end(), less);
