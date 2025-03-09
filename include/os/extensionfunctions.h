@@ -35,369 +35,373 @@ public:
         \param[in] count count
         \param[in] transpose transpose
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception  if function cannot be invoked
      */
-    void glUniformMatrix4x3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    void glUniformMatrix4x3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const;
     /*! Invokes glUniformMatrix3x4fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] transpose transpose
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniformMatrix3x4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    void glUniformMatrix3x4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const;
     /*! Invokes glUniformMatrix4x2fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] transpose transpose
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniformMatrix4x2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    void glUniformMatrix4x2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const;
     /*! Invokes glUniformMatrix2x4fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] transpose transpose
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniformMatrix2x4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    void glUniformMatrix2x4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const;
     /*! Invokes glUniformMatrix3x2fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] transpose transpose
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniformMatrix3x2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    void glUniformMatrix3x2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const;
     /*! Invokes glUniformMatrix2x3fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] transpose transpose
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniformMatrix2x3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    void glUniformMatrix2x3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const;
     /*! Invokes glUniformMatrix4fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] transpose transpose
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    void glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const;
     /*! Invokes glUniformMatrix3fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] transpose transpose
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    void glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const;
     /*! Invokes glUniformMatrix2fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] transpose transpose
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    void glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const;
     /*! Invokes glUniform4uiv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform4uiv(GLint location, GLsizei count, const GLuint* value);
+    void glUniform4uiv(GLint location, GLsizei count, const GLuint* value) const;
     /*! Invokes glUniform3uiv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform3uiv(GLint location, GLsizei count, const GLuint* value);
+    void glUniform3uiv(GLint location, GLsizei count, const GLuint* value) const;
     /*! Invokes glUniform2uiv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform2uiv(GLint location, GLsizei count, const GLuint* value);
+    void glUniform2uiv(GLint location, GLsizei count, const GLuint* value) const;
     /*! Invokes glUniform1uiv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform1uiv(GLint location, GLsizei count, const GLuint* value);
+    void glUniform1uiv(GLint location, GLsizei count, const GLuint* value) const;
     /*! Invokes glUniform4iv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform4iv(GLint location, GLsizei count, const GLint* value);
+    void glUniform4iv(GLint location, GLsizei count, const GLint* value) const;
     /*! Invokes glUniform3iv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform3iv(GLint location, GLsizei count, const GLint* value);
+    void glUniform3iv(GLint location, GLsizei count, const GLint* value) const;
     /*! Invokes glUniform2iv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform2iv(GLint location, GLsizei count, const GLint* value);
+    void glUniform2iv(GLint location, GLsizei count, const GLint* value) const;
     /*! Invokes glUniform1iv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform1iv(GLint location, GLsizei count, const GLint* value);
+    void glUniform1iv(GLint location, GLsizei count, const GLint* value) const;
     /*! Invokes glUniform4fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform4fv(GLint location, GLsizei count, const GLfloat* value);
+    void glUniform4fv(GLint location, GLsizei count, const GLfloat* value) const;
     /*! Invokes glUniform3fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform3fv(GLint location, GLsizei count, const GLfloat* value);
+    void glUniform3fv(GLint location, GLsizei count, const GLfloat* value) const;
     /*! Invokes glUniform2fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform2fv(GLint location, GLsizei count, const GLfloat* value);
+    void glUniform2fv(GLint location, GLsizei count, const GLfloat* value) const;
     /*! Invokes glUniform1fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] count count
         \param[in] value value
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform1fv(GLint location, GLsizei count, const GLfloat* value);
+    void glUniform1fv(GLint location, GLsizei count, const GLfloat* value) const;
     /*! Invokes glUniform4ui. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] v0 v0
         \param[in] v1 v1
         \param[in] v2 v2
         \param[in] v3 v3
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform4ui(GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
+    void glUniform4ui(GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3) const;
     /*! Invokes glUniform3ui. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] v0 v0
         \param[in] v1 v1
         \param[in] v2 v2
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform3ui(GLint location, GLuint v0, GLuint v1, GLuint v2);
+    void glUniform3ui(GLint location, GLuint v0, GLuint v1, GLuint v2) const;
     /*! Invokes glUniform2ui. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] v0 v0
         \param[in] v1 v1
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform2ui(GLint location, GLuint v0, GLuint v1);
+    void glUniform2ui(GLint location, GLuint v0, GLuint v1) const;
     /*! Invokes glUniform1ui. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] v0 v0
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform1ui(GLint location, GLuint v0);
+    void glUniform1ui(GLint location, GLuint v0) const;
     /*! Invokes glUniform4i. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] v0 v0
         \param[in] v1 v1
         \param[in] v2 v2
         \param[in] v3 v3
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
+    void glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) const;
     /*! Invokes glUniform3i. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] v0 v0
         \param[in] v1 v1
         \param[in] v2 v2
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform3i(GLint location, GLint v0, GLint v1, GLint v2);
+    void glUniform3i(GLint location, GLint v0, GLint v1, GLint v2) const;
     /*! Invokes glUniform2i. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] v0 v0
         \param[in] v1 v1
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform2i(GLint location, GLint v0, GLint v1);
+    void glUniform2i(GLint location, GLint v0, GLint v1) const;
     /*! Invokes glUniform1i. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] v0 v0
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform1i(GLint location, GLint v0);
+    void glUniform1i(GLint location, GLint v0) const;
     /*! Invokes glUniform4f. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] v0 v0
         \param[in] v1 v1
         \param[in] v2 v2
         \param[in] v3 v3
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
+    void glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) const;
     /*! Invokes glUniform3f. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] v0 v0
         \param[in] v1 v1
         \param[in] v2 v2
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
+    void glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) const;
     /*! Invokes glUniform2f. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] v0 v0
         \param[in] v1 v1
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform2f(GLint location, GLfloat v0, GLfloat v1);
+    void glUniform2f(GLint location, GLfloat v0, GLfloat v1) const;
     /*! Invokes glUniform1f. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
         \param[in] location location
         \param[in] v0 v0
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUniform1f(GLint location, GLfloat v0);
+    void glUniform1f(GLint location, GLfloat v0) const;
     /*! Invokes glGetUniformLocation. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetUniformLocation.xhtml
         \param[in] program Specifies the program object to be queried
         \param[in] name Points to a null terminated string containing the name of the uniform variable whose location is to be queried
         \return uniform location
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    GLint glGetUniformLocation(GLuint program, const GLchar* name);
+    GLint glGetUniformLocation(GLuint program, const GLchar* name) const;
     /*! Invokes glUseProgram. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUseProgram.xhtml
         \param[in] program Specifies the handle of the program object whose executables are to be used as part of current rendering state.
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glUseProgram(GLuint program);
+    void glUseProgram(GLuint program) const;
     /*! Invokes glGetProgramInfoLog. @see https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glGetProgramInfoLog.xml
         \param[in] program   Specifies the program object whose information log is to be queried.
         \param[in] maxLength Specifies the size of the character buffer for storing the returned information log.
         \param[in] length Returns the length of the string returned in infoLog (excluding the null terminator).
         \param[in] infoLog Specifies an array of characters that is used to return the information log.
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glGetProgramInfoLog(GLuint program, GLsizei maxLength, GLsizei* length, GLchar* infoLog);
+    void glGetProgramInfoLog(GLuint program, GLsizei maxLength, GLsizei* length, GLchar* infoLog) const;
+    // ReSharper disable once CommentTypo
     /*! Invokes glGetProgramiv. @see https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glGetProgramiv.xml
         \param[in] program Specifies the program object to be queried.
-        \param[in] pname   Specifies the object parameter.
+        \param[in] parameter_name   Specifies the object parameter.
         \param[in] params Returns the requested object parameter.
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glGetProgramiv(GLuint program, GLenum pname, GLint* params);
+    // ReSharper disable once IdentifierTypo
+    void glGetProgramiv(GLuint program, GLenum parameter_name, GLint* params) const;
     /*! Invokes glLinkProgram. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glLinkProgram.xhtml
         \param[in] program Specifies the handle of the program object to be linked.
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glLinkProgram(GLuint program);
+    void glLinkProgram(GLuint program) const;
     /*! Invokes glAttachShader. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glAttachShader.xhtml
         \param[in] program Specifies the program object to which a shader object will be attached.
         \param[in] shader Specifies the shader object that is to be attached.
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glAttachShader(GLuint program, GLuint shader);
+    void glAttachShader(GLuint program, GLuint shader) const;
     /*! Invokes glGetShaderInfoLog. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetShaderInfoLog.xhtml
         \param[in] shader    Specifies the shader object whose information log is to be queried.
         \param[in] maxLength Specifies the size of the character buffer for storing the returned information log.
         \param[in] length Returns the length of the string returned in infoLog (excluding the null terminator).
         \param[in] infoLog Specifies an array of characters that is used to return the information log.
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei* length, GLchar* infoLog);
+    void glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei* length, GLchar* infoLog) const;
+    // ReSharper disable once CommentTypo
     /*! Invokes glGetShaderiv. @see https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glGetShaderiv.xml
         \param[in] shader    Specifies the shader object whose information log is to be queried.
-        \param[in] pname     Specifies the object parameter. Accepted symbolic names are GL_SHADER_TYPE, GL_DELETE_STATUS, GL_COMPILE_STATUS, GL_INFO_LOG_LENGTH, GL_SHADER_SOURCE_LENGTH. 
+        \param[in] parameter_name     Specifies the object parameter. Accepted symbolic names are GL_SHADER_TYPE, GL_DELETE_STATUS, GL_COMPILE_STATUS, GL_INFO_LOG_LENGTH, GL_SHADER_SOURCE_LENGTH. 
         \param[in] params    Returns the requested object parameter.
-        \throws exception if cannot be invoked
+        \throws exception if function cannot be invoked
      */
-    void glGetShaderiv(GLuint shader, GLenum pname, GLint* params);
+    // ReSharper disable once IdentifierTypo
+    void glGetShaderiv(GLuint shader, GLenum parameter_name, GLint* params) const;
     /*! Specifies the shader object to be compiled. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glCompileShader.xhtml
         \param[in] shader Specifies the shader object to be compiled.
      */
-    void glCompileShader(GLuint shader);
+    void glCompileShader(GLuint shader) const;
     /*! Replaces the source code in a shader object. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glShaderSource.xhtml
         \param[in] shader Specifies the handle of the shader object whose source code is to be replaced.
         \param[in] count  Specifies the number of elements in the string and length arrays.
         \param[in] string Specifies an array of pointers to strings containing the source code to be loaded into the shader.
         \param[in] length Specifies an array of string lengths.
      */
-    void glShaderSource(GLuint shader, GLsizei count, const GLchar** string, const GLint* length);
+    void glShaderSource(GLuint shader, GLsizei count, const GLchar** string, const GLint* length) const;
     /*! Invokes glCreateShader. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glCreateShader.xhtml
         \param[in] shaderType Specifies the type of shader to be created. Must be one of GL_COMPUTE_SHADER, GL_VERTEX_SHADER, GL_TESS_CONTROL_SHADER, GL_TESS_EVALUATION_SHADER, GL_GEOMETRY_SHADER, or GL_FRAGMENT_SHADER.
         \return empty shader's handle
      */
-    GLuint glCreateShader(GLenum shaderType);
+    GLuint glCreateShader(GLenum shaderType) const;
     /*! Invokes glDeleteShader. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDeleteShader.xhtml
         \param[in] shader Specifies the shader object to be deleted.
      */
-    void glDeleteShader(GLuint shader);
+    void glDeleteShader(GLuint shader) const;
     /*! Invokes glCreateProgram. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glCreateProgram.xhtml
         \return empty program's handle
      */
-    GLuint glCreateProgram();
+    GLuint glCreateProgram() const;
     /*! Invokes glDeleteProgram. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDeleteProgram.xhtml
         \param[in] program Specifies the program object to be deleted.
      */
-    void glDeleteProgram(GLuint program);
+    void glDeleteProgram(GLuint program) const;
     /*! Invokes glActiveTexture. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glActiveTexture.xhtml
         \param[in] tex Specifies unit to be activated.
      */
-    void glActiveTexture(GLenum tex);
+    void glActiveTexture(GLenum tex) const;
     /*! Invokes glGenBuffers. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGenBuffers.xhtml
      *  \param[in] n Specifies the number of buffer object names to be generated.
      *  \param[out] buffers Specifies an array in which the generated buffer object names are stored.
      */
-    void glGenBuffers(GLsizei n, GLuint* buffers);
+    void glGenBuffers(GLsizei n, GLuint* buffers) const;
     /*! Invokes glBindBuffer. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBindBuffer.xhtml
      *  \param[in] target a target buffer type
      *  \param[in] buffer Specifies the name of a buffer object.
      */
-    void glBindBuffer(GLenum target, GLuint buffer);
+    void glBindBuffer(GLenum target, GLuint buffer) const;
     /*! Invokes glBufferData, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBufferData.xhtml
      *  \param[in] target a target buffer type
      *  \param[in] size Specifies the size in bytes of the buffer object's new data store.
      *  \param[in] data Specifies a pointer to data that will be copied into the data store for initialization, or nullptr if no data is to be copied.
      *  \param[in] usage Specifies the expected usage pattern of the data store.
      */
-    void glBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage);
+    void glBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage) const;
     /*! Invokes glDeleteBuffers, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDeleteBuffers.xhtml
      *  \param[in] n Specifies the number of buffer objects to be deleted.
      *  \param[in] buffers Specifies an array of buffer objects to be deleted.
      */
-    void glDeleteBuffers(GLsizei n, const GLuint* buffers);
+    void glDeleteBuffers(GLsizei n, const GLuint* buffers) const;
     /*! Invokes glEnableVertexAttribArray, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glEnableVertexAttribArray.xhtml
      *  \param[in] index Specifies the index of the generic vertex attribute to be enabled or disabled.
      */
-    void glEnableVertexAttribArray(GLuint index);
+    void glEnableVertexAttribArray(GLuint index) const;
     /*! Invokes glDisableVertexAttribArray, @see https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glDisableVertexAttribArray.xml
      *  \param[in] index Specifies the index of the generic vertex attribute to be enabled or disabled.
      */
-    void glDisableVertexAttribArray(GLuint index);
+    void glDisableVertexAttribArray(GLuint index) const;
     /*! Invokes glVertexAttribPointer, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glVertexAttribPointer.xhtml
      *  \param[in] index Specifies the index of the generic vertex attribute to be modified.
      *  \param[in] size Specifies the number of components per generic vertex attribute.
      *  \param[in] type Specifies the data type of each component in the array
      *  \param[in] normalized For glVertexAttribPointer, specifies whether fixed-point data values should be normalized (GL_TRUE) or converted directly as fixed-point values (GL_FALSE) when they are accessed.
      *  \param[in] stride Specifies the byte offset between consecutive generic vertex attributes. If stride is 0, the generic vertex attributes are understood to be tightly packed in the array. The initial value is 0.
-     *  \param[in] pointer Specifies a offset of the first component of the first generic vertex attribute in the array in the data store of the buffer currently bound to the GL_ARRAY_BUFFER target. The initial value is 0
+     *  \param[in] pointer Specifies an offset of the first component of the first generic vertex attribute in the array in the data store of the buffer currently bound to the GL_ARRAY_BUFFER target. The initial value is 0
      */
     void glVertexAttribPointer(GLuint index,
         GLint size,
@@ -405,56 +409,56 @@ public:
         GLboolean normalized,
         GLsizei stride,
         const GLvoid* pointer
-    );
+    ) const;
     /*! Invokes glMapBuffer, @see https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glMapBuffer.xml
      *  \param[in] target Specifies the target buffer object being mapped. The symbolic constant must be GL_ARRAY_BUFFER, GL_ELEMENT_ARRAY_BUFFER, GL_PIXEL_PACK_BUFFER, or GL_PIXEL_UNPACK_BUFFER.
      *  \param[in] access Specifies the access policy, indicating whether it will be possible to read from, write to, or both read from and write to the buffer object's mapped data store. The symbolic constant must be GL_READ_ONLY, GL_WRITE_ONLY, or GL_READ_WRITE.
      *  \return pointer to mapped memory
      */
-    void* glMapBuffer(GLenum target, GLenum access);
+    void* glMapBuffer(GLenum target, GLenum access) const;
     /*! Invokes, glUnmapBuffer, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUnmapBuffer.xhtml
      * \param target target Specifies the target buffer object being mapped. The symbolic constant must be GL_ARRAY_BUFFER, GL_ELEMENT_ARRAY_BUFFER, GL_PIXEL_PACK_BUFFER, or GL_PIXEL_UNPACK_BUFFER.
      */
-    void glUnmapBuffer(GLenum target);
+    void glUnmapBuffer(GLenum target) const;
     /*! Invokes glGenVertexArrays, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGenVertexArrays.xhtml
      * \param[in] n Specifies the number of vertex array object names to generate.
      * \param[out] arrays Specifies an array in which the generated vertex array object names are stored.
      */
-    void glGenVertexArrays(GLsizei n, GLuint* arrays);
+    void glGenVertexArrays(GLsizei n, GLuint* arrays) const;
     /*! Invokes glBindVertexArray, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBindVertexArray.xhtml
      * \param[in] array Specifies the name of the vertex array to bind.
      */
-    void glBindVertexArray(GLuint array);
+    void glBindVertexArray(GLuint array) const;
     /*! Invokes glDeleteVertexArrays, @see  https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDeleteVertexArrays.xhtml
      *  \param[in] n Specifies the number of vertex array objects to be deleted.
      *  \param[in] arrays Specifies the address of an array containing the n names of the objects to be deleted.
      */
-    void glDeleteVertexArrays(GLsizei n, const GLuint* arrays);
+    void glDeleteVertexArrays(GLsizei n, const GLuint* arrays) const;
     /*! Invokes glGetUniformBlockIndex, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetUniformBlockIndex.xhtml
      *  \param[in] program Specifies the name of a program containing the uniform block.
      *  \param[in] uniformBlockName Specifies the address an array of characters to containing the name of the uniform block whose index to retrieve.
      *  \return index of a uniform block within program
      */
-    GLuint glGetUniformBlockIndex(GLuint program, const GLchar* uniformBlockName);
+    GLuint glGetUniformBlockIndex(GLuint program, const GLchar* uniformBlockName) const;
     /*! Assign a binding point to an active uniform block, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniformBlockBinding.xhtml
      *  \param[in] program The name of a program object containing the active uniform block whose binding to assign.
      *  \param[in] uniformBlockIndex The index of the active uniform block within program whose binding to assign.
      *  \param[in] uniformBlockBinding Specifies the binding point to which to bind the uniform block with index uniformBlockIndex within program.
      */
-    void glUniformBlockBinding(GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding);
+    void glUniformBlockBinding(GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding) const;
     /*! Updates a subset of a buffer object's data store, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBufferSubData.xhtml
      *  \param[in] target Specifies the target to which the buffer object is bound for glBufferSubData
      *  \param[in] offset Specifies the offset into the buffer object's data store where data replacement will begin, measured in bytes
      *  \param[in] size   Specifies the size in bytes of the data store region being replaced
      *  \param[in] data   Specifies a pointer to the new data that will be copied into the data store
      */
-    void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid* data);
+    void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid* data) const;
     /*! Bind a buffer object to an indexed buffer target
      *  \param[in] target Specifies the target of the bind operation. target must be one of GL_ATOMIC_COUNTER_BUFFER, GL_TRANSFORM_FEEDBACK_BUFFER, GL_UNIFORM_BUFFER or GL_SHADER_STORAGE_BUFFER
      *  \param[in] index  Specifies the index of the binding point within the array specified by target
      *  \param[in] buffer The name of a buffer object to bind to the specified binding point
      */
-    void glBindBufferBase(GLenum target, GLuint index, GLuint buffer);
+    void glBindBufferBase(GLenum target, GLuint index, GLuint buffer) const;
     /*! Bind a range within a buffer object to an indexed buffer target
      *  \param[in] target Specifies the target of the bind operation. target must be one of GL_ATOMIC_COUNTER_BUFFER, GL_TRANSFORM_FEEDBACK_BUFFER, GL_UNIFORM_BUFFER, or GL_SHADER_STORAGE_BUFFER.
      *  \param[in] index  Specifies the index of the binding point within the array specified by target
@@ -468,38 +472,44 @@ public:
         GLuint buffer,
         GLintptr offset,
         GLsizeiptr size
-    );
+    ) const;
     /*! Specifies the equation used for both the RGB blend equation and the Alpha blend equation
         \param[in] mode Specifies how source and destination colors are combined
      */
-    void glBlendEquation(GLenum mode);
+    void glBlendEquation(GLenum mode) const;
     /*! Binds a named sampler to texturing target
         \param[in] unit texture unit
         \param[in] sampler sampler
      */
-    void glBindSampler(GLuint unit, GLuint sampler);
+    void glBindSampler(GLuint unit, GLuint sampler) const;
     /*! Sets the RGB blend equation and the alpha blend equation separately
         \param[in] modeRGB a mode for RGB
         \param[in] modeAlpha a mode for alpha
      */
-    void glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha);
+    void glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha) const;
     /*! Specifies pixel arithmetic for RGB and alpha components separately
         \param[in] srcRGB Specifies how the red, green, and blue blending factors are computed. The initial value is GL_ONE.
         \param[in] dstRGB Specifies how the red, green, and blue destination blending factors are computed. The initial value is GL_ZERO.
         \param[in] srcAlpha Specifies how the alpha source blending factor is computed. The initial value is GL_ONE
         \param[in] dstAlpha Specifies how the alpha destination blending factor is computed. The initial value is GL_ZERO
      */
-    void glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
+    void glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha) const;
     /*! Returns the location of an attribute variable
         \param[in] program a program object
         \param[in] name a name
      */
-    GLint glGetAttribLocation(GLuint program, const GLchar* name);
+    GLint glGetAttribLocation(GLuint program, const GLchar* name) const;
     /*! Detaches shader from program
         \param[in] program a program name
         \param[in] shader a shader name
      */
-    void glDetachShader(GLuint program, GLuint shader);
+    void glDetachShader(GLuint program, GLuint shader) const;
+    /*!
+       Binds a framebuffer to a framebuffer target, @see https://registry.khronos.org/OpenGL-Refpages/gl4/html/glBindFramebuffer.xhtml
+       \param target  specifies the framebuffer target of the binding operation
+       \param framebuffer  specifies the name of the framebuffer object to bind
+     */
+    void glBindFramebuffer(GLenum target, GLuint framebuffer) const;
 private:
     /*! Appends info that get proc address if failed to renderer (main if OpenGL) is not set
      */
@@ -612,8 +622,10 @@ private:
     /*! glGetProgramInfoLog procedure
      */ 
     PFNGLGETPROGRAMINFOLOGPROC m_glGetProgramInfoLog;
+    // ReSharper disable once CommentTypo
     /*! glGetProgramiv procedure
      */
+    // ReSharper disable once IdentifierTypo
     PFNGLGETPROGRAMIVPROC m_glGetProgramiv;
     /*! glLinkProgram procedure
      */
@@ -624,8 +636,10 @@ private:
     /*! glGetShaderInfoLog procedure
      */
     PFNGLGETSHADERINFOLOGPROC m_glGetShaderInfoLog;
+    // ReSharper disable once CommentTypo
     /*! glGetShaderiv procedure
      */
+    // ReSharper disable once IdentifierTypo
     PFNGLGETSHADERIVPROC m_glGetShaderiv;
     /*! glCompileShader procedure
      */
@@ -718,6 +732,9 @@ private:
     /*! glDetachShader procedure
      */
     PFNGLDETACHSHADERPROC m_glDetachShader;
+    /*! glBindFramebuffer procedure
+     */
+    PFNGLBINDFRAMEBUFFERPROC m_glBindFramebuffer;
     /*! Whether it was initialized
      */
     bool m_init;

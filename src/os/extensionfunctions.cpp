@@ -81,6 +81,7 @@ m_glBlendEquationSeparate(nullptr),
 m_glBlendFuncSeparate(nullptr),
 m_glGetAttribLocation(nullptr),
 m_glDetachShader(nullptr),
+m_glBindFramebuffer(nullptr),
 m_init(false),
 m_parent(nullptr)
 {
@@ -103,86 +104,88 @@ void sad::os::ExtensionFunctions::tryInit()
         {
             m_init = true;
             
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX4X3FVPROC, glUniformMatrix4x3fv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX3X4FVPROC, glUniformMatrix3x4fv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX4X2FVPROC, glUniformMatrix4x2fv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX2X4FVPROC, glUniformMatrix2x4fv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX3X2FVPROC, glUniformMatrix3x2fv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX2X3FVPROC, glUniformMatrix2x3fv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX4FVPROC, glUniformMatrix4fv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX3FVPROC, glUniformMatrix3fv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX2FVPROC, glUniformMatrix2fv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM4UIVPROC, glUniform4uiv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM3UIVPROC, glUniform3uiv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM2UIVPROC, glUniform2uiv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM1UIVPROC, glUniform1uiv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM4IVPROC, glUniform4iv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM3IVPROC, glUniform3iv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM2IVPROC, glUniform2iv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM1IVPROC, glUniform1iv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM4FVPROC, glUniform4fv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM3FVPROC, glUniform3fv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM2FVPROC, glUniform2fv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM1FVPROC, glUniform1fv);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM4UIPROC, glUniform4ui);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM3UIPROC, glUniform3ui);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM2UIPROC, glUniform2ui);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM1UIPROC, glUniform1ui);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM4IPROC, glUniform4i);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM3IPROC, glUniform3i);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM2IPROC, glUniform2i);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM1IPROC, glUniform1i);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM4FPROC, glUniform4f);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM3FPROC, glUniform3f);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM2FPROC, glUniform2f);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM1FPROC, glUniform1f);
-            TRY_GET_PROC_ADDRESS(PFNGLGETUNIFORMLOCATIONPROC, glGetUniformLocation);
-            TRY_GET_PROC_ADDRESS(PFNGLUSEPROGRAMPROC, glUseProgram);
-            TRY_GET_PROC_ADDRESS(PFNGLGETPROGRAMINFOLOGPROC, glGetProgramInfoLog);
-            TRY_GET_PROC_ADDRESS(PFNGLGETPROGRAMIVPROC, glGetProgramiv);
-            TRY_GET_PROC_ADDRESS(PFNGLLINKPROGRAMPROC, glLinkProgram);
-            TRY_GET_PROC_ADDRESS(PFNGLATTACHSHADERPROC, glAttachShader);
-            TRY_GET_PROC_ADDRESS(PFNGLGETSHADERINFOLOGPROC, glGetShaderInfoLog);
-            TRY_GET_PROC_ADDRESS(PFNGLGETSHADERIVPROC, glGetShaderiv);
-            TRY_GET_PROC_ADDRESS(PFNGLCOMPILESHADERPROC, glCompileShader);
-            TRY_GET_PROC_ADDRESS(PFNGLSHADERSOURCEPROC, glShaderSource);
-            TRY_GET_PROC_ADDRESS(PFNGLCREATESHADERPROC, glCreateShader);
-            TRY_GET_PROC_ADDRESS(PFNGLDELETESHADERPROC, glDeleteShader);
-            TRY_GET_PROC_ADDRESS(PFNGLCREATEPROGRAMPROC, glCreateProgram);
-            TRY_GET_PROC_ADDRESS(PFNGLDELETEPROGRAMPROC, glDeleteProgram);
-            TRY_GET_PROC_ADDRESS(PFNGLACTIVETEXTUREPROC, glActiveTexture);
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX4X3FVPROC, glUniformMatrix4x3fv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX3X4FVPROC, glUniformMatrix3x4fv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX4X2FVPROC, glUniformMatrix4x2fv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX2X4FVPROC, glUniformMatrix2x4fv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX3X2FVPROC, glUniformMatrix3x2fv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX2X3FVPROC, glUniformMatrix2x3fv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX4FVPROC, glUniformMatrix4fv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX3FVPROC, glUniformMatrix3fv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMMATRIX2FVPROC, glUniformMatrix2fv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM4UIVPROC, glUniform4uiv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM3UIVPROC, glUniform3uiv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM2UIVPROC, glUniform2uiv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM1UIVPROC, glUniform1uiv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM4IVPROC, glUniform4iv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM3IVPROC, glUniform3iv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM2IVPROC, glUniform2iv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM1IVPROC, glUniform1iv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM4FVPROC, glUniform4fv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM3FVPROC, glUniform3fv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM2FVPROC, glUniform2fv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM1FVPROC, glUniform1fv)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM4UIPROC, glUniform4ui)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM3UIPROC, glUniform3ui)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM2UIPROC, glUniform2ui)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM1UIPROC, glUniform1ui)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM4IPROC, glUniform4i)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM3IPROC, glUniform3i)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM2IPROC, glUniform2i)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM1IPROC, glUniform1i)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM4FPROC, glUniform4f)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM3FPROC, glUniform3f)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM2FPROC, glUniform2f)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORM1FPROC, glUniform1f)
+            TRY_GET_PROC_ADDRESS(PFNGLGETUNIFORMLOCATIONPROC, glGetUniformLocation)
+            TRY_GET_PROC_ADDRESS(PFNGLUSEPROGRAMPROC, glUseProgram)
+            TRY_GET_PROC_ADDRESS(PFNGLGETPROGRAMINFOLOGPROC, glGetProgramInfoLog)
+            TRY_GET_PROC_ADDRESS(PFNGLGETPROGRAMIVPROC, glGetProgramiv)
+            TRY_GET_PROC_ADDRESS(PFNGLLINKPROGRAMPROC, glLinkProgram)
+            TRY_GET_PROC_ADDRESS(PFNGLATTACHSHADERPROC, glAttachShader)
+            TRY_GET_PROC_ADDRESS(PFNGLGETSHADERINFOLOGPROC, glGetShaderInfoLog)
+            TRY_GET_PROC_ADDRESS(PFNGLGETSHADERIVPROC, glGetShaderiv)
+            TRY_GET_PROC_ADDRESS(PFNGLCOMPILESHADERPROC, glCompileShader)
+            TRY_GET_PROC_ADDRESS(PFNGLSHADERSOURCEPROC, glShaderSource)
+            TRY_GET_PROC_ADDRESS(PFNGLCREATESHADERPROC, glCreateShader)
+            TRY_GET_PROC_ADDRESS(PFNGLDELETESHADERPROC, glDeleteShader)
+            TRY_GET_PROC_ADDRESS(PFNGLCREATEPROGRAMPROC, glCreateProgram)
+            TRY_GET_PROC_ADDRESS(PFNGLDELETEPROGRAMPROC, glDeleteProgram)
+            TRY_GET_PROC_ADDRESS(PFNGLACTIVETEXTUREPROC, glActiveTexture)
 
-            TRY_GET_PROC_ADDRESS(PFNGLGENBUFFERSPROC, glGenBuffers);
-            TRY_GET_PROC_ADDRESS(PFNGLBINDBUFFERPROC, glBindBuffer);
-            TRY_GET_PROC_ADDRESS(PFNGLBUFFERDATAPROC, glBufferData);
-            TRY_GET_PROC_ADDRESS(PFNGLDELETEBUFFERSPROC, glDeleteBuffers);
-            TRY_GET_PROC_ADDRESS(PFNGLENABLEVERTEXATTRIBARRAYPROC, glEnableVertexAttribArray);
-            TRY_GET_PROC_ADDRESS(PFNGLVERTEXATTRIBPOINTERPROC, glVertexAttribPointer);
-            TRY_GET_PROC_ADDRESS(PFNGLDISABLEVERTEXATTRIBARRAYPROC, glDisableVertexAttribArray);
-            TRY_GET_PROC_ADDRESS(PFNGLMAPBUFFERPROC, glMapBuffer);
-            TRY_GET_PROC_ADDRESS(PFNGLUNMAPBUFFERPROC, glUnmapBuffer);
-            TRY_GET_PROC_ADDRESS(PFNGLGENVERTEXARRAYSPROC, glGenVertexArrays);
-            TRY_GET_PROC_ADDRESS(PFNGLBINDVERTEXARRAYPROC, glBindVertexArray);
-            TRY_GET_PROC_ADDRESS(PFNGLDELETEVERTEXARRAYSPROC, glDeleteVertexArrays);
+            TRY_GET_PROC_ADDRESS(PFNGLGENBUFFERSPROC, glGenBuffers)
+            TRY_GET_PROC_ADDRESS(PFNGLBINDBUFFERPROC, glBindBuffer)
+            TRY_GET_PROC_ADDRESS(PFNGLBUFFERDATAPROC, glBufferData)
+            TRY_GET_PROC_ADDRESS(PFNGLDELETEBUFFERSPROC, glDeleteBuffers)
+            TRY_GET_PROC_ADDRESS(PFNGLENABLEVERTEXATTRIBARRAYPROC, glEnableVertexAttribArray)
+            TRY_GET_PROC_ADDRESS(PFNGLVERTEXATTRIBPOINTERPROC, glVertexAttribPointer)
+            TRY_GET_PROC_ADDRESS(PFNGLDISABLEVERTEXATTRIBARRAYPROC, glDisableVertexAttribArray)
+            TRY_GET_PROC_ADDRESS(PFNGLMAPBUFFERPROC, glMapBuffer)
+            TRY_GET_PROC_ADDRESS(PFNGLUNMAPBUFFERPROC, glUnmapBuffer)
+            TRY_GET_PROC_ADDRESS(PFNGLGENVERTEXARRAYSPROC, glGenVertexArrays)
+            TRY_GET_PROC_ADDRESS(PFNGLBINDVERTEXARRAYPROC, glBindVertexArray)
+            TRY_GET_PROC_ADDRESS(PFNGLDELETEVERTEXARRAYSPROC, glDeleteVertexArrays)
 
-            TRY_GET_PROC_ADDRESS(PFNGLGETUNIFORMBLOCKINDEXPROC, glGetUniformBlockIndex);
-            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMBLOCKBINDINGPROC, glUniformBlockBinding);
-            TRY_GET_PROC_ADDRESS(PFNGLBUFFERSUBDATAPROC, glBufferSubData);
-            TRY_GET_PROC_ADDRESS(PFNGLBINDBUFFERBASEPROC, glBindBufferBase);
-            TRY_GET_PROC_ADDRESS(PFNGLBINDBUFFERRANGEPROC, glBindBufferRange);
+            TRY_GET_PROC_ADDRESS(PFNGLGETUNIFORMBLOCKINDEXPROC, glGetUniformBlockIndex)
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMBLOCKBINDINGPROC, glUniformBlockBinding)
+            TRY_GET_PROC_ADDRESS(PFNGLBUFFERSUBDATAPROC, glBufferSubData)
+            TRY_GET_PROC_ADDRESS(PFNGLBINDBUFFERBASEPROC, glBindBufferBase)
+            TRY_GET_PROC_ADDRESS(PFNGLBINDBUFFERRANGEPROC, glBindBufferRange)
 
-            TRY_GET_PROC_ADDRESS(PFNGLBLENDEQUATIONPROC, glBlendEquation);
-            TRY_GET_PROC_ADDRESS(PFNGLBINDSAMPLERPROC, glBindSampler);
-            TRY_GET_PROC_ADDRESS(PFNGLBLENDEQUATIONSEPARATEPROC, glBlendEquationSeparate);
-            TRY_GET_PROC_ADDRESS(PFNGLBLENDFUNCSEPARATEPROC, glBlendFuncSeparate);
-            TRY_GET_PROC_ADDRESS(PFNGLGETATTRIBLOCATIONPROC, glGetAttribLocation);
-            TRY_GET_PROC_ADDRESS(PFNGLDETACHSHADERPROC, glDetachShader);
+            TRY_GET_PROC_ADDRESS(PFNGLBLENDEQUATIONPROC, glBlendEquation)
+            TRY_GET_PROC_ADDRESS(PFNGLBINDSAMPLERPROC, glBindSampler)
+            TRY_GET_PROC_ADDRESS(PFNGLBLENDEQUATIONSEPARATEPROC, glBlendEquationSeparate)
+            TRY_GET_PROC_ADDRESS(PFNGLBLENDFUNCSEPARATEPROC, glBlendFuncSeparate)
+            TRY_GET_PROC_ADDRESS(PFNGLGETATTRIBLOCATIONPROC, glGetAttribLocation)
+            TRY_GET_PROC_ADDRESS(PFNGLDETACHSHADERPROC, glDetachShader)
+
+            TRY_GET_PROC_ADDRESS(PFNGLBINDFRAMEBUFFERPROC, glBindFramebuffer)
         }
         m_init_mtx.unlock();
     }
 }
 
-void sad::os::ExtensionFunctions::glUniformMatrix4x3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
+void sad::os::ExtensionFunctions::glUniformMatrix4x3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const
 {
     if (this->m_glUniformMatrix4x3fv)
     {
@@ -194,7 +197,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix4x3fv(GLint location, GLsizei c
     }
 }
 
-void sad::os::ExtensionFunctions::glUniformMatrix3x4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
+void sad::os::ExtensionFunctions::glUniformMatrix3x4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const
 {
     
     if (this->m_glUniformMatrix3x4fv)
@@ -207,7 +210,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix3x4fv(GLint location, GLsizei c
     }
 }
 
-void sad::os::ExtensionFunctions::glUniformMatrix4x2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
+void sad::os::ExtensionFunctions::glUniformMatrix4x2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const
 {
     
     if (this->m_glUniformMatrix4x2fv)
@@ -220,7 +223,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix4x2fv(GLint location, GLsizei c
     }
 }
 
-void sad::os::ExtensionFunctions::glUniformMatrix2x4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
+void sad::os::ExtensionFunctions::glUniformMatrix2x4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const
 {
     
     if (this->m_glUniformMatrix2x4fv)
@@ -233,7 +236,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix2x4fv(GLint location, GLsizei c
     }
 }
 
-void sad::os::ExtensionFunctions::glUniformMatrix3x2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
+void sad::os::ExtensionFunctions::glUniformMatrix3x2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const
 {
     
     if (this->m_glUniformMatrix3x2fv)
@@ -246,7 +249,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix3x2fv(GLint location, GLsizei c
     }
 }
 
-void sad::os::ExtensionFunctions::glUniformMatrix2x3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
+void sad::os::ExtensionFunctions::glUniformMatrix2x3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const
 {
     
     if (this->m_glUniformMatrix2x3fv)
@@ -259,7 +262,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix2x3fv(GLint location, GLsizei c
     }
 }
 
-void sad::os::ExtensionFunctions::glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
+void sad::os::ExtensionFunctions::glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const
 {
     
     if (this->m_glUniformMatrix4fv)
@@ -272,7 +275,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix4fv(GLint location, GLsizei cou
     }
 }
 
-void sad::os::ExtensionFunctions::glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
+void sad::os::ExtensionFunctions::glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const
 {
     
     if (this->m_glUniformMatrix3fv)
@@ -285,7 +288,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix3fv(GLint location, GLsizei cou
     }
 }
 
-void sad::os::ExtensionFunctions::glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
+void sad::os::ExtensionFunctions::glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value) const
 {
     
     if (this->m_glUniformMatrix2fv)
@@ -298,7 +301,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix2fv(GLint location, GLsizei cou
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform4uiv(GLint location, GLsizei count, const GLuint* value)
+void sad::os::ExtensionFunctions::glUniform4uiv(GLint location, GLsizei count, const GLuint* value) const
 {
     
     if (this->m_glUniform4uiv)
@@ -311,7 +314,7 @@ void sad::os::ExtensionFunctions::glUniform4uiv(GLint location, GLsizei count, c
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform3uiv(GLint location, GLsizei count, const GLuint* value)
+void sad::os::ExtensionFunctions::glUniform3uiv(GLint location, GLsizei count, const GLuint* value) const
 {
     
     if (this->m_glUniform3uiv)
@@ -324,7 +327,7 @@ void sad::os::ExtensionFunctions::glUniform3uiv(GLint location, GLsizei count, c
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform2uiv(GLint location, GLsizei count, const GLuint* value)
+void sad::os::ExtensionFunctions::glUniform2uiv(GLint location, GLsizei count, const GLuint* value) const
 {
     
     if (this->m_glUniform2uiv)
@@ -338,7 +341,7 @@ void sad::os::ExtensionFunctions::glUniform2uiv(GLint location, GLsizei count, c
 }
 
 
-void sad::os::ExtensionFunctions::glUniform1uiv(GLint location, GLsizei count, const GLuint* value)
+void sad::os::ExtensionFunctions::glUniform1uiv(GLint location, GLsizei count, const GLuint* value) const
 {
     
     if (this->m_glUniform1uiv)
@@ -351,7 +354,7 @@ void sad::os::ExtensionFunctions::glUniform1uiv(GLint location, GLsizei count, c
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform4iv(GLint location, GLsizei count, const GLint* value)
+void sad::os::ExtensionFunctions::glUniform4iv(GLint location, GLsizei count, const GLint* value) const
 {
     
     if (this->m_glUniform4iv)
@@ -364,7 +367,7 @@ void sad::os::ExtensionFunctions::glUniform4iv(GLint location, GLsizei count, co
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform3iv(GLint location, GLsizei count, const GLint* value)
+void sad::os::ExtensionFunctions::glUniform3iv(GLint location, GLsizei count, const GLint* value) const
 {
     
     if (this->m_glUniform3iv)
@@ -377,7 +380,7 @@ void sad::os::ExtensionFunctions::glUniform3iv(GLint location, GLsizei count, co
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform2iv(GLint location, GLsizei count, const GLint* value)
+void sad::os::ExtensionFunctions::glUniform2iv(GLint location, GLsizei count, const GLint* value) const
 {
     
     if (this->m_glUniform2iv)
@@ -390,7 +393,7 @@ void sad::os::ExtensionFunctions::glUniform2iv(GLint location, GLsizei count, co
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform1iv(GLint location, GLsizei count, const GLint* value)
+void sad::os::ExtensionFunctions::glUniform1iv(GLint location, GLsizei count, const GLint* value) const
 {
     
     if (this->m_glUniform1iv)
@@ -403,7 +406,7 @@ void sad::os::ExtensionFunctions::glUniform1iv(GLint location, GLsizei count, co
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform4fv(GLint location, GLsizei count, const GLfloat* value)
+void sad::os::ExtensionFunctions::glUniform4fv(GLint location, GLsizei count, const GLfloat* value) const
 {
     
     if (this->m_glUniform4fv)
@@ -416,7 +419,7 @@ void sad::os::ExtensionFunctions::glUniform4fv(GLint location, GLsizei count, co
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform3fv(GLint location, GLsizei count, const GLfloat* value)
+void sad::os::ExtensionFunctions::glUniform3fv(GLint location, GLsizei count, const GLfloat* value) const
 {
     
     if (this->m_glUniform3fv)
@@ -429,7 +432,7 @@ void sad::os::ExtensionFunctions::glUniform3fv(GLint location, GLsizei count, co
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform2fv(GLint location, GLsizei count, const GLfloat* value)
+void sad::os::ExtensionFunctions::glUniform2fv(GLint location, GLsizei count, const GLfloat* value) const
 {
     
     if (this->m_glUniform2fv)
@@ -442,7 +445,7 @@ void sad::os::ExtensionFunctions::glUniform2fv(GLint location, GLsizei count, co
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform1fv(GLint location, GLsizei count, const GLfloat* value)
+void sad::os::ExtensionFunctions::glUniform1fv(GLint location, GLsizei count, const GLfloat* value) const
 {
     
     if (this->m_glUniform1fv)
@@ -455,7 +458,7 @@ void sad::os::ExtensionFunctions::glUniform1fv(GLint location, GLsizei count, co
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform4ui(GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3)
+void sad::os::ExtensionFunctions::glUniform4ui(GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3) const
 {
     
     if (this->m_glUniform4ui)
@@ -468,7 +471,7 @@ void sad::os::ExtensionFunctions::glUniform4ui(GLint location, GLuint v0, GLuint
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform3ui(GLint location, GLuint v0, GLuint v1, GLuint v2)
+void sad::os::ExtensionFunctions::glUniform3ui(GLint location, GLuint v0, GLuint v1, GLuint v2) const
 {
     
     if (this->m_glUniform3ui)
@@ -481,7 +484,7 @@ void sad::os::ExtensionFunctions::glUniform3ui(GLint location, GLuint v0, GLuint
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform2ui(GLint location, GLuint v0, GLuint v1)
+void sad::os::ExtensionFunctions::glUniform2ui(GLint location, GLuint v0, GLuint v1) const
 {
     
     if (this->m_glUniform2ui)
@@ -494,7 +497,7 @@ void sad::os::ExtensionFunctions::glUniform2ui(GLint location, GLuint v0, GLuint
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform1ui(GLint location, GLuint v0)
+void sad::os::ExtensionFunctions::glUniform1ui(GLint location, GLuint v0) const
 {
     
     if (this->m_glUniform1ui)
@@ -507,7 +510,7 @@ void sad::os::ExtensionFunctions::glUniform1ui(GLint location, GLuint v0)
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3)
+void sad::os::ExtensionFunctions::glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) const
 {
     
     if (this->m_glUniform4i)
@@ -520,7 +523,7 @@ void sad::os::ExtensionFunctions::glUniform4i(GLint location, GLint v0, GLint v1
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform3i(GLint location, GLint v0, GLint v1, GLint v2)
+void sad::os::ExtensionFunctions::glUniform3i(GLint location, GLint v0, GLint v1, GLint v2) const
 {
     
     if (this->m_glUniform3i)
@@ -533,7 +536,7 @@ void sad::os::ExtensionFunctions::glUniform3i(GLint location, GLint v0, GLint v1
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform2i(GLint location, GLint v0, GLint v1)
+void sad::os::ExtensionFunctions::glUniform2i(GLint location, GLint v0, GLint v1) const
 {
     
     if (this->m_glUniform2i)
@@ -546,7 +549,7 @@ void sad::os::ExtensionFunctions::glUniform2i(GLint location, GLint v0, GLint v1
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform1i(GLint location, GLint v0)
+void sad::os::ExtensionFunctions::glUniform1i(GLint location, GLint v0) const
 {
     
     if (this->m_glUniform1i)
@@ -559,7 +562,7 @@ void sad::os::ExtensionFunctions::glUniform1i(GLint location, GLint v0)
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3)
+void sad::os::ExtensionFunctions::glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) const
 {
     
     if (this->m_glUniform4f)
@@ -572,7 +575,7 @@ void sad::os::ExtensionFunctions::glUniform4f(GLint location, GLfloat v0, GLfloa
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2)
+void sad::os::ExtensionFunctions::glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) const
 {
     
     if (this->m_glUniform3f)
@@ -585,7 +588,7 @@ void sad::os::ExtensionFunctions::glUniform3f(GLint location, GLfloat v0, GLfloa
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform2f(GLint location, GLfloat v0, GLfloat v1)
+void sad::os::ExtensionFunctions::glUniform2f(GLint location, GLfloat v0, GLfloat v1) const
 {
     
     if (this->m_glUniform2f)
@@ -598,7 +601,7 @@ void sad::os::ExtensionFunctions::glUniform2f(GLint location, GLfloat v0, GLfloa
     }
 }
 
-void sad::os::ExtensionFunctions::glUniform1f(GLint location, GLfloat v0)
+void sad::os::ExtensionFunctions::glUniform1f(GLint location, GLfloat v0) const
 {
     
     if (this->m_glUniform1f)
@@ -611,7 +614,7 @@ void sad::os::ExtensionFunctions::glUniform1f(GLint location, GLfloat v0)
     }
 }
 
-GLint sad::os::ExtensionFunctions::glGetUniformLocation(GLuint program, const GLchar* name)
+GLint sad::os::ExtensionFunctions::glGetUniformLocation(GLuint program, const GLchar* name) const
 {
     
     if (this->m_glGetUniformLocation)
@@ -623,10 +626,10 @@ GLint sad::os::ExtensionFunctions::glGetUniformLocation(GLuint program, const GL
         throw std::logic_error("glGetUniformLocation() is unavailable on this platform");
     }
     // ReSharper disable once CppUnreachableCode
-    return 0;
+    return 0;  // NOLINT(clang-diagnostic-unreachable-code-return)
 }
 
-void sad::os::ExtensionFunctions::glUseProgram(GLuint program)
+void sad::os::ExtensionFunctions::glUseProgram(GLuint program) const
 {
     
     if (this->m_glUseProgram)
@@ -639,7 +642,7 @@ void sad::os::ExtensionFunctions::glUseProgram(GLuint program)
     }
 }
 
-void sad::os::ExtensionFunctions::glGetProgramInfoLog(GLuint program, GLsizei maxLength, GLsizei* length, GLchar* infoLog)
+void sad::os::ExtensionFunctions::glGetProgramInfoLog(GLuint program, GLsizei maxLength, GLsizei* length, GLchar* infoLog) const
 {
     
     if (this->m_glGetProgramInfoLog)
@@ -652,20 +655,22 @@ void sad::os::ExtensionFunctions::glGetProgramInfoLog(GLuint program, GLsizei ma
     }
 }
 
-void sad::os::ExtensionFunctions::glGetProgramiv(GLuint program, GLenum pname, GLint* params)
+// ReSharper disable once IdentifierTypo
+void sad::os::ExtensionFunctions::glGetProgramiv(GLuint program, GLenum parameter_name, GLint* params) const
 {
     
     if (this->m_glGetProgramiv)
     {
-        (this->m_glGetProgramiv)(program, pname, params);
+        (this->m_glGetProgramiv)(program, parameter_name, params);
     }
     else
     {
+        // ReSharper disable once StringLiteralTypo
         throw std::logic_error("glGetProgramiv() is unavailable on this platform");
     }
 }
 
-void sad::os::ExtensionFunctions::glLinkProgram(GLuint program)
+void sad::os::ExtensionFunctions::glLinkProgram(GLuint program) const
 {
     
     if (this->m_glLinkProgram)
@@ -678,7 +683,7 @@ void sad::os::ExtensionFunctions::glLinkProgram(GLuint program)
     }
 }
 
-void sad::os::ExtensionFunctions::glAttachShader(GLuint program, GLuint shader)
+void sad::os::ExtensionFunctions::glAttachShader(GLuint program, GLuint shader) const
 {
     
     if (this->m_glAttachShader)
@@ -691,7 +696,7 @@ void sad::os::ExtensionFunctions::glAttachShader(GLuint program, GLuint shader)
     }
 }
 
-void sad::os::ExtensionFunctions::glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei* length, GLchar* infoLog)
+void sad::os::ExtensionFunctions::glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei* length, GLchar* infoLog) const
 {
     
     if (this->m_glGetShaderInfoLog)
@@ -704,20 +709,22 @@ void sad::os::ExtensionFunctions::glGetShaderInfoLog(GLuint shader, GLsizei maxL
     }
 }
 
-void sad::os::ExtensionFunctions::glGetShaderiv(GLuint shader, GLenum pname, GLint* params)
+// ReSharper disable once IdentifierTypo
+void sad::os::ExtensionFunctions::glGetShaderiv(GLuint shader, GLenum parameter_name, GLint* params) const
 {
     
     if (this->m_glGetShaderiv)
     {
-        (this->m_glGetShaderiv)(shader, pname, params);
+        (this->m_glGetShaderiv)(shader, parameter_name, params);
     }
     else
     {
+        // ReSharper disable once StringLiteralTypo
         throw std::logic_error("glGetShaderiv() is unavailable on this platform");
     }
 }
 
-void sad::os::ExtensionFunctions::glCompileShader(GLuint shader)
+void sad::os::ExtensionFunctions::glCompileShader(GLuint shader) const
 {
     
     if (this->m_glCompileShader)
@@ -730,7 +737,7 @@ void sad::os::ExtensionFunctions::glCompileShader(GLuint shader)
     }
 }
 
-void sad::os::ExtensionFunctions::glShaderSource(GLuint shader, GLsizei count, const GLchar** string, const GLint* length)
+void sad::os::ExtensionFunctions::glShaderSource(GLuint shader, GLsizei count, const GLchar** string, const GLint* length) const
 {
     
     if (this->m_glShaderSource)
@@ -743,7 +750,7 @@ void sad::os::ExtensionFunctions::glShaderSource(GLuint shader, GLsizei count, c
     }
 }
 
-GLuint sad::os::ExtensionFunctions::glCreateShader(GLenum shaderType)
+GLuint sad::os::ExtensionFunctions::glCreateShader(GLenum shaderType) const
 {
     
     if (this->m_glCreateShader)
@@ -755,10 +762,10 @@ GLuint sad::os::ExtensionFunctions::glCreateShader(GLenum shaderType)
         throw std::logic_error("glShaderSource() is unavailable on this platform");
     }
     // ReSharper disable once CppUnreachableCode
-    return 0;
+    return 0;  // NOLINT(clang-diagnostic-unreachable-code-return)
 }
 
-void sad::os::ExtensionFunctions::glDeleteShader(GLuint shader)
+void sad::os::ExtensionFunctions::glDeleteShader(GLuint shader) const
 {
     
     if (this->m_glDeleteShader)
@@ -771,7 +778,7 @@ void sad::os::ExtensionFunctions::glDeleteShader(GLuint shader)
     }
 }
 
-GLuint sad::os::ExtensionFunctions::glCreateProgram()
+GLuint sad::os::ExtensionFunctions::glCreateProgram() const
 {
     
     if (this->m_glCreateProgram)
@@ -783,10 +790,10 @@ GLuint sad::os::ExtensionFunctions::glCreateProgram()
         throw std::logic_error("glShaderSource() is unavailable on this platform");
     }
     // ReSharper disable once CppUnreachableCode
-    return 0;
+    return 0;  // NOLINT(clang-diagnostic-unreachable-code-return)
 }
 
-void sad::os::ExtensionFunctions::glDeleteProgram(GLuint program)
+void sad::os::ExtensionFunctions::glDeleteProgram(GLuint program) const
 {
     
     if (this->m_glDeleteProgram)
@@ -799,7 +806,7 @@ void sad::os::ExtensionFunctions::glDeleteProgram(GLuint program)
     }
 }
 
-void sad::os::ExtensionFunctions::glActiveTexture(GLenum tex)
+void sad::os::ExtensionFunctions::glActiveTexture(GLenum tex) const
 {
     
     if (this->m_glActiveTexture)
@@ -812,7 +819,7 @@ void sad::os::ExtensionFunctions::glActiveTexture(GLenum tex)
     }
 }
 
-void sad::os::ExtensionFunctions::glGenBuffers(GLsizei n, GLuint* buffers)
+void sad::os::ExtensionFunctions::glGenBuffers(GLsizei n, GLuint* buffers) const
 {
     
     if (this->m_glGenBuffers)
@@ -825,7 +832,7 @@ void sad::os::ExtensionFunctions::glGenBuffers(GLsizei n, GLuint* buffers)
     }
 }
 
-void sad::os::ExtensionFunctions::glBindBuffer(GLenum target, GLuint buffer)
+void sad::os::ExtensionFunctions::glBindBuffer(GLenum target, GLuint buffer) const
 {
     
     if (this->m_glBindBuffer)
@@ -839,7 +846,7 @@ void sad::os::ExtensionFunctions::glBindBuffer(GLenum target, GLuint buffer)
 }
 
 
-void sad::os::ExtensionFunctions::glBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage)
+void sad::os::ExtensionFunctions::glBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage) const
 {
     
     if (this->m_glBufferData)
@@ -852,7 +859,7 @@ void sad::os::ExtensionFunctions::glBufferData(GLenum target, GLsizeiptr size, c
     }
 }
 
-void sad::os::ExtensionFunctions::glDeleteBuffers(GLsizei n, const GLuint* buffers)
+void sad::os::ExtensionFunctions::glDeleteBuffers(GLsizei n, const GLuint* buffers) const
 {
     
     if (this->m_glDeleteBuffers)
@@ -865,7 +872,7 @@ void sad::os::ExtensionFunctions::glDeleteBuffers(GLsizei n, const GLuint* buffe
     }
 }
 
-void sad::os::ExtensionFunctions::glEnableVertexAttribArray(GLuint index)
+void sad::os::ExtensionFunctions::glEnableVertexAttribArray(GLuint index) const
 {
     
     if (this->m_glEnableVertexAttribArray)
@@ -879,7 +886,7 @@ void sad::os::ExtensionFunctions::glEnableVertexAttribArray(GLuint index)
 }
 
 
-void sad::os::ExtensionFunctions::glDisableVertexAttribArray(GLuint index)
+void sad::os::ExtensionFunctions::glDisableVertexAttribArray(GLuint index) const
 {
     
     if (this->m_glDisableVertexAttribArray)
@@ -898,7 +905,7 @@ void sad::os::ExtensionFunctions::glVertexAttribPointer(GLuint index,
     GLboolean normalized,
     GLsizei stride,
     const GLvoid* pointer
-)
+) const
 {
     
     if (this->m_glVertexAttribPointer)
@@ -911,7 +918,7 @@ void sad::os::ExtensionFunctions::glVertexAttribPointer(GLuint index,
     }
 }
 
-void* sad::os::ExtensionFunctions::glMapBuffer(GLenum target, GLenum access)
+void* sad::os::ExtensionFunctions::glMapBuffer(GLenum target, GLenum access) const
 {
     
     if (this->m_glMapBuffer)
@@ -922,10 +929,11 @@ void* sad::os::ExtensionFunctions::glMapBuffer(GLenum target, GLenum access)
     {
         throw std::logic_error("glMapBuffer() is unavailable on this platform");
     }
-    return nullptr;
+    // ReSharper disable once CppUnreachableCode
+    return nullptr;  // NOLINT(clang-diagnostic-unreachable-code-return)
 }
 
-void sad::os::ExtensionFunctions::glUnmapBuffer(GLenum target)
+void sad::os::ExtensionFunctions::glUnmapBuffer(GLenum target) const
 {
     
     if (this->m_glUnmapBuffer)
@@ -938,7 +946,7 @@ void sad::os::ExtensionFunctions::glUnmapBuffer(GLenum target)
     }
 }
 
-void sad::os::ExtensionFunctions::glGenVertexArrays(GLsizei n, GLuint* arrays)
+void sad::os::ExtensionFunctions::glGenVertexArrays(GLsizei n, GLuint* arrays) const
 {
     
     if (this->m_glGenVertexArrays)
@@ -951,7 +959,7 @@ void sad::os::ExtensionFunctions::glGenVertexArrays(GLsizei n, GLuint* arrays)
     }
 }
 
-void sad::os::ExtensionFunctions::glBindVertexArray(GLuint array)
+void sad::os::ExtensionFunctions::glBindVertexArray(GLuint array) const
 {
     
     if (this->m_glBindVertexArray)
@@ -965,7 +973,7 @@ void sad::os::ExtensionFunctions::glBindVertexArray(GLuint array)
 }
 
 
-void sad::os::ExtensionFunctions::glDeleteVertexArrays(GLsizei n, const GLuint* arrays)
+void sad::os::ExtensionFunctions::glDeleteVertexArrays(GLsizei n, const GLuint* arrays) const
 {
     
     if (this->m_glDeleteVertexArrays)
@@ -978,7 +986,7 @@ void sad::os::ExtensionFunctions::glDeleteVertexArrays(GLsizei n, const GLuint* 
     }
 }
 
-GLuint sad::os::ExtensionFunctions::glGetUniformBlockIndex(GLuint program, const GLchar* uniformBlockName)
+GLuint sad::os::ExtensionFunctions::glGetUniformBlockIndex(GLuint program, const GLchar* uniformBlockName) const
 {
     if (this->m_glGetUniformBlockIndex)
     {
@@ -990,7 +998,7 @@ GLuint sad::os::ExtensionFunctions::glGetUniformBlockIndex(GLuint program, const
     }
 }
 
-void sad::os::ExtensionFunctions::glUniformBlockBinding(GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding)
+void sad::os::ExtensionFunctions::glUniformBlockBinding(GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding) const
 {
     if (this->m_glUniformBlockBinding)
     {
@@ -1002,7 +1010,7 @@ void sad::os::ExtensionFunctions::glUniformBlockBinding(GLuint program, GLuint u
     }
 }
 
-void sad::os::ExtensionFunctions::glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid* data)
+void sad::os::ExtensionFunctions::glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid* data) const
 {
     if (this->m_glBufferSubData)
     {
@@ -1014,7 +1022,7 @@ void sad::os::ExtensionFunctions::glBufferSubData(GLenum target, GLintptr offset
     }
 }
 
-void sad::os::ExtensionFunctions::glBindBufferBase(GLenum target, GLuint index, GLuint buffer)
+void sad::os::ExtensionFunctions::glBindBufferBase(GLenum target, GLuint index, GLuint buffer) const
 {
     if (this->m_glBindBufferBase)
     {
@@ -1033,7 +1041,7 @@ void sad::os::ExtensionFunctions::glBindBufferRange(
     GLuint buffer,
     GLintptr offset,
     GLsizeiptr size
-)
+) const
 {
     if (this->m_glBindBufferRange)
     {
@@ -1045,7 +1053,7 @@ void sad::os::ExtensionFunctions::glBindBufferRange(
     }
 }
 
-void sad::os::ExtensionFunctions::glBlendEquation(GLenum mode)
+void sad::os::ExtensionFunctions::glBlendEquation(GLenum mode) const
 {
     if (this->m_glBlendEquation)
     {
@@ -1057,7 +1065,7 @@ void sad::os::ExtensionFunctions::glBlendEquation(GLenum mode)
     }
 }
 
-void sad::os::ExtensionFunctions::glBindSampler(GLuint unit, GLuint sampler)
+void sad::os::ExtensionFunctions::glBindSampler(GLuint unit, GLuint sampler) const
 {
     if (this->m_glBindSampler)
     {
@@ -1069,7 +1077,7 @@ void sad::os::ExtensionFunctions::glBindSampler(GLuint unit, GLuint sampler)
     }
 }
 
-void sad::os::ExtensionFunctions::glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha)
+void sad::os::ExtensionFunctions::glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha) const
 {
     if (this->m_glBlendEquationSeparate)
     {
@@ -1081,7 +1089,7 @@ void sad::os::ExtensionFunctions::glBlendEquationSeparate(GLenum modeRGB, GLenum
     }
 }
 
-void sad::os::ExtensionFunctions::glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha)
+void sad::os::ExtensionFunctions::glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha) const
 {
     if (this->m_glBlendFuncSeparate)
     {
@@ -1093,7 +1101,7 @@ void sad::os::ExtensionFunctions::glBlendFuncSeparate(GLenum srcRGB, GLenum dstR
     }
 }
 
-GLint sad::os::ExtensionFunctions::glGetAttribLocation(GLuint program, const GLchar* name)
+GLint sad::os::ExtensionFunctions::glGetAttribLocation(GLuint program, const GLchar* name) const
 {
     if (this->m_glGetAttribLocation)
     {
@@ -1105,7 +1113,7 @@ GLint sad::os::ExtensionFunctions::glGetAttribLocation(GLuint program, const GLc
     }
 }
 
-void sad::os::ExtensionFunctions::glDetachShader(GLuint program, GLuint shader)
+void sad::os::ExtensionFunctions::glDetachShader(GLuint program, GLuint shader) const
 {
     if (this->m_glDetachShader)
     {
@@ -1114,6 +1122,18 @@ void sad::os::ExtensionFunctions::glDetachShader(GLuint program, GLuint shader)
     else
     {
         throw std::logic_error("glDetachShader() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glBindFramebuffer(GLenum target, GLuint framebuffer) const
+{
+    if (this->m_glBindFramebuffer)
+    {
+        (this->m_glBindFramebuffer)(target, framebuffer);
+    }
+    else
+    {
+        throw std::logic_error("glBindFramebuffer() is unavailable on this platform");
     }
 }
 
