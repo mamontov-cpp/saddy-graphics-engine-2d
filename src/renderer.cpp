@@ -488,6 +488,9 @@ void sad::Renderer::emergencyShutdown()
     {
         it.value()->unloadResourcesFromGPU();
     }
+    // Force to synchronous execute callback in case we need it
+    sad::input::EmergencyShutdownEvent emergency_shutdown_event;
+    m_controls->postEvent(sad::input::EventType::ET_EmergencyShutdown, emergency_shutdown_event);
 
     for(size_t i = 0; i < m_emergency_shutdown_callbacks.size(); i++)
     {

@@ -120,6 +120,7 @@ SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(MouseRelease)
 SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(MouseDoubleClick)
 SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(MouseWheel)
 SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(Resize)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(EmergencyShutdown)
 
 
 
@@ -136,3 +137,4 @@ DECLARE_COMMON_TYPE(sad::input::MouseReleaseEvent)
 DECLARE_COMMON_TYPE(sad::input::MouseDoubleClickEvent)
 DECLARE_COMMON_TYPE(sad::input::MouseWheelEvent)
 DECLARE_COMMON_TYPE(sad::input::ResizeEvent)
+DECLARE_COMMON_TYPE(sad::input::EmergencyShutdownEvent)

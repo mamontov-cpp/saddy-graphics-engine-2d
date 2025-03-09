@@ -39,6 +39,7 @@ void sad::dukpp03::JSControls::addToRenderer(sad::Renderer* r)
     r->controls()->add(*sad::input::EventType::ET_MouseDoubleClick, new sad::dukpp03::JSControls::EventHandler<sad::input::MouseDoubleClickEvent>(this));
     r->controls()->add(*sad::input::EventType::ET_MouseWheel, new sad::dukpp03::JSControls::EventHandler<sad::input::MouseWheelEvent>(this));
     r->controls()->add(*sad::input::EventType::ET_Resize, new sad::dukpp03::JSControls::EventHandler<sad::input::ResizeEvent>(this));
+    r->controls()->add(*sad::input::EventType::ET_EmergencyShutdown, new sad::dukpp03::JSControls::EventHandler<sad::input::EmergencyShutdownEvent>(this));
 }
 
 void sad::dukpp03::JSControls::enable()

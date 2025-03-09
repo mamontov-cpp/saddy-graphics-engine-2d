@@ -791,6 +791,12 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
 
         ctx->addClassBinding("sad::input::ResizeEvent", c);  	    
     }
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addConstructor<sad::input::EmergencyShutdownEvent>("SadInputEmergencyShutdownEvent");
+        c->setPrototypeFunction("SadInputEmergencyShutdownEvent");
+        ctx->addClassBinding("sad::input::EmergencyShutdownEvent", c);
+    }
     ctx->registerCallable("SadIsValidKeyboardKey", sad::dukpp03::make_function::from(sad::isValidKeyboardKey));
     ctx->registerCallable("SadDefaultKeyIfNotValid", sad::dukpp03::make_function::from(sad::defaultKeyIfNotValidAsInt));
     ctx->registerCallable("SadKeyToStringAsInt", sad::dukpp03::make_function::from(sad::keyToStringAsInt));

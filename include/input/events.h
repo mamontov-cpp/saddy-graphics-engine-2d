@@ -59,12 +59,15 @@ enum class EventType: int
     ET_MouseWheel       =  11,
     /*! A type for resize event
      */
-    ET_Resize           = 12
+    ET_Resize           = 12,
+    /*! A type for event when console window is closed. This is special case, so we need to perform event handled synchronously
+     */
+    ET_EmergencyShutdown = 13,
 };
 
 /*! A count of elements in EventType
  */
-#define SAD_INPUT_EVENT_TYPE_COUNT  (13)
+#define SAD_INPUT_EVENT_TYPE_COUNT  (14)
 
 /*! An abstract event, which is base for all events of engine.
     Can be used for marking or run-time check of events
@@ -74,7 +77,7 @@ class AbstractEvent
 public:
     /*! Kept, for purpose of inheritance
      */
-    virtual ~AbstractEvent();	
+    virtual ~AbstractEvent();
 };
 
 /*! This type of events raised, when sad::Renderer exits sad::Renderer::run(), or
@@ -89,7 +92,7 @@ public:
     NullEvent();
     /*! Kept, for purpose of inheritance
      */
-    virtual ~NullEvent();
+    virtual ~NullEvent() override;
 };
 
 /*! A type of event, which is emitted, when user quits application
@@ -103,6 +106,17 @@ public:
     {
     }
 };
+
+class EmergencyShutdownEvent: public sad::input::NullEvent
+{
+public:
+    /*! Constructs new empty event
+     */
+    inline EmergencyShutdownEvent() : sad::input::NullEvent()
+    {
+    }
+};
+
 /*! A type of event, which is emitted when mouse cursor leaves window area
  */
 class MouseLeaveEvent: public sad::input::NullEvent
@@ -390,6 +404,7 @@ SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::MouseReleaseEvent)
 SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::MouseDoubleClickEvent)
 SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::MouseWheelEvent)
 SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::ResizeEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE(sad::input::EmergencyShutdownEvent)
 
 #undef SAD_DECLARE_ENUM_VALUE_FOR_EVENT_TYPE
 

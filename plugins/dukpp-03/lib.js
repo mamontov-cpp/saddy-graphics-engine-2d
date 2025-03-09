@@ -493,6 +493,7 @@ sad.input.MouseReleaseEvent = SadInputMouseReleaseEvent;
 sad.input.MouseDoubleClickEvent = SadInputMouseDoubleClickEvent;
 sad.input.MouseWheelEvent = SadInputMouseWheelEvent;
 sad.input.ResizeEvent = SadInputResizeEvent;
+sad.input.EmegencyShutdownEvent = SadInputEmergencyShutdownEvent;
 
 sad.KeyboardKey = {
 	"Numeric0": 48,
@@ -611,7 +612,8 @@ sad.input.EventType = {
 	"ET_MouseRelease" : 9,
 	"ET_MouseDoubleClick" : 10,
 	"ET_MouseWheel" : 11,
-	"ET_Resize" : 12
+	"ET_Resize" : 12,
+	"ET_EmergencyShutdown": 13
 };
 
 sad.input.JSControls = SadInputJSControls;
@@ -680,6 +682,10 @@ sad.input.JSControls.prototype.onWheel = sad.input.JSControls.prototype.onMouseW
 
 sad.input.JSControls.prototype.onResize = function(ctx, fn) {
 	return this.onEvent(sad.input.EventType.ET_Resize, ctx, fn);
+};
+
+sad.input.JSControls.prototype.onEmergencyShutdown = function(ctx, fn) {
+	return this.onEvent(sad.input.EventType.ET_EmergencyShutdown, ctx, fn);
 };
 
 sad.isValidKeyboardKey = SadIsValidKeyboardKey;
