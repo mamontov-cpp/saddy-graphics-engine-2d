@@ -29,6 +29,17 @@ public:
     }
 
     /*!
+     * Constructs vector from slice of other vector
+     * \param[in] o list of objects
+     * \param slice size of slice  from begin of vector
+     */
+    RAIIObjectVector(const sad::Vector<T*>& o, size_t slice)
+    {
+        std::copy(o.begin(), o.begin() + std::min(o.size(), slice), std::back_inserter(*this));
+        addRef();
+    }
+
+    /*!
      * Stores all objects, adding references
      * \param[in] o object
      */

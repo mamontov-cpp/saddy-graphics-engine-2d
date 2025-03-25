@@ -16,7 +16,8 @@ public:
         TEST(sadVectorTest::testBasic),
         TEST(sadVectorTest::testCopyConstructorSelf),
         TEST(sadVectorTest::testAssignVector),
-        TEST(sadVectorTest::testAssignSelf)
+        TEST(sadVectorTest::testAssignSelf),
+        TEST(sadVectorTest::testStripNull)
     ) {}
 
     /*! Basic test
@@ -40,6 +41,18 @@ public:
             sad::Vector<sad::Sprite2D*> sprites({ a });
             sad::RAIIObjectVector<sad::Sprite2D> item(std::move(sprites));
             ASSERT_TRUE(a->refsCount() == 1)
+        }
+        {
+            sad::Sprite2D* a = new sad::Sprite2D();
+            sad::Sprite2D* b = new sad::Sprite2D();
+            a->addRef();
+            b->addRef();
+            sad::Vector<sad::Sprite2D*> items{ a, b };
+            sad::RAIIObjectVector<sad::Sprite2D> raii_items(items, 1);
+            ASSERT_TRUE(a->refsCount() == 2)
+            ASSERT_TRUE(b->refsCount() == 1)
+            ASSERT_TRUE(raii_items.size() == 1)
+            ASSERT_TRUE(raii_items[0] == a)
         }
     }
 
@@ -220,6 +233,23 @@ public:
             ASSERT_TRUE(a->refsCount() == 1)
             ASSERT_TRUE(b->refsCount() == 1)
         }
+    }
+
+    /*! Test for strip null
+     */
+     // ReSharper disable once CppMemberFunctionMayBeStatic
+    void testStripNull()
+    {
+        sad::Sprite2D* a = new sad::Sprite2D();
+        sad::Sprite2D* b = new sad::Sprite2D();
+        // ReSharper disable once CppTooWideScope
+        sad::RAIIObjectVector<sad::Sprite2D> item{ a, nullptr, nullptr, b, nullptr, nullptr };
+        item.stripNull();
+        ASSERT_TRUE(a->refsCount() == 1)
+        ASSERT_TRUE(b->refsCount() == 1)
+        ASSERT_TRUE(item.size() == 2)
+        ASSERT_TRUE(item[0] == a)
+        ASSERT_TRUE(item[1] == b)
     }
 
 } sad_vector_test;  // NOLINT(misc-use-internal-linkage)
