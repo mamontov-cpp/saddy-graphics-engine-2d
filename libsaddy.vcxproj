@@ -531,6 +531,7 @@
     <ClInclude Include="include\sadptrhash.h" />
     <ClInclude Include="include\sadptrie.h" />
     <ClInclude Include="include\sadptrvector.h" />
+    <ClInclude Include="include\sadraiiobjectvector.h" />
     <ClInclude Include="include\sadrect.h" />
     <ClInclude Include="include\sadscopedlock.h" />
     <ClInclude Include="include\sadsemaphore.h" />

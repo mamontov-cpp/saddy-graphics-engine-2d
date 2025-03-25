@@ -1748,5 +1748,8 @@
     <ClInclude Include="include\opticksupport.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="include\sadraiiobjectvector.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

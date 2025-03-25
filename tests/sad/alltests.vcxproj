@@ -197,6 +197,7 @@
     <ClCompile Include="sadsize.cpp" />
     <ClCompile Include="sadstring.cpp" />
     <ClCompile Include="sadthread.cpp" />
+    <ClCompile Include="sadvector.cpp" />
     <ClCompile Include="sadwindow.cpp" />
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
