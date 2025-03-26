@@ -53,7 +53,7 @@ public:
      */
     RAIIObjectVector(sad::Vector<T*>&& o) noexcept
     {
-        swap(o);
+        this->swap(o);
         addRef();
     }
 
@@ -72,7 +72,7 @@ public:
      */
     RAIIObjectVector(sad::RAIIObjectVector<T>&& o) noexcept
     {
-        swap(o);
+        this->swap(o);
     }
 
     /*! Copies new vector, clearing current state
@@ -85,12 +85,12 @@ public:
         {
             if (o.empty())
             {
-                clear();
+                this->clear();
             }
             else
             {
                 RAIIObjectVector<T> copy(o);
-                swap(copy);
+                this->swap(copy);
             }
         }
         return *this;
@@ -104,7 +104,7 @@ public:
     {
         if (this != &o)
         {
-            swap(o);
+            this->swap(o);
             addRef();
             delRef(o);
         }
@@ -127,7 +127,7 @@ public:
             else
             {
                 RAIIObjectVector<T> copy(o);
-                swap(copy);
+                this->swap(copy);
             }
         }
         return *this;
@@ -141,7 +141,7 @@ public:
     {
         if (this != &o)
         {
-            swap(o);
+            this->swap(o);
         }
         return *this;
     }
@@ -149,7 +149,7 @@ public:
     void stripNull()
     {
         auto it = std::remove_if(this->begin(), this->end(), [](T* o) -> bool { return o == nullptr; });
-        erase(it, this->end());
+        this->erase(it, this->end());
     }
 
     /*! Clears vector
