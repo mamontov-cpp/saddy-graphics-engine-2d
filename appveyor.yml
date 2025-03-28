@@ -63,9 +63,6 @@ install:
   - cmd: set FREETYPE_INCLUDE=%FREETYPE_DIR%include\
   - cmd: set FREETYPE_LIB=%FREETYPE_DIR%lib\
   - cmd: set IRRKLANG_ROOT=%cd%\%IRRKLANG_ROOT_SUFFIX%
-  - cmd: echo %MINGWPATH%
-  - cmd: dir %MINGWPATH%
-  - cmd: dir C:\
   - cmd: ruby prepare_build.rb
 build_script:
   - if [%TOOLS%]==[MSVC] "build-all-msvc.bat" %CONFIGURATION% %ARCH%
