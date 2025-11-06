@@ -31,7 +31,7 @@
     <ProjectGuid>{4F41A547-C004-4A32-A69A-36EBAFA5EB93}</ProjectGuid>
     <RootNamespace>libsaddy</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -309,6 +309,7 @@
     <ClCompile Include="src\util\fileistreambuf.cpp" />
     <ClCompile Include="src\util\fontcache.cpp" />
     <ClCompile Include="src\util\markup.cpp" />
+    <ClCompile Include="src\util\picojson.cpp" />
     <ClCompile Include="src\way.cpp" />
     <ClCompile Include="src\window.cpp" />
     <ClCompile Include="src\cli\clioptionvalue.cpp" />
@@ -563,6 +564,7 @@
     <ClInclude Include="include\util\fileistreambuf.h" />
     <ClInclude Include="include\util\fontcache.h" />
     <ClInclude Include="include\util\markup.h" />
+    <ClInclude Include="include\util\picojson.h" />
     <ClInclude Include="include\util\texturedefaultimage.h" />
     <ClInclude Include="include\way.h" />
     <ClInclude Include="include\window.h" />
